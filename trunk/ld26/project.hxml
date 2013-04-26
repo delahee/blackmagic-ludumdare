@@ -1,0 +1,11 @@
+-cp src
+-cp libs
+-swf bin/project.swf
+-swf-header 1280:720:30:FFFFFF
+--flash-strict
+-swf-version 10.1
+-main M
+-lib starling
+-swf-version 11
+-swf-lib starling.swf
+--macro patchTypes('starling.patch')
