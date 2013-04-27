@@ -40,10 +40,11 @@ class M extends starling.display.Sprite {
 		super();
 		
 		data = new Data();
-		screens = [ new ScreenTitle() ];
+		game = new G();	
+		
+		screens = [ new ScreenTitle(), new ScreenTestAster() ];
 		setScreen(screens.length-1);
 		addEventListener( starling.events.Event.ADDED_TO_STAGE, init);
-		game = new G();	
 		
 		fps = getTextField("FPS");
 		fps.y = 40;
@@ -89,7 +90,6 @@ class M extends starling.display.Sprite {
 			i++;
 		}
 		scursor = n;
-		
 	}
 	
 	static public function getTextField(txt="",x=0.0,y=0.0,sz=20)
