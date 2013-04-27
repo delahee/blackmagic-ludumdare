@@ -104,7 +104,7 @@ class Aster implements Public {
 		for ( i in 0...vtx.length) {
 			var e = vtx[i];
 			var dx = -img.pivotX;
-			var dy = -img.pivotX;
+			var dy = -img.pivotY;
 			
 			e.v.x += dx;
 			e.v.y += dy;
@@ -118,7 +118,7 @@ class Aster implements Public {
 	
 	public function rand()
 	{
-		var sect = 4;
+		var sect = 5;
 		for ( i in 0...sect ){
 			var x = 1;
 			var y = 0;
@@ -135,7 +135,7 @@ class Aster implements Public {
 		}
 		
 		compile();
-		set_a(0);
+		set_a(Math.PI);
 		
 		
 		return this;
@@ -146,11 +146,11 @@ class Aster implements Public {
 	}
 	
 	public function set_a(f:Float){
-		//img.rotation = f;
+		img.rotation = f;
 		for ( i in 0...edges.length) {
 			var e = edges[i];
-			//rotEdges[i].inv.copy(e.inv.rotationPointXY( img.pivotX, img.pivotY,f ));
-			//rotEdges[i].outv.copy(e.outv.rotationPointXY( img.pivotX, img.pivotY,f ));
+			rotEdges[i].inv.copy(e.inv.rotationPointXY( img.pivotX, img.pivotY,f ));
+			rotEdges[i].outv.copy(e.outv.rotationPointXY( img.pivotX, img.pivotY,f ));
 			
 			//rotEdges[i].inv.copy( e.inv );
 			//rotEdges[i].outv.copy( e.outv );
