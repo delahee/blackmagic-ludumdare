@@ -1,5 +1,6 @@
 import 	flash.Lib;
 import 	flash.display.BitmapData;
+import flash.utils.Namespace;
 
 import 	haxe.xml.Fast;
 
@@ -11,6 +12,8 @@ import  starling.textures.Texture;
 using Lambda;
 using volute.com.LbdEx;
 using volute.com.ArrEx;
+
+import starling.textures.Texture;
 
 
 typedef XMLSlice =
@@ -35,17 +38,24 @@ typedef XMLState =
 typedef XMLSprite =
 {
 	xml:haxe.xml.Fast,
+	sheet:String,
 	id:String,
 	states:Array<XMLState>,
 }
 
-/*
-@:bitmap("../char.png")
-class Sheet extends flash.display.BitmapData
+typedef EngineSheet = { 
+	name:String, 
+	sheet:TestSheet, 
+	store:mt.pix.Store, 
+	texSheet:Texture,
+}
+
+@:bitmap("../gfx/png/test.png")
+class TestSheet extends flash.display.BitmapData
 {
 	
 }
-*/
+
 
 @:file("../gfx/data.xml")
 class SheetXml extends flash.utils.ByteArray
@@ -64,37 +74,40 @@ class Nokia extends flash.text.Font
 class Data implements haxe.Public
 {
 	var xml : haxe.xml.Fast;
-	var tileDef : haxe.xml.Fast;
 
-	var store : mt.pix.Store;
 	var sprites : Hash<XMLSprite>;
-	
-	var sheet : BitmapData;
-	var texSheet : starling.textures.Texture;
+	var sheets : Hash<{name:String, sheet:BitmapData, texSheet: starling.textures.Texture,store:Store}>;
 	var texRegion  : flash.geom.Rectangle;
 	
-	public function new()
-	{
+	public static var me = null;
+	public function new(){
+		me = this;
 		var str = new SheetXml().toString();
 		xml =  new haxe.xml.Fast( haxe.xml.Parser.parse( str ));
-		tileDef = xml.node.tileDef;
 
-		//sheet = new Sheet(0,0,false);
-		texSheet =  starling.textures.Texture.fromBitmapData( sheet, true, false, 1);
-		texRegion = new flash.geom.Rectangle( 0, 0, sheet.width, sheet.height);
-		
 		sprites = new Hash();
+		sheets = new Hash();
 		
-		{
-			store = new mt.pix.Store( sheet );
-			Element.DEFAULT_STORE = store;
-			
-			//var el = new mt.pix.Element();
-			Element.DEFAULT_ALIGN_Y = 1.0;
-
-			for ( spr in tileDef.nodes.sprite )
-			{
+		var ls : BitmapData = null;
+		var lsheets = [{ 
+			name:"test", 
+			sheet:ls=new TestSheet(0, 0, false), 
+			store:new mt.pix.Store( ls ), 
+			texSheet:Texture.fromBitmapData( ls, true, false, 1) 
+		}];
+		
+		for ( s in lsheets ) {
+			sheets.set( s.name, s );
+			trace('gen sheet ' + s.name + "<>" + s);
+		}
+		
+		for( ts in xml.nodes.tileDef){
+			for ( spr in ts.nodes.sprite ){
 				var sprId;
+				var file = ts.att.file;
+				var sheet = sheets.get(file);
+				var store = sheet.store;
+
 				store.addIndex(sprId = spr.att.id);
 				var frameCount = 0;
 				var xmlStates = [];
@@ -158,20 +171,24 @@ class Data implements haxe.Public
 					xml:spr,
 					id:sprId,
 					states:xmlStates,
+					sheet:ts.att.file,
 				}
 				sprites.set( sprId, xmlSprite);
-				//Lib.trace("read id: "+sprId /*+ " = " + xmlSprite*/);
+				Lib.trace("read id: "+sprId /*+ " = " + xmlSprite*/);
 			}
 		}
 	}
-
-	public function getFrame(sprite,state) : mt.pix.Frame
-	{
-		return store.get( sprite + "." + state );
+	
+	public function getFrame(sprite,state) : mt.pix.Frame{
+		var spr = sprites.get( sprite );
+		var sheet = sheets.get( spr.sheet );
+		return sheet.store.get( sprite + "." + state );
 	}
 	
-	public function getFrames(sprite,state) : flash.Vector<mt.pix.Frame>
-	{
+	public function getFrames(sprite,state) : flash.Vector<mt.pix.Frame>{
+		var spr = sprites.get( sprite );
+		var sheet = sheets.get( spr.sheet );
+		var store = sheet.store;
 		var tml = store.timelines.get( sprite + "." + state);
 		var v = new flash.Vector(tml.length);
 		for ( a in tml )
@@ -179,8 +196,11 @@ class Data implements haxe.Public
 		return v;
 	}
 	
-	public function getFramesRect(sprite,state) : flash.Vector<flash.geom.Rectangle>
-	{
+	
+	public function getFramesRect(sprite,state) : flash.Vector<flash.geom.Rectangle>{
+		var spr = sprites.get( sprite );
+		var sheet = sheets.get( spr.sheet );
+		var store = sheet.store;
 		var tml = store.timelines.get( sprite + "." + state);
 		var v = new flash.Vector(tml.length);
 		for ( a in tml )
@@ -188,36 +208,43 @@ class Data implements haxe.Public
 		return v;
 	}
 	
-	public function getFramesRectTex(sprite,state) : flash.Vector<starling.textures.Texture>
-	{
-		var tml = store.timelines.get( sprite + "." + state);
+	
+	public function getFramesRectTex(sprite,state) : flash.Vector<starling.textures.Texture>{
+		var spr = sprites.get( sprite );
+		var sheet = sheets.get( spr.sheet );
+		var texSheet = sheet.texSheet;
+		
+		var tml = sheet.store.timelines.get( sprite + "." + state);
 		var v = new flash.Vector(tml.length);
+		
 		for ( a in 0...tml.length )
-			v[a] = starling.textures.Texture.fromTexture( texSheet, store.get( tml[a] ).rectangle ) ;
+			v[a] = starling.textures.Texture.fromTexture( texSheet, sheet.store.get( tml[a] ).rectangle ) ;
 		return v;
 	}
 	
-	public function getFramesRandRectTex(sprite) : flash.Vector<starling.textures.Texture>
-	{
-		var sp = sprites.get( sprite);
-		var state = sp.states.random();
+	
+	public function getFramesRandRectTex(sprite) : flash.Vector<starling.textures.Texture> {
+		var spr = sprites.get( sprite);
+		var sheet = sheets.get( spr.sheet );
+		var store = sheet.store;
+		var state = spr.states.random();
 		var tml = store.timelines.get( sprite + "." + state.id);
 		var v = new flash.Vector(tml.length);
 		for ( a in 0...tml.length )
-			v[a] = starling.textures.Texture.fromTexture( texSheet, store.get( tml[a] ).rectangle ) ;
+			v[a] = starling.textures.Texture.fromTexture( sheet.texSheet, store.get( tml[a] ).rectangle ) ;
 		return v;
 	}
 	
+	
 	public function getRandFrame(sprite) : mt.pix.Frame
 	{
-		var sp = sprites.get( sprite);
-		if ( sp == null) throw "No such sprite " + sprite;
-		var state = sp.states.random();
+		var spr = sprites.get( sprite);
+		var store = sheets.get( spr.sheet ).store;
+		if ( spr == null) throw "No such sprite " + sprite;
+		var state = spr.states.random();
 		return store.get( sprite + "." + state );
 	}
 	
-	
-	//todo macro out the sprite lib
 	public function mkSprite( el : Element, sprite:String, state:String )
 	{
 		var s = sprite + "." + state;
