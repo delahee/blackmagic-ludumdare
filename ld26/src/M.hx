@@ -58,10 +58,10 @@ class M extends starling.display.Sprite {
 	var spin = 0;
 	function update(e){
 		timer.update();
-		if ( mt.flash.Key.isToggled(flash.ui.Keyboard.SPACE) ) 	setScreen( scursor + 1 );
+		if ( mt.deepnight.Key.isToggled(flash.ui.Keyboard.SPACE) ) 	setScreen( scursor + 1 );
 		else {
-			Lib.assert(null != screens[scursor], "Screen is null narf");
-			Lib.assert(screens[scursor].isStarted,"it is likely you missed a Screen super.foo() call");
+			volute.Lib.assert(null != screens[scursor], "Screen is null narf");
+			volute.Lib.assert(screens[scursor].isStarted,"it is likely you missed a Screen super.foo() call");
 			screens[scursor].update();
 		}
 		

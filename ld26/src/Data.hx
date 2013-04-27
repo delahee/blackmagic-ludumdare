@@ -5,8 +5,8 @@ import starling.core.Starling;
 
 import haxe.xml.Fast;
 
-import mt.pix.Element;
-import mt.pix.Store;
+import pix.Element;
+import pix.Store;
 
 import starling.textures.Texture;
 
@@ -47,7 +47,7 @@ typedef XMLSprite =
 typedef EngineSheet = { 
 	name:String, 
 	sheet:TestSheet, 
-	store:mt.pix.Store, 
+	store:pix.Store, 
 	texSheet:Texture,
 }
 
@@ -93,7 +93,7 @@ class Data implements haxe.Public
 		var lsheets = [{ 
 			name:"test", 
 			sheet:ls=new TestSheet(0, 0, false), 
-			store:new mt.pix.Store( ls ), 
+			store:new pix.Store( ls ), 
 			texSheet:Texture.fromBitmapData( ls, true, false, 1) 
 		}];
 		
@@ -180,13 +180,13 @@ class Data implements haxe.Public
 		}
 	}
 	
-	public function getFrame(sprite,state) : mt.pix.Frame{
+	public function getFrame(sprite,state) : pix.Frame{
 		var spr = sprites.get( sprite );
 		var sheet = sheets.get( spr.sheet );
 		return sheet.store.get( sprite + "." + state );
 	}
 	
-	public function getFrames(sprite,state) : flash.Vector<mt.pix.Frame>{
+	public function getFrames(sprite,state) : flash.Vector<pix.Frame>{
 		var spr = sprites.get( sprite );
 		var sheet = sheets.get( spr.sheet );
 		var store = sheet.store;
@@ -237,7 +237,7 @@ class Data implements haxe.Public
 	}
 	
 	
-	public function getRandFrame(sprite) : mt.pix.Frame
+	public function getRandFrame(sprite) : pix.Frame
 	{
 		var spr = sprites.get( sprite);
 		var store = sheets.get( spr.sheet ).store;

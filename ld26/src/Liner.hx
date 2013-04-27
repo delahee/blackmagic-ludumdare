@@ -2,12 +2,11 @@ package ;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.DisplayObject;
-import mt.gx.math.Vec2;
 import starling.display.Image;
 import starling.textures.RenderTexture;
 import starling.textures.Texture;
 import volute.Lib;
-
+import volute.t.Vec2;
 /**
  * ...
  * @author de
