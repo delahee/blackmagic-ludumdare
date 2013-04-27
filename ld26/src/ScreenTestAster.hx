@@ -3,28 +3,20 @@ import volute.Lib;
 class ScreenTestAster extends ScreenGame
 {
 	var lnr : Liner;
-	
+	var player : Player;
 	public function new() 
 	{
 		super();
 		lnr = new Liner();
 		lnr.compile();
+		
+		player =  new Player();
 	}
 	
-	override public function init() {
-		super.init();
-		
-		var l = new L();
-		
-		l.addAster( new Aster().rand() ).translate( 150,150);
-		l.addAster( new Aster().rand() ).translate( 400,400);
-		
-		G.me.setLevel( l );
-		addChild( G.me );
-		addChild( lnr.img );
-		
+	public function debugDraw()
+	{
 		lnr.clear();
-		
+		var l = G.me.l;
 		var da = l.asters[1];
 		
 		var tlx = da.img.x - da.img.pivotX;
@@ -40,12 +32,8 @@ class ScreenTestAster extends ScreenGame
 		lnr.addLine( 	tlx,tly, tlx,bry, 0xF53D54);
 		
 		for ( v in da.vtx ) 
-			lnr.addPoint( v.v.x + da.img.x,v.v.y + da.img.y, 0xA19F05);
-		
+			lnr.addPoint( v.v.x + da.img.x , v.v.y + da.img.y , 0xA19F05);
 			
-		for ( re in da.edges ) lnr.addLine( 	da.img.x - dpx + re.inv.x, 		da.img.y - dpy + re.inv.y, 
-												da.img.x - dpx + re.outv.x, 	da.img.y - dpy + re.outv.y ,0xFF0000);
-												
 		for ( re in da.rotEdges ) lnr.addLine( 	da.img.x - dpx + re.inv.x, 		da.img.y - dpy + re.inv.y, 
 												da.img.x - dpx + re.outv.x, 	da.img.y - dpy + re.outv.y, 0x00FF00);
 		
@@ -58,9 +46,26 @@ class ScreenTestAster extends ScreenGame
 		lnr.compile();
 	}
 	
+	override public function init() {
+		super.init();
+		
+		var l = new L();
+		
+		l.addAster( new Aster().rand() ).translate( 150,150);
+		l.addAster( new Aster().rand() ).translate( 400,400);
+		
+		G.me.setLevel( l );
+		addChild( G.me );
+		addChild( lnr.img );
+	}
+	
+	var spin = 0;
 	public override function update() {
 		super.update();
-		//for ( a in G.me.l.asters ) a.img.rotation = M.timer.curT * 0.1;
+		for ( a in G.me.l.asters ) a.a = M.timer.curT * 0.1;
+		
+		//if( spin++%10 == 0 )
+		//	debugDraw();
 	}
 	
 }

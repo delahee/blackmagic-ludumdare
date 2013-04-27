@@ -148,8 +148,8 @@ class Vec2{
 		var ox = x;
 		var oy = y;
 		
-		x = ca * x - sa * y;
-		y = sa * x + ca * y;
+		x = ca * ox - sa * oy;
+		y = sa * ox + ca * oy;
 		return this;
 	}
 	

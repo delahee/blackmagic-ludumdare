@@ -17,14 +17,12 @@ class Liner
 	var shp : flash.display.Shape;
 	var bmp : Bitmap;
 	var lines : Array<{inv:Vec2,outv:Vec2,col:Int}>;
-	var tex : starling.textures.RenderTexture;
 	public var img : Image;
 	
 	public function new() {
 		lines = [];
-		tex = new RenderTexture( Lib.w(), Lib.h(), true);
 		bmp = new Bitmap( new BitmapData( Lib.w(), Lib.h(), true, 0x0 ));
-		img = new Image(tex);
+		img = new Image(Texture.empty(Lib.w(), Lib.h()));
 	}
 	
 	public function dispose() {
@@ -32,13 +30,13 @@ class Liner
 		bmp = null;
 	}
 	public function clear() {
-		tex.clear();
 	}
 	
 	public function compile(){
 		var shp = new flash.display.Shape();
 		var g = shp.graphics;
 		
+		g.clear();
 		for (l in lines) {
 			g.lineStyle( 3.0, l.col);
 			g.moveTo(l.inv.x, l.inv.y);
@@ -46,8 +44,9 @@ class Liner
 		}
 		
 		bmp.bitmapData.draw( shp);
-		tex.draw( Image.fromBitmap( bmp ));
+		img.texture = Texture.fromBitmap(bmp);
 		img.readjustSize();
+		
 	}
 	
 	public function addLine(x,y, xx,yy,col=0xFF0000) {
