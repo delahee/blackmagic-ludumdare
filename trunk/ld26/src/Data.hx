@@ -10,9 +10,9 @@ import pix.Store;
 
 import starling.textures.Texture;
 
-using Lambda;
-using volute.LbdEx;
-using volute.ArrEx;
+using  Lambda;
+using  volute.LbdEx;
+using  volute.ArrEx;
 
 import starling.textures.Texture;
 
@@ -58,19 +58,31 @@ class TestSheet extends flash.display.BitmapData
 }
 
 
+@:bitmap("../gfx/planche/perso.png")
+class PersoSheet extends flash.display.BitmapData
+{
+	
+}
+
+
 @:file("../gfx/data.xml")
 class SheetXml extends flash.utils.ByteArray
 {
 	
 }
 
-/*
-@:font('../../com/gfx/nokiafc22.ttf')
-class Nokia extends flash.text.Font
+@:bitmap("../gfx/lvl/1.png")
+class BmpLevel extends flash.display.BitmapData
 {
 	
 }
-*/
+
+
+@:file("../gfx/ld.xml")
+class LDXml extends flash.utils.ByteArray
+{
+	
+}
 
 class Data implements haxe.Public
 {
@@ -80,26 +92,31 @@ class Data implements haxe.Public
 	var sheets : Hash<{name:String, sheet:BitmapData, texSheet: starling.textures.Texture,store:Store}>;
 	var texRegion  : flash.geom.Rectangle;
 	
-	public static var me = null;
+	var level : BmpLevel;
+	var ld : haxe.xml.Fast;
+	
+	public static var me : Data = null;
 	public function new(){
 		me = this;
 		var str = new SheetXml().toString();
-		xml =  new haxe.xml.Fast( haxe.xml.Parser.parse( str ));
+		xml = new haxe.xml.Fast( haxe.xml.Parser.parse( str ));
+		ld =  new haxe.xml.Fast( haxe.xml.Parser.parse(  new LDXml().toString() )).node.ld;
 
 		sprites = new Hash();
 		sheets = new Hash();
 		
-		var ls : BitmapData = null;
-		var lsheets = [{ 
-			name:"test", 
-			sheet:ls=new TestSheet(0, 0, false), 
-			store:new pix.Store( ls ), 
-			texSheet:Texture.fromBitmapData( ls, true, false, 1) 
-		}];
+		level = new BmpLevel(0, 0, false);
 		
+		var ls : BitmapData = null;
+		
+		function loadSheet(name, obj:BitmapData) {
+			var ls = null;
+			return { name:name, sheet:ls=obj, store:new pix.Store( ls ), texSheet:Texture.fromBitmapData( ls, true, false, 1) };
+		}
+			
+		var lsheets = [loadSheet("perso",new PersoSheet(0, 0, false))];
 		for ( s in lsheets ) {
 			sheets.set( s.name, s );
-			//trace('gen sheet ' + s.name + "<>" + s);
 		}
 		
 		for( ts in xml.nodes.tileDef){
@@ -221,6 +238,13 @@ class Data implements haxe.Public
 		for ( a in 0...tml.length )
 			v[a] = starling.textures.Texture.fromTexture( texSheet, sheet.store.get( tml[a] ).rectangle ) ;
 		return v;
+	}
+	
+	public function fillMc(mc, tml : flash.Vector<starling.textures.Texture>){
+		while (mc.numFrames > 0) mc.removeFrameAt( mc.numFrames - 1);
+		
+		for ( v in 0...tml.length)	
+			mc.addFrameAt( v, tml[v]);
 	}
 	
 	

@@ -102,10 +102,9 @@ class Grid
 		
 	}
 	
-	
-	
-	public function clear()
-		repo.splice(0,repo.length);
+	public function clear() {
+		repo.splice(0, repo.length);
+	}
 	
 	public function update()
 	{
