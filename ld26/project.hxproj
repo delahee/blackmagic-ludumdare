@@ -5,13 +5,13 @@
     <movie outputType="Application" />
     <movie input="" />
     <movie path="bin\project.swf" />
-    <movie fps="60" />
+    <movie fps="30" />
     <movie width="1280" />
     <movie height="720" />
-    <movie version="10" />
-    <movie minorVersion="1" />
+    <movie version="11" />
+    <movie minorVersion="0" />
     <movie platform="Flash Player" />
-    <movie background="#FFFFFF" />
+    <movie background="#2D589E" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
@@ -24,7 +24,7 @@
     <option flashStrict="True" />
     <option mainClass="M" />
     <option enabledebug="True" />
-    <option additional="-lib starling&#xA;-swf-version 11&#xA;-swf-lib starling.swf&#xA;--macro patchTypes('starling.patch')" />
+    <option additional="&#xA;--dce no&#xA;-lib starling&#xA;-swf-version 11&#xA;-swf-lib starling.swf&#xA;--macro patchTypes('starling.patch')" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>

@@ -1,13 +1,14 @@
-import 	flash.Lib;
-import 	flash.display.BitmapData;
+import flash.Lib;
+import flash.display.BitmapData;
 import flash.utils.Namespace;
+import starling.core.Starling;
 
-import 	haxe.xml.Fast;
+import haxe.xml.Fast;
 
-import 	mt.pix.Element;
-import 	mt.pix.Store;
+import mt.pix.Element;
+import mt.pix.Store;
 
-import  starling.textures.Texture;
+import starling.textures.Texture;
 
 using Lambda;
 using volute.LbdEx;
@@ -98,7 +99,7 @@ class Data implements haxe.Public
 		
 		for ( s in lsheets ) {
 			sheets.set( s.name, s );
-			trace('gen sheet ' + s.name + "<>" + s);
+			//trace('gen sheet ' + s.name + "<>" + s);
 		}
 		
 		for( ts in xml.nodes.tileDef){
@@ -263,4 +264,14 @@ class Data implements haxe.Public
 		return mkSprite(el, sprite, st.id );
 	}
 
+	public function getMovie(spr,state)
+	{
+		var vfr = Data.me.getFramesRectTex( spr,state );
+		var el : starling.display.MovieClip = new starling.display.MovieClip( vfr,30 );
+		el.readjustSize(); 
+		el.loop = true;
+		el.play();
+		Starling.juggler.add( cast el );
+		return el;
+	}
 }

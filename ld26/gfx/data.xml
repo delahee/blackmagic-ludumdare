@@ -9,3 +9,6 @@
 	</sprite>
 	
 </tileDef>
+
+
+<tileDef check="ok_tileDef" file="test"> </tileDef>

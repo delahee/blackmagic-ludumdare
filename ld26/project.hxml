@@ -1,10 +1,11 @@
 -cp src
 -cp libs
 -swf bin/project.swf
--swf-header 1280:720:60:FFFFFF
+-swf-header 1280:720:30:2D589E
 --flash-strict
--swf-version 10.1
+-swf-version 11
 -main M
+--dce no
 -lib starling
 -swf-version 11
 -swf-lib starling.swf
