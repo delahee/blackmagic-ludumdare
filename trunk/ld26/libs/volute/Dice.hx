@@ -2,7 +2,7 @@ package volute;
 
 class Dice
 {
-	public static inline function roll( min :Int,max:Int, ?mr:mt.Rand ) : Int
+	public static inline function roll( min :Int,max:Int, ?mr:volute.Rand ) : Int
 	{
 		return
 		mr == null? Std.random( max - min +1 ) + min
@@ -24,7 +24,7 @@ class Dice
 	public static inline function D100( )
 		return roll(  1, 100)
 	
-	public static inline function toss(?mr:mt.Rand)
+	public static inline function toss(?mr:volute.Rand)
 		return Dice.roll(0, 1, mr) == 0
 	
 	public static inline function rollF( min : Float,max:Float ) : Float
