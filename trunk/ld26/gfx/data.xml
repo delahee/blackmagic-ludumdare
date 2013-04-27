@@ -1,7 +1,7 @@
 <tileDef check="ok_tileDef" file="test">
 	<sprite id="car" >
 		<state id="idle" rythm="5">
-			<slice coord="10,135,290,160,1" nb="1" />
+			<slice coord="10,135,290,160,2" nb="2" />
 		</state>
 	</sprite>
 	<sprite id="mob" >

@@ -10,8 +10,8 @@ import 	mt.pix.Store;
 import  starling.textures.Texture;
 
 using Lambda;
-using volute.com.LbdEx;
-using volute.com.ArrEx;
+using volute.LbdEx;
+using volute.ArrEx;
 
 import starling.textures.Texture;
 
