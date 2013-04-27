@@ -18,6 +18,7 @@ class Frame
 	public var height:Int;
 	public var texture:BitmapData;
 	public var rectangle:Rectangle;
+	public var img : starling.display.Image;
 
 	
 	public function new( ?text, ?x, ?y, ?w, ?h, fx=false, fy=false, ?rot ) {

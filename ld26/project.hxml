@@ -1,7 +1,7 @@
 -cp src
 -cp libs
 -swf bin/project.swf
--swf-header 1280:720:30:FFFFFF
+-swf-header 1280:720:60:FFFFFF
 --flash-strict
 -swf-version 10.1
 -main M
