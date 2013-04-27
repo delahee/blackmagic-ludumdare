@@ -21,6 +21,7 @@ class M extends starling.display.Sprite {
 	public static var game : G = null;
 	public static var timer : Ticker = new Ticker(flash.Lib.current.stage.frameRate );
 	public static var core : Starling;
+	public static var data : Data;
 	
 	public var scursor = 0;
 	public var screens : Array<Screen>;
@@ -31,14 +32,14 @@ class M extends starling.display.Sprite {
 		var stage : flash.display.Stage = flash.Lib.current.stage;
 		stage.scaleMode = StageScaleMode.NO_SCALE;
 		stage.align = StageAlign.TOP_LEFT;
-		
-		
 		core = new starling.core.Starling(M,stage);
 		core.start();
 	}
 	
 	public function new() {
 		super();
+		
+		data = new Data();
 		screens = [ new ScreenTitle() ];
 		setScreen(screens.length-1);
 		addEventListener( starling.events.Event.ADDED_TO_STAGE, init);
@@ -62,6 +63,8 @@ class M extends starling.display.Sprite {
 			Lib.assert(screens[scursor].isStarted,"it is likely you missed a Screen super.foo() call");
 			screens[scursor].update();
 		}
+		
+		Starling.juggler.advanceTime( timer.dt );
 		pix.Element.updateAnims();
 		
 		if(++spin%10==0)

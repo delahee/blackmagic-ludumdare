@@ -1,11 +1,28 @@
+import starling.core.Starling;
+import starling.display.Sprite;
 import starling.text.TextField;
+import starling.display.DisplayObject;
 
 class ScreenTitle extends Screen{
 	
 	public var info : starling.text.TextField;
-	
+	public var car : DisplayObject;
 	public function new(){
 		super();
+		
+		car = getMovie();
+		addChild( car );
+	}
+	
+	public function getMovie()
+	{
+		var vfr = Data.me.getFramesRectTex( "car","idle" );
+		var el : starling.display.MovieClip = new starling.display.MovieClip( vfr,30 );
+		el.readjustSize(); 
+		el.loop = true;
+		el.play();
+		Starling.juggler.add( cast el );
+		return el;
 	}
 	
 	public override function init() {
