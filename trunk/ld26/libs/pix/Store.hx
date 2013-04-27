@@ -47,16 +47,6 @@ class Store
 		}
 	}
 	
-	/*
-	public function getIndexPos(str:String) {
-		return index.get( str );
-	}
-	
-	public function getLastIndexPos() {
-		return lastIndex;
-	}
-	*/
-	
 	public function addIndex(str:String) {
 		index.set(str, frames.length);
 		lastIndex = frames.length;

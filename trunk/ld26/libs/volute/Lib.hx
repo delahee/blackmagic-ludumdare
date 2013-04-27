@@ -26,5 +26,17 @@ class Lib
 		if( mc.parent != null)
 			mc.parent.setChildIndex( mc , 0);
 	}
-		
+	
+	public static inline function rangeMinMax(min:Int,max:Int){
+		var a = [];
+		for ( i in min...max)
+			a.push(i);
+		return a;
+	}
+	
+	public static function splat( v:  Int,n:Int){
+		var a = [];
+		for ( i in 0...n) a.push( v );
+		return a;
+	}
 }
