@@ -1,0 +1,21 @@
+<ld>
+	<aster colorId="0x5a5a5a"
+	size="30" 
+	fire="true"
+	
+	speed="0"
+	tgt="0,0"
+	
+	life="10"
+	>
+	<!--
+	colorId=pixel
+	fire = true meteore enflammé
+	speed=pixel jeu / frame
+	tgt=pixel jeu / frame
+	life frames ( / frame  )
+	respawn true
+	vrot ( radian / frame )
+	-->
+	</aster>
+</ld>
