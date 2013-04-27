@@ -88,32 +88,28 @@ class Vec2{
 	}
 	
 	
-	public static inline function normalize( inOut : Vec2 ) : Vec2
-	{
-		var invLen = 1.0 / inOut.norm();
-		
-		inOut.x *= invLen;
-		inOut.y *= invLen;
-		
+	public inline function normalize( inOut : Vec2 ) : Vec2{
+		var invLen = 1.0 / norm();
+		x *= invLen;
+		y *= invLen;
 		return inOut;
 	}
 	
-	public static inline function safeNormalize( inOut : Vec2 , dflt : Vec2 ) : Vec2
-	{
-		var norm :Float = inOut.norm();
+	public inline function safeNormalize( dflt : Vec2 ) : Vec2{
+		var norm = norm();
 		if( norm > MathEx.EPSILON )
 		{
 			var invLen = 1.0 / norm;
 			
-			inOut.x *= invLen;
-			inOut.y *= invLen;
+			x *= invLen;
+			y *= invLen;
 		}
 		else
 		{
-			inOut.copy( dflt);
+			copy( dflt);
 		}
 		
-		return inOut;
+		return this;
 	}
 
 	public function toString()
