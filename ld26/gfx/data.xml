@@ -1,12 +1,11 @@
 <tileDef check="ok_tileDef" file="test">
-	<sprite id="car" >
-		<state id="idle" rythm="5">
-			<slice coord="10,135,290,160,2" nb="2" />
+	<sprite id="perso" >
+		<state id="run" rythm="2">
+			<slice coord="0,0,67,75,6" nb="6" />
+		</state>
+		<state id="idle" rythm="2">
+			<slice coord="0,75,67,75,1" nb="1" />
 		</state>
 	</sprite>
-	<sprite id="mob" >
-		<state id="idle" rythm="5">
-			<slice coord="386,190,90,90" nb="1" />
-		</state>
-	</sprite>
+	
 </tileDef>
