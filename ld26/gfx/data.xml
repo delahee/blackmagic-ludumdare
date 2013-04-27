@@ -1,17 +1,16 @@
-<tileDef check="ok_tileDef" file="test">
-	<sprite id="perso" >
+<tileDef check="ok_tileDef" file="perso" >
+	
+	<sprite id="perso">
 		<state id="run" rythm="2">
-			<slice coord="0,0,67,75,12" nb="12" />
+			<slice coord="0,0,67,75,12" nb="12" ></slice>
 		</state>
 		<state id="idle" rythm="2">
-			<slice coord="0,75,67,75,6" nb="6" />
+			<slice coord="0,75,67,75,6" nb="6" ></slice>
 		</state>
 		<state id="jump" rythm="2">
-			<slice coord="0,150,67,75,9" nb="9" />
+			<slice coord="0,150,67,75,9" nb="9" ></slice>
 		</state>
 	</sprite>
 	
 </tileDef>
 
-
-<tileDef check="ok_tileDef" file="test"> </tileDef>

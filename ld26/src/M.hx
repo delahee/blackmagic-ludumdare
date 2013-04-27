@@ -2,6 +2,9 @@ package ;
 
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
+import starling.events.TouchEvent;
+import starling.events.Touch;
+import starling.events.TouchPhase;
 import starling.text.TextField;
 import volute.MathEx;
 
@@ -32,7 +35,10 @@ class M extends starling.display.Sprite {
 		var stage : flash.display.Stage = flash.Lib.current.stage;
 		stage.scaleMode = StageScaleMode.NO_SCALE;
 		stage.align = StageAlign.TOP_LEFT;
-		core = new starling.core.Starling(M,stage);
+		
+		Starling.multitouchEnabled = true;
+		//core = new starling.core.Starling(M,stage, null, null, "auto", "baseline");
+		core = new starling.core.Starling(M, stage );
 		core.start();
 	}
 	
@@ -42,13 +48,30 @@ class M extends starling.display.Sprite {
 		data = new Data();
 		game = new G();	
 		
-		screens = [ new ScreenTitle(), new ScreenTestAster() ];
+		screens = [ new ScreenTitle(), new ScreenTestAster(), new ScreenTestPerso(), new ScreenTestLevel() ];
 		setScreen(screens.length-1);
 		addEventListener( starling.events.Event.ADDED_TO_STAGE, init);
 		
 		fps = getTextField("FPS");
 		fps.y = 40;
+		
 		addChild(fps);
+		
+		touchable = true;
+		/*
+		fps.touchable = true;
+		fps.addEventListener( TouchEvent.TOUCH , function mup(e:TouchEvent)
+		{
+			trace('fpstouched');
+			var touch : Touch = e.touches[0];
+			if(touch!=null){
+				if(touch.phase == TouchPhase.ENDED)
+				{
+					var loc = touch.getLocation(fps);
+					trace("mup on " + loc );
+				}
+		}});
+		*/
 	}
 	
 	function init() {

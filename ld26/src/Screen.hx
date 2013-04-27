@@ -5,6 +5,7 @@ class Screen extends starling.display.Sprite{
 	{
 		super();
 		visible = false;
+		touchable = true;
 	}
 
 	public function getName() :String return Std.string(Type.getClass(this))

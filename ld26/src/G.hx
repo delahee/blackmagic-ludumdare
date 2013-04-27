@@ -1,4 +1,9 @@
 package ;
+import flash.Lib;
+import starling.events.Touch;
+import starling.events.TouchEvent;
+import starling.events.TouchPhase;
+import mt.deepnight.Key;
 import starling.display.Sprite;
 
 /**
@@ -13,6 +18,8 @@ class G extends Sprite {
 	public function new() {
 		super();
 		me = this;
+		Key.init();
+		touchable = true;
 	}
 	
 	public function setLevel( l : L)

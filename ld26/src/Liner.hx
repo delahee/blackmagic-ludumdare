@@ -29,6 +29,7 @@ class Liner
 		bmp = null;
 	}
 	public function clear() {
+		bmp.bitmapData.fillRect( bmp.getRect(bmp), 0x0 );
 	}
 	
 	public function compile(){

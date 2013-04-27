@@ -45,6 +45,14 @@ class Vec2{
 		return v0.x * v1.y - v0.y * v1.y;
 	}
 	
+	//v0     v2
+	//    v1 
+	// 
+	public static inline function signedArea( v0, v1, v2 ) {
+		return cross( Vec2.sub( v0, v1 ), Vec2.sub( v2, v1 ));
+	}
+	
+	
 	public inline function incr( V1 :  Vec2 ) 				{ x += V1.x; y += V1.y; return this; }
 	public inline function incrXY(ix:Float,iy:Float)		{ x += ix; y += iy; return this; }
 	
@@ -71,12 +79,9 @@ class Vec2{
 		return VOut;
 	}
 	
-	
-	
-	
-	
-	public static inline function sub( vOut : Vec2, V0 : Vec2, V1 :  Vec2 ) : Vec2
+	public static inline function sub(  V0 : Vec2, V1 :  Vec2, ?vOut : Vec2 ) : Vec2
 	{
+		if ( vOut == null) vOut = new Vec2();
 		vOut.x = V0.x - V1.x;
 		vOut.y = V0.y - V1.y;
 		return vOut;
@@ -163,6 +168,10 @@ class Vec2{
 		t.y = y - py;
 		t.rotate( a );
 		return t.incrXY( px, py );
+	}
+	
+	public static inline function lerp(v0:Vec2, v1:Vec2, r:Float) {
+		return new Vec2( v0.x * r + (1 - r) * v1.x, v0.y * r + (1 - r) * v1.y);
 	}
 	
 	public static var ZERO 		: Vec2 = new Vec2(0, 0);
