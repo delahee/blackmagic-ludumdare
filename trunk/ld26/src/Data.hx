@@ -95,6 +95,7 @@ class Data implements haxe.Public
 	
 	var level : BmpLevel;
 	var ld : haxe.xml.Fast;
+	var fxQueue : List<MovieClip>;
 	
 	public static var me : Data = null;
 	public function new(){
@@ -105,7 +106,7 @@ class Data implements haxe.Public
 
 		sprites = new Hash();
 		sheets = new Hash();
-		
+		fxQueue = new List();
 		level = new BmpLevel(0, 0, false);
 		
 		var ls : BitmapData = null;
@@ -196,6 +197,8 @@ class Data implements haxe.Public
 				Lib.trace("read id: "+sprId /*+ " = " + xmlSprite*/);
 			}
 		}
+	
+		
 	}
 	
 	public function getFrame(sprite,state) : pix.Frame{
@@ -305,5 +308,28 @@ class Data implements haxe.Public
 		el.play();
 		Starling.juggler.add( cast el );
 		return el;
+	}
+	
+	public function update() {
+		if( fxQueue.length > 0 )
+			fxQueue = fxQueue.filter( function(m) 
+			{
+				if ( m.isComplete  ) {
+					if ( m.parent != null)
+						m.parent.removeChild( m );
+					return false;
+				}
+				else 
+					return true;
+			});
+	}
+	
+	
+	public function playFx(fx)
+	{
+		var m = getMovie( "fx",fx );
+		m.loop = false;
+		fxQueue.push( m );
+		return m;
 	}
 }

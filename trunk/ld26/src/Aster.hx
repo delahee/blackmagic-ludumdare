@@ -26,23 +26,15 @@ class Aster extends Entity, implements Public {
 	var link  : Null<Aster>;
 	
 	var isFire:Bool;
-	var sz:Float;
 	
 	var grid: Grid;
 	var scripted : Bool;
 	var script : ScriptedAster;
 	
+	static var guid : Int = 0;
+	
 	public var a(default, set_a) : Float;
 	
-	public function move(ix, iy) {
-		x = ix; y = iy;
-		syncPos();
-	}
-	
-	public function translate(ix, iy) {
-		x += ix; y += iy;
-		syncPos();
-	}
 	
 	public function new(isFire = false, sz : Float = 32) {
 		super();
@@ -53,7 +45,19 @@ class Aster extends Entity, implements Public {
 		x = y = 0;
 		
 		scripted = true;
+		guid++;
 		compile();
+	}
+	
+	
+	public function move(ix, iy) {
+		x = ix; y = iy;
+		syncPos();
+	}
+	
+	public function translate(ix, iy) {
+		x += ix; y += iy;
+		syncPos();
 	}
 	
 	public function dispose() {
@@ -108,13 +112,12 @@ class Aster extends Entity, implements Public {
 	}
 	
 	public function setPosXY(x,y) {
-		if (grid != null && key != null)
-			grid.remove( this );
+		if (grid != null && key != null) grid.remove( this );
 		
 		img.x = x;
 		img.y = y;
 		
-		grid.add( this );
+		if( grid != null ) grid.add( this );
 	}
 	
 	public function update() {
@@ -128,9 +131,8 @@ class Aster extends Entity, implements Public {
 		return f;
 	}
 	
-	public function syncPos()
-	{
-		img.x = x; img.y = y;
+	public function syncPos(){
+		setPosXY( x, y );
 	}
 	
 	public function getCenter() {

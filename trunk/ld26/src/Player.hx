@@ -3,6 +3,7 @@ import flash.Vector;
 import mt.deepnight.Key;
 import starling.display.MovieClip;
 import starling.display.Sprite;
+import volute.Coll;
 import volute.t.Vec2;
 import volute.MathEx;
 
@@ -30,6 +31,9 @@ class Player implements haxe.Public{
 	
 	var movieState:String;
 	
+	var checkPoint : Aster;
+	var last : Aster;
+	
 	public function new() {
 		mc = Data.me.getMovie( 'perso', movieState='idle' );
 		mc.pivotX = mc.width * 0.5;			
@@ -52,6 +56,7 @@ class Player implements haxe.Public{
 		this.aster = aster;
 		setAngle( angle );
 		asterAngleSpeed = 0;
+		if( aster != null ) last = aster;
 	}
 	
 	public function setAngle(angle)
@@ -67,24 +72,116 @@ class Player implements haxe.Public{
 		
 		mc.rotation = MathEx.normAngle(angle + Math.PI / 2);
 		asterAngle = angle;
+		
+		if ( aster!=null&& aster.script!=null &&aster.script.isCheckpoint())
+			checkPoint = aster;
 	}
 	
-	public function updateKey(df)
+	public function updateKey(df:Float)
 	{
-		var aspeed = 0.2;
-		if ( Key.isDown( K.LEFT )) {
-			setAsterAngle( aster, asterAngle - aspeed * M.timer.df);
-			mc.scaleX = -1;	
-			if ( movieState != 'run' ) setMovieState( 'run' );
+		if ( aster != null)
+		{
+			var aspeed = 0.2;
+			if ( Key.isDown( K.LEFT )) {
+				setAsterAngle( aster, asterAngle - aspeed * M.timer.df);
+				mc.scaleX = -1;	
+				if ( movieState != 'run' ) setMovieState( 'run' );
+			}
+			
+			else if ( Key.isDown( K.RIGHT )) {
+				setAsterAngle( aster, asterAngle + aspeed * M.timer.df);
+				mc.scaleX = 1;	
+				if ( movieState != 'run' ) setMovieState( 'run' );
+			}
+			else if ( Key.isToggled( K.UP )) {
+				
+				if ( movieState != 'jump' )
+					setMovieState( 'jump' );
+				onFly();
+			}
+			else
+				if ( movieState != 'idle') setMovieState( 'idle' );
+		}
+		else if (isFlying()){
+			//if ( Key.isDown( K.LEFT )) a = - ac * df;
+			//else if ( Key.isDown( K.RIGHT )) a = ac * df;			
+			//asterAngleSpeed
+			
+			var ask = 0.05;
+			if ( Key.isDown( K.LEFT )) {
+				asterAngleSpeed -= ask;
+				if ( asterAngleSpeed < -ask) asterAngleSpeed = -ask;
+			}
+			else if ( Key.isDown( K.RIGHT )) {
+				asterAngleSpeed += ask;	
+				if ( asterAngleSpeed > ask) asterAngleSpeed = ask;
+			}
+			
+			asterAngleSpeed *= Math.pow( 0.93, df);
+			asterAngle += asterAngleSpeed *  df;
+			
+			var ca = Math.cos( asterAngle );
+			var sa = Math.sin( asterAngle );
+			var k = 10.0;
+			vel.set( ca * k, sa * k);
+			
+			mc.rotation = MathEx.normAngle(asterAngle + Math.PI / 2);
+			
+			var asres :Entity= null;
+			function testLand( as : Entity){
+				if ( 	Coll.testCircleCircle( pos.x, pos.y, 50, as.x, as.y, as.sz * 0.5 ) 
+				&&		last != as) 
+				{
+					trace("hit");	
+					asres = as;
+					return true;
+				}
+				
+				return false;
+			}
+			
+			L.me.grid.iterRange( Std.int(pos.x), Std.int(pos.y), 100, testLand );
+			var asn : Aster = cast asres;
+			
+			if ( asres != null) {
+				
+			}
+			else{
+				//var expectPlanet = 
+			}
 		}
 		
-		else if ( Key.isDown( K.RIGHT )) {
-			setAsterAngle( aster, asterAngle + aspeed * M.timer.df);
-			mc.scaleX = 1;	
-			if ( movieState != 'run' ) setMovieState( 'run' );
-		}
-		else 
-			if ( movieState != 'idle') setMovieState( 'idle' );
+	}
+	
+	public function onFly() {
+		var ca = Math.cos( asterAngle );
+		var sa = Math.sin( asterAngle );
+		var k = 10.0;
+		vel.set( ca * k, sa * k);
+		aster = null;
+		//mc.pivotX = mc.width * 0.5;
+		//mc.pivotY = mc.height * 0.5;
+	}
+	
+	public function onLand() {
+		mc.pivotX = mc.width * 0.5;
+		mc.pivotY = mc.height;
+	}
+	
+	public function isFlying(){
+		return aster == null;
+	}
+	
+	public function tryKill()
+	{
+		if ( mc.x < 100)						kill();
+		else if ( mc.y < 100)					kill();
+		else if ( mc.y > volute.Lib.h()+  100)	kill();
+	}
+	
+	
+	public function kill() {
+		setAsterAngle( checkPoint, Math.PI * 0.5);
 	}
 	
 	public function update() {
@@ -92,6 +189,11 @@ class Player implements haxe.Public{
 		var df = M.timer.df;
 		
 		updateKey(df);
+		
+		if (isFlying()){
+			pos.x += vel.x * df;
+			pos.y += vel.y * df;
+		}
 		
 		mc.x = pos.x;
 		mc.y = pos.y;

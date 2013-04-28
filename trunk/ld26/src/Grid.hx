@@ -9,17 +9,31 @@ class Grid
 		rep = new IntHash();
 	}
 	
-	public function iterRange( n : Int, proc ) {
-		for( y in 0...n )
-			for ( x in 0...n )
+	public function iterRange( posx,posy, rpix : Int, proc : Entity->Bool) {
+		var n = rpix >> 5;
+		var posnx = posx >> 5;
+		var posny = posx >> 5;
+		var hn = (n >> 1) + 1;
+		
+		/*
+		var posk = (posnx << 16) | posny;
+		if ( rep.exists( posk )) {
+			for ( e in rep.get( posk ))
+				if( proc( e ))
+					return;
+		}
+		*/
+		
+		for( y in posny-hn...posny+hn )
+			for ( x in posnx-hn...posnx+hn )
 				if ( rep.exists( (x << 16) | y ))
 					for ( e in rep.get( (x << 16) | y ) ) 
-						proc( e );
+						if ( proc( e ) )
+							return;
 			
 	}
 
-	public function remove(e:Entity)
-	{
+	public function remove(e:Entity){
 		if ( e.key != null)
 		{
 			var l : List<Entity> = rep.get( e.key ) ;
@@ -28,16 +42,18 @@ class Grid
 					l.remove( e );
 		}
 
+		trace("removing from grid");
 	}
 	
-	public function add(e:Entity)
-	{
-		var k = (Std.int(e.x) << 16) | Std.int(e.y);
+	public function add(e:Entity)	{
+		var k = ((Std.int(e.x)>>5) << 16) | (Std.int(e.y)>>5);
 		var l = rep.get(k);
 		if ( l == null ) 
 			rep.set( k, l = new List() );
 			
 		l.push( e );
 		e.key = k;
+		
+		trace("adding to grid " + k+" "+e);
 	}
 }
