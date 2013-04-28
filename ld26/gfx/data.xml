@@ -29,6 +29,12 @@
 		</state>
 	</sprite>
 	
+	<sprite id="biatch" >
+		<state id="idle" rythm="3">
+			<slice coord="0,775,75,90,19" nb="19" />
+		</state>
+	</sprite>
+	
 	<sprite id="petit_prince" >
 		<state id="idle" rythm="2">
 			<slice coord="0,300,67,75,5" nb="5" />
