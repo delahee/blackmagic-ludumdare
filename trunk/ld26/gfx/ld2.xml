@@ -1,0 +1,182 @@
+<ld>
+	<aster 
+		colorId="0x"
+	/>
+<!-- Generique : debut jeu -->
+<aster 
+	colorId="0xbdbdbd"
+	size="60"
+	rotSpeed="15"
+	checkpoint="true"
+	spawn="true"
+/>
+<!-- Generique : fin jeu -->
+<aster 
+	colorId="0x929292"
+	size="60"
+	rotSpeed="15"
+	end="true"
+/> 
+	
+<!-- Generique : asteroide moyen -->
+	<aster 
+		colorId="0x00ff00"
+		size="40"
+		rotSpeed="15"
+	/>
+<!-- Generique : Planete de feu -->
+	<aster
+		colorId="0xff0000"
+		size="60"
+		rotSpeed="10"
+		fire="true"
+	/>
+<!-- Generique : Checkpoint -->
+	<aster 
+		rotSpeed="40"
+		colorId="0xf0ff00"
+		size="50"
+		checkpoint="true"
+	/>
+
+<!-- Moving asteroids -->
+<aster 
+	colorId="0x2a00ff" 
+	size="40"
+	speed="3"
+	tgt="163,0"
+	life="210"
+	respawn="true"
+/>
+<aster 
+	colorId="0xff00e4" 
+	size="40"
+	speed="3"
+	tgt="283,7"
+	life="210"
+	respawn="true"
+/>
+<aster 
+	colorId="0x061dff" 
+	size="40"
+	speed="3"
+	tgt="316,18"
+	life="210"
+	respawn="true"
+/>
+<aster 
+	colorId="0xd200ff" 
+	size="100"
+	speed="2"
+	tgt="380,10"
+	life="500"
+	respawn="true"
+/> 
+
+<aster 
+	colorId="0x00baff" 
+	size="100"
+	speed="3"
+	tgt="433,4"
+	life="240"
+	respawn="true"
+/> 
+
+<aster 
+	colorId="0x00ffa8" 
+	size="100"
+	speed="2"
+	tgt="448,16"
+	life="300"
+	respawn="true"
+/> 
+
+<aster 
+	colorId="0xf26d7d" 
+	size="100"
+	speed="2"
+	tgt="505,3"
+	life="300"
+	respawn="true"
+/> 
+
+<aster 
+	colorId="0x630460" 
+	size="100"
+	speed="2"
+	tgt="544,11"
+	life="300"
+	respawn="true"
+/> 
+<!-- Burning & Movin Asteroids -->
+<aster 
+	colorId="0xbb0000" 
+	size="100"
+	speed="2"
+	tgt="507,16"
+	life="120"
+	fire="true"
+	respawn="true"
+/> 
+<aster 
+	colorId="0x850000" 
+	size="100"
+	speed="2"
+	tgt="517,5"
+	life="120"
+	fire="true"
+	respawn="true"
+/> 
+<aster 
+	colorId="0x5c0000" 
+	size="100"
+	speed="2"
+	tgt="530,16"
+	life="120"
+	fire = "true"
+	respawn="true"
+/> 
+<!-- Steroids Cine -->
+<aster 
+	colorId="0xdedede" 
+	size="100"
+	speed="0"
+	tgt="0"
+	cine = 'elvis'
+/>
+
+<aster 
+	colorId="0x00ffde"
+	size="100"
+	cine="ben"
+/>
+
+<aster 
+	colorId="0xdeff00"
+	size="100"
+	cine="petit_prince"
+/>
+
+<aster 
+	colorId="0xdeffde"
+	size="100"
+	cine="deepnight"
+/>
+
+<aster 
+	colorId="0xff1100"
+	size="100"
+	cine="yoda"
+/>
+	
+<!--
+	colorId=pixel
+	fire = true meteore enflammé
+	speed=pixel jeu / frame
+	tgt=pixel jeu / frame
+	life frames ( / frame  )
+	respawn true
+	rotSpeed ( radian / frame )
+	delay
+-->
+</ld>
