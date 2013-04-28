@@ -8,9 +8,9 @@ import volute.t.Vec2;
 import mt.deepnight.Key;
 
 class ScreenLevel extends Screen {
-	
-	var asters : List<ScriptedAster>;
 	var player : Player;
+	var asters : List<ScriptedAster>;
+	
 	static var me : ScreenLevel;
 	
 	public var spawnQueue : List<{d:Float,a : ScriptedAster}>;
@@ -92,7 +92,7 @@ class ScreenLevel extends Screen {
 			});
 	}
 	
-	public function tick(fr){
+	public function tick(fr) {
 		for ( a in asters ) {
 			exec( a , fr);
 		}
@@ -138,7 +138,9 @@ class ScreenLevel extends Screen {
 			}
 		}
 		
+		/*
 		var astera = Lambda.array( asters );
+		
 		
 		for ( i in 0...astera.length)
 			for ( j in i...astera.length)
@@ -146,31 +148,58 @@ class ScreenLevel extends Screen {
 				var x = astera[i];
 				var y = astera[j];
 				
-				if ( Math.abs( x.speed ) > 0.01) {
-					var cx = x.mc.getCenter();
-					var cy = y.mc.getCenter();
-					if ( x.mc.intersects( y.mc )) {
-						//if ( x.isFire() && y.isFire())
-						//	throw "assert";
-							
-						if ( x.isFire() && !y.isFire()) {
-							y.mc.onBurn();
-						}
+				if ( Math.abs( x.speed ) <= 0.01)
+				
+				var cx = x.mc.getCenter();
+				var cy = y.mc.getCenter();
+					
+				grid.iterRange( cx.x, cx.y,
+				
+				if ( x.mc.intersects( y.mc )) {
+					//if ( x.isFire() && y.isFire())
+					//	throw "assert";
 						
-						if ( !x.isFire() && x.isFire()) {
-							x.mc.onBurn();
-						}
-						
-						x.mc.scripted = false;
-						y.mc.scripted = false;
+					if ( x.isFire() && !y.isFire()) {
+						y.mc.onBurn();
 					}
+					
+					if ( !x.isFire() && x.isFire()) {
+						x.mc.onBurn();
+					}
+					
+					x.mc.scripted = false;
+					y.mc.scripted = false;
 				}
 			}
 	
 		astera = null;
+		*/
+		
+		for ( a in asters ) {
+			if ( Math.abs( a.speed ) <= 0.01 ) continue;
+			{
+				var res = null;
+				var pos = a.mc.getCenter();
+				var amc = a.mc;
+				
+				function proc(e:Entity) {
+					if ( volute.Coll.testCircleCircle( pos.x, pos.y, 50, e.x, e.y, e.sz * 0.5 ) && e!=amc) {
+						res = e;
+						return true;
+					}
+					return false;
+				}
+				
+				var resAct = cast res;
+				var ast = a.mc;
+				level.grid.iterRange( Std.int(ast.x), Std.int(ast.y), Std.int(ast.sz * 0.5), proc);
+				
+				if ( resAct ) {
+					trace('mut');
+				}
+			}
+		}
 	}
-	
-	
 	
 	public function spawn( sa : ScriptedAster) {
 		sa.mc.move( sa.coo.x * 32.0, sa.coo.y * 32.0 );
@@ -181,6 +210,10 @@ class ScreenLevel extends Screen {
 		return sa;
 	}
 	
-	
-	
 }
+
+
+
+
+
+
