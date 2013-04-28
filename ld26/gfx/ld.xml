@@ -2,6 +2,10 @@
 	<!-- Level 1 -->
 	<!-- Part 1 : DONE -->
 	<aster 
+		colorId="0x"
+	/>
+	
+	<aster 
 		colorId="0x5a5a5a"
 		size="30" 
 		fire="true"
@@ -35,7 +39,7 @@
 		colorId="0x5dff5d"
 		size="70"
 		respawn="false"
-		vrot="50"
+		rotSpeed="50"
 	/>
 	<aster 
 		colorId="0xff0000"
@@ -141,6 +145,6 @@
 		tgt=pixel jeu / frame
 		life frames ( / frame  )
 		respawn true
-		vrot ( radian / frame )
+		rotSpeed ( radian / frame )
 	-->
 </ld>
