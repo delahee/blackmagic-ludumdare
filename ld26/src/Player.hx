@@ -239,10 +239,12 @@ class Player implements haxe.Public{
 					{
 						var col = 0xFFcdcdcd;
 						switch(c.type) {
-							default:
-							case BEN :col = [0xFF0000, 0x00FF00, 0xFFFF00, 0x00FFFF, 0xFF00FF].random();
-							case YODA:
-								col = 0xbcffbc; 
+							case BEN :col = [0xDD555, 0x55DD55, 0xDDDD55, 0x55DDDD, 0xDD55DD].random();
+							case YODA: col = 0xbcffbc; 
+							case DEEPNIGHT: col = 0xffbcbc; 
+							case ELVIS: col = 0xfff9bc; 
+							case PRINCE: col = 0xfff832; 
+							
 						}
 						
 						p( delay, function()
@@ -256,11 +258,18 @@ class Player implements haxe.Public{
 			delay += d;
 		}
 		
-		new fx.SpeechDelay( delay += 1.0, function()
+		if ( c.type != ELVIS )
 		{
-			input = true;
-			trace('dialog ended');
-		});
+			new fx.SpeechDelay( delay += 1.0, function()
+			{
+				input = true;
+				trace('dialog ended');
+			});
+		}
+		else
+		{
+			M.me.setScreen( M.me.scursor+ 1);
+		}
 		
 		//del += 10.0;
 		//p( del, M.me.unmakeBlackStrip);
