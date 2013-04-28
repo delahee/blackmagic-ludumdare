@@ -10,7 +10,7 @@ class ScriptedAster implements haxe.Public{
 	public var dead = false;
 	public var speed = 0.0;
 	
-	function new(src,coo : Vec2) { 
+ 	function new(src,coo : Vec2) { 
 		xml = src; 
 		time = 0; 
 		this.coo = coo.clone();
@@ -37,5 +37,6 @@ class ScriptedAster implements haxe.Public{
 	function haveLife()		return xml.has.life
 	function getLife()		return Std.parseInt(xml.att.life)
 	function getRotSpeed() 	return !xml.has.rotSpeed ? .0 : Std.parseFloat(xml.att.rotSpeed)
+	function isSpawn()		return xml.has.spawn && (xml.att.spawn == "true" )
 	
 }

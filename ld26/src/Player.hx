@@ -18,15 +18,13 @@ enum PlayerState {
 
 class Player implements haxe.Public{
 	var mc : MovieClip;
-	var aster : Aster;
 	
-	//foot pos
 	var pos : Vec2;
 	var vel : Vec2;
 	
 	var state : PlayerState;
 	
-	var myAster : Null<Aster>;
+	var aster : Aster;
 	var asterAngle : Float;
 	
 	public function new() {
@@ -41,15 +39,22 @@ class Player implements haxe.Public{
 		mc.y = pos.y;
 	}
 	
-	public function spawn()
-	{
-		var l : L = G.me.l;
+	public function setAsterAngle( aster, angle) {
+		this.aster = aster;
+		asterAngle = angle;
 		
-		for( a in l.asters )
+		var c = aster.getCenter();
+		var r = aster.sz;
 		
+		var ca = Math.cos( angle );
+		var sa = Math.sin( angle );
+		
+		pos.x = c.x + ca * r;
+		pos.y = c.y + sa * r;
 	}
 	
 	public function update() {
-		
+		mc.x = pos.x;
+		mc.y = pos.y;
 	}
 }

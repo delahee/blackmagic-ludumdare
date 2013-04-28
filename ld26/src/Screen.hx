@@ -1,6 +1,7 @@
 
 class Screen extends starling.display.Sprite{
 	public var isStarted = false;
+	public var level : L;
 	public function new() 
 	{
 		super();
@@ -15,6 +16,8 @@ class Screen extends starling.display.Sprite{
 	{
 		isStarted = true;
 		visible = true;
+		level = new L();
+		addChild(level);
 	}
 	
 	
@@ -25,6 +28,7 @@ class Screen extends starling.display.Sprite{
 		
 		isStarted = false;
 		visible = false;
+		level.kill();
 		return true;
 	}
 	
