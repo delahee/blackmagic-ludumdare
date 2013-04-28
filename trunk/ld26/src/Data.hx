@@ -333,7 +333,7 @@ class Data implements haxe.Public
 				l;
 			},
 			proc:function() {},
-			ofsSprite:new Vec2( -40, 35),
+			ofsSprite:new Vec2( -20, 35),
 			ofsSpeech:new Vec2( -30, 0),
 		});
 		
@@ -381,7 +381,7 @@ class Data implements haxe.Public
 					l.add( { line:"...",  side:SOther } );
 				l;
 			},
-			proc:function() {},
+			proc:function() { },
 			ofsSprite:new Vec2( -40, 35),
 			ofsSpeech:new Vec2( -30, 0),
 		});
