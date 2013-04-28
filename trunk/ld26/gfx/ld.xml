@@ -46,7 +46,7 @@
 	colorId="0x2a00ff"
 	size="75"
 	speed="10"
-	tgt="106,21"
+	tgt="163,0"
 	life="400"
 	respawn="true"
 />
