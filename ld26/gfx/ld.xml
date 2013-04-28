@@ -1,128 +1,146 @@
 <ld>
 	<!-- Level 1 -->
 	<!-- Part 1 : DONE -->
-	<aster colorId="0x5a5a5a"
-	size="30" 
-	fire="true"
-	speed="0"
-	tgt="0,0"
-	life="10"
-	spawn="true"
-	>
-	<aster colorId="0xafffaf"
-	size="50"
-	life="10"
-	>
-	<aster colorId="0x81fe81"
-	size="60"
-	speed="5"
-	tgt="29,11"
-	life="50"
-	respawn="true"
-	>
-	<aster colorId="0x75ff75"
-	size="60"
-	speed="5"
-	tgt="29,22"
-	life="50"
-	respawn="true"
-	>
-	<aster colorId="0x5dff5d"
-	size="70"
-	respawn="false"
-	vrot="50"
-	>
-	<aster colorId="0xff0000"
-	size="50" 
-	fire="true"
-	>
-	<aster colorId="0xfff600"
-	size="50"
-	>
+	<aster 
+		colorId="0x5a5a5a"
+		size="30" 
+		fire="true"
+		speed="0"
+		tgt="0,0"
+		life="10"
+		spawn="true"
+	/>
+	<aster 
+		colorId="0xafffaf"
+		size="50"
+		life="10"
+	/>
+	<aster 
+		colorId="0x81fe81"
+		size="60"
+		speed="5"
+		tgt="29,11"
+		life="50"
+		respawn="true"
+	/>
+	<aster 
+		colorId="0x75ff75"
+		size="60"
+		speed="5"
+		tgt="29,22"
+		life="50"
+		respawn="true"
+	/>
+	<aster 
+		colorId="0x5dff5d"
+		size="70"
+		respawn="false"
+		vrot="50"
+	/>
+	<aster 
+		colorId="0xff0000"
+		size="50" 
+		fire="true"
+	/>
+	<aster 
+		colorId="0xfff600"
+		size="50"
+	/>
 		<!-- Part 2 : DONE -->
 		
-	<aster colorId="0x45ff45"
-	size="60"
-	speed="10"
-	tgt="47,6"
-	life="100"
-	respawn="true"
-	>
+	<aster 
+		colorId="0x45ff45"
+		size="60"
+		speed="10"
+		tgt="47,6"
+		life="100"
+		respawn="true"
+	/>
 	
-	<aster colorId="0x19aa19"
-	size="60"
-	speed="10"
-	tgt="60,17"
-	life="100"
-	respawn="true"
-	>
-	<aster colorId="0x2a912a"
-	size="60"
-	respawn="false"
-	>
-	<aster colorId="0x2a6b2a"
-	size="100"
-	>
-	<aster colorId="0x12ff12"
-	size="60"
-	speed="10"
-	tgt="70,13"
-	life="100"
-	respawn="true"
-	>
+	<aster 
+		colorId="0x19aa19"
+		size="60"
+		speed="10"
+		tgt="60,17"
+		life="100"
+		respawn="true"
+	/>
+	<aster 
+		colorId="0x2a912a"
+		size="60"
+		respawn="false"
+	/>
+	<aster 
+		colorId="0x2a6b2a"
+		size="100"
+	/>
+	<aster 
+		colorId="0x12ff12"
+		size="60"
+		speed="10"
+		tgt="70,13"
+		life="100"
+		respawn="true"
+	/>
+	
 		<!-- Part 3 : DONE -->
 		
-	<aster colorId="0x254f25"
-	size="60"
-	speed="10"
-	tgt="80,17"
-	life="100"
-	respawn="true"
-	>
-	<aster colorId="0x114711"
-	size="111"
-	>
-	<aster colorId="0x043c04"
-	size="60"
-	speed="10"
-	tgt="85,24"
-	respawn="true"
-	>
-	<aster colorId="0x264f25"
-	size="60"
-	speed="10"
-	tgt="70,13"
-	life="100"
-	respawn="true"
-	>
-	<aster colorId="0x143014"
-	size="60"
-	speed="10"
-	tgt="93,22"
-	life="100"
-	respawn="true"
-	>
-	<aster colorId="0x021a02"
-	size="120"
-	>
-	<aster colorId="0x101e10"
-	size="100"
-	speed="10"
-	>
+	<aster 
+		colorId="0x254f25"
+		size="60"
+		speed="10"
+		tgt="80,17"
+		life="100"
+		respawn="true"
+	/>
+	<aster 
+		colorId="0x114711"
+		size="111"
+	/>
+	<aster
+		colorId="0x043c04"
+		size="60"
+		speed="10"
+		tgt="85,24"
+		respawn="true"
+	/>
+	<aster 
+		colorId="0x264f25"
+		size="60"
+		speed="10"
+		tgt="70,13"
+		life="100"
+		respawn="true"
+	/>
+	<aster
+		colorId="0x143014"
+		size="60"
+		speed="10"
+		tgt="93,22"
+		life="100"
+		respawn="true"
+	/>
+	<aster
+		colorId="0x021a02"
+		size="120"
+	/>
+	<aster
+		colorId="0x101e10"
+		size="100"
+		speed="10"
+	/>
 	<!-- Level 1 -->
 		<!-- Part 1 -->
 		<!-- Part 2 -->
 		<!-- Part 3 -->
 		
-		
 	<!--
-	colorId=pixel
-	fire = true meteore enflammé
-	speed=pixel jeu / frame
-	tgt=pixel jeu / frame
-	life frames ( / frame  )
-	respawn true
-	vrot ( radian / frame )
+		colorId=pixel
+		fire = true meteore enflammé
+		speed=pixel jeu / frame
+		tgt=pixel jeu / frame
+		life frames ( / frame  )
+		respawn true
+		vrot ( radian / frame )
 	-->
-	</aster>
 </ld>
