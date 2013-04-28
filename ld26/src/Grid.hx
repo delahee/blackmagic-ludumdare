@@ -1,6 +1,4 @@
 
-
-
 class Grid
 {
 	var rep:IntHash<List<Entity>>;
@@ -21,19 +19,15 @@ class Grid
 					for ( e in rep.get( (x << 16) | y ) ) 
 						if ( proc( e ) )
 							return;
-			
 	}
 
 	public function remove(e:Entity){
-		if ( e.key != null)
-		{
+		if ( e.key != null){
 			var l : List<Entity> = rep.get( e.key ) ;
 			for ( es in l )
 				if ( es == e )
 					l.remove( e );
 		}
-
-		trace("removing from grid");
 	}
 	
 	public function add(e:Entity)	{
@@ -44,7 +38,5 @@ class Grid
 			
 		l.push( e );
 		e.key = k;
-		
-		trace("adding to grid " + k+" "+e);
 	}
 }

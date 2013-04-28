@@ -11,11 +11,11 @@ class FX
 	public var duration : Null<Float>;
 	var t0 : Float;
 	
-	public function new(q : String = null, d : Null<Float>)
+	public function new(d : Null<Float>)
 	{
 		duration = d;
 		t0 = Timer.stamp();
-		FXManager.self.add(q,this);
+		FXManager.self.add(this);
 		
 		onKill = function() { };
 	}

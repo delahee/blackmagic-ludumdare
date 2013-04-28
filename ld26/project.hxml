@@ -11,3 +11,4 @@
 -swf-version 11
 -swf-lib starling.swf
 --macro patchTypes('starling.patch')
+-swf-lib gfx/planche/intro.swf

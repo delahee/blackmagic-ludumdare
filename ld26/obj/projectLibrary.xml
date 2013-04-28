@@ -7,6 +7,7 @@
     <library>
       <clip id="Sharepoint__" />
       <bitmap id="BmpBg" name="BmpBg" import="gfx\planche\bg_voielactée.png" size="24449" modified="27/04/2013 20:54:45" />
+      <font id="semibold" name="semibold" import="gfx\Walkway_SemiBold.ttf" glyphs="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz '-&quot;'%,?!$+:*.éèêëàäâïîüç0123456789+=&gt;&lt;()[]/âàäéèêëîïôöùûüçáéíóúÁÉÍÓÚÑñ¡¿äÄÖÜß_²" size="50804" modified="28/04/2013 16:34:06" />
     </library>
   </frame>
 </movie>

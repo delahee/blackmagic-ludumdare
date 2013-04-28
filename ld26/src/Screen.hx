@@ -4,7 +4,7 @@ import starling.display.Image;
 class Screen extends starling.display.Sprite{
 	public var isStarted = false;
 	public var level : L;
-	
+	public var loadBg : Bool = true;
 	public var img : Image;
 	
 	public function new() 
@@ -24,11 +24,12 @@ class Screen extends starling.display.Sprite{
 		level = new L();
 		addChild(level);
 		
+		if(loadBg){
 		var bmd = new Data.BmpBg(0, 0, false);
 		img = Image.fromBitmap( new Bitmap( bmd ) );
 		M.me.addChild( img );
 		bmd.dispose();
-		bmd = null;
+		bmd = null;}
 	}
 	
 	

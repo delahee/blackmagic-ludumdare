@@ -4,12 +4,21 @@ import haxe.Public;
 import haxe.xml.Fast;
 import volute.Lib;
 import volute.t.Vec2;
+import volute.Dice;
 
 import mt.deepnight.Key;
+
+
+enum State
+{
+	PLAY;
+	CINEMATIC;
+}
 
 class ScreenLevel extends Screen {
 	var player : Player;
 	var asters : List<ScriptedAster>;
+	var state : State;
 	
 	static var me : ScreenLevel;
 	public var spawnQueue : List<{d:Float,a : ScriptedAster}>;
@@ -18,11 +27,12 @@ class ScreenLevel extends Screen {
 		super();
 		me = this;
 		spawnQueue = new List();
-		
+		state = PLAY;
 	}
 	
 	public override function init(){
 		super.init();
+		
 		asters = new List<ScriptedAster>();
 		
 		var bmp = Data.me.level;
@@ -62,7 +72,8 @@ class ScreenLevel extends Screen {
 				break;
 			}
 		
-	
+		state = PLAY;
+		
 	}
 	
 	public override function kill() {
@@ -73,22 +84,38 @@ class ScreenLevel extends Screen {
 		return b;
 	}
 	
-	public override function update(){
-		super.update();
+	public override function update() {
+		var tr = M.me.transition;
+		if ( tr != null) {
+			tr.alpha -= 0.01; 
+			if ( tr.alpha <= 0.001 && tr.parent != null)
+			{
+				tr.parent.removeChild( tr );
+				M.me.transition = null;
+			}
+		}
 		
 		var fr = M.timer.df;
-		tick(fr);
+		super.update();
 		
-		if ( Key.isDown( Keyboard.CONTROL ) && Key.isDown( Keyboard.LEFT ))
-			M.view.x += 5 * fr;
-		if ( Key.isDown( Keyboard.CONTROL ) && Key.isDown( Keyboard.RIGHT ))
-			M.view.x -= 5 * fr;
-			
-		if ( Key.isDown( Keyboard.CONTROL ) && Key.isDown( Keyboard.UP ))
-			M.view.y += 5 * fr;
-		if ( Key.isDown( Keyboard.CONTROL ) && Key.isDown( Keyboard.DOWN ))
-			M.view.y -= 5 * fr;
-			
+		switch(state) {
+			case PLAY:		player.input = true; onPlayFrame();
+			case CINEMATIC: player.input = false;
+		}
+		
+		if( state == PLAY){
+			if ( Key.isDown( Keyboard.CONTROL ) && Key.isDown( Keyboard.LEFT ))
+				M.view.x += 5 * fr;
+			if ( Key.isDown( Keyboard.CONTROL ) && Key.isDown( Keyboard.RIGHT ))
+				M.view.x -= 5 * fr;
+				
+			if ( Key.isDown( Keyboard.CONTROL ) && Key.isDown( Keyboard.UP ))
+				M.view.y += 5 * fr;
+			if ( Key.isDown( Keyboard.CONTROL ) && Key.isDown( Keyboard.DOWN ))
+				M.view.y -= 5 * fr;
+		}
+		
+		tick(fr);
 			
 		if ( spawnQueue.length > 0)
 			spawnQueue = spawnQueue.filter( function(e)
@@ -150,27 +177,22 @@ class ScreenLevel extends Screen {
 		
 		for ( a in asters ) {
 			if ( Math.abs( a.speed ) <= 0.01 ) continue;
-			{
-				var res = null;
-				var pos = a.mc.getCenter();
-				var amc = a.mc;
-				
-				function proc(e:Entity) {
-					if ( volute.Coll.testCircleCircle( pos.x, pos.y, 50, e.x, e.y, e.sz ) && e!=amc) {
-						res = e;
-						return true;
-					}
-					return false;
+			
+			var res = null;
+			var pos = a.mc.getCenter();
+			var amc = a.mc;
+			
+			function proc(e:Entity) {
+				if ( volute.Coll.testCircleCircle( pos.x, pos.y, 50, e.x, e.y, e.sz ) && e!=amc) {
+					res = e;
+					return true;
 				}
-				
-				var resAct = cast res;
-				var ast = a.mc;
-				level.grid.iterRange( Std.int(ast.x), Std.int(ast.y), Std.int(ast.sz * 0.5), proc);
-				
-				if ( resAct ) {
-					trace('mut');
-				}
+				return false;
 			}
+			
+			var resAct = cast res;
+			var ast = a.mc;
+			level.grid.iterRange( Std.int(ast.x), Std.int(ast.y), Std.int(ast.sz * 0.5), proc);
 		}
 	}
 	
@@ -183,6 +205,28 @@ class ScreenLevel extends Screen {
 		return sa;
 	}
 	
+	var timer = 0.0;
+	public function onPlayFrame() {
+		var fr = M.timer.df;
+		if ( timer <= 0 ) {
+			tryLaunchPhrase();
+			timer = 60;
+		}
+		timer -= fr;
+	}
+	
+	var introLevel = 0;
+	//var rdTextLevel = 0;
+	//var maxIntroLevel = 4;
+	function tryLaunchPhrase() {
+		//if ( introLevel < maxIntroLevel ) return;
+		if ( Dice.percent( 50 )) {
+			var t = Data.me.rdText[introLevel++];
+			introLevel = introLevel % 3;
+			if (t != null) 
+				player.say(t);
+		}
+	}
 }
 
 
