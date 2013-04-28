@@ -51,7 +51,9 @@ class M extends starling.display.Sprite {
 		view = new View();
 		data = new Data();
 		
-		screens = [ new ScreenTitle(),  new ScreenLevel() /*, new ScreenTestPerso(), /*,new ScreenTestLevel()*/, new ScreenTestAster() ];
+		screens = [ new ScreenTitle(),  new ScreenLevel()
+		/*, new ScreenTestPerso(), /*,new ScreenTestLevel()*/, new ScreenTestAster()
+		/*, new ScreenTestPerso()*/ ];
 		setScreen(screens.length-1);
 		addEventListener( starling.events.Event.ADDED_TO_STAGE, init);
 		
@@ -92,8 +94,10 @@ class M extends starling.display.Sprite {
 	var spin = 0;
 	function update(e){
 		timer.update();
+		/*
 		if ( mt.deepnight.Key.isToggled(flash.ui.Keyboard.SPACE) ) 	setScreen( scursor + 1 );
-		else {
+		else*/ {
+			
 			volute.Lib.assert(null != screens[scursor], "Screen is null narf");
 			volute.Lib.assert(screens[scursor].isStarted,"it is likely you missed a Screen super.foo() call");
 			screens[scursor].update();

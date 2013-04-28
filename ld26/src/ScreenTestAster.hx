@@ -1,9 +1,14 @@
+import flash.ui.Keyboard;
 import volute.Dice;
 import volute.Lib;
 
 import starling.events.Touch;
 import starling.events.TouchEvent;
 import starling.events.TouchPhase;
+
+import mt.deepnight.Key;
+
+import volute.Types;
 
 class ScreenTestAster extends Screen
 {
@@ -17,7 +22,7 @@ class ScreenTestAster extends Screen
 		lnr = new Liner();
 		lnr.compile();
 		
-		player =  new Player();
+		
 		me = this;
 	}
 
@@ -34,6 +39,11 @@ class ScreenTestAster extends Screen
 		}
 		
 		addChild( lnr.img );
+		
+		player =  new Player();
+		addChild( player.mc);
+		
+		player.setAsterAngle( level.asters[0], - Math.PI / 2);
 	}
 	
 	
@@ -63,6 +73,10 @@ class ScreenTestAster extends Screen
 	var enableDDraw = false;
 	public override function update() {
 		super.update();
+		
+		//player.updateKey();
+		player.update();
+		
 		
 	}
 	
