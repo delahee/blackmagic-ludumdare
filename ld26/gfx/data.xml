@@ -36,7 +36,7 @@
 	</sprite>
 	
 	<sprite id="petit_prince" >
-		<state id="idle" rythm="2">
+		<state id="idle" rythm="4">
 			<slice coord="0,300,67,75,5" nb="5" />
 		</state>
 	</sprite>
