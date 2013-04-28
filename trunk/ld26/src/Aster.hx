@@ -67,7 +67,6 @@ class Aster extends Entity, implements Public {
 		img.touchable = true;
 		img.addEventListener( TouchEvent.TOUCH , function (e:TouchEvent)
 		{
-			trace('touched');
 			var touch: Touch = e.touches[0];
 			if(touch!=null){
 				if(touch.phase == TouchPhase.BEGAN)

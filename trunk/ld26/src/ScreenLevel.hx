@@ -10,9 +10,12 @@ import mt.deepnight.Key;
 class ScreenLevel extends Screen {
 	
 	var asters : List<ScriptedAster>;
+	var player : Player;
+	static var me : ScreenLevel;
 	
 	public function new() {
 		super();
+		me = this;
 	}
 	
 	public override function init(){
@@ -39,6 +42,16 @@ class ScreenLevel extends Screen {
 			a.mc.script = a;
 			asters.push(spawn(a));
 		}}}
+		
+		player = new Player();
+		
+		for ( a in asters )
+			if ( a.isSpawn() ) {
+				player.setAsterAngle( a.mc, 0 );
+				break;
+			}
+		
+	
 	}
 	
 	public override function kill() {
