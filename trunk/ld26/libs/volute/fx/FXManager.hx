@@ -4,7 +4,7 @@ using Lambda;
 
 class FXManager
 {
-	var rep : List<FX>;
+	public var rep : List<FX>;
 	
 	public static var self : FXManager = new FXManager();
 	public function new()
