@@ -36,12 +36,24 @@
 			<slice coord="0,448,67,75,1" nb="1" />
 		</state>
 	</sprite>
+	<sprite id="Seb" >
+		<state id="idle" rythm="2">
+			<slice coord="0,525,67,75,1" nb="1" />
+		</state>
+	</sprite>
 </tileDef>	
 
 <tileDef file="propsspritesheet">
 	<sprite id="props" >
 		<state id="idle" rythm="2">
 			<slice coord="0,448,40,40,4,11" nb="44" />
+		</state>
+	</sprite>
+</tileDef>
+	<tileDef file="manoir">
+	<sprite id="manoir" >
+		<state id="idle" rythm="2">
+			<slice coord="0,0,606,720,1" nb="1" />
 		</state>
 	</sprite>
 </tileDef>
