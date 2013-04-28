@@ -12,13 +12,13 @@ class ScreenLevel extends Screen {
 	var asters : List<ScriptedAster>;
 	
 	static var me : ScreenLevel;
-	
 	public var spawnQueue : List<{d:Float,a : ScriptedAster}>;
 	
 	public function new() {
 		super();
 		me = this;
 		spawnQueue = new List();
+		
 	}
 	
 	public override function init(){
