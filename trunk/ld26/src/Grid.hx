@@ -15,14 +15,6 @@ class Grid
 		var posny = posx >> 5;
 		var hn = (n >> 1) + 1;
 		
-		/*
-		var posk = (posnx << 16) | posny;
-		if ( rep.exists( posk )) {
-			for ( e in rep.get( posk ))
-				if( proc( e ))
-					return;
-		}
-		*/
 		
 		for( y in posny-hn...posny+hn )
 			for ( x in posnx-hn...posnx+hn )

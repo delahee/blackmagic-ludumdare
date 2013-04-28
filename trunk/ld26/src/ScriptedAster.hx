@@ -42,5 +42,5 @@ class ScriptedAster implements haxe.Public{
 	function isCheckpoint() return xml.has.checkpoint && (xml.att.checkpoint == "true" )
 	
 	function getRotSpeed() 	return !xml.has.rotSpeed ? .0 : Std.parseFloat(xml.att.rotSpeed)
-	function getBaseDelay()	return !xml.has.rotSpeed ? .0 : Std.parseFloat(xml.att.delay)
+	function getBaseDelay()	return !xml.has.delay ? .0 : Std.parseFloat(xml.att.delay)
 }

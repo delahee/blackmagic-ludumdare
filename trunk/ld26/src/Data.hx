@@ -78,6 +78,10 @@ class BmpLevel extends flash.display.BitmapData
 	
 }
 
+class BmpBg extends flash.display.BitmapData {
+	
+}
+
 
 @:file("../gfx/ld.xml")
 class LDXml extends flash.utils.ByteArray

@@ -2,6 +2,7 @@
 -cp libs
 -swf bin/project.swf
 -swf-header 1280:720:30:2D589E
+-swf-lib obj\projectResources.swf
 --flash-strict
 -swf-version 11
 -main M

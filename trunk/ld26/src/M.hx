@@ -50,7 +50,7 @@ class M extends starling.display.Sprite {
 	
 	public function new() {
 		super();
-		
+		me = this;
 		mt.deepnight.Key.init();
 		view = new View();
 		data = new Data();
@@ -58,7 +58,8 @@ class M extends starling.display.Sprite {
 		
 		screens = [ new ScreenTitle(),  new ScreenLevel()
 		/*, new ScreenTestPerso(), /*,new ScreenTestLevel()*/, new ScreenTestAster()
-		/*, new ScreenTestPerso()*/ ];
+		/*, new ScreenTestPerso()*/,
+		new ScreenLevel()];
 		setScreen(screens.length-1);
 		addEventListener( starling.events.Event.ADDED_TO_STAGE, init);
 		
@@ -66,9 +67,6 @@ class M extends starling.display.Sprite {
 		fps.y = 40;
 		
 		addChild(fps);
-		
-		me = this;
-		
 		touchable = true;
 		
 		var ac = volute.t.Vec2.angle( new Vec2(0, 1), new Vec2(1, 0));
