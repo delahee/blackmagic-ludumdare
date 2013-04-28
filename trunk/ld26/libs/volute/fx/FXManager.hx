@@ -1,10 +1,6 @@
 package volute.fx;
 
 using Lambda;
-/**
- * ...
- * @author de
- */
 
 class FXManager
 {

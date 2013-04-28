@@ -5,20 +5,25 @@ import starling.display.MovieClip;
  * ...
  * @author de
  */
-class Blink
+class Blink extends volute.fx.FX
 {
-	var fr = 20;
 	var mc:MovieClip;
-	public function new(mc) 
-	{
-		super();
+	public function new(mc,?q) {
+		super(q, 0.5);
+		this.mc = mc;
 	}
 	
-	public function update()
+	public override function update()
 	{
-		fr -= M.timer.dt;
-		mc.alpha = Math.sin( M.timer.curT / 4.0 );
-		return fr > 0;
+		var ratio = t();
+		trace(ratio);
+		mc.alpha = Math.abs( Math.sin( M.timer.curT * 20.0) );
+		return super.update();
+	}
+	
+	public override function kill() {
+		super.kill();
+		mc.alpha = 1.0;
 	}
 	
 }
