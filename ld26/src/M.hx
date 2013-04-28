@@ -14,17 +14,19 @@ import starling.core.Starling;
 
 import starling.events.Event;
 
+import  volute.t.Vec2;
+
 import Data;
 using volute.Lib;
 
 
 class M extends starling.display.Sprite {
 	
-	public static var me = M;
-	public static var game : G = null;
+	public static var me : M = null;
 	public static var timer : Ticker = new Ticker(flash.Lib.current.stage.frameRate );
 	public static var core : Starling;
 	public static var data : Data;
+	public static var view : View;
 	
 	public var scursor = 0;
 	public var screens : Array<Screen>;
@@ -45,10 +47,11 @@ class M extends starling.display.Sprite {
 	public function new() {
 		super();
 		
+		mt.deepnight.Key.init();
+		view = new View();
 		data = new Data();
-		game = new G();	
 		
-		screens = [ new ScreenTitle(), new ScreenTestAster(), new ScreenMath() /*, new ScreenTestPerso(), */,new ScreenTestLevel() ];
+		screens = [ new ScreenTitle(),  new ScreenLevel() /*, new ScreenTestPerso(), /*,new ScreenTestLevel()*/ ];
 		setScreen(screens.length-1);
 		addEventListener( starling.events.Event.ADDED_TO_STAGE, init);
 		
@@ -57,7 +60,13 @@ class M extends starling.display.Sprite {
 		
 		addChild(fps);
 		
+		me = this;
+		
 		touchable = true;
+		
+		var ac = volute.t.Vec2.angle( new Vec2(0, 1), new Vec2(1, 0));
+		var ac = volute.t.Vec2.angle( new Vec2(-1, 0), new Vec2(1, 0));
+		var a=1;
 		/*
 		fps.touchable = true;
 		fps.addEventListener( TouchEvent.TOUCH , function (e:TouchEvent)
@@ -72,6 +81,8 @@ class M extends starling.display.Sprite {
 				}
 		}});
 		*/
+		
+		addChild(view);
 	}
 	
 	function init() {
@@ -102,7 +113,7 @@ class M extends starling.display.Sprite {
 			if (i == n)	{
 				if ( !s.isStarted ) {
 					s.init();
-					addChild(s);
+					view.addChild(s);
 				}
 			}
 			else	{
