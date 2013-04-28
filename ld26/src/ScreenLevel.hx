@@ -54,7 +54,8 @@ class ScreenLevel extends Screen {
 		
 		for ( a in asters )
 			if ( a.isSpawn() ) {
-				player.setAsterAngle( a.mc, 0 );
+				player.setAsterAngle( a.mc, - Math.PI / 2 );
+				addChild( player.mc);
 				break;
 			}
 		
@@ -75,11 +76,16 @@ class ScreenLevel extends Screen {
 		var fr = M.timer.df;
 		tick(fr);
 		
-		if ( Key.isDown( Keyboard.LEFT ))
+		if ( Key.isDown( Keyboard.CONTROL ) && Key.isDown( Keyboard.LEFT ))
 			M.view.x += 5 * fr;
-		
-		if ( Key.isDown( Keyboard.RIGHT ))
+		if ( Key.isDown( Keyboard.CONTROL ) && Key.isDown( Keyboard.RIGHT ))
 			M.view.x -= 5 * fr;
+			
+		if ( Key.isDown( Keyboard.CONTROL ) && Key.isDown( Keyboard.UP ))
+			M.view.y += 5 * fr;
+		if ( Key.isDown( Keyboard.CONTROL ) && Key.isDown( Keyboard.DOWN ))
+			M.view.y -= 5 * fr;
+			
 			
 		if ( spawnQueue.length > 0)
 			spawnQueue = spawnQueue.filter( function(e)
@@ -93,6 +99,7 @@ class ScreenLevel extends Screen {
 	}
 	
 	public function tick(fr) {
+		player.update();
 		for ( a in asters ) {
 			exec( a , fr);
 		}
@@ -124,7 +131,7 @@ class ScreenLevel extends Screen {
 		}
 		else
 		{
-			if ( sa.mc.y < 200|| sa.mc.y > Lib.h() + 200) 
+			if ( sa.mc.y <- 200|| sa.mc.y > Lib.h() + 200) 
 				murder(sa);
 			else if ( sa.haveLife() && sa.getLife() < sa.time ) 
 				murder(sa);
@@ -137,43 +144,6 @@ class ScreenLevel extends Screen {
 				}
 			}
 		}
-		
-		/*
-		var astera = Lambda.array( asters );
-		
-		
-		for ( i in 0...astera.length)
-			for ( j in i...astera.length)
-			{
-				var x = astera[i];
-				var y = astera[j];
-				
-				if ( Math.abs( x.speed ) <= 0.01)
-				
-				var cx = x.mc.getCenter();
-				var cy = y.mc.getCenter();
-					
-				grid.iterRange( cx.x, cx.y,
-				
-				if ( x.mc.intersects( y.mc )) {
-					//if ( x.isFire() && y.isFire())
-					//	throw "assert";
-						
-					if ( x.isFire() && !y.isFire()) {
-						y.mc.onBurn();
-					}
-					
-					if ( !x.isFire() && x.isFire()) {
-						x.mc.onBurn();
-					}
-					
-					x.mc.scripted = false;
-					y.mc.scripted = false;
-				}
-			}
-	
-		astera = null;
-		*/
 		
 		for ( a in asters ) {
 			if ( Math.abs( a.speed ) <= 0.01 ) continue;

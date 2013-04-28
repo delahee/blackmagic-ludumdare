@@ -40,7 +40,7 @@
 
 <!-- Moving asteroids -->
 <aster 
-	colorId="0xafffaf"
+	colorId="0x54ff00"
 	spawn="true"
 />
 
