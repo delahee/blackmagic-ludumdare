@@ -123,6 +123,13 @@ class Aster extends Entity, implements Public {
 	
 	public function update() {
 		
+		var p = Player.me;
+		var cull = volute.MathEx.dist2( p.pos.x, p.pos.y, img.x,img.y) > 1300 * 1300;
+		#if debug
+			img.alpha = cull ? 0.1 : 1.0;
+		#else
+			img.visible = cull; 
+		#end
 	}
 	
 	public function set_a(f:Float) {

@@ -9,7 +9,7 @@ class ScriptedAster implements haxe.Public{
 	public var time:Float;
 	public var dead = false;
 	public var speed = 0.0;
-	public var delay:Float;
+	public var delay:Float=.0;
 	
  	function new(src,coo : Vec2) { 
 		xml = src; 

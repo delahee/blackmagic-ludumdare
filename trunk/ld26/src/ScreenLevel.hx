@@ -140,7 +140,7 @@ class ScreenLevel extends Screen {
 				murder(sa);
 			else 
 			{
-				if ( !sa.mc.scripted){
+				if ( sa.mc.scripted){
 					sa.mc.a += sa.getRotSpeed() * fr;
 					if ( sa.speed > 0) sa.mc.translate(sa.dir.x * sa.speed * fr, sa.dir.y * sa.speed * fr);
 					sa.time += fr;
