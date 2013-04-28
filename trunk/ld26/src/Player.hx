@@ -150,7 +150,7 @@ class Player implements haxe.Public{
 			
 			vel.set( ca * k, sa * k);
 			
-			#if !debug
+			#if !debug // GRAVITY SETTING HERE
 			vel.y += 0.42;
 			#end
 			
