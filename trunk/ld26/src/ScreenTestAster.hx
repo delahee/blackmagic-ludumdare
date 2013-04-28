@@ -42,7 +42,6 @@ class ScreenTestAster extends Screen
 		
 		player =  new Player();
 		addChild( player.mc);
-		
 		player.setAsterAngle( level.asters[0], - Math.PI / 2);
 	}
 	
