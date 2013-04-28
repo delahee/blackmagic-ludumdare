@@ -5,7 +5,7 @@
 <!-- Generique : debut jeu -->
 <aster 
 	colorId="0xbdbdbd"
-	size="80"
+	size="60"
 	rotSpeed="15"
 	checkpoint="true"
 	spawn="true"
@@ -13,7 +13,7 @@
 <!-- Generique : fin jeu -->
 <aster 
 	colorId="0x929292"
-	size="80"
+	size="60"
 	rotSpeed="15"
 	end="true"
 /> 
@@ -21,19 +21,19 @@
 <!-- Generique : asteroide moyen -->
 	<aster 
 		colorId="0x00ff00"
-		size="50"
+		size="40"
 		rotSpeed="15"
 	/>
 <!-- Generique : Planete de feu -->
 	<aster
 		colorId="0xff0000"
-		size="80"
+		size="60"
 		rotSpeed="10"
 		fire="true"
 	/>
 <!-- Generique : Checkpoint -->
 	<aster 
-		rotSpeed="20"
+		rotSpeed="40"
 		colorId="0xf0ff00"
 		size="50"
 		checkpoint="true"
@@ -42,7 +42,7 @@
 <!-- Moving asteroids -->
 <aster 
 	colorId="0x2a00ff" 
-	size="60"
+	size="30"
 	speed="10"
 	tgt="163,0"
 	life="400"
@@ -50,7 +50,7 @@
 />
 <aster 
 	colorId="0xff00e4" 
-	size="60"
+	size="30"
 	speed="10"
 	tgt="283,7"
 	life="400"
@@ -58,7 +58,7 @@
 />
 <aster 
 	colorId="0x061dff" 
-	size="70"
+	size="30"
 	speed="10"
 	tgt="316,18"
 	life="400"
