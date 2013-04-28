@@ -9,13 +9,13 @@
 		</state>
 		
 		<state id="jump" rythm="2">
-			<slice coord="0,150,81,75,9" nb="9" />
+			<slice coord="0,150,67,75,9" nb="9" />
 		</state>
 	</sprite>
 	
 	<sprite id="ben" >
 		<state id="idle" rythm="2">
-			<slice coord="0,225,67,75,12" nb="12" />
+			<slice coord="0,225,81,75,12" nb="12" />
 		</state>
 	</sprite>
 	
