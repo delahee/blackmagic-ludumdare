@@ -42,32 +42,36 @@
 <!-- Moving asteroids -->
 <aster 
 	colorId="0x2a00ff" 
-	size="30"
-	speed="10"
+	size="40"
+	speed="3"
 	tgt="163,0"
-	life="400"
+	life="210"
 	respawn="true"
 />
 <aster 
 	colorId="0xff00e4" 
-	size="30"
-	speed="10"
+	size="40"
+	speed="3"
 	tgt="283,7"
-	life="400"
+	life="210"
 	respawn="true"
 />
 <aster 
 	colorId="0x061dff" 
-	size="30"
-	speed="10"
+	size="40"
+	speed="3"
 	tgt="316,18"
-	life="400"
+	life="210"
 	respawn="true"
 />
-
-
-
-
+<aster 
+	colorId="0xd200ff" 
+	size="100"
+	speed="2"
+	tgt="393,15"
+	life="210"
+	respawn="true"
+/>
 
 <!--
 	colorId=pixel
