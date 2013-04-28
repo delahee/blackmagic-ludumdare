@@ -4,9 +4,10 @@
 	/>
 <!-- Generique : debut jeu -->
 <aster 
-	colorId="0xdedede"
+	colorId="0xbdbdbd"
 	size="80"
 	rotSpeed="15"
+	checkpoint="true"
 	spawn="true"
 />
 <!-- Generique : fin jeu -->
@@ -33,212 +34,20 @@
 <!-- Generique : Checkpoint -->
 	<aster 
 		rotSpeed="20"
-		colorId="0xffAA00"
+		colorId="0xf0ff00"
 		size="50"
 		checkpoint="true"
 	/>
 
 <!-- Moving asteroids -->
-<aster 
-	colorId="0x54ff00"
-	spawn="true"
-/>
+
 
 <aster 
-	colorId="0x18a9b3"
+	colorId="0x2a00ff"
 	size="75"
 	speed="10"
-	tgt="70,19"
-	life="300"
-	respawn="true"
-/>
-<aster 
-	colorId="0x759ff37"
-	size="75"
-	speed="10"
-	tgt="72,16"
-	life="300"
-	respawn="true"
-/>
-<aster 
-	colorId="0x043c04"
-	size="100"
-	speed="10"
-	tgt="92,22"
-	life="300"
-	respawn="true"
-/>
-
-<aster 
-	colorId="0x054148"
-	size="100"
-	speed="6"
-	tgt="128,8"
-	life="300"
-	respawn="true"
-/>
-
-<aster 
-	colorId="0x0098aa"
-	size="100"
-	speed="10"
-	tgt="127,18"
-	life="300"
-	respawn="true"
-/>
-
-
-<aster 
-	colorId="0x2623a5"
-	size="60"
-	speed="10"
-	tgt="157,7"
-	life="300"
-	respawn="true"
-/>
-
-<aster 
-	colorId="0x2d2b83"
-	size="60"
-	speed="10"
-	tgt="168,15"
-	life="300"
-	respawn="true"
-/>
-
-<aster 
-	colorId="0x7e7bfd"
-	size="60"
-	speed="10"
-	tgt="181,17"
-	life="300"
-	respawn="true"
-/>
-
-<aster 
-	colorId="0xfdf27b"
-	size="60"
-	speed="10"
-	tgt="181,17"
-	life="300"
-	respawn="true"
-/>
-
-<aster 
-	colorId="0x093815"
-	size="100"
-	speed="10"
-	tgt="194,19"
-	life="300"
-	respawn="true"
-/>
-
-<aster 
-	colorId="0x345a2c"
-	size="100"
-	speed="10"
-	tgt="199,15"
-	life="300"
-	respawn="true"
-/>
-
-<aster 
-	colorId="0xfd3f9d"
-	size="100"
-	speed="10"
-	tgt="212,19"
-	life="300"
-	respawn="true"
-/>
-
-<aster 
-	colorId="0xdc438f"
-	size="100"
-	speed="10"
-	tgt="218,16"
-	life="300"
-	respawn="true"
-/>
-
-<aster 
-	colorId="0xdc438f"
-	size="100"
-	speed="10"
-	tgt="218,16"
-	life="300"
-	respawn="true"
-/>
-
-<aster 
-	colorId="0xa6517b"
-	size="100"
-	speed="10"
-	tgt="227,13"
-	life="300"
-	respawn="true"
-/>
-<aster 
-	colorId="0x903361"
-	size="100"
-	speed="10"
-	tgt="227,13"
-	life="300"
-	delay = "400" 
-	respawn="true"
-/>
-<!-- Care delays for ld -->
-<aster 
-	colorId="0x4a0c2a"
-	size="100"
-	speed="10"
-	tgt="253,14"
-	life="800"
-	delay = "100"
-	respawn="true"
-/>
-<aster 
-	colorId="0x4a0526"
-	size="100"
-	speed="10"
-	tgt="260,24"
-	life="800"
-	delay = "100"
-	respawn="true"
-/>
-<aster 
-	colorId="0x880544"
-	size="100"
-	speed="10"
-	tgt="273,31"
-	life="800"
-	delay = "100"
-	respawn="true"
-/>
-<aster 
-	colorId="0x1b0588"
-	size="100"
-	speed="10"
-	tgt="279,9"
-	life="800"
-	delay = "100"
-	respawn="true"
-/>
-<aster 
-	colorId="0x0a0588"
-	size="100"
-	speed="10"
-	tgt="279,9"
-	life="800"
-	delay = "100"
-	respawn="true"
-/>
-<aster 
-	colorId="0x231278"
-	size="100"
-	speed="10"
-	tgt="292,20"
-	life="800"
-	delay = "100"
+	tgt="106,21"
+	life="400"
 	respawn="true"
 />
 <!--
