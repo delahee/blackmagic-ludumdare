@@ -15,7 +15,7 @@
 	
 	<sprite id="ben" >
 		<state id="idle" rythm="2">
-			<slice coord="0,225,81,75,12" nb="12" />
+			<slice coord="0,225,81,75,2" nb="2" />
 		</state>
 	</sprite>
 	
