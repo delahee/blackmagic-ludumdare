@@ -99,7 +99,8 @@ class Aster extends Entity, implements Public {
 		});
 		
 	}
-	
+			
+		
 	public function compile() {
 		var max = null;
 		for ( v in vtx )
@@ -152,7 +153,6 @@ class Aster extends Entity, implements Public {
 		if ( isFire ) shp.filters = [ new BlurFilter() ];
 			
 		bmp = Lib.flatten( shp );
-		
 		img = Image.fromBitmap( bmp );
 		
 		img.readjustSize();
@@ -160,7 +160,6 @@ class Aster extends Entity, implements Public {
 		var ofs = isFire ? 2 : 0;
 		img.pivotX = bmp.width * 0.5 + ofs;
 		img.pivotY = bmp.height * 0.5 + ofs;
-		
 		
 		return this;
 	}
@@ -198,7 +197,9 @@ class Aster extends Entity, implements Public {
 	
 	public function rand()
 	{
-		var sect = Dice.roll( 5 , 8 );
+		//var sect = Dice.roll( 5 , 8 );
+		//var sect = Dice.roll( 3,4);
+		var sect = 4;
 		
 		for ( i in 0...sect ){
 			var x = 1;
@@ -250,6 +251,118 @@ class Aster extends Entity, implements Public {
 	{
 		img.x = x; img.y = y;
 	}
+	
+	/**   a
+	 *   /
+	 *  /
+	 * b----c
+	 * 
+	 * projects a on bc by b
+	 */
+	
+	 
+	public function projectConstant( a : Vec2, b : Vec2, c : Vec2 ) : Float {
+		var ba = b.clone().decr( a );
+		var bc = b.clone().decr( c );
+		
+		return ((ba.x * bc.y ) + (ba.y * bc.x)) / bc.norm2();
+	}
+	
+	/*
+	public function project( a : Vec2,b : Vec2,c : Vec2 ) : Vec2{
+		var ba = b.clone().decr( a );
+		var bc = b.clone().decr( c );
+		
+		var proj_k = projectConstant(a,b,c);
+		
+		return b.clone().incr(proj_k);
+	}
+	*/
+	
+	public function angle( a : Vec2,b : Vec2 ) : Float{
+		var d = Vec2.dot( a , b );
+		var cab = d / a.norm();
+		return Math.acos( cab );
+	}
+	
+	/**
+	 * 
+	 *   a
+	 *  /
+	 * /
+	 * o------b
+	 */
+	public function clampedProject( a : Vec2, b : Vec2, theta : Float) : Vec2{
+		var ca = Math.cos( theta ); 
+		if ( theta < Math.PI / 2)
+			return Vec2.ZERO.clone();
+		else {
+			var sc = a.length() * ca;
+			if ( sc > b.length() )
+				return b.clone();
+			else 
+				return b.clone().safeNormalize(Vec2.ZERO).mulScalar( sc );
+		}	
+	}
+	
+	public static function isInCone( va :Vec2, vb : Vec2, vo : Vec2) {
+		va = va.clone().normalize();
+		vb = vb.clone().normalize();
+		vo = vo.clone().normalize();
+		
+		var vao = Vec2.angle( va, vo );
+		var vab = Vec2.angle( va, vb );
+		
+		return vao <= vab && vao >= 0;
+	}
+	
+	public function getGlbCenter()
+	{
+		var c = new Vec2( 0, 0 );
+		for ( i in 0...rotEdges.length ) {
+			var v = getInEdgeRotGlb(i);
+			c.x += v.x;
+			c.y += v.y;
+		}
+		c.x /= rotEdges.length;
+		c.y /= rotEdges.length;
+		
+		return c;
+	}
+	
+	public function getInterestingEdge( inPoint : Vec2 ) : Int
+	{
+		var c = getGlbCenter();
+		
+		for ( i in 0...rotEdges.length) {
+			
+			var ei = getInEdgeRotGlb(i);
+			var eo = getOutEdgeRotGlb(i);
+			
+			var cin = c.clone().decr( ei );
+			var cout = c.clone().decr( eo );
+			
+			if ( isInCone( cin, cout, inPoint ))
+				return i;
+		}
+		
+		return -1;
+	}
+	
+	public function intersectAster( inPoint: Vec2 )
+	{
+		var ei = getInterestingEdge( inPoint );
+		var e = rotEdges[ei];
+		
+		var a = inPoint.clone().decr( e.inv );
+		var b = e.outv.clone().decr( e.inv );
+		
+		var theta = Vec2.angle( a.clone(), b.clone() );
+		var clamp = Vec2.clampedProject( a, b, theta );
+		
+		return clamp;
+	}
+	
 }
 
 

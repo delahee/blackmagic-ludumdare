@@ -33,6 +33,10 @@ class Vec2{
 		return Math.sqrt( norm2() );
 	}
 	
+	public inline function length() : Float{
+		return Math.sqrt( norm2() );
+	}
+	
 	public static inline function scale2(vOut : Vec2, xy: Vec2) : Vec2
 	{
 		vOut.x *= xy.x;
@@ -45,11 +49,16 @@ class Vec2{
 		return v0.x * v1.y - v0.y * v1.y;
 	}
 	
+	public static inline function dot(v0: Vec2, v1:Vec2) : Float
+	{
+		return v0.x * v1.x + v0.x * v1.y;
+	}
+	
 	//v0     v2
 	//    v1 
 	// 
-	public static inline function signedArea( v0, v1, v2 ) {
-		return cross( Vec2.sub( v0, v1 ), Vec2.sub( v2, v1 ));
+	public static inline function signedArea( v0 : Vec2, v1 : Vec2, v2 : Vec2) {
+		return (v1.x - v0.x) * (v2.y - v0.y) - (v2.x - v0.x) * (v1.y - v0.y);
 	}
 	
 	
@@ -60,6 +69,13 @@ class Vec2{
 	{
 		x -= V1.x;
 		y -= V1.y;
+		return this;
+	}
+	
+	public inline function mulScalar(k:Float) : Vec2
+	{
+		x *= k;
+		y *= k;
 		return this;
 	}
 	
@@ -88,11 +104,11 @@ class Vec2{
 	}
 	
 	
-	public inline function normalize( inOut : Vec2 ) : Vec2{
+	public inline function normalize() : Vec2{
 		var invLen = 1.0 / norm();
 		x *= invLen;
 		y *= invLen;
-		return inOut;
+		return this;
 	}
 	
 	public inline function safeNormalize( dflt : Vec2 ) : Vec2{
@@ -168,6 +184,36 @@ class Vec2{
 	
 	public static inline function lerp(v0:Vec2, v1:Vec2, r:Float) {
 		return new Vec2( v0.x * r + (1 - r) * v1.x, v0.y * r + (1 - r) * v1.y);
+	}
+	
+	public static function angle( a : Vec2, b : Vec2 ) : Float {
+		a.normalize();
+		b.normalize();
+		
+		var d = Vec2.dot( a , b );
+		var cab = d / a.norm();
+		return Math.acos( cab );
+	}
+	
+	/**
+	 * clamped project of b on a 
+	 * a and b are not normalized
+	 * @param	a
+	 * @param	b
+	 * @param	theta
+	 * @return
+	 */
+	public static function clampedProject( a : Vec2, b : Vec2, theta : Float) : Vec2{
+		var ca = Math.cos( theta ); 
+		if ( theta < Math.PI / 2)
+			return Vec2.ZERO.clone();
+		else {
+			var sc = a.length() * ca;//length along b
+			if ( sc > b.length() )
+				return b.clone();
+			else 
+				return b.clone().safeNormalize(Vec2.ZERO).mulScalar( sc );
+		}
 	}
 	
 	public static var ZERO 		: Vec2 = new Vec2(0, 0);

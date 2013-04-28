@@ -38,6 +38,7 @@ class Player implements haxe.Public{
 	}
 	
 	//find nearest nearest vertex then try to find a pos / edge factor
+	/*
 	public static function putOnAster( aster : Aster , inPos) : Null<{aster:Aster, edgeIdx:Int,edgeFactor:Float, outPos : Vec2, masterVtx:Vec2}>
 	{
 		var max : { idx : Null<Int>, dist: Float } = { idx:null, dist:2000.0*2000 };
@@ -69,46 +70,42 @@ class Player implements haxe.Public{
 		
 		
 		#if debug 
-		//pos.x = nv.x;
-		//pos.y = nv.y;
-		//return;
+		//res.x = nv.x;
+		//res.y = nv.y;
+		//return { aster:null, edgeFactor:0, edgeIdx: 0,outPos:res,masterVtx:res };
 		#end
 		
 		var pnv = aster.getVtxRotGlb(MathEx.posMod(max.idx-1, aster.rotVtx.length));
 		var nnv = aster.getVtxRotGlb(MathEx.posMod(max.idx+1, aster.rotVtx.length));
 		
-		//which one please ? 
-		var cv0 = Vec2.signedArea( inPos, nv , pnv); 
-		var cv1 = Vec2.signedArea( inPos, nv , nnv); 
+		var nv_pos 	= new Vec2( inPos.x - nv.x, inPos.y - nv.y );
+		var nv_p 	= new Vec2( pnv.x - nv.x, pnv.y - nv.y );
+		var nv_n 	= new Vec2( nnv.x - nv.x, nnv.y - nv.y );
+		
+		var nv_posN = nv_pos.clone().normalize();
+		var nv_pN = nv_p.clone().normalize();
+		var nv_nN = nv_n.clone().normalize();
+		
+		var sig_nv_n = Vec2.signedArea( inPos.clone().normalize(), nv.clone().normalize(), nnv.clone().normalize() );
+		var sig_nv_p = Vec2.signedArea( pnv.clone().normalize(), inPos.clone().normalize(), nv.clone().normalize()  );
 		
 		var e = null;
-		if ( cv0 < cv1 )	{ e = pnv; }
-		else 				{ e = nnv; }
+		var p = null;
 		
-		var nv_pos = new Vec2( inPos.x - nv.x, inPos.y - nv.y );
-		var nv_e = new Vec2( e.x - nv.x, e.y - nv.y );
+		var acn = Math.acos( sig_nv_n );
+		var acp = Math.acos( sig_nv_p );
 		
-		#if debug 
-		//pos.x = e.x;
-		//pos.y = e.y;
-		//return;
-		#end
-	
-		var proj_pos_k = ((nv_pos.x * nv_e.x ) + (nv_pos.y * nv_e.y)) / nv_e.norm2();
-		var proj_pos = nv_e.clone();
-		
-		proj_pos.x *= proj_pos_k;
-		proj_pos.y *= proj_pos_k;
-		
-		//myAster = aster;
-		//edgeFactor = proj_pos_k;
-		
-		res.x = proj_pos.x + nv.x;
-		res.y = proj_pos.y + nv.y;
-		
-		//fixme edge
-		return { aster:aster, edgeFactor:proj_pos_k, edgeIdx: 0,outPos:res,masterVtx:nv };
+		if ( acn < Math.PI   )
+		{
+			e = nv_n;
+			p = Vec2.clampedProject(
+		}
+		else {
+			e = nv_p;
+			p = Vec2.clampedProject(
+		}
 	}
+	*/
 	
 	public function getAsterPos() : Null<Vec2> {
 		if ( aster == null ) 		return null;

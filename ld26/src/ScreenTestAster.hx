@@ -9,6 +9,8 @@ class ScreenTestAster extends ScreenGame
 {
 	var lnr : Liner;
 	var player : Player;
+	
+	public var me : ScreenTestAster;
 	public function new() 
 	{
 		super();
@@ -16,6 +18,7 @@ class ScreenTestAster extends ScreenGame
 		lnr.compile();
 		
 		player =  new Player();
+		me = this;
 	}
 	
 	public function debugDraw()
@@ -62,8 +65,10 @@ class ScreenTestAster extends ScreenGame
 		l.addAster( new Aster() ).translate( 150,150);
 		l.addAster( new Aster() ).translate( 400, 400);
 		
-		for ( ast in l.asters)
+		for ( ast in l.asters){
 			ast.enableTouch();
+			ast.a = Dice.rollF( 0 , Math.PI);
+		}
 		
 		G.me.setLevel( l );
 		addChild( G.me );
@@ -85,20 +90,20 @@ class ScreenTestAster extends ScreenGame
 					
 					lnr.clear();
 						lnr.addPoint( loc.x, loc.y , 0xFF0000, 10.0);
-						player.pos.x = loc.x;
-						player.pos.y = loc.y;
-						var p =Player.putOnAster( G.me.l.asters[1],player.pos.clone() );
-						lnr.addPoint( p.outPos.x, p.outPos.y , 0x00FF00,10.0);
+						//player.pos.x = loc.x;
+						//player.pos.y = loc.y;
+						//var p =Player.putOnAster( G.me.l.asters[1],player.pos.clone() );
+						//lnr.addPoint( p.outPos.x, p.outPos.y , 0x00FF00,10.0);
 					lnr.compile();
 				}
 		}});
 	}
 	
 	var spin = 0;
-	var enableDDraw = true;
+	var enableDDraw = false;
 	public override function update() {
 		super.update();
-		for ( a in G.me.l.asters ) a.a = M.timer.curT * 0.1;
+		//for ( a in G.me.l.asters ) a.a = M.timer.curT * 0.1;
 		
 		if( enableDDraw && spin++%10 == 0 )
 			debugDraw();
