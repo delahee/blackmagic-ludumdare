@@ -65,6 +65,12 @@ class PersoSheet extends flash.display.BitmapData
 	
 }
 
+@:bitmap("../gfx/planche/propsspritesheet.png")
+class PropsSheet extends flash.display.BitmapData
+{
+	
+}
+
 
 @:file("../gfx/data.xml")
 class SheetXml extends flash.utils.ByteArray
@@ -101,6 +107,10 @@ class Data implements haxe.Public
 	var ld : haxe.xml.Fast;
 	var fxQueue : List<MovieClip>;
 	
+	public var texts :Hash<String>;
+	public var rdText : Array < String >;
+	
+	
 	public static var me : Data = null;
 	public function new(){
 		me = this;
@@ -120,7 +130,12 @@ class Data implements haxe.Public
 			return { name:name, sheet:ls=obj, store:new pix.Store( ls ), texSheet:Texture.fromBitmapData( ls, true, false, 1) };
 		}
 			
-		var lsheets = [loadSheet("perso",new PersoSheet(0, 0, false))];
+		var lsheets = 
+		[
+			loadSheet("perso", new PersoSheet(0, 0, false)),
+			loadSheet("propsspritesheet", new PropsSheet(0, 0, false))
+		];
+		
 		for ( s in lsheets ) {
 			sheets.set( s.name, s );
 		}
@@ -130,6 +145,7 @@ class Data implements haxe.Public
 				var sprId;
 				var file = ts.att.file;
 				var sheet = sheets.get(file);
+				if ( sheet == null ) continue;
 				var store = sheet.store;
 
 				store.addIndex(sprId = spr.att.id);
@@ -202,7 +218,29 @@ class Data implements haxe.Public
 			}
 		}
 	
-		
+		 
+		texts = {
+			var h = new Hash();
+			function s(lbl, txt) h.set( lbl, txt);
+			
+			var i = 0;
+			s('persoAlone_#0', 'Hi');
+			s('persoAlone_#1', 'Anybody outta ?');
+			s('persoAlone_#2', 'Darn, think I lost my party...');
+			
+			s('perso_jump_#0', 'woow that sensation, flying alone is good sometime');
+			s('perso_jump_#1', 'whooooooooooooooooo that one as awesome');
+			//s('persoAlone_jump_#2', 'urgh, there is a crasy thug eyeing me  ');
+			//s('persoAlone_#3', 'At least my grass mawing skills will pay off.');
+			
+			h;
+		};
+		rdText = [];
+		for( k in texts.keys()) {
+			var t = texts.get( k );
+			if( k.indexOf( "persoAlone_") >= 0)
+				rdText.push( k  );
+		}
 	}
 	
 	public function getFrame(sprite,state) : pix.Frame{

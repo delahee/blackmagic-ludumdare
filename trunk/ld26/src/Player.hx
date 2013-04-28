@@ -1,6 +1,7 @@
 import flash.Lib;
 import flash.Vector;
 import fx.Blink;
+import fx.Vanish;
 import mt.deepnight.Key;
 import starling.display.MovieClip;
 import starling.display.Sprite;
@@ -11,6 +12,7 @@ import volute.t.Vec2;
 import volute.MathEx;
 
 import volute.Types;
+import volute.Lib;
 enum PlayerState {
 	
 	SPACED; //player wanders through infinite
@@ -57,8 +59,7 @@ class Player implements haxe.Public{
 		
 		Data.me.fillMc(mc, Data.me.getFramesRectTex( 'perso', str));
 		
-		if ( str == 'idle')
-			trace(str);
+		//if ( str == 'idle') trace(str);
 	}
 	
 	public function setAsterAngle( ias, angle) {
@@ -202,9 +203,11 @@ class Player implements haxe.Public{
 	
 	public function tryKill()
 	{
-		if ( mc.x < -100)						kill();
-		else if ( mc.y < -100)					kill();
-		else if ( mc.y > volute.Lib.h()+  100)	kill();
+		if ( killed ) return;
+		
+		if ( pos.x < -100)						kill();
+		else if ( pos.y < -100)					kill();
+		else if ( pos.y > volute.Lib.h()+  100)	kill();
 	}
 	
 	//public function gameOver(){
@@ -248,4 +251,21 @@ class Player implements haxe.Public{
 		mc.x = pos.x;
 		mc.y = pos.y;
 	}
+	
+	public function say( lbl:String ) {
+		speach( mc.x + 40, mc.y - 100,lbl );
+	}
+	
+	public function speach( x, y,lbl:String,  col = 0xFFffFF ) {
+		var tf = M.getTf( Data.me.texts.get( lbl ),x,y,24,col );
+		/*mc.parent.*/mc.parent.addChild( tf ); 
+		volute.Lib.toFront( tf );
+		
+		var d = 1.0 + lbl.length * 0.1;
+		var v = new Vanish(tf, d);
+		v.sy = 1.0;
+	}
+	
+	
+	
 }
