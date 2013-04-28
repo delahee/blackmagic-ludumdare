@@ -1,16 +1,48 @@
-<tileDef check="ok_tileDef" file="perso" >
-	
-	<sprite id="perso">
+<tileDef check="ok_tileDef" file="test">
+	<sprite id="perso" >
 		<state id="run" rythm="2">
-			<slice coord="0,0,67,75,12" nb="12" ></slice>
+			<slice coord="0,0,67,75,12" nb="12" />
 		</state>
 		<state id="idle" rythm="2">
-			<slice coord="0,75,67,75,6" nb="6" ></slice>
+			<slice coord="0,75,67,75,6" nb="6" />
 		</state>
 		<state id="jump" rythm="2">
-			<slice coord="0,150,67,75,9" nb="9" ></slice>
+			<slice coord="0,150,81,75,1" nb="1" />
 		</state>
+		
 	</sprite>
+<sprite id="ben" >
+		<state id="idle" rythm="2">
+			<slice coord="0,225,67,75,12" nb="12" />
+		</state>
+		
+		
+	</sprite>
+	<sprite id="prince" >
+		<state id="idle" rythm="2">
+			<slice coord="0,300,67,75,5" nb="5" />
+		</state>
+		
+		
+	</sprite>
+	<sprite id="yoda" >
+		<state id="idle" rythm="2">
+			<slice coord="0,375,67,75,1" nb="1" />
+		</state>
+		
+		
+	</sprite>
+	<sprite id="elvis" >
+		<state id="idle" rythm="2">
+			<slice coord="0,448,67,75,1" nb="1" />
+		</state>
+		
+		
+	</sprite>
+	
+	
 	
 </tileDef>
 
+
+<tileDef check="ok_tileDef" file="test"> </tileDef>
