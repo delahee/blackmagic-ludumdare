@@ -1,9 +1,12 @@
 import flash.Lib;
 import flash.Vector;
+import fx.Blink;
 import mt.deepnight.Key;
 import starling.display.MovieClip;
 import starling.display.Sprite;
 import volute.Coll;
+import volute.Dice;
+import volute.fx.FX;
 import volute.t.Vec2;
 import volute.MathEx;
 
@@ -34,6 +37,8 @@ class Player implements haxe.Public{
 	var checkPoint : Aster;
 	var last : Aster;
 	var stateLife = 0.0;
+	var input = true;
+	var killed = false;
 	
 	public function new() {
 		mc = Data.me.getMovie( 'perso', movieState='idle' );
@@ -53,11 +58,22 @@ class Player implements haxe.Public{
 			trace(str);
 	}
 	
-	public function setAsterAngle( aster, angle) {
-		this.aster = aster;
-		setAngle( angle );
+	public function setAsterAngle( ias, angle) {
+		aster = ias;
+		
 		asterAngleSpeed = 0;
-		if( aster != null ) last = aster;
+		
+		if ( aster != null ) {
+			onLand();
+			if ( killed ) return;
+			
+			setAngle( angle );
+		}
+		
+		if ( aster != null 
+		&& ( aster.script == null || aster.script.isCheckpoint())
+		&&	!aster.isFire )
+			checkPoint = aster;
 	}
 	
 	public function setAngle(angle){
@@ -73,8 +89,6 @@ class Player implements haxe.Public{
 		mc.rotation = MathEx.normAngle(angle + Math.PI * 0.5);
 		asterAngle = angle;
 		
-		if ( aster!=null&& aster.script!=null &&aster.script.isCheckpoint())
-			checkPoint = aster;
 	}
 	
 	public function updateKey(df:Float){
@@ -142,7 +156,6 @@ class Player implements haxe.Public{
 			
 			if ( asres != null) {
 				var a = Math.atan2( pos.y - asres.y, pos.x - asres.x);
-				onLand( asn );
 				setAsterAngle( asn, a);
 			}
 			else{
@@ -163,11 +176,12 @@ class Player implements haxe.Public{
 		stateLife = 0;
 	}
 	
-	public function onLand(as:Aster) {
-		//mc.pivotX = mc.width * 0.5;
-		//mc.pivotY = mc.height;
-		if ( as.isFire ) {
+	public function onLand() {
+		if ( aster.isFire ) {
 			kill();
+		}
+		else {
+			last = aster;
 		}
 	}
 	
@@ -182,18 +196,33 @@ class Player implements haxe.Public{
 		else if ( mc.y > volute.Lib.h()+  100)	kill();
 	}
 	
+	//public function gameOver(){
+		//trace('gameOver');
+	//}
 	
 	public function kill() {
-		if( checkPoint!=null)
-			setAsterAngle( checkPoint, Math.PI * 0.5);
+		input = false;
+		
+		function oe() 
+			{
+				killed = false;
+				input = true;
+				setAsterAngle( checkPoint, Dice.rollF( - Math.PI * 0.5, Math.PI ) );
+			}
+				
+		var fx : FX = new fx.Blink(mc);
+		fx.onKill =  oe;
+		killed = true;
 	}
 	
 	public function update() {
 		
+		if ( killed ) return;
 		var df = M.timer.df;
-		
 		stateLife += df;
-		updateKey(df);
+		
+		if( input )
+			updateKey(df);
 		
 		if (isFlying()){
 			pos.x += vel.x * df;
