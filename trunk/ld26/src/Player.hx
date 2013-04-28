@@ -93,7 +93,7 @@ class Player implements haxe.Public{
 				mc.scaleX = 1;	
 				if ( movieState != 'run' ) setMovieState( 'run' );
 			}
-			else if ( Key.isToggled( K.UP )) {
+			else if ( Key.isDown( K.UP )) {
 				
 				if ( movieState != 'jump' )
 					setMovieState( 'jump' );
@@ -132,7 +132,7 @@ class Player implements haxe.Public{
 				if ( 	Coll.testCircleCircle( pos.x, pos.y, 50, as.x, as.y, as.sz * 0.5 ) 
 				&&		last != as) 
 				{
-					trace("hit");	
+					//trace("hit");	
 					asres = as;
 					return true;
 				}
@@ -144,7 +144,9 @@ class Player implements haxe.Public{
 			var asn : Aster = cast asres;
 			
 			if ( asres != null) {
-				
+				var a = Math.atan2( pos.y - asres.y, pos.x - asres.x);
+				onLand();
+				setAsterAngle( asn, a);
 			}
 			else{
 				//var expectPlanet = 
@@ -164,8 +166,8 @@ class Player implements haxe.Public{
 	}
 	
 	public function onLand() {
-		mc.pivotX = mc.width * 0.5;
-		mc.pivotY = mc.height;
+		//mc.pivotX = mc.width * 0.5;
+		//mc.pivotY = mc.height;
 	}
 	
 	public function isFlying(){
