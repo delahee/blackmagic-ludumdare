@@ -9,7 +9,6 @@ class L extends starling.display.Sprite
 	public function new() {
 		super();
 		asters = [];
-		touchable = true;
 		me = this;
 		grid = new Grid();
 	}

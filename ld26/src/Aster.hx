@@ -60,6 +60,16 @@ class Aster extends Entity, implements Public {
 			cineMc.x = x + c.ofsSprite.x;
 			cineMc.y = y - img.height + c.ofsSprite.y;
 			img.parent.addChild( cineMc );
+			
+			switch(c.type ) {default:
+			case ELVIS:
+				var np = x + 930;
+				var ng =  starling.display.Image.fromBitmap( new Bitmap( Data.me.manor) );
+				ng.pivotX = ng.width;
+				ng.x = np;
+				
+				img.parent.addChild( ng );
+			}
 		}
 		
 		return cine = c;
@@ -83,33 +93,6 @@ class Aster extends Entity, implements Public {
 		bmp = null;
 	}
 	
-	public function enableTouch()
-	{
-		img.touchable = true;
-		img.addEventListener( TouchEvent.TOUCH , function (e:TouchEvent)
-		{
-			var touch: Touch = e.touches[0];
-			if(touch!=null){
-				if(touch.phase == TouchPhase.BEGAN)
-				{
-				}
- 
-				else if(touch.phase == TouchPhase.ENDED)
-				{
-					var loc = touch.getLocation(img);
-					//trace("mup on " + loc );
-				}
- 
-				else if(touch.phase == TouchPhase.MOVED)
-				{
-				}
-			}
-			
-		}); 
-		
-	}
-			
-		
 	public function compile() {
 		shp = new Shape();
 		var g = shp.graphics;

@@ -1,65 +1,63 @@
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.Shape;
+import flash.display.Sprite;
 import flash.Lib;
+import flash.text.TextFieldAutoSize;
+import flash.text.TextField;
+import flash.text.TextFormat;
 import gfx.Intro;
 import mt.deepnight.Key;
-import mt.fx.Flash;
 import starling.core.Starling;
-import starling.display.Image;
-import starling.display.Sprite;
-import starling.text.TextField;
-import starling.display.DisplayObject;
+//import starling.display.Image;
+//import starling.display.Sprite;
+//import starling.text.TextField;
+//import starling.display.DisplayObject;
 			
-class ScreenTitle extends Screen{
+class ScreenOutro extends Screen{
 	
-	public var info : starling.text.TextField;
-	var intro : gfx.Intro;
-	var spaced = false;
-	var exiting = false;
+	public var outro : flash.display.Sprite;
+	public var shp : Shape;
+	public var txt : flash.text.TextField;
+	
 	public function new(){
 		super();
-		intro = new gfx.Intro();
-		loadBg = false;
+		outro = new Sprite();
+		shp = new Shape();
+		txt = new TextField();
+		txt.width = 600;
+		var fmt = new TextFormat('semibold', 20,0xFFffFF);
+		txt.setTextFormat( txt.defaultTextFormat = fmt );
+		txt.x = 300;
+		txt.y = 300;
+		txt.multiline = true;
+		txt.wordWrap = true;
+		txt.text = "Swimming Fool created by @cardduus(gfx), @gandhirules(design&snd), @blackmagic_mt(code) & @HallouinMathieu(music). Additionnal Music Tütenmuschi by Gourmet.";
 	}
 		
 	public override function init() {
 		super.init();
-		intro.x += intro.width * 0.5 - 25;
-		intro.y += 360;
-		M.core.nativeOverlay.addChild( intro );
+		
+		outro.addChild( txt );
+		outro.addChild( shp );
+		
+		var g = outro.graphics;
+		g.beginFill( 0xFF0000);
+		g.drawCircle( 0, 0, 50);
+		g.endFill();
+
+		M.core.nativeOverlay.addChild( txt );
 	}
 	
 	public override function kill() {
 		var b =  super.kill();
-		if ( intro != null) {
-			M.core.nativeOverlay.removeChild( intro );
-			intro = null;
-		}
+		M.core.nativeOverlay.removeChild( outro );
 		return b;
 	}
 	
 	public override function update()
 	{
-		if ( exiting ) return;
-		super.update();
-		if ( intro.currentFrameLabel == "pressSpace" && Key.isToggled( flash.ui.Keyboard.SPACE) && !exiting&&!spaced) {
-			intro.play(); 
-			spaced = true;
-		}
-		else
-			if ( !exiting && intro.currentFrame == intro.totalFrames) {
-				var shp = new Shape();
-				var g = shp.graphics;
-				g.beginFill( 0xFFFFFF);
-				g.drawRect( 0,0, volute.Lib.w(),volute.Lib.h());
-				g.endFill();
-				M.me.transition = Image.fromBitmap( mt.deepnight.Lib.flatten( shp, "transition"));
-				mt.deepnight.Lib.disposeFlattened("transition");
-				M.me.addChild( M.me.transition );
-				M.me.setScreen( M.me.scursor + 1 );
-				exiting = true;
-			}
+		
 	}
 }
 
