@@ -74,12 +74,13 @@ class ScreenTestAster extends ScreenGame
 		addChild( G.me );
 		addChild( lnr.img );
 		
-		enableTouch();
+		//enableTouch();
 		
 	}
 	
+	/*
 	public function enableTouch() {
-		addEventListener( TouchEvent.TOUCH , function mup(e:TouchEvent)
+		addEventListener( TouchEvent.TOUCH , function (e:TouchEvent)
 		{
 			var touch: Touch = e.touches[0];
 			if(touch!=null){
@@ -98,6 +99,7 @@ class ScreenTestAster extends ScreenGame
 				}
 		}});
 	}
+	*/
 	
 	var spin = 0;
 	var enableDDraw = false;
