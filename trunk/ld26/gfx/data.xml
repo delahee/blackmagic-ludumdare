@@ -11,8 +11,8 @@
 		<state id="jump" rythm="2">
 			<slice coord="0,150,67,75,9" nb="9" />
 		</state>
-		<state id="crunched" rythm="4">
-			<slice coord="0,601,67,75,4" nb="4" />
+		<state id="crunched" rythm="1">
+			<slice coord="0,601,67,75,1" nb="1" />
 		</state>
 		<state id="getup" rythm="1">
 			<slice coord="0,601,67,75,14" nb="14" />
