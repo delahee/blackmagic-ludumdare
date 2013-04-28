@@ -54,12 +54,13 @@ class M extends starling.display.Sprite {
 		mt.deepnight.Key.init();
 		view = new View();
 		data = new Data();
-		fxMan = new FXManager();
+		fxMan = FXManager.self;
 		
 		screens = [ new ScreenTitle(),  new ScreenLevel()
-		/*, new ScreenTestPerso(), /*,new ScreenTestLevel()*/, new ScreenTestAster()
-		/*, new ScreenTestPerso()*/,
-		new ScreenLevel()];
+		/*, new ScreenTestPerso(), /*,new ScreenTestLevel()*/, new ScreenTestAster(),
+		/*, new ScreenTestPerso()*/
+		new ScreenLevel(),
+		];
 		setScreen(screens.length-1);
 		addEventListener( starling.events.Event.ADDED_TO_STAGE, init);
 		
@@ -113,6 +114,7 @@ class M extends starling.display.Sprite {
 			fps.text = Std.string(MathEx.trunk( 1.0 / timer.dt, 1));
 			
 		data.update();
+		fxMan.update();
 	}
 	
 	function setScreen(n:Int){

@@ -121,7 +121,7 @@ class Player implements haxe.Public{
 			//else if ( Key.isDown( K.RIGHT )) a = ac * df;			
 			//asterAngleSpeed
 			
-			var ask = 0.05;
+			var ask = 0.004;
 			if ( Key.isDown( K.LEFT )) {
 				asterAngleSpeed -= ask;
 				if ( asterAngleSpeed < -ask) asterAngleSpeed = -ask;
@@ -137,7 +137,15 @@ class Player implements haxe.Public{
 			var ca = Math.cos( asterAngle );
 			var sa = Math.sin( asterAngle );
 			var k = 10.0;
+			
 			vel.set( ca * k, sa * k);
+			
+			vel.y += 0.3333;
+			
+			asterAngle = Math.atan2( vel.y, vel.x );
+			
+			var down = new Vec2(0, 1);
+			var k = 3; down.mulScalar( k );
 			
 			mc.rotation = MathEx.normAngle(asterAngle + Math.PI / 2);
 			
@@ -194,8 +202,8 @@ class Player implements haxe.Public{
 	
 	public function tryKill()
 	{
-		if ( mc.x < 100)						kill();
-		else if ( mc.y < 100)					kill();
+		if ( mc.x < -100)						kill();
+		else if ( mc.y < -100)					kill();
 		else if ( mc.y > volute.Lib.h()+  100)	kill();
 	}
 	
@@ -234,6 +242,8 @@ class Player implements haxe.Public{
 			if ( stateLife > 10)
 				last = null;
 		}
+		
+		tryKill();
 		
 		mc.x = pos.x;
 		mc.y = pos.y;
