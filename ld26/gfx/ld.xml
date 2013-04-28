@@ -1,4 +1,4 @@
-<ld>
+"<ld>
 	<aster 
 		colorId="0x"
 	/>	
@@ -6,22 +6,32 @@
 	<aster 
 		colorId="0x5dff5d"
 		size="50"
+		rotSpeed="15"
 	/>
 <!-- Generique : Planete de feu -->
-	<aster 
+	<aster
 		colorId="0xff0000"
 		size="100"
+		rotSpeed="10"
 		fire="true"
 	/>
 <!-- Generique : Checkpoint -->
 	<aster 
+		rotSpeed="20"
 		colorId="0xff0000"
 		size="50"
 	/>
 -----------
-<!-- P12 -->
+<!-- Moving asteroids -->
 
-
+<aster 
+	colorId="0x18a9b3"
+	size="75"
+	speed="10"
+	tgt="70,19"
+	life="300"
+	respawn="true"
+/>
 <aster 
 	colorId="0x759ff37"
 	size="75"
@@ -30,7 +40,6 @@
 	life="300"
 	respawn="true"
 />
-
 <aster 
 	colorId="0x043c04"
 	size="100"
@@ -81,251 +90,145 @@
 	colorId="0x7e7bfd"
 	size="60"
 	speed="10"
-	tgt="168,15"
+	tgt="181,17"
 	life="300"
 	respawn="true"
 />
 
+<aster 
+	colorId="0xfdf27b"
+	size="60"
+	speed="10"
+	tgt="181,17"
+	life="300"
+	respawn="true"
+/>
 
-<!-- Generique : Checkpoint -->
-<!--	
-	
-	<aster 
-		colorId="0x00a900"
-		size="80"
-		speed="10"
-		tgt="52,20"
-		life="100"
-		respawn="true"
-	/>
-	
-	<aster 
-		colorId="0x19aa19"
-		size="60"
-		speed="10"
-		tgt="60,17"
-		life="100"
-		respawn="true"
-	/>
-	<aster 
-		colorId="0x2a912a"
-		size="60"
-		respawn="false"
-	/>
-	<aster 
-		colorId="0x2a6b2a"
-		size="100"
-	/>
-	<aster 
-		colorId="0x12ff12"
-		size="60"
-		speed="10"
-		tgt="70,13"
-		life="100"
-		respawn="true"
-	/>
-		
-	<aster 
-		colorId="0x254f25"
-		size="60"
-		speed="10"
-		tgt="80,17"
-		life="100"
-		respawn="true"
-	/>
-	<aster 
-		colorId="0x114711"
-		size="111"
-	/>
-	<aster
-		colorId="0x043c04"
-		size="60"
-		speed="10"
-		tgt="85,24"
-		respawn="true"
-	/>
-	<aster 
-		colorId="0x264f25"
-		size="60"
-		speed="10"
-		tgt="70,13"
-		life="100"
-		respawn="true"
-	/>
-	<aster
-		colorId="0x143014"
-		size="60"
-		speed="10"
-		tgt="93,22"
-		life="100"
-		respawn="true"
-	/>
-	<aster
-		colorId="0x021a02"
-		size="120"
-	/>
-	<aster
-		colorId="0x101e10"
-		size="100"
-		speed="10"
-	/>
-	
-	
-		<aster
-		colorId="0x00e4ff"
-		size="60"
-		speed="10"
-		tgt="93,22"
-		life="100"
-		respawn="true"
-		/>
-		<aster
-		colorId="0x00bbd1"
-		size="60"
-		speed="10"
-		tgt="93,22"
-		life="100"
-		respawn="true"
-		/>
-		<aster
-		colorId="0x0098aa"
-		size="60"
-		speed="10"
-		tgt="93,22"
-		life="100"
-		respawn="true"
-		/>
-		<aster
-		colorId="0x006a76"
-		size="60"
-		speed="10"
-		tgt="93,22"
-		life="100"
-		respawn="true"
-		/>	
-		
-		<aster
-		colorId="0x0600ff"
-		size="60"
-		speed="10"
-		tgt="93,22"
-		life="100"
-		respawn="true"
-		/>
-		<aster
-		colorId="0x2623a5"
-		size="60"
-		speed="10"
-		tgt="93,22"
-		life="100"
-		respawn="true"
-		/>
-		<aster
-		colorId="0x2d2b83"
-		size="60"
-		speed="10"
-		tgt="93,22"
-		life="100"
-		respawn="true"
-		/>
-		<aster
-		colorId="0x171652"
-		size="60"
-		speed="10"
-		tgt="93,22"
-		life="100"
-		respawn="true"
-		/>
-		
-		<aster
-		colorId="0x00fb41"
-		size="60"
-		speed="10"
-		tgt="93,22"
-		life="100"
-		respawn="true"
-		/>
-		<aster
-		colorId="0x00dd39"
-		size="60"
-		speed="10"
-		tgt="93,22"
-		life="100"
-		respawn="true"
-		/>
-		<aster
-		colorId="0x04bd34"
-		size="60"
-		speed="10"
-		tgt="93,22"
-		life="100"
-		respawn="true"
-		/>
-		<aster
-		colorId="0x009627"
-		size="60"
-		speed="10"
-		tgt="93,22"
-		life="100"
-		respawn="true"
-		/>
-		<aster
-		colorId="0x006119"
-		size="60"
-		speed="10"
-		tgt="93,22"
-		life="100"
-		respawn="true"
-		/>
-		<aster
-		colorId="0x093815"
-		size="60"
-		speed="10"
-		tgt="93,22"
-		life="100"
-		respawn="true"
-		/>
-		<aster
-		colorId="0x345a2c"
-		size="60"
-		speed="10"
-		tgt="93,22"
-		life="100"
-		respawn="true"
-		/>
-		<aster
-		colorId="0x2b5c21"
-		size="60"
-		speed="10"
-		tgt="93,22"
-		life="100"
-		respawn="true"
-		/>
-		<aster
-		colorId="0x093815"
-		size="60"
-		speed="10"
-		tgt="93,22"
-		life="100"
-		respawn="true"
-		/>
-		<aster
-		colorId="0x093815"
-		size=("60"
-		speed="10"
-		tgt="93,22"
-		respawn="true"
-		life="100"
-		/>
-		01240a
-		
-	
-		colorId=pixel
-		fire = true meteore enflammé
-		speed=pixel jeu / frame
-		tgt=pixel jeu / frame
-		life frames ( / frame  )
-		respawn true
-		rotSpeed ( radian / frame )
-	-->
+<aster 
+	colorId="0x093815"
+	size="100"
+	speed="10"
+	tgt="194,19"
+	life="300"
+	respawn="true"
+/>
+
+<aster 
+	colorId="0x345a2c"
+	size="100"
+	speed="10"
+	tgt="199,15"
+	life="300"
+	respawn="true"
+/>
+
+<aster 
+	colorId="0xfd3f9d"
+	size="100"
+	speed="10"
+	tgt="212,19"
+	life="300"
+	respawn="true"
+/>
+
+<aster 
+	colorId="0xdc438f"
+	size="100"
+	speed="10"
+	tgt="218,16"
+	life="300"
+	respawn="true"
+/>
+
+<aster 
+	colorId="0xdc438f"
+	size="100"
+	speed="10"
+	tgt="218,16"
+	life="300"
+	respawn="true"
+/>
+
+<aster 
+	colorId="0xa6517b"
+	size="100"
+	speed="10"
+	tgt="227,13"
+	life="300"
+	respawn="true"
+/>
+<aster 
+	colorId="0x903361"
+	size="100"
+	speed="10"
+	tgt="227,13"
+	life="300"
+	delay = "400"
+	respawn="true"
+/>
+<!-- Care delays for ld -->
+<aster 
+	colorId="0x4a0c2a"
+	size="100"
+	speed="10"
+	tgt="253,14"
+	life="800"
+	delay = "100"
+	respawn="true"
+/>
+<aster 
+	colorId="0x4a0526"
+	size="100"
+	speed="10"
+	tgt="260,24"
+	life="800"
+	delay = "100"
+	respawn="true"
+/>
+<aster 
+	colorId="0x880544"
+	size="100"
+	speed="10"
+	tgt="273,31"
+	life="800"
+	delay = "100"
+	respawn="true"
+/>
+<aster 
+	colorId="0x1b0588"
+	size="100"
+	speed="10"
+	tgt="279,9"
+	life="800"
+	delay = "100"
+	respawn="true"
+/>
+<aster 
+	colorId="0x0a0588"
+	size="100"
+	speed="10"
+	tgt="279,9"
+	life="800"
+	delay = "100"
+	respawn="true"
+/>
+<aster 
+	colorId="0x2312780"
+	size="100"
+	speed="10"
+	tgt="292,20"
+	life="800"
+	delay = "100"
+	respawn="true"
+/>
+<!--
+	colorId=pixel
+	fire = true meteore enflammé
+	speed=pixel jeu / frame
+	tgt=pixel jeu / frame
+	life frames ( / frame  )
+	respawn true
+	rotSpeed ( radian / frame )
+	delay
+-->
 </ld>
