@@ -9,12 +9,11 @@ class Grid
 		rep = new IntHash();
 	}
 	
-	public function iterRange( posx,posy, rpix : Int, proc : Entity->Bool) {
+	public function iterRange( posx:Int,posy:Int, rpix : Int, proc : Entity->Bool) {
 		var n = rpix >> 5;
-		var posnx = posx >> 5;
-		var posny = posx >> 5;
+		var posnx :Int= posx >> 5;
+		var posny :Int= posy >> 5;
 		var hn = (n >> 1) + 1;
-		
 		
 		for( y in posny-hn...posny+hn )
 			for ( x in posnx-hn...posnx+hn )

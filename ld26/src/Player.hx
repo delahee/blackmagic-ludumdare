@@ -33,6 +33,7 @@ class Player implements haxe.Public{
 	
 	var checkPoint : Aster;
 	var last : Aster;
+	var stateLife = 0.0;
 	
 	public function new() {
 		mc = Data.me.getMovie( 'perso', movieState='idle' );
@@ -125,7 +126,7 @@ class Player implements haxe.Public{
 			
 			var asres :Entity= null;
 			function testLand( as : Entity){
-				if ( 	Coll.testCircleCircle( pos.x + ca * 35, pos.y + sa * 35, 50, as.x, as.y, as.sz ) 
+				if ( 	Coll.testCircleCircle( pos.x + ca * 35, pos.y + sa * 35, 20, as.x, as.y, as.sz ) 
 				&&		last != as) 
 				{
 					//trace("hit");	
@@ -159,6 +160,7 @@ class Player implements haxe.Public{
 		aster = null;
 		//mc.pivotX = mc.width * 0.5;
 		//mc.pivotY = mc.height * 0.5;
+		stateLife = 0;
 	}
 	
 	public function onLand(as:Aster) {
@@ -190,16 +192,18 @@ class Player implements haxe.Public{
 		
 		var df = M.timer.df;
 		
+		stateLife += df;
 		updateKey(df);
 		
 		if (isFlying()){
 			pos.x += vel.x * df;
 			pos.y += vel.y * df;
+			
+			if ( stateLife > 10)
+				last = null;
 		}
 		
 		mc.x = pos.x;
 		mc.y = pos.y;
-		
-		
 	}
 }

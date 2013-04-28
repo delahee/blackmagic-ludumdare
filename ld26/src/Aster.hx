@@ -112,7 +112,7 @@ class Aster extends Entity, implements Public {
 		return this;
 	}
 	
-	public function setPosXY(x,y) {
+	private function setPosXY(x,y) {
 		if (grid != null && key != null) grid.remove( this );
 		
 		img.x = x;
