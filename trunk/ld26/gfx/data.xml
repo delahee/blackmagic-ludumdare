@@ -17,6 +17,10 @@
 		<state id="getup" rythm="1">
 			<slice coord="0,601,67,75,14" nb="14" />
 		</state>
+		<state id="blown" rythm="3">
+			<slice coord="0,675,100,100,7" nb="7" />
+		</state>
+		
 	</sprite>
 	
 	<sprite id="ben" >
