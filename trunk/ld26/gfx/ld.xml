@@ -1,7 +1,23 @@
-"<ld>
+<ld>
 	<aster 
 		colorId="0x"
-	/>	
+	/>
+	
+<!-- Generique : debut jeu -->
+<aster 
+	colorId="0xdedede"
+	size="80"
+	rotSpeed="15"
+	spawn="true"
+/>
+<!-- Generique : fin jeu -->
+<aster 
+	colorId="0x929292"
+	size="80"
+	rotSpeed="15"
+	end="true"
+/>
+	
 <!-- Generique : asteroide moyen -->
 	<aster 
 		colorId="0x5dff5d"
@@ -20,8 +36,9 @@
 		rotSpeed="20"
 		colorId="0xff0000"
 		size="50"
+		checkpoint="true"
 	/>
------------
+
 <!-- Moving asteroids -->
 
 <aster 
