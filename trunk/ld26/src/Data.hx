@@ -122,6 +122,11 @@ class LDXml extends flash.utils.ByteArray
 class BGM extends Sound { }
 class INTRO extends Sound { }
 
+@:bitmap("../gfx/planche/manoir.png")
+class Manor extends flash.display.BitmapData {
+	
+}
+
 enum SpriteType {
 	PRINCE;
 	YODA;
@@ -146,6 +151,7 @@ class Data implements haxe.Public
 	public var rdText : Array < String >;
 	
 	public var cines : Hash<Cine>;
+	public var manor : BitmapData;
 	
 	public static var me : Data = null;
 	public function new(){
@@ -157,6 +163,8 @@ class Data implements haxe.Public
 		sprites = new Hash();
 		sheets = new Hash();
 		fxQueue = new List();
+		
+		manor = new Manor(0,0,false);
 		level = new BmpLevel(0, 0, false);
 		
 		var ls : BitmapData = null;
@@ -288,19 +296,19 @@ class Data implements haxe.Public
 			type:BEN,
 			script: {
 				var l = new List();
-					l.add( { line:"Hi, what r u duin here", side:SPlayer } );
-					l.add( { line:"coding a game, havin a bowl...", side:SOther } );
-					l.add( { line:"kinda fell of my spaceship, can u hint a  way to nearest spaceport ?", side:SPlayer } );
-					l.add( { line:"oh and what were you doing there ?", side:SOther } );
-					l.add( { line:"...was ahem... on a sexual crusade aiming at mars there were grea...", side:SPlayer } );
-					l.add( { line:"Anyway i have a gameplay for that, sexual cruise that is, it's simple, you can take two token, pretend they are fighting each other", side:SOther } );
-					l.add( { line:"bla bla", side:SOther } );
-					l.add( { line:"*the guy talks lightning fast about rules of  games involving strange fruits and animals*", side:SOther } );
-					l.add( { line:"...anyway when the fruit reaches, the cat you have on the head...", side:SOther } );
-					l.add( { line:"and you obviously feel entertained...", side:SOther } );
-					l.add( { line:"*this guy is crazy* ok ahem, got to go, i have needs...", side:SPlayer } );
-					l.add( { line:"ok bye ! ", side:SOther } );
-					l.add( { line:"*that was a colorful character...*", side:SPlayer } );
+					l.add( { line:"Hi, what are u duin here", side:SPlayer } );
+					l.add( { line:"Coding a game, havin a bowl...", side:SOther } );
+					l.add( { line:"Kinda fell of my spaceship, can u hint a way to nearest spaceport ?", side:SPlayer } );
+					l.add( { line:"Oh and what were you doing there ?", side:SOther } );
+					l.add( { line:"...was ahem... on a sexual crusade aiming at mars there were greaa...", side:SPlayer } );
+					l.add( { line:"Anyway I have a gameplay for that, sexual cruise that is, it's simple, you can take two token, pretend they are fighting each other", side:SOther } );
+					l.add( { line:"blah blah blah", side:SOther } );
+					l.add( { line:"*the guy talks lightning fast about rules of games involving strange fruits and animals*", side:SOther } );
+					l.add( { line:"...Anyway when the fruit reaches, the cat you have on the head...", side:SOther } );
+					l.add( { line:"And you obviously feel entertained becauuus...", side:SOther } );
+					l.add( { line:"*This guy is crazy* ok ahem, got to go, I have needs...", side:SPlayer } );
+					l.add( { line:"Ok bye ! ", side:SOther } );
+					l.add( { line:"*That was a colorful character...*", side:SPlayer } );
 				l;
 			},
 			proc:function() {},
@@ -314,22 +322,22 @@ class Data implements haxe.Public
 			script: {
 				var l = new List();
 					l.add( { line:"Hi...its cold out there", side:SPlayer } );
-					l.add( { line:"coldness...i myself find coldness peaceful", side:SOther } );
-					l.add( { line:"kinda refreshing yes...", side:SPlayer } );
-					l.add( { line:"we are expecting company, would you join us ?", side:SOther } );
-					l.add( { line:"dunno if ihave time, a ship might leave soon", side:SPlayer } );
-					l.add( { line:"what do you miss so deeply from those congested cans ?", side:SOther } );
-					l.add( { line:"one or three things maybe...", side:SPlayer } );
-					l.add( { line:"that is ?", side:SOther } );
-					l.add( { line:"my HK p.m.v. first, useful when i am afraid...", side:SPlayer } );
-					l.add( { line:"my 3chanophone, i am always looking for new stuff", side:SPlayer } );
-					l.add( { line:"and did you find yourself", side:SOther } );
+					l.add( { line:"Coldness...I myself find coldness peaceful", side:SOther } );
+					l.add( { line:"Kinda refreshing yes...", side:SPlayer } );
+					l.add( { line:"We are expecting company, would you join us ?", side:SOther } );
+					l.add( { line:"Dunno if I have time, a ship might leave soon", side:SPlayer } );
+					l.add( { line:"What do you miss so deeply from those congested cans ?", side:SOther } );
+					l.add( { line:"One or three things maybe...", side:SPlayer } );
+					l.add( { line:"That is ?", side:SOther } );
+					l.add( { line:"My HK p.m.v. first, useful when I am afraid...", side:SPlayer } );
+					l.add( { line:"My 3chanophone, I am always looking for new stuff", side:SPlayer } );
+					l.add( { line:"And did you find yourself", side:SOther } );
 					l.add( { line:"*^_^' w.h.o.s. t.h.a.t. b.o.y....*", side:SPlayer } );
 					l.add( { line:"*and my cat...the cat is for girl traps...", side:SPlayer } );
-					l.add( { line:"you look desperately in need of others...", side:SOther } );
-					l.add( { line:"as long as they are not too freaky...", side:SPlayer } );
-					l.add( { line:"and who are you freak to ?", side:SOther } );
-					l.add( { line:"no no no ahem...dropt it, you are too young to understand", side:SPlayer } );
+					l.add( { line:"You look desperately in need of others...", side:SOther } );
+					l.add( { line:"As long as they are not too freaky...", side:SPlayer } );
+					l.add( { line:"And who are you freak to ?", side:SOther } );
+					l.add( { line:"No no no ahem...dropt it, you are too young to understand", side:SPlayer } );
 				l;
 			},
 			proc:function() {},
@@ -347,14 +355,14 @@ class Data implements haxe.Public
 					l.add( { line:"*:-)*", side:SPlayer } );
 					l.add( { line:"*:-P*", side:SOther } );
 					l.add( { line:"*:-/*", side:SPlayer } );
-					l.add( { line:"unrestful you are", side:SOther } );
-					l.add( { line:"me good man, you what tongue ?", side:SOther } );
-					l.add( { line:"thong ? swift you have to be if leave be, your mind is shrouded", side:SOther } );
-					l.add( { line:"me from earth, me was on big iron boat", side:SOther } );
-					l.add( { line:"strenght in you i feel, unrest clouds minds, unfocus birth haste, haste breed crasyness", side:SOther } );
-					l.add( { line:"big man want leave LEAVE LEAVE, need my home, need my chicks, need...", side:SPlayer } );
-					l.add( { line:"happiness no need has ? so many things but less should seek, less is MORE", side:SOther } );
-					l.add( { line:"for moron you mean... no need for less, when can have plenty, ciao stupido !", side:SPlayer} );
+					l.add( { line:"Unrestful you are", side:SOther } );
+					l.add( { line:"Me good man, you what tongue ?", side:SOther } );
+					l.add( { line:"Thong ? swift you have to be if leave be, your mind is shrouded", side:SOther } );
+					l.add( { line:"Me from earth, me was on big iron boat", side:SOther } );
+					l.add( { line:"Strenght in you i feel, unrest clouds minds, unfocus birth haste, haste breed crasyness", side:SOther } );
+					l.add( { line:"Big man want leave LEAVE LEAVE, need my home, need my chicks, need...", side:SPlayer } );
+					l.add( { line:"Happiness no need has ? so many things but less should seek, less is MORE", side:SOther } );
+					l.add( { line:"For moron you mean... no need for less, when can have plenty, ciao stupido !", side:SPlayer} );
 				l;
 			},
 			proc:function() {},
@@ -367,17 +375,17 @@ class Data implements haxe.Public
 			type: DEEPNIGHT,
 			script: {
 				var l = new List();
-					l.add( { line:"hi there, you look a normal guy... at last", side:SPlayer } );
-					l.add( { line:"*busy*", side:SOther } );
-					l.add( { line:"do you know by chance...", side:SPlayer } );
-					l.add( { line:"don't have time, plenty things to do.", side:SOther } );
-					l.add( { line:"but, ahem, if you happend to", side:SPlayer } );
-					l.add( { line:"talk to my leg, if need be,got a world to run", side:SOther } ); 
+					l.add( { line:"Hi there, you look a normal guy... at last", side:SPlayer } );
+					l.add( { line:"*Busy*", side:SOther } );
+					l.add( { line:"Do you know by chance...", side:SPlayer } );
+					l.add( { line:"Don't have time, plenty things to do.", side:SOther } );
+					l.add( { line:"But, ahem, if you happend to", side:SPlayer } );
+					l.add( { line:"Talk to my leg, if need be,got a world to run", side:SOther } ); 
 					l.add( { line:"...ok this one is weird...", side:SPlayer } );
-					l.add( { line:"ciao, mind the door please, and please make less noise when leaving.", side:SOther } );
+					l.add( { line:"Ciao, mind the door please, and please make less noise when leaving.", side:SOther } );
 					l.add( { line:"...but i", side:SPlayer } );
-					l.add( { line:"hey i recognize you, you are the video game superstar", side:SPlayer } );
-					l.add( { line:"as you can see i have lotta things to do, those are not mere games but universes.",  side:SOther} );
+					l.add( { line:"Hey i recognize you, you are the video game superstar", side:SPlayer } );
+					l.add( { line:"As you can see i have lotta things to do, those are not mere games but universes.",  side:SOther} );
 					l.add( { line:"...",  side:SOther } );
 				l;
 			},
@@ -391,26 +399,26 @@ class Data implements haxe.Public
 			type:ELVIS,
 			script: {
 				var l = new List();
-					l.add( { line:"hi", side:SPlayer } );
-					l.add( { line:"hey come over here boy what are you doin here alone ", side:SOther } );
-					l.add( { line:"i am desperately looking for a ride home", side:SPlayer } );
-					l.add( { line:"we're on the go for a party on Uranus. I've heard Uranian girls have 3 boobs ! Do you come with us ?", side:SOther } );
-					l.add( { line:"omagad civilization at least ! i am ok but there are crasy people outta", side:SPlayer } );
-					l.add( { line:"we don t need those suckers yo moron come on !", side:SOther } );
-					l.add( { line:"but they are in need, their minds are ill ", side:SPlayer } );
-					l.add( { line:"do they need you ? we need you to party", side:SOther } );
-					l.add( { line:"but they are here alone, lost in this asteroid field", side:SPlayer } );
-					l.add( { line:"what help do they need exactly, they are in their own world", side:SOther } );
-					l.add( { line:"yours is ours, come on... hey ladys , found the perfect fit  !", side:SOther } );
-					l.add( { line:"maybe...", side:SOther } );
-					l.add( { line:"after all had so much of those parties, so much vomit, so much pain, so much headache...", side:SPlayer } );
+					l.add( { line:"Hi.. Elvis ?", side:SPlayer } );
+					l.add( { line:"Hey come over here boy what are you doin here alone ?", side:SOther } );
+					l.add( { line:"Name is Nihil Hamstrong, I am desperately looking for a ride home", side:SPlayer } );
+					l.add( { line:"We're on the go for a party on Uranus. I've heard Uranian girls even have 3 boobs and a pen...", side:SOther } );
+					l.add( { line:"Omagad civilization at least ! i am ok but there are crasy people outta", side:SPlayer } );
+					l.add( { line:"We don t need those suckers you moron, come on dammit!", side:SOther } );
+					l.add( { line:"But they are in need, their minds are ill", side:SPlayer } );
+					l.add( { line:"Do they need you ? we need you to party", side:SOther } );
+					l.add( { line:"But they are here alone, lost in this asteroid field", side:SPlayer } );
+					l.add( { line:"What help do they need exactly, they are in their own world", side:SOther } );
+					l.add( { line:"Yours is ours, come on... hey ladys , found the perfect fit  !", side:SOther } );
+					l.add( { line:"Maybe...", side:SOther } );
+					l.add( { line:"After all had so much of those parties, so much vomit, so much pain, so much headache...", side:SPlayer } );
 					l.add( { line:"...", side:SPlayer } );
 					l.add( { line:"...", side:SPlayer } );
-					l.add( { line:"ok i am in, anyway.", side:SPlayer } );
+					l.add( { line:"Ok i am in, anyway.", side:SPlayer } );
 					l;
 				},
 			proc:function() {},
-			ofsSprite:new Vec2( -40, 35),
+			ofsSprite:new Vec2( 430,262 ),
 			ofsSpeech:new Vec2( -30, 0),
 		});
 		cines = cine;

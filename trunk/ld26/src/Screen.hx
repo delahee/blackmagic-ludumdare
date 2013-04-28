@@ -13,7 +13,6 @@ class Screen extends starling.display.Sprite{
 	{
 		super();
 		visible = false;
-		touchable = true;
 		me = this;
 	}
 

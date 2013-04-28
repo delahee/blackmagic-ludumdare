@@ -1,5 +1,6 @@
 import flash.Lib;
 import flash.Vector;
+import fx.SpeechDelay;
 import mt.fx.Fx;
 
 import fx.Blink;
@@ -119,7 +120,7 @@ class Player implements haxe.Public{
 				mc.scaleX = 1;	
 				if ( movieState != 'run' ) setMovieState( 'run' );
 			}
-			else if ( Key.isDown( K.UP )) {
+			else if ( Key.isDown( K.UP ) || Key.isDown( K.SPACE ) ) {
 				if ( movieState != 'jump' ) setMovieState( 'jump' );
 				onFly();
 			}
@@ -227,6 +228,8 @@ class Player implements haxe.Public{
 		
 		c.proc();
 		
+		mc.scaleX = -1;
+		
 		var delay:Float = 0.0;
 		for ( q in c.script) {
 			var d = speachDur( q.line);
@@ -263,12 +266,13 @@ class Player implements haxe.Public{
 			new fx.SpeechDelay( delay += 1.0, function()
 			{
 				input = true;
-				trace('dialog ended');
 			});
 		}
 		else
 		{
-			M.me.setScreen( M.me.scursor+ 1);
+			new SpeechDelay( 2.0, function() {
+				M.me.setScreen( M.me.scursor + 1);
+			});
 		}
 		
 		//del += 10.0;
