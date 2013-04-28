@@ -40,6 +40,8 @@ class Player implements haxe.Public{
 	var input = true;
 	var killed = false;
 	
+	static var me : Player;
+	
 	public function new() {
 		mc = Data.me.getMovie( 'perso', movieState='idle' );
 		mc.pivotX = mc.width * 0.5;			
@@ -47,6 +49,7 @@ class Player implements haxe.Public{
 		pos = new Vec2();
 		vel = new Vec2();
 		asterAngle = 0;
+		me = this;
 	}
 	
 	public function setMovieState(str){
