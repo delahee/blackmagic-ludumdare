@@ -47,7 +47,10 @@ class ScreenLevel extends Screen {
 			if ( a.getBaseDelay() <= 0)
 				asters.push(spawn(a));
 			else 
-				spawnQueue.push( { d: a.getBaseDelay(), a:a} );
+				spawnQueue.push( { d: a.getBaseDelay(), a:a } );
+			
+			level.addAster( a.mc );
+			
 		}}}
 		
 		player = new Player();
@@ -153,7 +156,7 @@ class ScreenLevel extends Screen {
 				var amc = a.mc;
 				
 				function proc(e:Entity) {
-					if ( volute.Coll.testCircleCircle( pos.x, pos.y, 50, e.x, e.y, e.sz * 0.5 ) && e!=amc) {
+					if ( volute.Coll.testCircleCircle( pos.x, pos.y, 50, e.x, e.y, e.sz ) && e!=amc) {
 						res = e;
 						return true;
 					}

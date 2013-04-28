@@ -33,7 +33,7 @@
 <!-- Generique : Checkpoint -->
 	<aster 
 		rotSpeed="20"
-		colorId="0xff0000"
+		colorId="0xffAA00"
 		size="50"
 		checkpoint="true"
 	/>

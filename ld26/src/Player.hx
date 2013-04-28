@@ -59,8 +59,7 @@ class Player implements haxe.Public{
 		if( aster != null ) last = aster;
 	}
 	
-	public function setAngle(angle)
-	{
+	public function setAngle(angle){
 		var c = aster.getCenter();
 		var r = aster.sz - 2;
 		
@@ -70,15 +69,14 @@ class Player implements haxe.Public{
 		pos.x = c.x + ca * r;
 		pos.y = c.y + sa * r;
 		
-		mc.rotation = MathEx.normAngle(angle + Math.PI / 2);
+		mc.rotation = MathEx.normAngle(angle + Math.PI * 0.5);
 		asterAngle = angle;
 		
 		if ( aster!=null&& aster.script!=null &&aster.script.isCheckpoint())
 			checkPoint = aster;
 	}
 	
-	public function updateKey(df:Float)
-	{
+	public function updateKey(df:Float){
 		if ( aster != null)
 		{
 			var aspeed = 0.2;
@@ -87,14 +85,12 @@ class Player implements haxe.Public{
 				mc.scaleX = -1;	
 				if ( movieState != 'run' ) setMovieState( 'run' );
 			}
-			
 			else if ( Key.isDown( K.RIGHT )) {
 				setAsterAngle( aster, asterAngle + aspeed * M.timer.df);
 				mc.scaleX = 1;	
 				if ( movieState != 'run' ) setMovieState( 'run' );
 			}
 			else if ( Key.isDown( K.UP )) {
-				
 				if ( movieState != 'jump' )
 					setMovieState( 'jump' );
 				onFly();
@@ -129,7 +125,7 @@ class Player implements haxe.Public{
 			
 			var asres :Entity= null;
 			function testLand( as : Entity){
-				if ( 	Coll.testCircleCircle( pos.x, pos.y, 50, as.x, as.y, as.sz * 0.5 ) 
+				if ( 	Coll.testCircleCircle( pos.x + ca * 35, pos.y + sa * 35, 50, as.x, as.y, as.sz ) 
 				&&		last != as) 
 				{
 					//trace("hit");	
@@ -140,12 +136,12 @@ class Player implements haxe.Public{
 				return false;
 			}
 			
-			L.me.grid.iterRange( Std.int(pos.x), Std.int(pos.y), 100, testLand );
+			L.me.grid.iterRange( Std.int(pos.x), Std.int(pos.y), 200, testLand );
 			var asn : Aster = cast asres;
 			
 			if ( asres != null) {
 				var a = Math.atan2( pos.y - asres.y, pos.x - asres.x);
-				onLand();
+				onLand( asn );
 				setAsterAngle( asn, a);
 			}
 			else{
@@ -165,9 +161,12 @@ class Player implements haxe.Public{
 		//mc.pivotY = mc.height * 0.5;
 	}
 	
-	public function onLand() {
+	public function onLand(as:Aster) {
 		//mc.pivotX = mc.width * 0.5;
 		//mc.pivotY = mc.height;
+		if ( as.isFire ) {
+			kill();
+		}
 	}
 	
 	public function isFlying(){
@@ -183,7 +182,8 @@ class Player implements haxe.Public{
 	
 	
 	public function kill() {
-		setAsterAngle( checkPoint, Math.PI * 0.5);
+		if( checkPoint!=null)
+			setAsterAngle( checkPoint, Math.PI * 0.5);
 	}
 	
 	public function update() {
