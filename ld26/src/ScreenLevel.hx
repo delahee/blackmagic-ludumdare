@@ -13,9 +13,12 @@ class ScreenLevel extends Screen {
 	var player : Player;
 	static var me : ScreenLevel;
 	
+	public var spawnQueue : List<{d:Float,a : ScriptedAster}>;
+	
 	public function new() {
 		super();
 		me = this;
+		spawnQueue = new List();
 	}
 	
 	public override function init(){
@@ -40,7 +43,11 @@ class ScreenLevel extends Screen {
 			var a : ScriptedAster = new ScriptedAster( xml, new Vec2(x,y)); 
 			a.mc = new Aster( a.isFire(), a.getSize() );
 			a.mc.script = a;
-			asters.push(spawn(a));
+			
+			if ( a.getBaseDelay() <= 0)
+				asters.push(spawn(a));
+			else 
+				spawnQueue.push( { d: a.getBaseDelay(), a:a} );
 		}}}
 		
 		player = new Player();
@@ -73,6 +80,16 @@ class ScreenLevel extends Screen {
 		
 		if ( Key.isDown( Keyboard.RIGHT ))
 			M.view.x -= 5 * fr;
+			
+		if ( spawnQueue.length > 0)
+			spawnQueue = spawnQueue.filter( function(e)
+			{
+				e.d -= fr;
+				if ( e.d <= 0 ) {
+					spawn( e.a);
+				}
+				return e.d<=0;
+			});
 	}
 	
 	public function tick(fr){
@@ -81,15 +98,23 @@ class ScreenLevel extends Screen {
 		}
 	}
 	
+	public function murder(sa:ScriptedAster)
+	{
+		sa.dead = true;
+		sa.mc.move( 1000000, 1000000);
+		if ( sa.getBaseDelay() > 0 )
+			sa.delay = sa.getBaseDelay();
+	}
+	
 	public function exec(sa : ScriptedAster, fr: Float) {
-		
-		
 		if ( sa.dead ){
-			if ( sa.isRespawn())
-			{
-				sa.time = 0;
-				sa.dead = false;
-				spawn( sa );
+			if ( sa.isRespawn()){
+				if( sa.delay <= 0){
+					sa.time = 0;
+					sa.dead = false;
+					spawn( sa );
+				}
+				sa.delay -= fr;
 			}
 			else
 			{
@@ -100,9 +125,9 @@ class ScreenLevel extends Screen {
 		else
 		{
 			if ( sa.mc.y < 200|| sa.mc.y > Lib.h() + 200) 
-				sa.dead = true;
+				murder(sa);
 			else if ( sa.haveLife() && sa.getLife() < sa.time ) 
-				sa.dead = true;
+				murder(sa);
 			else 
 			{
 				if ( !sa.mc.scripted){
@@ -121,24 +146,24 @@ class ScreenLevel extends Screen {
 				var x = astera[i];
 				var y = astera[j];
 				
-				var cx = x.mc.getCenter();
-				var cy = y.mc.getCenter();
-				
-				if ( x.mc.intersects( y.mc )) {
-					
-					//if ( x.isFire() && y.isFire())
-					//	throw "assert";
+				if ( Math.abs( x.speed ) > 0.01) {
+					var cx = x.mc.getCenter();
+					var cy = y.mc.getCenter();
+					if ( x.mc.intersects( y.mc )) {
+						//if ( x.isFire() && y.isFire())
+						//	throw "assert";
+							
+						if ( x.isFire() && !y.isFire()) {
+							y.mc.onBurn();
+						}
 						
-					if ( x.isFire() && !y.isFire()) {
-						y.mc.onBurn();
+						if ( !x.isFire() && x.isFire()) {
+							x.mc.onBurn();
+						}
+						
+						x.mc.scripted = false;
+						y.mc.scripted = false;
 					}
-					
-					if ( !x.isFire() && x.isFire()) {
-						x.mc.onBurn();
-					}
-					
-					x.mc.scripted = false;
-					y.mc.scripted = false;
 				}
 			}
 	
@@ -147,7 +172,7 @@ class ScreenLevel extends Screen {
 	
 	
 	
-	public function spawn( sa : ScriptedAster){
+	public function spawn( sa : ScriptedAster) {
 		sa.mc.move( sa.coo.x * 32.0, sa.coo.y * 32.0 );
 		
 		if ( sa.mc.img.parent == null)

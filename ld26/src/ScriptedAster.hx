@@ -9,6 +9,7 @@ class ScriptedAster implements haxe.Public{
 	public var time:Float;
 	public var dead = false;
 	public var speed = 0.0;
+	public var delay:Float;
 	
  	function new(src,coo : Vec2) { 
 		xml = src; 
@@ -36,7 +37,10 @@ class ScriptedAster implements haxe.Public{
 	function getSize() 		return xml.has.size ? Std.parseInt(xml.att.size): 32
 	function haveLife()		return xml.has.life
 	function getLife()		return Std.parseInt(xml.att.life)
-	function getRotSpeed() 	return !xml.has.rotSpeed ? .0 : Std.parseFloat(xml.att.rotSpeed)
-	function isSpawn()		return xml.has.spawn && (xml.att.spawn == "true" )
 	
+	function isSpawn()		return xml.has.spawn && (xml.att.spawn == "true" )
+	function isCheckpoint() return xml.has.checkpoint && (xml.att.checkpoint == "true" )
+	
+	function getRotSpeed() 	return !xml.has.rotSpeed ? .0 : Std.parseFloat(xml.att.rotSpeed)
+	function getBaseDelay()	return !xml.has.rotSpeed ? .0 : Std.parseFloat(xml.att.delay)
 }

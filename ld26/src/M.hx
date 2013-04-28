@@ -6,6 +6,7 @@ import starling.events.TouchEvent;
 import starling.events.Touch;
 import starling.events.TouchPhase;
 import starling.text.TextField;
+import volute.fx.FXManager;
 import volute.MathEx;
 
 import flash.Lib;
@@ -27,11 +28,14 @@ class M extends starling.display.Sprite {
 	public static var core : Starling;
 	public static var data : Data;
 	public static var view : View;
+	public static var fxMan : FXManager;
 	
 	public var scursor = 0;
 	public var screens : Array<Screen>;
 	
 	public var fps : TextField;
+	
+	
 	
 	static function main() {
 		var stage : flash.display.Stage = flash.Lib.current.stage;
@@ -50,6 +54,7 @@ class M extends starling.display.Sprite {
 		mt.deepnight.Key.init();
 		view = new View();
 		data = new Data();
+		fxMan = new FXManager();
 		
 		screens = [ new ScreenTitle(),  new ScreenLevel()
 		/*, new ScreenTestPerso(), /*,new ScreenTestLevel()*/, new ScreenTestAster()
@@ -107,7 +112,9 @@ class M extends starling.display.Sprite {
 		pix.Element.updateAnims();
 		
 		if(++spin%10==0)
-			fps.text = Std.string(MathEx.trunk( 1.0 / timer.dt,1));
+			fps.text = Std.string(MathEx.trunk( 1.0 / timer.dt, 1));
+			
+		data.update();
 	}
 	
 	function setScreen(n:Int){
