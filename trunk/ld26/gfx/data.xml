@@ -1,4 +1,4 @@
-<tileDef check="ok_tileDef" file="test">
+<tileDef check="ok_tileDef" file="perso">
 	<sprite id="perso" >
 		<state id="run" rythm="2">
 			<slice coord="0,0,67,75,12" nb="12" />
@@ -11,13 +11,13 @@
 		</state>
 		
 	</sprite>
-<sprite id="ben" >
+	
+	<sprite id="ben" >
 		<state id="idle" rythm="2">
 			<slice coord="0,225,67,75,12" nb="12" />
 		</state>
-		
-		
 	</sprite>
+	
 	<sprite id="prince" >
 		<state id="idle" rythm="2">
 			<slice coord="0,300,67,75,5" nb="5" />
@@ -53,4 +53,3 @@
 </tileDef>
 
 
-<tileDef check="ok_tileDef" file="test"> </tileDef>

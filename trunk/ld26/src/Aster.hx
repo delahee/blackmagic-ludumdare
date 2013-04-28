@@ -16,6 +16,21 @@ using Lambda;
 using volute.LbdEx;
 using volute.ArrEx;
 
+enum Side{
+	SPlayer;
+	SOther;
+}
+
+typedef CineLine = {
+	line:String,
+	side:Side,
+}
+typedef Cine = 
+{
+	script:List<CineLine>,
+	proc:Void->Void,
+}
+
 
 class Aster extends Entity, implements Public {
 	
@@ -31,11 +46,11 @@ class Aster extends Entity, implements Public {
 	var scripted : Bool;
 	var script : ScriptedAster;
 	
+	var cine : Null<Cine>;
+	
 	static var guid : Int = 0;
 	
 	public var a(default, set_a) : Float;
-	
-	
 	public function new(isFire = false, sz : Float = 32) {
 		super();
 		
@@ -53,11 +68,13 @@ class Aster extends Entity, implements Public {
 	public function move(ix, iy) {
 		x = ix; y = iy;
 		syncPos();
+		return this;
 	}
 	
 	public function translate(ix, iy) {
 		x += ix; y += iy;
 		syncPos();
+		return this;
 	}
 	
 	public function dispose() {

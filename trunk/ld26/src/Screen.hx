@@ -7,11 +7,14 @@ class Screen extends starling.display.Sprite{
 	public var loadBg : Bool = true;
 	public var img : Image;
 	
+	public static var me : Screen;
+	
 	public function new() 
 	{
 		super();
 		visible = false;
 		touchable = true;
+		me = this;
 	}
 
 	public function getName() :String return Std.string(Type.getClass(this))
