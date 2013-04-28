@@ -163,7 +163,7 @@
 	speed="10"
 	tgt="227,13"
 	life="300"
-	delay = "400"
+	delay = "400" 
 	respawn="true"
 />
 <!-- Care delays for ld -->
@@ -213,7 +213,7 @@
 	respawn="true"
 />
 <aster 
-	colorId="0x2312780"
+	colorId="0x231278"
 	size="100"
 	speed="10"
 	tgt="292,20"
