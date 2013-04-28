@@ -33,7 +33,9 @@ class ScreenTestAster extends Screen
 		var a = new Aster(100);
 		level.addAster( a ).translate( 150, 150 );
 		level.addAster( new Aster(100) ).translate( 400, 400 );
-		level.addAster( new Aster(true,100) ).translate( 800, 200 );
+		level.addAster( new Aster(true, 100) ).translate( 800, 200 );
+		level.addAster( new Aster(true, 75) ).translate( 900, 400 );
+		level.addAster( new Aster(false,75) ).translate( 1100, 400 );
 		
 		for ( ast in level.asters){
 			ast.enableTouch();
