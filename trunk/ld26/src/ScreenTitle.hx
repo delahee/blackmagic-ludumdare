@@ -26,7 +26,7 @@ class ScreenTitle extends Screen{
 	public override function init() {
 		super.init();
 		
-		info = M.me.getTextField("YO :) ");
+		info = M.getTextField("YO :) ");
 		addChild( info );
 	}
 	

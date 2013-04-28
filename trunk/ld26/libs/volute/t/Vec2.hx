@@ -51,7 +51,7 @@ class Vec2{
 	
 	public static inline function dot(v0: Vec2, v1:Vec2) : Float
 	{
-		return v0.x * v1.x + v0.x * v1.y;
+		return v0.x * v1.x + v0.y * v1.y;
 	}
 	
 	//v0     v2
@@ -187,12 +187,13 @@ class Vec2{
 	}
 	
 	public static function angle( a : Vec2, b : Vec2 ) : Float {
-		a.normalize();
-		b.normalize();
+		a = a.clone().normalize();
+		b = b.clone().normalize();
 		
-		var d = Vec2.dot( a , b );
-		var cab = d / a.norm();
-		return Math.acos( cab );
+		var c = cross(a, b);
+		var d = dot( a , b );
+		var a = c > 0 ? Math.acos( d ) : - Math.acos( d );
+		return a;
 	}
 	
 	/**
