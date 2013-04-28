@@ -13,6 +13,9 @@ import starling.text.TextField;
 import volute.fx.FXManager;
 import volute.MathEx;
 
+import flash.media.Sound;
+import flash.media.SoundMixer;
+
 import flash.Lib;
 import mt.Ticker;
 import mt.deepnight.Key;
@@ -26,6 +29,9 @@ import Data;
 import Type;
 
 using volute.Lib;
+
+
+
 
 
 class M extends starling.display.Sprite {
@@ -112,6 +118,8 @@ class M extends starling.display.Sprite {
 			
 		data.update();
 		fxMan.update();
+		
+		view.update();
 	}
 	
 	public function setScreen(n:Int){

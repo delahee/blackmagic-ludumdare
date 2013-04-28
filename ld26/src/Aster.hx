@@ -57,8 +57,8 @@ class Aster extends Entity, implements Public {
 		
 		if ( c != null) {
 			cineMc = Data.me.getMovie(c.sprite, 'idle');
-			cineMc.x = x /*- img.width*0.5*/ + c.ofs.x;
-			cineMc.y = y - img.height + c.ofs.y;
+			cineMc.x = x + c.ofsSprite.x;
+			cineMc.y = y - img.height + c.ofsSprite.y;
 			img.parent.addChild( cineMc );
 		}
 		

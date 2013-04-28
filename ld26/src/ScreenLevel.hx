@@ -6,9 +6,10 @@ import volute.Lib;
 import volute.t.Vec2;
 import volute.Dice;
 
+using volute.com.LbdEx;
 import mt.deepnight.Key;
 
-
+import Data;
 
 class ScreenLevel extends Screen {
 	var player : Player;
@@ -25,6 +26,9 @@ class ScreenLevel extends Screen {
 	
 	public override function init(){
 		super.init();
+		
+		var m = new BGM();
+		m.play();
 		
 		asters = new List<ScriptedAster>();
 		
@@ -68,6 +72,10 @@ class ScreenLevel extends Screen {
 				addChild( player.mc);
 				break;
 			}
+			
+		#if debug
+			player.setAsterAngle( asters.nth(5).mc, - Math.PI / 2 );
+		#end
 	}
 	
 	public override function kill() {

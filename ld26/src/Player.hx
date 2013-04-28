@@ -1,14 +1,17 @@
 import flash.Lib;
 import flash.Vector;
+import mt.fx.Fx;
+
 import fx.Blink;
 import fx.Delay;
 import fx.Vanish;
+
+import mt.deepnight.KDTree;
 import mt.deepnight.Key;
 import starling.display.MovieClip;
 import starling.display.Sprite;
 import volute.Coll;
 import volute.Dice;
-import volute.fx.FX;
 import volute.t.Vec2;
 import volute.MathEx;
 
@@ -147,7 +150,9 @@ class Player implements haxe.Public{
 			
 			vel.set( ca * k, sa * k);
 			
+			#if !debug
 			vel.y += 0.42;
+			#end
 			
 			asterAngle = Math.atan2( vel.y, vel.x );
 			
@@ -215,7 +220,7 @@ class Player implements haxe.Public{
 	}
 	
 	public function makeCine(c:Cine){
-		function p(d,f) new Delay( d,f );
+		function p(d,f) new fx.SpeechDelay( d,f );
 		
 		setAngle( -Math.PI / 2 - 0.3);
 		setAnim('idle');
@@ -228,20 +233,30 @@ class Player implements haxe.Public{
 			
 			switch(q.side) {
 				case SPlayer:	
-						p( delay, function() speach( mc.x + 40, mc.y - 100,q.line ));
+						p( delay, function() speach( mc.x -50, mc.y - 100,q.line ));
 				case SOther:
 				{
-					var col = 0xcdcdcd;
-					if ( c.sprite=='ben' )
-						col = [0xFF0000, 0x00FF00, 0xFFFF00, 0x00FFFF, 0xFF00FF].random();
-					p( delay, function() speach( mc.x + 100, mc.y - 100,q.line,col));
+					{
+						var col = 0xFFcdcdcd;
+						switch(c.type) {
+							default:
+							case BEN :col = [0xFF0000, 0x00FF00, 0xFFFF00, 0x00FFFF, 0xFF00FF].random();
+							case YODA:
+								col = 0xbcffbc; 
+						}
+						
+						p( delay, function()
+						{
+							speach( mc.x + 100 + c.ofsSpeech.x, mc.y - 100 + c.ofsSpeech.y, q.line, col);
+						});
+					}
 				}
 			}
 			
 			delay += d;
 		}
 		
-		new Delay( delay += 2.0, function()
+		new fx.SpeechDelay( delay += 1.0, function()
 		{
 			input = true;
 			trace('dialog ended');
@@ -278,7 +293,7 @@ class Player implements haxe.Public{
 				setAsterAngle( checkPoint, Dice.rollF( - Math.PI * 0.5, Math.PI ) );
 			}
 				
-		var fx : FX = new fx.Blink(mc);
+		var fx = new fx.Blink(mc);
 		fx.onKill =  oe;
 		killed = true;
 	}
@@ -292,6 +307,12 @@ class Player implements haxe.Public{
 		
 		if( input )
 			updateKey(df);
+		else 
+			if ( Key.isToggled(K.SPACE) ) {
+				for ( f in volute.fx.FXManager.self.rep )
+					if ( Std.is( f, fx.SpeechDelay ) )
+						f.duration -= 0.25;
+			}
 		
 		if (isFlying()){
 			pos.x += vel.x * df;
@@ -303,6 +324,9 @@ class Player implements haxe.Public{
 		
 		tryKill();
 		handleCine();
+		
+		if ( aster != null )
+			setAngle( asterAngle );
 		
 		mc.x = pos.x;
 		mc.y = pos.y;

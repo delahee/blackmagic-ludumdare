@@ -1,6 +1,10 @@
 import flash.Lib;
 import flash.display.BitmapData;
 import flash.utils.Namespace;
+
+import flash.media.Sound;
+import flash.media.SoundMixer;
+
 import starling.core.Starling;
 import starling.display.MovieClip;
 
@@ -29,10 +33,12 @@ typedef CineLine = {
 }
 typedef Cine = 
 {
+	type:SpriteType,
 	sprite:String,
 	script:List<CineLine>,
 	proc:Void->Void,
-	ofs:Vec2,
+	ofsSprite:Vec2,
+	ofsSpeech:Vec2,
 }
 
 
@@ -113,6 +119,16 @@ class LDXml extends flash.utils.ByteArray
 	
 }
 
+class BGM extends Sound { }
+class INTRO extends Sound { }
+
+enum SpriteType {
+	PRINCE;
+	YODA;
+	DEEPNIGHT;
+	ELVIS;
+	BEN;
+}
 
 class Data implements haxe.Public
 {
@@ -269,6 +285,7 @@ class Data implements haxe.Public
 		var cine = new Hash();
 		cine.set('ben',{
 			sprite: "ben",
+			type:BEN,
 			script: {
 				var l = new List();
 					l.add( { line:"Hi, what r u duin here", side:SPlayer } );
@@ -287,11 +304,13 @@ class Data implements haxe.Public
 				l;
 			},
 			proc:function() {},
-			ofs:new Vec2(-40, 35),
+			ofsSprite:new Vec2( -40, 35),
+			ofsSpeech:new Vec2( -30, 0),
 		});
 		
 		cine.set('petit_prince',{
 			sprite: "petit_prince",
+			type:PRINCE,
 			script: {
 				var l = new List();
 					l.add( { line:"Hi...its cold out there", side:SPlayer } );
@@ -314,11 +333,13 @@ class Data implements haxe.Public
 				l;
 			},
 			proc:function() {},
-			ofs:new Vec2(-40, 35),
+			ofsSprite:new Vec2( -40, 35),
+			ofsSpeech:new Vec2( -30, 0),
 		});
 		
 		cine.set('yoda',{
 			sprite: "yoda",
+			type: YODA,
 			script: {
 				var l = new List();
 					l.add( { line:"***", side:SPlayer } );
@@ -337,11 +358,13 @@ class Data implements haxe.Public
 				l;
 			},
 			proc:function() {},
-			ofs:new Vec2(-40, 35),
+			ofsSprite:new Vec2( -40, 35),
+			ofsSpeech:new Vec2( -30, 0),
 		});
 		
 		cine.set('deepnight',{
 			sprite: "deepnight",
+			type: DEEPNIGHT,
 			script: {
 				var l = new List();
 					l.add( { line:"hi there, you look a normal guy... at last", side:SPlayer } );
@@ -359,11 +382,13 @@ class Data implements haxe.Public
 				l;
 			},
 			proc:function() {},
-			ofs:new Vec2(-40, 35),
+			ofsSprite:new Vec2( -40, 35),
+			ofsSpeech:new Vec2( -30, 0),
 		});
 		
 		cine.set('elvis',{
 			sprite: "elvis",
+			type:ELVIS,
 			script: {
 				var l = new List();
 					l.add( { line:"hi", side:SPlayer } );
@@ -385,7 +410,8 @@ class Data implements haxe.Public
 					l;
 				},
 			proc:function() {},
-			ofs:new Vec2(-40, 35),
+			ofsSprite:new Vec2( -40, 35),
+			ofsSpeech:new Vec2( -30, 0),
 		});
 		cines = cine;
 	}
