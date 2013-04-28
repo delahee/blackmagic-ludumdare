@@ -123,7 +123,7 @@ class ScreenTestLevel extends Screen {
 			{
 				sa.mc.a += sa.getRotSpeed() * fr;
 				if ( sa.speed > 0) sa.mc.translate(sa.dir.x * sa.speed * fr, sa.dir.y * sa.speed * fr);
-				sa.time++;
+				sa.time+=fr;
 			}
 		}
 	}
