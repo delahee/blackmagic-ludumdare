@@ -3,13 +3,14 @@
 		<state id="run" rythm="2">
 			<slice coord="0,0,67,75,12" nb="12" />
 		</state>
+		
 		<state id="idle" rythm="2">
 			<slice coord="0,75,67,75,6" nb="6" />
 		</state>
+		
 		<state id="jump" rythm="2">
 			<slice coord="0,150,81,75,9" nb="9" />
 		</state>
-		
 	</sprite>
 	
 	<sprite id="ben" >
@@ -22,34 +23,27 @@
 		<state id="idle" rythm="2">
 			<slice coord="0,300,67,75,5" nb="5" />
 		</state>
-		
-		
 	</sprite>
+	
 	<sprite id="yoda" >
 		<state id="idle" rythm="2">
 			<slice coord="0,375,67,75,1" nb="1" />
 		</state>
-		
-		
 	</sprite>
+	
 	<sprite id="elvis" >
 		<state id="idle" rythm="2">
 			<slice coord="0,448,67,75,1" nb="1" />
 		</state>
-		
-		
 	</sprite>
-	</sprite>
+</tileDef>	
+
+<tileDef file="propsspritesheet">
 	<sprite id="props" >
 		<state id="idle" rythm="2">
 			<slice coord="0,448,40,40,4,11" nb="44" />
 		</state>
-		
-		
 	</sprite>
-	
-	
-	
 </tileDef>
 
 

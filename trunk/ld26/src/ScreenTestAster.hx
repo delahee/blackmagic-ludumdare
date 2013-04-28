@@ -1,6 +1,7 @@
 import flash.ui.Keyboard;
 import volute.Dice;
 import volute.Lib;
+import volute.t.Vec2;
 
 import starling.events.Touch;
 import starling.events.TouchEvent;
@@ -38,7 +39,9 @@ class ScreenTestAster extends Screen
 		
 		a.cine = 
 		{
+			sprite: "ben",
 			script: {
+				
 				var l = new List();
 					l.push( { line:"Hi what r u duin here", side:SPlayer } );
 					l.push( { line:"coding a game, havin a bowl", side:SOther } );
@@ -55,6 +58,7 @@ class ScreenTestAster extends Screen
 			proc:function() {
 				player.mute = true;
 			},
+			ofs:new Vec2(-20),
 		};
 		
 		for ( ast in level.asters){
