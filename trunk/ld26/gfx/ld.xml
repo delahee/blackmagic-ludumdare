@@ -12,7 +12,6 @@
 		speed="0"
 		tgt="0,0"
 		life="10"
-		spawn="true"
 	/>
 	<aster 
 		colorId="0xafffaf"
@@ -133,9 +132,73 @@
 		size="100"
 		speed="10"
 	/>
-	<!-- Level 1 -->
+	<!-- Level 2 -->
 		<!-- Part 1 -->
+		<aster
+		colorId="0x00e4ff"
+		size="60"
+		speed="10"
+		tgt="93,22"
+		life="100"
+		respawn="true"
+		/>
+		<aster
+		colorId="0x00bbd1"
+		size="60"
+		speed="10"
+		tgt="93,22"
+		life="100"
+		respawn="true"
+		/>
+		<aster
+		colorId="0x0098aa"
+		size="60"
+		speed="10"
+		tgt="93,22"
+		life="100"
+		respawn="true"
+		/>
+		<aster
+		colorId="0x006a76"
+		size="60"
+		speed="10"
+		tgt="93,22"
+		life="100"
+		respawn="true"
+		/>		
 		<!-- Part 2 -->
+		<aster
+		colorId="0x0600ff"
+		size="60"
+		speed="10"
+		tgt="93,22"
+		life="100"
+		respawn="true"
+		/>
+		<aster
+		colorId="0x2623a5"
+		size="60"
+		speed="10"
+		tgt="93,22"
+		life="100"
+		respawn="true"
+		/>
+		<aster
+		colorId="0x2d2b83"
+		size="60"
+		speed="10"
+		tgt="93,22"
+		life="100"
+		respawn="true"
+		/>
+		<aster
+		colorId="0x171652"
+		size="60"
+		speed="10"
+		tgt="93,22"
+		life="100"
+		respawn="true"
+		/>
 		<!-- Part 3 -->
 		
 	<!--
