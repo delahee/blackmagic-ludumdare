@@ -25,13 +25,19 @@
 		</state>
 	</sprite>
 	
-	<sprite id="prince" >
+	<sprite id="petit_prince" >
 		<state id="idle" rythm="2">
 			<slice coord="0,300,67,75,5" nb="5" />
 		</state>
 	</sprite>
 	
 	<sprite id="yoda" >
+		<state id="idle" rythm="2">
+			<slice coord="0,375,67,75,1" nb="1" />
+		</state>
+	</sprite>
+	
+	<sprite id="deepnight" >
 		<state id="idle" rythm="2">
 			<slice coord="0,375,67,75,1" nb="1" />
 		</state>

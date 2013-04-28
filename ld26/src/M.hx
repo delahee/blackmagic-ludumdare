@@ -71,7 +71,7 @@ class M extends starling.display.Sprite {
 		//new ScreenTitle(), 
 		];
 		//setScreen(screens.length - 1);
-		setScreen(2);
+		setScreen(1);
 		
 		addEventListener( starling.events.Event.ADDED_TO_STAGE, init);
 		
@@ -147,5 +147,13 @@ class M extends starling.display.Sprite {
 		tf.color = col;
 		
 		return tf;
+	}
+	
+	public function makeBlackStrip() {
+		
+	}
+	
+	public function unmakeBlackStrip() {
+		
 	}
 }

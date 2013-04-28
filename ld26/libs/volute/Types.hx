@@ -8,4 +8,5 @@ typedef BitmapData = flash.display.BitmapData;
 typedef Shape = flash.display.Shape;
 typedef Sprite = flash.display.Sprite;
 
-typedef K = flash.ui.Keyboard;
+typedef K = flash.ui.Keyboard
+

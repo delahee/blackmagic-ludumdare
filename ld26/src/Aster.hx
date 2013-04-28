@@ -17,23 +17,7 @@ using Lambda;
 using volute.LbdEx;
 using volute.ArrEx;
 
-enum Side{
-	SPlayer;
-	SOther;
-}
-
-typedef CineLine = {
-	line:String,
-	side:Side,
-}
-typedef Cine = 
-{
-	sprite:String,
-	script:List<CineLine>,
-	proc:Void->Void,
-	ofs:Vec2,
-}
-
+import Data;
 
 class Aster extends Entity, implements Public {
 	
