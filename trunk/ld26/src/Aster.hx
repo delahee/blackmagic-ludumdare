@@ -96,7 +96,8 @@ class Aster extends Entity, implements Public {
 	public function compile() {
 		shp = new Shape();
 		var g = shp.graphics;
-		g.beginFill(0x0);
+		var col = isFire ? 0xFF0000 : 0x000020;
+		g.beginFill( col);
 		g.drawCircle( sz / 2.0, sz / 2.0, sz );
 		g.endFill();
 		
