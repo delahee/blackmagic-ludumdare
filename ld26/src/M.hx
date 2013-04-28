@@ -67,11 +67,11 @@ class M extends starling.display.Sprite {
 		screens = [ new ScreenTitle(),  new ScreenLevel()
 		/*, new ScreenTestPerso(), /*,new ScreenTestLevel()*/, new ScreenTestAster(),
 		/*, new ScreenTestPerso()*/
-		new ScreenLevel(),
+		//new ScreenLevel(),
 		//new ScreenTitle(), 
 		];
 		//setScreen(screens.length - 1);
-		setScreen(1);
+		setScreen(2);
 		
 		addEventListener( starling.events.Event.ADDED_TO_STAGE, init);
 		

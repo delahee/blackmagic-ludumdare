@@ -1,4 +1,5 @@
 import flash.display.Bitmap;
+import flash.display.MovieClip;
 import flash.display.Shape;
 import flash.filters.BlurFilter;
 import flash.filters.GlowFilter;
@@ -27,8 +28,10 @@ typedef CineLine = {
 }
 typedef Cine = 
 {
+	sprite:String,
 	script:List<CineLine>,
 	proc:Void->Void,
+	ofs:Vec2,
 }
 
 
@@ -46,7 +49,7 @@ class Aster extends Entity, implements Public {
 	var scripted : Bool;
 	var script : ScriptedAster;
 	
-	var cine : Null<Cine>;
+	var cine(default, setCine) : Null<Cine>;
 	
 	static var guid : Int = 0;
 	
@@ -64,6 +67,19 @@ class Aster extends Entity, implements Public {
 		compile();
 	}
 	
+	var cineMc : starling.display.MovieClip;
+	
+	public function setCine(c:Cine){
+		
+		if ( c != null) {
+			cineMc = Data.me.getMovie(c.sprite, 'idle');
+			cineMc.x = x /*- img.width*0.5*/ + c.ofs.x;
+			cineMc.y = y - img.height + c.ofs.y;
+			img.parent.addChild( cineMc );
+		}
+		
+		return cine = c;
+	}
 	
 	public function move(ix, iy) {
 		x = ix; y = iy;

@@ -193,6 +193,10 @@ class Player implements haxe.Public{
 			last = aster;
 			if ( aster.cine != null) {
 				
+				input = false;
+				
+				
+				aster = null;
 			}
 		}
 	}
