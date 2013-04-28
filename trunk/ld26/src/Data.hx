@@ -2,6 +2,7 @@ import flash.Lib;
 import flash.display.BitmapData;
 import flash.utils.Namespace;
 import starling.core.Starling;
+import starling.display.MovieClip;
 
 import haxe.xml.Fast;
 
@@ -237,14 +238,21 @@ class Data implements haxe.Public
 		
 		for ( a in 0...tml.length )
 			v[a] = starling.textures.Texture.fromTexture( texSheet, sheet.store.get( tml[a] ).rectangle ) ;
+			
 		return v;
 	}
 	
-	public function fillMc(mc, tml : flash.Vector<starling.textures.Texture>){
-		while (mc.numFrames > 0) mc.removeFrameAt( mc.numFrames - 1);
+	public function fillMc(mc : MovieClip, tml : flash.Vector<starling.textures.Texture>) {
 		
-		for ( v in 0...tml.length)	
-			mc.addFrameAt( v, tml[v]);
+		for ( i in 0...tml.length){
+			var f = tml[i];
+			mc.addFrameAt( mc.numFrames, f);
+		}
+		
+		while (mc.numFrames > cast tml.length ) mc.removeFrameAt( 0 );
+		
+		mc.currentFrame = 0;
+		mc.readjustSize();
 	}
 	
 	

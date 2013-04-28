@@ -1,4 +1,5 @@
-
+import volute.Types;
+import mt.deepnight.Key;
 class ScreenTestPerso extends Screen{
 
 	var mcs : Array<starling.display.MovieClip>;
@@ -20,11 +21,28 @@ class ScreenTestPerso extends Screen{
 			addChild(mc);
 			i++;
 		}
+		
+		var mc = mcs[1];
+		Data.me.fillMc( mcs[1], Data.me.getFramesRectTex( "perso", "run"));
+		mc.pause();
 	}
 	
+	function getMc() return mcs[1]
 	
 	public override function update() {
 		super.update();
-		for( mc in mcs) mc.rotation = M.me.timer.ufr * 0.1;
+		
+		var mc = getMc();
+		if ( Key.isDown( K.LEFT )) {
+			var c = getMc().currentFrame-1;
+			if ( c < 0 ) c = mc.numFrames - 1;
+			mc.currentFrame =c;
+		}
+		
+		else if ( Key.isDown( K.RIGHT )) {
+			var c = getMc().currentFrame+1;
+			if ( c >= getMc().numFrames ) c = 0;
+			getMc().currentFrame = c;
+		}
 	}
 }
