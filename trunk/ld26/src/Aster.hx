@@ -88,7 +88,7 @@ class Aster extends Entity, implements Public {
 				}
 			}
 			
-		});
+		}); 
 		
 	}
 			

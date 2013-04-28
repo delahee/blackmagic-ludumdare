@@ -30,8 +30,10 @@ class ScreenTestAster extends Screen
 	override public function init() {
 		super.init();
 		
-		level.addAster( new Aster() ).translate( 150,150);
-		level.addAster( new Aster() ).translate( 400, 400);
+		var a = new Aster(100);
+		level.addAster( a ).translate( 150, 150 );
+		level.addAster( new Aster(100) ).translate( 400, 400 );
+		level.addAster( new Aster(true,100) ).translate( 800, 200 );
 		
 		for ( ast in level.asters){
 			ast.enableTouch();
