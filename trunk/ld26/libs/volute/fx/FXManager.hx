@@ -21,6 +21,6 @@ class FXManager
 	//adding to null queue
 	public function add(  x :FX ){
 		rep.add(x);
-		trace('add fx');
+		//trace('add fx');
 	}
 }

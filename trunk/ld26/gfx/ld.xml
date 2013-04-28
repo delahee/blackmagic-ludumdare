@@ -73,6 +73,38 @@
 	respawn="true"
 />
 
+<aster 
+	colorId="0xdedede" 
+	size="100"
+	speed="0"
+	tgt="0"
+	cine = 'elvis'
+/>
+
+<aster 
+	colorId="0x00ffde"
+	size="100"
+	cine="ben"
+/>
+
+<aster 
+	colorId="0xdeff00"
+	size="100"
+	cine="petit_prince"
+/>
+
+<aster 
+	colorId="0xdeffde"
+	size="100"
+	cine="deepnight"
+/>
+
+<aster 
+	colorId="0xff1100"
+	size="100"
+	cine="yoda"
+/>
+	
 <!--
 	colorId=pixel
 	fire = true meteore enflammé

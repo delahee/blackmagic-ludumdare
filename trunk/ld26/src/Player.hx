@@ -1,6 +1,7 @@
 import flash.Lib;
 import flash.Vector;
 import fx.Blink;
+import fx.Delay;
 import fx.Vanish;
 import mt.deepnight.Key;
 import starling.display.MovieClip;
@@ -13,6 +14,13 @@ import volute.MathEx;
 
 import volute.Types;
 import volute.Lib;
+
+import Aster;
+import Data;
+
+using volute.ArrEx;
+using volute.LbdEx;
+
 enum PlayerState {
 	
 	SPACED; //player wanders through infinite
@@ -109,8 +117,7 @@ class Player implements haxe.Public{
 				if ( movieState != 'run' ) setMovieState( 'run' );
 			}
 			else if ( Key.isDown( K.UP )) {
-				if ( movieState != 'jump' )
-					setMovieState( 'jump' );
+				if ( movieState != 'jump' ) setMovieState( 'jump' );
 				onFly();
 			}
 			else
@@ -121,7 +128,7 @@ class Player implements haxe.Public{
 			//else if ( Key.isDown( K.RIGHT )) a = ac * df;			
 			//asterAngleSpeed
 			
-			var ask = 0.004;
+			var ask = 0.04;
 			if ( Key.isDown( K.LEFT )) {
 				asterAngleSpeed -= ask;
 				if ( asterAngleSpeed < -ask) asterAngleSpeed = -ask;
@@ -140,7 +147,7 @@ class Player implements haxe.Public{
 			
 			vel.set( ca * k, sa * k);
 			
-			vel.y += 0.3333;
+			vel.y += 0.42;
 			
 			asterAngle = Math.atan2( vel.y, vel.x );
 			
@@ -191,14 +198,57 @@ class Player implements haxe.Public{
 		}
 		else {
 			last = aster;
+			/*
 			if ( aster.cine != null) {
 				
 				input = false;
-				
-				
-				aster = null;
-			}
+				makeCine( aster.cine );
+				aster.cine = null;
+			}*/
 		}
+	}
+	
+	public function setAnim(anm)
+	{
+		if ( movieState != anm ) 
+			setMovieState( anm );
+	}
+	
+	public function makeCine(c:Cine){
+		function p(d,f) new Delay( d,f );
+		
+		setAngle( -Math.PI / 2 - 0.3);
+		setAnim('idle');
+		
+		c.proc();
+		
+		var delay:Float = 0.0;
+		for ( q in c.script) {
+			var d = speachDur( q.line);
+			
+			switch(q.side) {
+				case SPlayer:	
+						p( delay, function() speach( mc.x + 40, mc.y - 100,q.line ));
+				case SOther:
+				{
+					var col = 0xcdcdcd;
+					if ( c.sprite=='ben' )
+						col = [0xFF0000, 0x00FF00, 0xFFFF00, 0x00FFFF, 0xFF00FF].random();
+					p( delay, function() speach( mc.x + 100, mc.y - 100,q.line,col));
+				}
+			}
+			
+			delay += d;
+		}
+		
+		new Delay( delay += 2.0, function()
+		{
+			input = true;
+			trace('dialog ended');
+		});
+		
+		//del += 10.0;
+		//p( del, M.me.unmakeBlackStrip);
 	}
 	
 	public function isFlying(){
@@ -238,6 +288,7 @@ class Player implements haxe.Public{
 		if ( killed ) return;
 		var df = M.timer.df;
 		stateLife += df;
+		asterAngle = MathEx.normAngle(asterAngle);
 		
 		if( input )
 			updateKey(df);
@@ -251,23 +302,42 @@ class Player implements haxe.Public{
 		}
 		
 		tryKill();
+		handleCine();
 		
 		mc.x = pos.x;
 		mc.y = pos.y;
 	}
 	
-	public function say( lbl:String ) {
-		if( !mute ) speach( mc.x + 40, mc.y - 100,lbl );
+	public function handleCine() {
+		
+		var isNear = 	asterAngle > (2 * Math.PI / 3)
+		&&				asterAngle < (2 * Math.PI );
+		
+		if( aster!=null)
+		if( aster.cine != null && isNear  ) {
+			input = false;
+			makeCine( aster.cine );
+			aster.cine = null;
+		}
 	}
 	
-	public function speach( x, y,lbl:String,  col = 0xFFffFF ) {
-		var tf = M.getTf( Data.me.texts.get( lbl ),x,y,24,col );
-		/*mc.parent.*/mc.parent.addChild( tf ); 
+	public function speachDur(lbl) return 0.75 + lbl.length * 0.08
+	
+	public function say( lbl:String ) {
+		if ( !mute ) 
+			speach( mc.x + 40, mc.y - 100,lbl ); 
+	}
+	
+	public function speach( x, y, lbl:String,  col = 0xFFFFffFF ) {
+		var t = Data.me.texts.get( lbl );
+		var tf = M.getTf( t==null?lbl : t,x,y,24,col );
+		mc.parent.addChild( tf ); 
 		volute.Lib.toFront( tf );
 		
-		var d = 1.0 + lbl.length * 0.1;
+		var d = speachDur(lbl);
 		var v = new Vanish(tf, d);
 		v.sy = 1.0;
+		trace('saying ' + lbl);
 	}
 	
 	

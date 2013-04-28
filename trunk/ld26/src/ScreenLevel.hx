@@ -9,16 +9,10 @@ import volute.Dice;
 import mt.deepnight.Key;
 
 
-enum State
-{
-	PLAY;
-	CINEMATIC;
-}
 
 class ScreenLevel extends Screen {
 	var player : Player;
 	var asters : List<ScriptedAster>;
-	var state : State;
 	
 	static var me : ScreenLevel;
 	public var spawnQueue : List<{d:Float,a : ScriptedAster}>;
@@ -27,7 +21,6 @@ class ScreenLevel extends Screen {
 		super();
 		me = this;
 		spawnQueue = new List();
-		state = PLAY;
 	}
 	
 	public override function init(){
@@ -61,6 +54,10 @@ class ScreenLevel extends Screen {
 			
 			level.addAster( a.mc );
 			
+			if ( xml.has.cine ) {
+				var c = Data.me.cines.get( xml.att.cine );
+				a.mc.cine = c;
+			}
 		}}}
 		
 		player = new Player();
@@ -71,9 +68,6 @@ class ScreenLevel extends Screen {
 				addChild( player.mc);
 				break;
 			}
-		
-		state = PLAY;
-		
 	}
 	
 	public override function kill() {
@@ -98,12 +92,11 @@ class ScreenLevel extends Screen {
 		var fr = M.timer.df;
 		super.update();
 		
-		switch(state) {
-			case PLAY:		player.input = true; onPlayFrame();
-			case CINEMATIC: player.input = false;
-		}
-		
-		if( state == PLAY){
+		if( player.input )
+		{
+			onPlayFrame();
+			
+			#if debug
 			if ( Key.isDown( Keyboard.CONTROL ) && Key.isDown( Keyboard.LEFT ))
 				M.view.x += 5 * fr;
 			if ( Key.isDown( Keyboard.CONTROL ) && Key.isDown( Keyboard.RIGHT ))
@@ -113,6 +106,7 @@ class ScreenLevel extends Screen {
 				M.view.y += 5 * fr;
 			if ( Key.isDown( Keyboard.CONTROL ) && Key.isDown( Keyboard.DOWN ))
 				M.view.y -= 5 * fr;
+			#end
 		}
 		
 		tick(fr);
