@@ -208,7 +208,7 @@ class ScreenLevel extends Screen {
 	var timer = 0.0;
 	public function onPlayFrame() {
 		var fr = M.timer.df;
-		if ( timer <= 0 ) {
+		if ( timer <= 0) {
 			tryLaunchPhrase();
 			timer = 60;
 		}
@@ -216,10 +216,7 @@ class ScreenLevel extends Screen {
 	}
 	
 	var introLevel = 0;
-	//var rdTextLevel = 0;
-	//var maxIntroLevel = 4;
 	function tryLaunchPhrase() {
-		//if ( introLevel < maxIntroLevel ) return;
 		if ( Dice.percent( 50 )) {
 			var t = Data.me.rdText[introLevel++];
 			introLevel = introLevel % 3;

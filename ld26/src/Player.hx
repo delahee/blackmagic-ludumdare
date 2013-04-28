@@ -41,6 +41,7 @@ class Player implements haxe.Public{
 	var stateLife = 0.0;
 	var input = true;
 	var killed = false;
+	var mute = false;
 	
 	static var me : Player;
 	
@@ -64,7 +65,6 @@ class Player implements haxe.Public{
 	
 	public function setAsterAngle( ias, angle) {
 		aster = ias;
-		
 		asterAngleSpeed = 0;
 		
 		if ( aster != null ) {
@@ -92,7 +92,6 @@ class Player implements haxe.Public{
 		
 		mc.rotation = MathEx.normAngle(angle + Math.PI * 0.5);
 		asterAngle = angle;
-		
 	}
 	
 	public function updateKey(df:Float){
@@ -183,8 +182,6 @@ class Player implements haxe.Public{
 		var k = 10.0;
 		vel.set( ca * k, sa * k);
 		aster = null;
-		//mc.pivotX = mc.width * 0.5;
-		//mc.pivotY = mc.height * 0.5;
 		stateLife = 0;
 	}
 	
@@ -194,6 +191,9 @@ class Player implements haxe.Public{
 		}
 		else {
 			last = aster;
+			if ( aster.cine != null) {
+				
+			}
 		}
 	}
 	
@@ -253,7 +253,7 @@ class Player implements haxe.Public{
 	}
 	
 	public function say( lbl:String ) {
-		speach( mc.x + 40, mc.y - 100,lbl );
+		if( !mute ) speach( mc.x + 40, mc.y - 100,lbl );
 	}
 	
 	public function speach( x, y,lbl:String,  col = 0xFFffFF ) {
