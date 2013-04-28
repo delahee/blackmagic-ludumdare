@@ -36,7 +36,7 @@ class M extends starling.display.Sprite {
 		stage.scaleMode = StageScaleMode.NO_SCALE;
 		stage.align = StageAlign.TOP_LEFT;
 		
-		Starling.multitouchEnabled = true;
+		//Starling.multitouchEnabled = true;
 		//core = new starling.core.Starling(M,stage, null, null, "auto", "baseline");
 		core = new starling.core.Starling(M, stage );
 		core.start();
@@ -48,7 +48,7 @@ class M extends starling.display.Sprite {
 		data = new Data();
 		game = new G();	
 		
-		screens = [ new ScreenTitle(), new ScreenTestAster(), new ScreenMath() /*, new ScreenTestPerso(), new ScreenTestLevel()*/ ];
+		screens = [ new ScreenTitle(), new ScreenTestAster(), new ScreenMath() /*, new ScreenTestPerso(), */,new ScreenTestLevel() ];
 		setScreen(screens.length-1);
 		addEventListener( starling.events.Event.ADDED_TO_STAGE, init);
 		
@@ -60,7 +60,7 @@ class M extends starling.display.Sprite {
 		touchable = true;
 		/*
 		fps.touchable = true;
-		fps.addEventListener( TouchEvent.TOUCH , function mup(e:TouchEvent)
+		fps.addEventListener( TouchEvent.TOUCH , function (e:TouchEvent)
 		{
 			trace('fpstouched');
 			var touch : Touch = e.touches[0];

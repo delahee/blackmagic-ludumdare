@@ -73,10 +73,11 @@ class Aster extends Entity, implements Public {
 		vtx.push({v:v,d:v.norm()});
 	}
 	
+	
 	public function enableTouch()
 	{
 		img.touchable = true;
-		img.addEventListener( TouchEvent.TOUCH , function mup(e:TouchEvent)
+		img.addEventListener( TouchEvent.TOUCH , function (e:TouchEvent)
 		{
 			trace('touched');
 			var touch: Touch = e.touches[0];
@@ -88,7 +89,7 @@ class Aster extends Entity, implements Public {
 				else if(touch.phase == TouchPhase.ENDED)
 				{
 					var loc = touch.getLocation(img);
-					trace("mup on " + loc );
+					//trace("mup on " + loc );
 				}
  
 				else if(touch.phase == TouchPhase.MOVED)
@@ -99,6 +100,7 @@ class Aster extends Entity, implements Public {
 		});
 		
 	}
+	
 			
 		
 	public function compile() {
@@ -334,15 +336,16 @@ class Aster extends Entity, implements Public {
 	{
 		var c = getGlbCenter();
 		
+		var ip = inPoint.clone().decr(c);
 		for ( i in 0...rotEdges.length) {
 			
 			var ei = getInEdgeRotGlb(i);
 			var eo = getOutEdgeRotGlb(i);
 			
-			var cin = c.clone().decr( ei );
-			var cout = c.clone().decr( eo );
+			var cin = ei.clone().decr( c );
+			var cout = eo.clone().decr( c );
 			
-			if ( isInCone( cin, cout, inPoint ))
+			if ( isInCone( cin, cout, ip ))
 				return i;
 		}
 		

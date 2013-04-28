@@ -1,7 +1,6 @@
 import flash.Lib;
 import flash.Vector;
 import mt.deepnight.Key;
-import mt.gx.math.Vec2i;
 import starling.display.MovieClip;
 import starling.display.Sprite;
 import volute.t.Vec2;
