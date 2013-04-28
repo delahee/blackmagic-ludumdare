@@ -199,7 +199,89 @@
 		life="100"
 		respawn="true"
 		/>
+		
 		<!-- Part 3 -->
+		<aster
+		colorId="0x00fb41"
+		size="60"
+		speed="10"
+		tgt="93,22"
+		life="100"
+		respawn="true"
+		/>
+		<aster
+		colorId="0x00dd39"
+		size="60"
+		speed="10"
+		tgt="93,22"
+		life="100"
+		respawn="true"
+		/>
+		<aster
+		colorId="0x04bd34"
+		size="60"
+		speed="10"
+		tgt="93,22"
+		life="100"
+		respawn="true"
+		/>
+		<aster
+		colorId="0x009627"
+		size="60"
+		speed="10"
+		tgt="93,22"
+		life="100"
+		respawn="true"
+		/>
+		<aster
+		colorId="0x006119"
+		size="60"
+		speed="10"
+		tgt="93,22"
+		life="100"
+		respawn="true"
+		/>
+		<aster
+		colorId="0x093815"
+		size="60"
+		speed="10"
+		tgt="93,22"
+		life="100"
+		respawn="true"
+		/>
+		<aster
+		colorId="0x345a2c"
+		size="60"
+		speed="10"
+		tgt="93,22"
+		life="100"
+		respawn="true"
+		/>
+		<aster
+		colorId="0x2b5c21"
+		size="60"
+		speed="10"
+		tgt="93,22"
+		life="100"
+		respawn="true"
+		/>
+		<aster
+		colorId="0x093815"
+		size="60"
+		speed="10"
+		tgt="93,22"
+		life="100"
+		respawn="true"
+		/>
+		<aster
+		colorId="0x093815"
+		size="60"
+		speed="10"
+		tgt="93,22"
+		life="100"
+		respawn="true"
+		/>
+		
 		
 	<!--
 		colorId=pixel
