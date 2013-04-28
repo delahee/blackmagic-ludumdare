@@ -48,6 +48,7 @@ class FX
 	public function kill()
 	{
 		onKill();
+		onKill = null;
 		duration = 0;
 	}
 	

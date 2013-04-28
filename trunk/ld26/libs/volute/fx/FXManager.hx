@@ -28,7 +28,6 @@ class FXManager
 		for( k in rep.keys() )
 		{
 			var x = rep.get( k );
-			
 			if( k == DEFAULT_QUEUE )
 				rep.set( k , x.filter( function(fx) return fx.update() ));
 			else
