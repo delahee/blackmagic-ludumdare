@@ -26,6 +26,7 @@ class ScreenOutro extends Screen{
 		outro = new Outro();
 		outro.x -= 75;
 		outro.y -= 135;
+		loadBg = false;
 	}
 		
 	public override function init() {

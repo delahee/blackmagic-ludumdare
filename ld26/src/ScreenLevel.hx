@@ -11,7 +11,7 @@ import volute.Lib;
 import volute.t.Vec2;
 import volute.Dice;
 
-using volute.com.LbdEx;
+using volute.Ex;
 import mt.deepnight.Key;
 
 import Data;
@@ -40,14 +40,15 @@ class ScreenLevel extends Screen {
 		bg0.alpha = 0.3;
 	}
 	
+	
 	public override function init(){
 		super.init();
 		
-		var m = new BGM();
-		m.play(0,1000);
+		new BGM().play(0,1000);
+		
+		trace( Lib.listChildren(M.me));
 		
 		asters = new List<ScriptedAster>();
-		
 		var bmp = Data.me.level;
 		var w = bmp.width; var h = bmp.height;
 		var asterHash = new IntHash();
@@ -55,14 +56,11 @@ class ScreenLevel extends Screen {
 			asterHash.set( Std.parseInt( s.att.colorId ), s );
 		}
 		
-		sf0 = new Starfield( w * 8, Lib.h(), 0.5);
+		sf0 = new Starfield( M.me,w * 8, Lib.h(), 0.5);
 		sf0.root.alpha = 0.8;
-		M.me.addChild( sf0.root );	
 		
 		M.me.addChild( bg0);
-		sf1 = new Starfield( w * 4, Lib.h(), 0.85);
-		M.me.addChild( sf1.root );	
-		
+		sf1 = new Starfield( M.me, w * 4, Lib.h(), 0.85);
 		
 		for (y in 0...h) {
 			for(x in 0...w){
@@ -98,13 +96,41 @@ class ScreenLevel extends Screen {
 				break;
 			}
 			
+		bg.toBack();
+		sf0.root.toFront();
+		bg0.toFront();
+		sf1.root.toFront();
+		
+		M.view.toFront();
+		
+		for ( a in level.asters)
+			a.img.toFront();
+		
+		setChildIndex( player.mc , numChildren );
+		
+		trace( Lib.listChildren(M.me).map( function(c) return Std.string(c)+c.name ));
+		trace( Lib.listChildren(this).map( function(c) return Std.string(c)+c.name ) );
 	}
+	
+	/*
+	public function drawOrder() {
+		bg.toBack();
+		sf.root.toBack();
+		for ( a in level.asters)
+			a.img.toFront();
+		player.mc.toFront();
+	}
+	*/
 	
 	public override function kill() {
 		var b = super.kill();
-		for ( a in asters)
-			removeChild( a.mc.img );
-		asters = new List<ScriptedAster>();
+		if (b)
+		{
+			for ( a in asters) removeChild( a.mc.img );
+			sf0.dispose();
+			sf1.dispose();
+			bg0.dispose();
+		}
 		return b;
 	}
 	

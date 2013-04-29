@@ -1,5 +1,6 @@
 import flash.display.Bitmap;
 import flash.display.Shape;
+import starling.display.DisplayObjectContainer;
 import starling.display.Image;
 import starling.display.QuadBatch;
 import starling.display.Sprite;
@@ -8,19 +9,21 @@ import volute.algo.Pool;
 import flash.filters.GlowFilter;
 
 import volute.Dice;
-
 import Data;
 
-using volute.Lib;
+using volute.Ex;
 
 class Starfield {
 	public var bmp : Bitmap;
 	public var rep : Pool<Image>;
 	public var spin = 10;
 	public var root : Sprite;
-	public function new(w:Float, h:Float, sc:Float=1.0) {
-		bmp = new Bitmap(new BmpStar(0, 0, false));
+	public var nb:Int;
+	public var parent : DisplayObjectContainer; 
+	public function new(p:DisplayObjectContainer, w:Float, h:Float, sc:Float = 1.0, nb:Int = 50) {
 		
+		parent = p;
+		bmp = new Bitmap(new BmpStar(0, 0, false));
 		rep = new Pool<Image>( function() {
 			var i = Image.fromBitmap( bmp );
 			i.blendMode = starling.display.BlendMode.ADD;
@@ -32,14 +35,17 @@ class Starfield {
 			return i;
 		});
 		
-		rep.reserve( 60 );
+		this.nb = nb;
+		rep.reserve( nb );
 		root = new Sprite();
+		root.name = "starfield";
 		for ( x in rep.getFree()) {
 			var img = rep.create();
 			img.x = volute.Dice.rollF(0, w);
 			img.y = volute.Dice.rollF(0, h);
 			root.addChild( img );
 		}
+		p.addChild(root);
 	}
 	
 	public function update() {
@@ -54,9 +60,18 @@ class Starfield {
 		}
 	}
 	
-	public function kill()
+	public function dispose()
 	{
-		root.detach();
+		if ( root != null) {
+			root.detach();
+			for ( p in rep.getAll()) p.dispose();
+			rep.reset();
+			parent = null;
+			root.dispose();
+			root = null;
+			return true;
+		}
+		return false;
 	}
 }
 
