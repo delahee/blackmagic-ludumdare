@@ -365,12 +365,12 @@ class Data implements haxe.Public
 					l.add( { line:"...Anyway when the fruit reaches, the cat you have on the head...", side:SOther } );
 					l.add( { line:"And you obviously feel entertained becauuus...", side:SOther } );
 					l.add( { line:"*This guy is crazy* ok ahem, got to go, I have needs...", side:SPlayer } );
-					l.add( { line:"Ok bye ! ", side:SOther } );
+					l.add( { line:"Ok bye and watcha the space cobra...", side:SOther } );
 					l.add( { line:"*That was a colorful character...*", side:SPlayer } );
 				l;
 			},
 			proc:function() {},
-			ofsSprite:new Vec2( -40, 35),
+			ofsSprite:new Vec2( 0, 8),
 			ofsSpeech:new Vec2( -30, 0),
 		});
 		
@@ -399,7 +399,7 @@ class Data implements haxe.Public
 				l;
 			},
 			proc:function() {},
-			ofsSprite:new Vec2( -20, 35),
+			ofsSprite:new Vec2( 15, 10),
 			ofsSpeech:new Vec2( -30, 0),
 		});
 		
@@ -414,7 +414,7 @@ class Data implements haxe.Public
 					l.add( { line:"*:-P*", side:SOther } );
 					l.add( { line:"*:-/*", side:SPlayer } );
 					l.add( { line:"Unrestful you are", side:SOther } );
-					l.add( { line:"Me good man, you what tongue ?", side:SOther } );
+					l.add( { line:"Me good man, you what tongue ?", side:SPlayer } );
 					l.add( { line:"Thong ? swift you have to be if leave be, your mind is shrouded", side:SOther } );
 					l.add( { line:"Me from earth, me was on big iron boat", side:SOther } );
 					l.add( { line:"Strenght in you i feel, unrest clouds minds, unfocus birth haste, haste breed crasyness", side:SOther } );
@@ -424,8 +424,8 @@ class Data implements haxe.Public
 				l;
 			},
 			proc:function() {},
-			ofsSprite:new Vec2( -40, 35),
-			ofsSpeech:new Vec2( -30, 0),
+			ofsSprite:new Vec2( 0, 8),
+			ofsSpeech:new Vec2( -40, 0),
 		});
 		
 		cine.set('deepnight',{
@@ -448,7 +448,7 @@ class Data implements haxe.Public
 				l;
 			},
 			proc:function() { },
-			ofsSprite:new Vec2( -40, 35),
+			ofsSprite:new Vec2( 0, 8),
 			ofsSpeech:new Vec2( -30, 0),
 		});
 		
@@ -476,7 +476,7 @@ class Data implements haxe.Public
 					l;
 				},
 			proc:function() {},
-			ofsSprite:new Vec2( 430,262 ),
+			ofsSprite:new Vec2( 450+135,240 ),
 			ofsSpeech:new Vec2( -30, 0),
 		});
 		cines = cine;

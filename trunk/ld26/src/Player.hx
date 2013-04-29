@@ -157,7 +157,7 @@ class Player implements haxe.Public{
 			
 			vel.set( ca * k, sa * k);
 			
-			vel.y += 0.42;
+			vel.y += 0.42 * df;
 			
 			asterAngle = Math.atan2( vel.y, vel.x );
 			
@@ -283,7 +283,7 @@ class Player implements haxe.Public{
 		}
 		else
 		{
-			new SpeechDelay( 2.0, function() {
+			new SpeechDelay( delay+=2.0, function() {
 				M.me.setScreen( M.me.scursor + 1);
 			});
 		}
@@ -354,14 +354,19 @@ class Player implements haxe.Public{
 		if ( aster != null && !killed)
 			setAngle( asterAngle );
 		
+		
 		mc.x = pos.x;
 		mc.y = pos.y;
+		
+		
 	}
 	
 	public function handleCine() {
 		
-		var isNear = 	asterAngle > (2 * Math.PI / 3)
-		&&				asterAngle < (2 * Math.PI );
+		asterAngle = MathEx.normAngle(asterAngle);
+		
+		var isNear = 	asterAngle > (3 * Math.PI / 2)
+		&&				asterAngle < (2 * Math.PI ) - Math.PI / 3;
 		
 		if( aster!=null)
 		if( aster.cine != null && isNear  ) {
@@ -371,7 +376,7 @@ class Player implements haxe.Public{
 		}
 	}
 	
-	public function speachDur(lbl) return 0.75 + lbl.length * 0.08
+	public function speachDur(lbl) return 0.75 + lbl.length * 0.07
 	public function say( lbl:String ) {
 		if ( !mute ) 
 			speach( mc.x + 40, mc.y - 100,lbl ); 

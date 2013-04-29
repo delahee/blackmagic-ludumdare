@@ -111,7 +111,7 @@
 <!-- Burning & Movin Asteroids -->
 <aster 
 	colorId="0xbb0000" 
-	size="100"
+	size="80"
 	speed="2"
 	tgt="507,16"
 	life="75"
@@ -120,7 +120,7 @@
 /> 
 <aster 
 	colorId="0x850000" 
-	size="100"
+	size="80"
 	speed="2"
 	tgt="517,5"
 	life="75"
@@ -129,7 +129,7 @@
 /> 
 <aster 
 	colorId="0x5c0000" 
-	size="100"
+	size="80"
 	speed="2"
 	tgt="530,16"
 	life="75"
@@ -137,13 +137,7 @@
 	respawn="true"
 /> 
 <!-- Steroids Cine -->
-<aster 
-	colorId="0xdedede" 
-	size="100"
-	speed="0"
-	tgt="0"
-	cine = 'elvis'
-/>
+
 
 <aster 
 	colorId="0x00ffde"
@@ -167,6 +161,14 @@
 	colorId="0xff1100"
 	size="100"
 	cine="yoda"
+/>
+
+<aster 
+	colorId="0xdedede" 
+	size="100"
+	speed="0"
+	tgt="0"
+	cine = 'elvis'
 />
 	
 <!--

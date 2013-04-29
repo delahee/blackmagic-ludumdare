@@ -71,8 +71,7 @@ class ScreenLevel extends Screen {
 			if ( xml == null) xml = asterHash.get( 0 );
 			
 			var a : ScriptedAster = new ScriptedAster( xml, new Vec2(x,y)); 
-			a.mc = new Aster( a.isFire(), a.getSize() );
-			a.mc.script = a;
+			a.mc = new Aster( a.isFire(), a.getSize(), a );
 			
 			if ( a.getBaseDelay() <= 0)
 				asters.push(spawn(a));
@@ -182,6 +181,17 @@ class ScreenLevel extends Screen {
 		
 		sf1.root.x = - Player.me.pos.x * 0.025;
 		sf1.update();
+		
+		#if debug
+		if ( Key.isToggled(Keyboard.A) ) {
+			for ( f in asters )
+				if ( f.mc.cine != null && f.mc.cine.type == ELVIS ) {
+					player.setAsterAngle( f.mc, 0);
+					player.update();
+				}
+		}
+		#end
+		
 	}
 	
 	public function tick(fr) {

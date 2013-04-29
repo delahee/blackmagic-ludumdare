@@ -73,7 +73,7 @@ class M extends starling.display.Sprite {
 		//new ScreenTitle(), 
 		];
 		#if debug 
-			setScreen(3);
+			setScreen(0);
 		#else
 			setScreen(0);
 		#end
