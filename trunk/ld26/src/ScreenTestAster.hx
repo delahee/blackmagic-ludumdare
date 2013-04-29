@@ -71,6 +71,16 @@ class ScreenTestAster extends Screen
 		//var bmp = new Bitmap( new BmpStar(0, 0, false) );
 		//var img = starling.display.Image.fromBitmap( bmp);
 		//addChild( img );
+		/*
+		var f = Data.me.getFramesRectTex('props', 'idle');
+		var d = new starling.display.Image( f[Std.random(f.length - 1)]);
+		d.readjustSize();
+		
+		addChild( d );
+		
+		d.x = 50;
+		d.y = 500;
+		*/
 	}
 	
 	

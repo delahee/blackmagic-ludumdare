@@ -8,8 +8,8 @@
       <clip id="Sharepoint__" />
       <bitmap id="BmpBg" name="BmpBg" import="gfx\planche\bg_voielactée.png" size="24449" modified="27/04/2013 20:54:45" />
       <font id="semibold" name="semibold" import="gfx\Walkway_SemiBold.ttf" glyphs="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz '-&quot;'%,?!$+:*.éèêëàäâïîüç0123456789+=&gt;&lt;()[]/âàäéèêëîïôöùûüçáéíóúÁÉÍÓÚÑñ¡¿äÄÖÜß_²" size="50804" modified="28/04/2013 16:34:06" />
-      <sound id="BGM" name="BGM" import="snd\exctasy_final_no_intro_mp3_128.mp3" size="3011157" modified="28/04/2013 19:00:04" />
       <sound id="IntroBGM" name="IntroBGM" import="snd\Gourmet_-_Tutenmuschi_128.mp3" size="5397106" modified="29/04/2013 02:02:22" />
+      <sound id="BGM" name="BGM" import="snd\exctasy_final_no_intro_mp3_128.mp3" size="3011157" modified="29/04/2013 03:23:26" />
     </library>
   </frame>
 </movie>

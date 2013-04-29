@@ -127,11 +127,22 @@ class Aster extends Entity, implements Public {
 			shp = new Shape();
 			var g = shp.graphics;
 			var col = isFire ? 0xFF0000 : 0x000020;
+			
+			var cp = false;
+			if ( script != null && script.isCheckpoint())
+				cp = true;
+				
+			if( cp )
+				col = 0xFF9433;
+				
 			g.beginFill( col);
 			g.drawCircle( sz / 2.0, sz / 2.0, sz );
 			g.endFill();
 			
-			bmp = Lib.flatten( shp );
+			if( !cp )
+				shp.filters = [new GlowFilter( 0x66CCCC, 0.3, 25, 25, 4 )];
+			
+			bmp = Lib.flatten( shp ,50.0);
 			base = Image.fromBitmap( bmp );
 			base.readjustSize();
 			base.pivotX = base.width * 0.5;
@@ -159,27 +170,36 @@ class Aster extends Entity, implements Public {
 		}
 		
 		img.addChild( base );
-		
-		if( !isFire && Dice.percent( 75 ) )
-			for ( i in 0...Dice.roll( 3, 5 ) ) {
+	/*
+		if ( !isFire 
+		)
+		{
+			var b = Dice.rollF( 0 , Math.PI * 2 );
+			var n = Dice.roll( 40, 60 );
+			
+			for ( i in 0...Dice.roll( 20, 30 ) ) {
 				
+				if ( Dice.percent( 33 ) ) continue;
 				var f = Data.me.getFramesRectTex('props', 'idle');
 				var d = new Image( f[Std.random(f.length - 1)]);
 				d.readjustSize();
 				decor.push(d);
 				
-				var r = sz;
-				var a = Dice.rollF( 0 , Math.PI * 2 );
+				var r = sz - 6;
+				var a = b += Dice.rollF( 0.2, Math.PI * 2 / n / 2);
 				var ca = Math.cos( a );
 				var sa = Math.sin( a );
 				d.pivotX = d.width * 0.5;
 				d.pivotY = d.height;
-				//d.x = ca * r + x;
-				//d.y = sa * r + y;
 				
-				//d.rotation = a ;
+				d.x = ca * r ;
+				d.y = sa * r ;
+				
+				d.rotation = a+ Math.PI*0.5;
 				img.addChild( d );
 			}
+		}
+		*/
 		
 		return this;
 	}

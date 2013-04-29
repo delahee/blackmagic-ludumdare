@@ -114,7 +114,7 @@
 	size="100"
 	speed="2"
 	tgt="507,16"
-	life="120"
+	life="75"
 	fire="true"
 	respawn="true"
 /> 
@@ -123,7 +123,7 @@
 	size="100"
 	speed="2"
 	tgt="517,5"
-	life="120"
+	life="75"
 	fire="true"
 	respawn="true"
 /> 
@@ -132,7 +132,7 @@
 	size="100"
 	speed="2"
 	tgt="530,16"
-	life="120"
+	life="75"
 	fire = "true"
 	respawn="true"
 /> 

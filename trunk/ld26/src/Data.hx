@@ -1,6 +1,7 @@
 import flash.Lib;
 import flash.display.BitmapData;
 import flash.utils.Namespace;
+import mt.deepnight.Sfx;
 
 import flash.media.Sound;
 import flash.media.SoundMixer;
@@ -190,6 +191,8 @@ class Data implements haxe.Public
 	
 	public var cines : Hash<Cine>;
 	public var manor : BitmapData;
+	
+	public static var sndBank = mt.deepnight.Sfx.importDirectory("snd");
 	
 	public static var me : Data = null;
 	public function new(){
@@ -500,8 +503,10 @@ class Data implements haxe.Public
 		var tml = sheet.store.timelines.get( sprite + "." + state);
 		var v = new flash.Vector(tml.length);
 		
-		for ( a in 0...tml.length )
-			v[a] = starling.textures.Texture.fromTexture( texSheet, sheet.store.get( tml[a] ).rectangle ) ;
+		for ( a in 0...tml.length ) {
+			var fr = sheet.store.get( tml[a] );
+			v[a] = starling.textures.Texture.fromTexture( texSheet, fr.rectangle ) ;
+		}
 			
 		return v;
 	}

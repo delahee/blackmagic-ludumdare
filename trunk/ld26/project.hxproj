@@ -24,7 +24,7 @@
     <option flashStrict="True" />
     <option mainClass="M" />
     <option enabledebug="True" />
-    <option additional="&#xA;--dce no&#xA;-lib starling&#xA;-swf-version 11&#xA;-swf-lib starling.swf&#xA;--macro patchTypes('starling.patch')&#xA;-swf-lib gfx/planche/intro.swf" />
+    <option additional="&#xA;--dce no&#xA;-lib starling&#xA;-swf-version 11&#xA;-swf-lib starling.swf&#xA;--macro patchTypes('starling.patch')&#xA;-swf-lib gfx/planche/intro.swf&#xA;-swf-lib gfx/planche/outro.swf" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>
@@ -38,8 +38,8 @@
   <library>
     <asset path="gfx\planche\bg_voielactée.png" bitmap="True" id="BmpBg" />
     <asset path="gfx\Walkway_SemiBold.ttf" id="semibold" glyphs="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz '-&quot;'%,?!$+:*.éèêëàäâïîüç0123456789+=&gt;&lt;()[]/âàäéèêëîïôöùûüçáéíóúÁÉÍÓÚÑñ¡¿äÄÖÜß_²" />
-    <asset path="snd\exctasy_final_no_intro_mp3_128.mp3" id="BGM" />
     <asset path="snd\Gourmet_-_Tutenmuschi_128.mp3" id="IntroBGM" />
+    <asset path="snd\exctasy_final_no_intro_mp3_128.mp3" id="BGM" />
   </library>
   <!-- Paths to exclude from the Project Explorer tree -->
   <hiddenPaths>
