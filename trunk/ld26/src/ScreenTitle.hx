@@ -23,15 +23,15 @@ class ScreenTitle extends Screen{
 	var bgm : SoundChannel;
 	public function new(){
 		super();
-		intro = new gfx.Intro();
-		loadBg = false;
 		
-		bgm = new IntroBGM().play(0,1000);
+		loadBg = false;
 	}
 		
 	public override function init() {
 		super.init();
-		intro.x += intro.width * 0.5 - 24;
+		intro = new gfx.Intro();
+		bgm = new IntroBGM().play(0, 1000);
+		intro.x += intro.width * 0.5 - 26;
 		intro.y += 360;
 		M.core.nativeOverlay.addChild( intro );
 	}
