@@ -9,7 +9,7 @@
 		</state>
 		
 		<state id="jump" rythm="2">
-			<slice coord="0,150,67,75,9" nb="9" />
+			<slice coord="0,151,67,74,9" nb="9" />
 		</state>
 		<state id="crunched" rythm="1">
 			<slice coord="0,601,67,75,1" nb="1" />
