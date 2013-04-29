@@ -214,6 +214,7 @@ class Player implements haxe.Public{
 		aster = null;
 		stateLife = 0;
 		mc.loop = true;
+		jumpFx();
 	}
 	
 	public function onLand() {
@@ -231,11 +232,10 @@ class Player implements haxe.Public{
 	
 	public function jumpFx(){
 		var p = Data.me.playFx('jump');
-		p.pivotX = p.width*0.3;
+		p.pivotX = p.width*0.5;
 		p.pivotY = p.height;
-		p.x = pos.x- 20; 
+		p.x = pos.x; 
 		p.y = pos.y; 
-		p.scaleX = p.scaleY = 0.8;
 		p.rotation = mc.rotation;
 	}
 	

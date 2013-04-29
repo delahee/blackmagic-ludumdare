@@ -117,7 +117,7 @@ class ScreenTestAster extends Screen
 			a.update();
 			
 		if ( Key.isDown( K.B )) {
-			player.landFx();
+			player.jumpFx ();
 		}
 	}
 	
