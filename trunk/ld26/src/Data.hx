@@ -120,6 +120,12 @@ class BmpSun extends flash.display.BitmapData
 	
 }
 
+@:bitmap("../gfx/planche/sun.png")
+class BmpDeathFx extends flash.display.BitmapData
+{
+	
+}
+
 
 @:file("../gfx/data.xml")
 class SheetXml extends flash.utils.ByteArray
