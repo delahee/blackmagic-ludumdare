@@ -210,7 +210,6 @@ class Aster extends Entity, implements Public {
 		
 		var p = Player.me;
 		var cull = volute.MathEx.dist2( p.pos.x, p.pos.y, img.x, img.y) > 1300 * 1300;
-		cull = false;
 		img.visible = !cull; 
 		
 		if ( isFire && !cull) {
@@ -245,20 +244,21 @@ class Aster extends Entity, implements Public {
 					p.visible = false;
 					flare.destroy( p );
 					p.removeFromParent(false);
-					break;
 				}
-				
-				var ca = Math.cos( p.a );
-				var sa = Math.sin( p.a );
-				p.x = ca * p.v;
-				p.y = sa * p.v;
-				
-				if( p.life >= 10)
-					p.scaleX = p.scaleY += df * 0.01;
-				else 
+				else
 				{
-					p.scaleX = p.scaleY *= 0.7;
-					p.alpha -= 0.1 * df;
+					var ca = Math.cos( p.a );
+					var sa = Math.sin( p.a );
+					p.x = ca * p.v;
+					p.y = sa * p.v;
+					
+					if( p.life >= 10)
+						p.scaleX = p.scaleY += df * 0.01;
+					else 
+					{
+						p.scaleX = p.scaleY *= 0.7;
+						p.alpha -= 0.1 * df;
+					}
 				}
 			}
 				

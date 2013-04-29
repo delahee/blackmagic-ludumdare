@@ -231,12 +231,11 @@ class ScreenLevel extends Screen {
 			}
 		}
 		
-		for ( a in asters ) {
-			if ( Math.abs( a.speed ) <= 0.01 ) continue;
-			
+		if ( Math.abs( sa.speed ) >= 0.01 )
+		{
 			var res = null;
-			var pos = a.mc.getCenter();
-			var amc = a.mc;
+			var pos = sa.mc.getCenter();
+			var amc = sa.mc;
 			
 			function proc(e:Entity) {
 				if ( volute.Coll.testCircleCircle( pos.x, pos.y, 50, e.x, e.y, e.sz ) && e!=amc) {
@@ -247,9 +246,11 @@ class ScreenLevel extends Screen {
 			}
 			
 			var resAct = cast res;
-			var ast = a.mc;
+			var ast = sa.mc;
 			level.grid.iterRange( Std.int(ast.x), Std.int(ast.y), Std.int(ast.sz * 0.5), proc);
 		}
+		
+		sa.mc.update();
 	}
 	
 	public function spawn( sa : ScriptedAster) {
