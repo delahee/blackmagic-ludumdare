@@ -427,7 +427,7 @@ class Data implements haxe.Public
 					l.add( { line:"Unrestful you are", side:SOther } );
 					l.add( { line:"Me good man, you what tongue ?", side:SPlayer } );
 					l.add( { line:"Thong ? swift you have to be if leave be, your mind is shrouded", side:SOther } );
-					l.add( { line:"Me from earth, me was on big iron boat", side:SOther } );
+					l.add( { line:"Me from earth, me was on big iron boat", side:SPlayer } );
 					l.add( { line:"Strenght in you i feel, unrest clouds minds, unfocus birth haste, haste breed crasyness", side:SOther } );
 					l.add( { line:"Big man want leave LEAVE LEAVE, need my home, need my chicks, need...", side:SPlayer } );
 					l.add( { line:"Happiness no need has ? so many things but less should seek, less is MORE", side:SOther } );
@@ -488,7 +488,7 @@ class Data implements haxe.Public
 				},
 			proc:function() {},
 			ofsSprite:new Vec2( 450+135,240 ),
-			ofsSpeech:new Vec2( -150, 30),
+			ofsSpeech:new Vec2( 0, 30),
 		});
 		cines = cine;
 	}
