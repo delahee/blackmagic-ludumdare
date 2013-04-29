@@ -79,18 +79,18 @@
 	
 	<sprite id="fx" >
 		
-		<state id="land" rythm="2">
+		<state id="land" rythm="4">
 			<slice coord="0,0,100,80,6" nb="6" />
 		</state>
 		
-		<state id="dash" rythm="2">
+		<state id="dash" rythm="4">
 			<slice coord="0,80,50,50,6" nb="6" />
 		</state>
 		
-		<state id="jump" rythm="2">
+		<state id="jump" rythm="4">
 			<slice coord="0,80,50,80,5" nb="5" />
 		</state>
-		<state id="talk" rythm="2">
+		<state id="talk" rythm="3">
 			<slice coord="0,210,70,70,6" nb="6" />
 		</state>
 	</sprite>
