@@ -129,7 +129,7 @@ class Player implements haxe.Public{
 				
 				var impeach = aster.cine != null && aster.cine.type == ELVIS;
 				if ( !impeach) {
-					if ( movieState != 'jump' ) setMovieState( 'jump' );
+					
 					onFly();
 				}
 			}
@@ -201,6 +201,7 @@ class Player implements haxe.Public{
 	}
 	
 	public function onFly() {
+		if ( movieState != 'jump' ) setMovieState( 'jump' );
 		Data.sndBank.jump().play();
 		var ca = Math.cos( asterAngle );
 		var sa = Math.sin( asterAngle );
