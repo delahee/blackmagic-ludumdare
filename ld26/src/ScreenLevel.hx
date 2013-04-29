@@ -7,6 +7,7 @@ import haxe.xml.Fast;
 import starling.display.Image;
 import starling.display.QuadBatch;
 import volute.algo.Pool;
+import volute.fx.FX;
 import volute.Lib;
 import volute.t.Vec2;
 import volute.Dice;
@@ -171,7 +172,7 @@ class ScreenLevel extends Screen {
 			{
 				e.d -= fr;
 				if ( e.d <= 0 ) {
-					spawn( e.a);
+					spawn( e.a,true);
 				}
 				return e.d<=0;
 			});
@@ -203,10 +204,12 @@ class ScreenLevel extends Screen {
 	
 	public function murder(sa:ScriptedAster)
 	{
+		if ( 
+		
 		sa.dead = true;
 		sa.mc.move( 1000000, 1000000);
-		if ( sa.getBaseDelay() > 0 )
-			sa.delay = sa.getBaseDelay();
+		if ( sa.getBaseDelay() > 0 ) sa.delay = sa.getBaseDelay();
+			
 	}
 	
 	public function exec(sa : ScriptedAster, fr: Float) {
@@ -215,7 +218,7 @@ class ScreenLevel extends Screen {
 				if( sa.delay <= 0){
 					sa.time = 0;
 					sa.dead = false;
-					spawn( sa );
+					spawn( sa ,true );
 				}
 				sa.delay -= fr;
 			}
@@ -233,6 +236,20 @@ class ScreenLevel extends Screen {
 				murder(sa);
 			else 
 			{
+				if (sa.haveLife()) {
+					var l = 30;
+					if ( (sa.getLife() - sa.time) <= l ) {
+						var r = (sa.getLife() - sa.time) / l;//1-0
+						var t = r;
+						t = Math.sqrt(t);
+						
+						t *= 1.1;
+						
+						sa.mc.img.scaleX = sa.mc.img.scaleY = t;
+						sa.mc.sz = sa.mc.osz * t;
+					}
+				}
+					
 				if ( sa.mc.scripted){
 					sa.mc.a += sa.getRotSpeed() * fr;
 					if ( sa.speed > 0) sa.mc.translate(sa.dir.x * sa.speed * fr, sa.dir.y * sa.speed * fr);
@@ -263,8 +280,21 @@ class ScreenLevel extends Screen {
 		sa.mc.update();
 	}
 	
-	public function spawn( sa : ScriptedAster) {
+	public function spawn( sa : ScriptedAster,late = false) {
+		
 		sa.mc.move( sa.coo.x * 32.0, sa.coo.y * 32.0 );
+		
+		if ( late){
+			sa.mc.img.scaleX = sa.mc.img.scaleY = 0;
+			
+			var f = new FX(1.0);
+			f.onUpdate = function(t) {
+				t = Math.sqrt(t);
+				if ( t >= 1.0) t = 1.0;
+				sa.mc.img.scaleX = sa.mc.img.scaleY = t;
+				sa.mc.sz = sa.mc.osz * t;
+			}
+		}
 		
 		if ( sa.mc.img.parent == null)
 			addChild( sa.mc.img );

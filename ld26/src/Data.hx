@@ -477,7 +477,7 @@ class Data implements haxe.Public
 				},
 			proc:function() {},
 			ofsSprite:new Vec2( 450+135,240 ),
-			ofsSpeech:new Vec2( -30, 0),
+			ofsSpeech:new Vec2( -150, 30),
 		});
 		cines = cine;
 	}

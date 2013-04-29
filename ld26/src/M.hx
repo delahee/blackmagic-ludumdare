@@ -73,7 +73,7 @@ class M extends starling.display.Sprite {
 		//new ScreenTitle(), 
 		];
 		#if debug 
-			setScreen(0);
+			setScreen(1);
 		#else
 			setScreen(0);
 		#end
@@ -82,9 +82,9 @@ class M extends starling.display.Sprite {
 		
 		fps = getTf("FPS");
 		fps.y = 40;
-		//#if debug
+		#if debug
 		addChild(fps);
-		//#end
+		#end
 		touchable = true;
 		
 		var ac = volute.t.Vec2.angle( new Vec2(0, 1), new Vec2(1, 0));

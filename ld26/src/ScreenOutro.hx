@@ -6,7 +6,6 @@ import flash.Lib;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextField;
 import flash.text.TextFormat;
-import gfx.Intro;
 import gfx.Outro;
 import mt.deepnight.Key;
 import starling.core.Starling;
@@ -23,15 +22,19 @@ class ScreenOutro extends Screen{
 	
 	public function new(){
 		super();
-		outro = new Outro();
-		outro.x -= 75;
-		outro.y -= 135;
+		
 		loadBg = false;
 	}
 		
 	public override function init() {
 		super.init();
+		outro = new Outro();
+		outro.x -= 75;
+		outro.y -= 135;
 		outro.play();
+		while ( outro.currentFrame > 1 )
+			outro.prevFrame();
+			
 		M.core.nativeOverlay.addChild( outro );
 	}
 	
@@ -41,9 +44,8 @@ class ScreenOutro extends Screen{
 		return b;
 	}
 	
-	public override function update()
-	{
-		
+	public override function update() {
+		return super.update();
 	}
 }
 

@@ -126,8 +126,12 @@ class Player implements haxe.Public{
 			}
 			else
 			if ( Key.isDown( K.UP ) || Key.isDown( K.SPACE ) ) {
-				if ( movieState != 'jump' ) setMovieState( 'jump' );
-				onFly();
+				
+				var impeach = aster.cine != null && aster.cine.type == ELVIS;
+				if ( !impeach) {
+					if ( movieState != 'jump' ) setMovieState( 'jump' );
+					onFly();
+				}
 			}
 			else
 				if ( movieState != 'idle') setMovieState( 'idle' );
@@ -157,7 +161,10 @@ class Player implements haxe.Public{
 			
 			vel.set( ca * k, sa * k);
 			
+			//GRAVITY HERE
+			#if !debug
 			vel.y += 0.42 * df;
+			#end
 			
 			asterAngle = Math.atan2( vel.y, vel.x );
 			
@@ -337,7 +344,13 @@ class Player implements haxe.Public{
 			if ( Key.isToggled(K.SPACE) ) {
 				for ( f in volute.fx.FXManager.self.rep )
 					if ( Std.is( f, fx.SpeechDelay ) )
-						f.duration -= 0.25;
+					{
+						#if debug
+							f.duration -= 10.0;
+						#else 
+							f.duration -= 0.50;
+						#end
+					}
 			}
 		
 		if (isFlying()){

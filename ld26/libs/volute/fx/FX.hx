@@ -52,12 +52,17 @@ class FX
 		duration = 0;
 	}
 	
+	public dynamic function onUpdate(t) {
+		
+	}
+	
 	//return false whence wanna kill
 	public function update() :  Bool
 	{
 		if(duration != null)
 		{
 			var resp = time() <= t0 + duration;
+			onUpdate( t() );
 			if( resp == false )
 				kill();
 			return resp;
