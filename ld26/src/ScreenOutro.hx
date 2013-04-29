@@ -7,6 +7,7 @@ import flash.text.TextFieldAutoSize;
 import flash.text.TextField;
 import flash.text.TextFormat;
 import gfx.Intro;
+import gfx.Outro;
 import mt.deepnight.Key;
 import starling.core.Starling;
 //import starling.display.Image;
@@ -16,37 +17,21 @@ import starling.core.Starling;
 			
 class ScreenOutro extends Screen{
 	
-	public var outro : flash.display.Sprite;
-	public var shp : Shape;
-	public var txt : flash.text.TextField;
+	public var outro : Outro;
+	//public var shp : Shape;
+	//public var txt : flash.text.TextField;
 	
 	public function new(){
 		super();
-		outro = new Sprite();
-		shp = new Shape();
-		txt = new TextField();
-		txt.width = 600;
-		var fmt = new TextFormat('semibold', 20,0xFFffFF);
-		txt.setTextFormat( txt.defaultTextFormat = fmt );
-		txt.x = 300;
-		txt.y = 300;
-		txt.multiline = true;
-		txt.wordWrap = true;
-		txt.text = "Swimming Fool created by @cardduus(gfx), @gandhirules(design&snd), @blackmagic_mt(code) & @HallouinMathieu(music). Additionnal Music Tütenmuschi by Gourmet.";
+		outro = new Outro();
+		outro.x -= 75;
+		outro.y -= 135;
 	}
 		
 	public override function init() {
 		super.init();
 		
-		outro.addChild( txt );
-		outro.addChild( shp );
-		
-		var g = outro.graphics;
-		g.beginFill( 0xFF0000);
-		g.drawCircle( 0, 0, 50);
-		g.endFill();
-
-		M.core.nativeOverlay.addChild( txt );
+		M.core.nativeOverlay.addChild( outro );
 	}
 	
 	public override function kill() {

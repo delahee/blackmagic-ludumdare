@@ -1,6 +1,7 @@
 import flash.Lib;
 import flash.Vector;
 import fx.SpeechDelay;
+import mt.deepnight.Sfx;
 import mt.fx.Fx;
 
 import fx.Blink;
@@ -76,6 +77,9 @@ class Player implements haxe.Public{
 	}
 	
 	public function setAsterAngle( ias, angle) {
+		if ( aster == null) {
+			Data.sndBank.stomp().play();
+		}
 		aster = ias;
 		asterAngleSpeed = 0;
 		
@@ -126,6 +130,7 @@ class Player implements haxe.Public{
 			}
 			else
 				if ( movieState != 'idle') setMovieState( 'idle' );
+			
 		}
 		else if (isFlying()){
 			//if ( Key.isDown( K.LEFT )) a = - ac * df;
@@ -188,16 +193,19 @@ class Player implements haxe.Public{
 	}
 	
 	public function onFly() {
+		Data.sndBank.jump().play();
 		var ca = Math.cos( asterAngle );
 		var sa = Math.sin( asterAngle );
 		var k = 10.0;
 		vel.set( ca * k, sa * k);
 		aster = null;
 		stateLife = 0;
+		mc.loop = true;
 	}
 	
 	public function onLand() {
 		if ( aster.isFire ) {
+			Data.sndBank.burn().play();
 			kill();
 			setAnim( 'blown' );
 			mc.loop = false;
@@ -237,7 +245,9 @@ class Player implements haxe.Public{
 			
 			switch(q.side) {
 				case SPlayer:	
-						p( delay, function() speach( mc.x -50, mc.y - 100,q.line ));
+						p( delay, function() speach( mc.x -50, mc.y - 100, q.line ));
+						Data.sndBank.speak1().play();
+						
 				case SOther:
 				{
 					{
@@ -254,6 +264,7 @@ class Player implements haxe.Public{
 						p( delay, function()
 						{
 							speach( mc.x + 100 + c.ofsSpeech.x, mc.y - 100 + c.ofsSpeech.y, q.line, col);
+							Data.sndBank.speak2().play();
 						});
 					}
 				}
