@@ -90,7 +90,9 @@
 		<state id="jump" rythm="2">
 			<slice coord="0,80,50,80,5" nb="5" />
 		</state>
-		
+		<state id="talk" rythm="2">
+			<slice coord="0,210,70,70,6" nb="6" />
+		</state>
 	</sprite>
 		
 </tileDef>
