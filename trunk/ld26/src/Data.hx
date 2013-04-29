@@ -120,7 +120,7 @@ class BmpSun extends flash.display.BitmapData
 	
 }
 
-@:bitmap("../gfx/planche/sun.png")
+@:bitmap("../gfx/planche/mort.png")
 class BmpDeathFx extends flash.display.BitmapData
 {
 	
