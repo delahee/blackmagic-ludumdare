@@ -88,7 +88,7 @@
 		</state>
 		
 		<state id="jump" rythm="4">
-			<slice coord="0,80,50,80,5" nb="5" />
+			<slice coord="0,130,50,80,5" nb="5" />
 		</state>
 		<state id="talk" rythm="3">
 			<slice coord="0,210,70,70,6" nb="6" />
