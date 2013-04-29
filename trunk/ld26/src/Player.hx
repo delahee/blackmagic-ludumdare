@@ -222,13 +222,6 @@ class Player implements haxe.Public{
 		}
 		else {
 			last = aster;
-			/*
-			if ( aster.cine != null) {
-				
-				input = false;
-				makeCine( aster.cine );
-				aster.cine = null;
-			}*/
 		}
 	}
 	

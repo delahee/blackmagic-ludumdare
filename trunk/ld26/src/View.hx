@@ -20,7 +20,7 @@ class View extends Sprite
 			if ( p.pos.x < Lib.h() / 2)
 				x = 0;
 			else 
-				x = - p.pos.x  + Lib.h() / 2;
+				x = x*0.9 + 0.1 * (- p.pos.x  + Lib.h() / 2);
 				
 		}
 		
