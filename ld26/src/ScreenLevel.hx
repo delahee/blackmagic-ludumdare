@@ -1,7 +1,12 @@
 package ;
+import flash.display.Bitmap;
+import flash.filters.GlowFilter;
 import flash.ui.Keyboard;
 import haxe.Public;
 import haxe.xml.Fast;
+import starling.display.Image;
+import starling.display.QuadBatch;
+import volute.algo.Pool;
 import volute.Lib;
 import volute.t.Vec2;
 import volute.Dice;
@@ -18,10 +23,21 @@ class ScreenLevel extends Screen {
 	static var me : ScreenLevel;
 	public var spawnQueue : List<{d:Float,a : ScriptedAster}>;
 	
+	public var sf0 : Starfield;
+	public var sf1 : Starfield;
+	public var bg0 : Image;
+	
 	public function new() {
 		super();
 		me = this;
 		spawnQueue = new List();
+		
+		var bmd = new BmpDegrade(0, 0, false);
+		bg0 = Image.fromBitmap( new Bitmap(bmd));
+		bmd.dispose();
+		
+		bg0.blendMode = starling.display.BlendMode.NORMAL;
+		bg0.alpha = 0.3;
 	}
 	
 	public override function init(){
@@ -38,6 +54,15 @@ class ScreenLevel extends Screen {
 		for ( s in Data.me.ld.nodes.aster ) {
 			asterHash.set( Std.parseInt( s.att.colorId ), s );
 		}
+		
+		sf0 = new Starfield( w * 8, Lib.h(), 0.5);
+		sf0.root.alpha = 0.8;
+		M.me.addChild( sf0.root );	
+		
+		M.me.addChild( bg0);
+		sf1 = new Starfield( w * 4, Lib.h(), 0.85);
+		M.me.addChild( sf1.root );	
+		
 		
 		for (y in 0...h) {
 			for(x in 0...w){
@@ -73,9 +98,6 @@ class ScreenLevel extends Screen {
 				break;
 			}
 			
-		#if debug
-			player.setAsterAngle( asters.nth(5).mc, - Math.PI / 2 );
-		#end
 	}
 	
 	public override function kill() {
@@ -128,6 +150,12 @@ class ScreenLevel extends Screen {
 				}
 				return e.d<=0;
 			});
+			
+		sf0.root.x = - Player.me.pos.x * 0.01;
+		sf0.update();
+		
+		sf1.root.x = - Player.me.pos.x * 0.025;
+		sf1.update();
 	}
 	
 	public function tick(fr) {
