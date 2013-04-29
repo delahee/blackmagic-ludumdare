@@ -121,12 +121,18 @@ class Player implements haxe.Public{
 			if ( Key.isDown( K.LEFT )) {
 				setAsterAngle( aster, asterAngle - aspeed * M.timer.df);
 				mc.scaleX = -1;	
-				if ( movieState != 'run' ) setMovieState( 'run' );
+				if ( movieState != 'run' ) {
+					setMovieState( 'run' );
+					var f = startRunFx(true);
+				}
 			}
 			else if ( Key.isDown( K.RIGHT )) {
 				setAsterAngle( aster, asterAngle + aspeed * M.timer.df);
 				mc.scaleX = 1;	
-				if ( movieState != 'run' ) setMovieState( 'run' );
+				if ( movieState != 'run' ) {
+					setMovieState( 'run' );
+					var f = startRunFx(false);
+				}
 			}
 			else
 			if ( Key.isDown( K.UP ) || Key.isDown( K.SPACE ) ) {
@@ -230,6 +236,26 @@ class Player implements haxe.Public{
 		}
 	}
 	
+	public function startRunFx(left){
+		var p = Data.me.playFx('dash');
+		p.pivotX = p.width*0.5;
+		p.pivotY = p.height;
+		
+		var a = left ? (asterAngle + Math.PI / 8) : (asterAngle - Math.PI / 8);
+		var pa = aster.getPosAtAngle(a);
+		p.x = pa.x; 
+		p.y = pa.y; 
+		p.rotation = a + Math.PI * 0.5;
+		
+		var k = 0.7;
+		p.scaleY = k;
+		p.scaleX = k * (left? -1: 1);
+		p.alpha = 0.3;
+		p.blendMode = BlendMode.ADD;
+		return p;
+	}
+	
+	
 	public function jumpFx(){
 		var p = Data.me.playFx('jump');
 		p.pivotX = p.width*0.5;
@@ -237,6 +263,8 @@ class Player implements haxe.Public{
 		p.x = pos.x; 
 		p.y = pos.y; 
 		p.rotation = mc.rotation;
+		p.blendMode = BlendMode.ADD;
+		p.alpha = 0.3;
 	}
 	
 	public function landFx(){
@@ -246,9 +274,10 @@ class Player implements haxe.Public{
 		p.x = pos.x; 
 		p.y = pos.y; 
 		p.scaleX = p.scaleY = 0.8;
-		p.blendMode = BlendMode.ADD;
+		
 		p.alpha = 0.3;
 		p.rotation = mc.rotation;
+		p.blendMode = BlendMode.ADD;
 	}
 	
 	public function setAnim(anm){
