@@ -204,7 +204,8 @@ class ScreenLevel extends Screen {
 	
 	public function murder(sa:ScriptedAster)
 	{
-		if ( 
+		if ( sa.mc == Player.me.aster )
+			Player.me.onFly();
 		
 		sa.dead = true;
 		sa.mc.move( 1000000, 1000000);
