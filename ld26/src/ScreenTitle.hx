@@ -26,7 +26,7 @@ class ScreenTitle extends Screen{
 		intro = new gfx.Intro();
 		loadBg = false;
 		
-		bgm = new IntroBGM().play();
+		bgm = new IntroBGM().play(0,1000);
 	}
 		
 	public override function init() {

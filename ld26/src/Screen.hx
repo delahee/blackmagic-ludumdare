@@ -5,7 +5,7 @@ class Screen extends starling.display.Sprite{
 	public var isStarted = false;
 	public var level : L;
 	public var loadBg : Bool = true;
-	public var img : Image;
+	public var bg : Image;
 	
 	public static var me : Screen;
 	
@@ -28,9 +28,9 @@ class Screen extends starling.display.Sprite{
 		
 		if(loadBg){
 		var bmd = new Data.BmpBg(0, 0, false);
-		img = Image.fromBitmap( new Bitmap( bmd ) );
-		img.alpha = 0.5;
-		M.me.addChild( img );
+		bg = Image.fromBitmap( new Bitmap( bmd ) );
+		bg.alpha = 0.5;
+		M.me.addChild( bg );
 		bmd.dispose();
 		bmd = null;}
 	}

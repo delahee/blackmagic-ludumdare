@@ -9,7 +9,7 @@ import volute.Types;
 import Aster;
 import Data;
 
-using volute.com.LbdEx;
+using volute.Ex;
 
 class ScreenTestAster extends Screen
 {
@@ -31,6 +31,7 @@ class ScreenTestAster extends Screen
 	override public function init() {
 		super.init();
 		
+		bg.toBack();
 		var a = new Aster(100);
 		level.addAster( a ).translate( 150, 150 );
 		var b = level.addAster( new Aster(100) ).translate( 400, 400 );
@@ -38,7 +39,24 @@ class ScreenTestAster extends Screen
 		level.addAster( new Aster( true, 75) ).translate( 900, 400 );
 		var a = level.addAster( new Aster(false, 75) ).translate( 1100, 400 );
 		
-		/*
+		makeElvis(b);
+		
+		for ( ast in level.asters)
+			ast.a = Dice.rollF( 0 , Math.PI);
+		
+		addChild( lnr.img );
+		
+		player =  new Player();
+		addChild( player.mc);
+		player.setAsterAngle( level.asters[0], - Math.PI / 2);
+		
+		for( a in sf.rep.getUsed() )
+			addChild( a );
+			
+	}
+	
+	public function makeElvis(b:Aster) 
+	{
 		b.cine = 
 		{
 			type:ELVIS,
@@ -53,24 +71,6 @@ class ScreenTestAster extends Screen
 			ofsSprite:new Vec2(420,220),
 			ofsSpeech:new Vec2(0,0),
 		};
-		*/
-		
-		for ( ast in level.asters)
-			ast.a = Dice.rollF( 0 , Math.PI);
-		
-		addChild( lnr.img );
-		
-		player =  new Player();
-		addChild( player.mc);
-		player.setAsterAngle( level.asters[0], - Math.PI / 2);
-		
-		for( a in sf.rep.getUsed() )
-			addChild( a );
-			
-		
-		//var bmp = new Bitmap( new BmpStar(0, 0, false) );
-		//var img = starling.display.Image.fromBitmap( bmp);
-		//addChild( img );
 		/*
 		var f = Data.me.getFramesRectTex('props', 'idle');
 		var d = new starling.display.Image( f[Std.random(f.length - 1)]);
@@ -84,6 +84,15 @@ class ScreenTestAster extends Screen
 	}
 	
 	
+	override public function kill() {
+		var b = super.kill();
+		if ( b )
+		{
+			sf.kill();
+		}
+		return b;
+	}
+		
 	var spin = 0;
 	var enableDDraw = false;
 	public override function update() {
