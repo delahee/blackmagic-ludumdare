@@ -119,6 +119,14 @@ class ScreenTestAster extends Screen
 		if ( Key.isDown( K.B )) {
 			player.jumpFx ();
 		}
+		
+		if ( Key.isDown( K.C )) {
+			player.startRunFx(true);
+		}
+		
+		if ( Key.isDown( K.D )) {
+			player.startRunFx(false);
+		}
 	}
 	
 }
