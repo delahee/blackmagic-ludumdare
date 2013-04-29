@@ -60,6 +60,7 @@ class Aster extends Entity, implements Public {
 	
 	static var guid : Int = 0;
 	
+	var id = 0;
 	public var a(default, set_a) : Float;
 	
 	public var osz : Float;
@@ -76,7 +77,7 @@ class Aster extends Entity, implements Public {
 		x = y = 0;
 		
 		scripted = true;
-		guid++;
+		id=guid++;
 		
 		decor = [];
 		script = scr;
@@ -154,6 +155,7 @@ class Aster extends Entity, implements Public {
 		
 		if ( !isFire )
 		{
+			/*
 			shp = new Shape();
 			var g = shp.graphics;
 			var col = 0x0;
@@ -166,12 +168,19 @@ class Aster extends Entity, implements Public {
 			base.readjustSize();
 			base.pivotX = base.width * 0.5;
 			base.pivotY = base.height * 0.5;
-			
+			*/
+			var c = Lib.rangeMinMax(0, 7);
+			c.remove(0); c.remove(5);
+			base = new Image( Data.me.getTex('planetes', 'idle', c.random()) );
+			base.readjustSize();
+			base.pivotX = base.width * 0.5;
+			base.pivotY = base.height * 0.5;
+			base.scaleX = base.scaleY = sz / 100;
 			
 			{
 				var isCp =  (script != null && script.isCheckpoint());
 				
-				decal = new Image( Data.me.getTex('planetes', 'idle', isCp ? 0 :Dice.roll( 1, 4 ) ));
+				decal = new Image( Data.me.getTex('planetes', 'idle', isCp ? 5 : 0) );
 				decal.readjustSize();
 				decal.pivotX = decal.width * 0.5;
 				decal.pivotY = decal.height * 0.5;
@@ -286,6 +295,9 @@ class Aster extends Entity, implements Public {
 			}
 				
 		}
+		
+		if ( decal != null && (id%4) ==0) decal.alpha = 0.65 + 0.3 * Math.abs(Math.sin(M.timer.curT));
+		
 	}
 	
 	public function set_a(f:Float) {

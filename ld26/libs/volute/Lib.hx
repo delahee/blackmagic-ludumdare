@@ -17,7 +17,11 @@ class Lib
 			v.add( mc.getChildAt(i) );
 		return v;
 	}
-	
+
+	/**
+	 * return a iota between two value
+	 * @param	max exclusive hi bound
+	 */
 	public static inline function rangeMinMax(min:Int,max:Int){
 		var a = [];
 		for ( i in min...max)

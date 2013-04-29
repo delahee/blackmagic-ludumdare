@@ -120,7 +120,7 @@ class BmpSun extends flash.display.BitmapData
 	
 }
 
-@:bitmap("../gfx/planche/planetes.png")
+@:bitmap("../gfx/planche/planetes2.png")
 class BmpPlanetes extends flash.display.BitmapData
 {
 	
