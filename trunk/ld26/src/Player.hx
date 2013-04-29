@@ -172,9 +172,7 @@ class Player implements haxe.Public{
 			vel.set( ca * k, sa * k);
 			
 			//GRAVITY HERE
-			#if !debug
 			vel.y += 0.42 * df;
-			#end
 			
 			asterAngle = Math.atan2( vel.y, vel.x );
 			
@@ -301,7 +299,7 @@ class Player implements haxe.Public{
 			
 			switch(q.side) {
 				case SPlayer:	
-						p( delay, function() speach( mc.x -50, mc.y - 100, q.line ));
+						p( delay, function() speach( mc.x - 200, mc.y - 100, q.line ));
 						Data.sndBank.speak1().play();
 						
 				case SOther:

@@ -318,7 +318,7 @@ class Data implements haxe.Public
 					sheet:ts.att.file,
 				}
 				sprites.set( sprId, xmlSprite);
-				Lib.trace("read id: "+sprId /*+ " = " + xmlSprite*/);
+				//Lib.trace("read id: "+sprId /*+ " = " + xmlSprite*/);
 			}
 		}
 	

@@ -73,7 +73,7 @@ class M extends starling.display.Sprite {
 		//new ScreenTitle(), 
 		];
 		#if debug 
-			setScreen(3);
+			setScreen(1);
 		#else
 			setScreen(0);
 		#end
@@ -113,9 +113,12 @@ class M extends starling.display.Sprite {
 		Starling.juggler.advanceTime( timer.dt );
 		pix.Element.updateAnims();
 		
+		#if debug
+		var post = " "+ Starling.context.driverInfo;
 		if(++spin%10==0)
-			fps.text = Std.string(MathEx.trunk( 1.0 / timer.dt, 1));
-			
+			fps.text = Std.string(MathEx.trunk( 1.0 / timer.dt, 1))+" "+post;
+		#end
+		
 		data.update();
 		fxMan.update();
 		

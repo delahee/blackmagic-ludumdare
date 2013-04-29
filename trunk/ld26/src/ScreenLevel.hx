@@ -47,8 +47,6 @@ class ScreenLevel extends Screen {
 		
 		new BGM().play(0,1000);
 		
-		trace( Lib.listChildren(M.me));
-		
 		asters = new List<ScriptedAster>();
 		var bmp = Data.me.level;
 		var w = bmp.width; var h = bmp.height;
@@ -107,20 +105,7 @@ class ScreenLevel extends Screen {
 			a.img.toFront();
 		
 		setChildIndex( player.mc , numChildren );
-		
-		trace( Lib.listChildren(M.me).map( function(c) return Std.string(c)+c.name ));
-		trace( Lib.listChildren(this).map( function(c) return Std.string(c)+c.name ) );
 	}
-	
-	/*
-	public function drawOrder() {
-		bg.toBack();
-		sf.root.toBack();
-		for ( a in level.asters)
-			a.img.toFront();
-		player.mc.toFront();
-	}
-	*/
 	
 	public override function kill() {
 		var b = super.kill();

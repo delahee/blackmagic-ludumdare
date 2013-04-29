@@ -23,6 +23,7 @@ class Screen extends starling.display.Sprite{
 	/** Dont forget to call me */
 	public function init()
 	{
+		me = this;
 		isStarted = true;
 		visible = true;
 		level = new L();
