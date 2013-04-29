@@ -94,5 +94,12 @@
 	</sprite>
 		
 </tileDef>
+<tileDef file="mort">
+	<sprite id="mort" >
+		<state id="idle" rythm="1">
+			<slice coord="0,0,300,300" nb="4,15" />
+		</state>
+	</sprite>
+</tileDef>
 
 
