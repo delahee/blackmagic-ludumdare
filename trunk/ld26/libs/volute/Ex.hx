@@ -1,11 +1,10 @@
-package volute.com;
+package volute;
 
+import volute.Types;
 typedef EmbedLbd	= Lambda;
 typedef EmbedLbdEx 	= LbdEx;
 typedef EmbedArrEx 	= ArrEx;
 
-
-import flash.display.DisplayObject;
 
 class Ex
 {
@@ -34,14 +33,12 @@ class Ex
 	}
 	
 	public static function toFront( mc : DisplayObject ) {
-		detach(mc);
-		if( mc.parent != null)
+		if( mc.parent != null && mc != null)
 			mc.parent.setChildIndex( mc , mc.parent.numChildren-1 );
 	}
 	
 	public static function toBack( mc : DisplayObject) {
-		detach(mc);
-		if( mc.parent != null)
+		if( mc.parent != null && mc != null)
 			mc.parent.setChildIndex( mc , 0);
 	}
 	

@@ -24,14 +24,14 @@ class ScreenTestAster extends Screen
 		lnr = new Liner();
 		lnr.compile();
 		me = this;
-		sf = new Starfield( Lib.w()*5, Lib.h());
+		
 	}
 
 	
 	override public function init() {
 		super.init();
 		
-		bg.toBack();
+		sf = new Starfield( this, Lib.w()*5, Lib.h(),1.0,400);
 		var a = new Aster(100);
 		level.addAster( a ).translate( 150, 150 );
 		var b = level.addAster( new Aster(100) ).translate( 400, 400 );
@@ -50,9 +50,11 @@ class ScreenTestAster extends Screen
 		addChild( player.mc);
 		player.setAsterAngle( level.asters[0], - Math.PI / 2);
 		
-		for( a in sf.rep.getUsed() )
-			addChild( a );
-			
+		bg.toBack();
+		sf.root.toBack();
+		for ( a in level.asters)
+			a.img.toFront();
+		player.mc.toFront();
 	}
 	
 	public function makeElvis(b:Aster) 
@@ -86,9 +88,8 @@ class ScreenTestAster extends Screen
 	
 	override public function kill() {
 		var b = super.kill();
-		if ( b )
-		{
-			sf.kill();
+		if ( b ){
+			sf.dispose();
 		}
 		return b;
 	}

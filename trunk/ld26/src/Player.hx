@@ -23,8 +23,6 @@ import volute.Lib;
 import Aster;
 import Data;
 
-using volute.ArrEx;
-using volute.LbdEx;
 using volute.Ex;
 
 enum PlayerState {
@@ -63,6 +61,7 @@ class Player implements haxe.Public{
 		mc = Data.me.getMovie( 'perso', movieState='idle' );
 		mc.pivotX = mc.width * 0.5;			
 		mc.pivotY = mc.height;			
+		mc.name = "player";	
 		pos = new Vec2();
 		vel = new Vec2();
 		asterAngle = 0;
@@ -125,7 +124,8 @@ class Player implements haxe.Public{
 				mc.scaleX = 1;	
 				if ( movieState != 'run' ) setMovieState( 'run' );
 			}
-			else if ( Key.isDown( K.UP ) || Key.isDown( K.SPACE ) ) {
+			else
+			if ( Key.isDown( K.UP ) || Key.isDown( K.SPACE ) ) {
 				if ( movieState != 'jump' ) setMovieState( 'jump' );
 				onFly();
 			}
@@ -383,7 +383,7 @@ class Player implements haxe.Public{
 		tf.blendMode = starling.display.BlendMode.ADD;
 		tf.alpha = 0.5;
 		mc.parent.addChild( tf ); 
-		tf.toFront();
+		Ex.toFront( tf );
 		
 		var d = speachDur(lbl);
 		var v = new Vanish(tf, d);

@@ -1,23 +1,24 @@
+import haxe.Public;
+
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.MovieClip;
 import flash.display.Shape;
 import flash.filters.BlurFilter;
 import flash.filters.GlowFilter;
-import haxe.Public;
-import mt.gx.Pool;
+
 import starling.display.Image;
 import starling.display.Sprite;
+
 import volute.Dice;
 import volute.Lib;
 import volute.t.Vec2;
 
-
-using Lambda;
-using volute.LbdEx;
-using volute.ArrEx;
-
 import Data;
+
+using volute.Ex;
+
+
 
 class FlarePart extends Image{
 	public var life : Float;
@@ -126,8 +127,8 @@ class Aster extends Entity, implements Public {
 		{
 			shp = new Shape();
 			var g = shp.graphics;
-			var col = isFire ? 0xFF0000 : 0x000020;
-			g.beginFill( col);
+			var col = 0x0;
+			g.beginFill( col,1.0);
 			g.drawCircle( sz / 2.0, sz / 2.0, sz );
 			g.endFill();
 			

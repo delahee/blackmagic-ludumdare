@@ -28,11 +28,7 @@ import  volute.t.Vec2;
 import Data;
 import Type;
 
-using volute.Lib;
-
-
-
-
+using volute.Ex;
 
 class M extends starling.display.Sprite {
 	
@@ -77,7 +73,7 @@ class M extends starling.display.Sprite {
 		//new ScreenTitle(), 
 		];
 		#if debug 
-			setScreen(3);
+			setScreen(0);
 		#else
 			setScreen(0);
 		#end
@@ -86,8 +82,9 @@ class M extends starling.display.Sprite {
 		
 		fps = getTf("FPS");
 		fps.y = 40;
-		
+		#if debug
 		addChild(fps);
+		#end
 		touchable = true;
 		
 		var ac = volute.t.Vec2.angle( new Vec2(0, 1), new Vec2(1, 0));

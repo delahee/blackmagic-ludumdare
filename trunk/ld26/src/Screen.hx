@@ -1,6 +1,7 @@
 import flash.display.Bitmap;
 import starling.display.Image;
 
+using volute.Ex;
 class Screen extends starling.display.Sprite{
 	public var isStarted = false;
 	public var level : L;
@@ -14,6 +15,7 @@ class Screen extends starling.display.Sprite{
 		super();
 		visible = false;
 		me = this;
+		name = getName();
 	}
 
 	public function getName() :String return Std.string(Type.getClass(this))
@@ -25,14 +27,14 @@ class Screen extends starling.display.Sprite{
 		visible = true;
 		level = new L();
 		addChild(level);
-		
 		if(loadBg){
 		var bmd = new Data.BmpBg(0, 0, false);
 		bg = Image.fromBitmap( new Bitmap( bmd ) );
 		bg.alpha = 0.5;
 		M.me.addChild( bg );
 		bmd.dispose();
-		bmd = null;}
+		bmd = null;
+		}
 	}
 	
 	
@@ -44,6 +46,11 @@ class Screen extends starling.display.Sprite{
 		isStarted = false;
 		visible = false;
 		level.kill();
+		
+		if( bg !=null){
+		bg.dispose();
+		bg = null;
+		}
 		return true;
 	}
 	
