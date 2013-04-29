@@ -41,13 +41,16 @@
 		bottom : 0px;
 		left : 0px;
 		text-align : center;
+		cursor:pointer;
 	}
 	.bouton:hover {
 		background-position : -367px 0px;
+		cursor:pointer;
 	}
 	
 	.bouton a:hover {
 		background:url(images/bouton.png) no-repeat;
+		cursor:pointer;
 	}
 		
 	</style>
@@ -57,11 +60,11 @@
 		<h1>project</h1>
 		<p><a href="http://www.adobe.com/go/getflashplayer">Get Adobe Flash player</a></p>
 	</div>
-	<div class="bouton">
-  <p>
-   <a href="http://www.ludumdare.com/compo/author/delahee/" alt='rate me'></a>
- </p>
-</div>
+	<div class="bouton" onclick="document.location='http://www.ludumdare.com/compo/author/delahee/';return false;">
+		<p>
+			<a href="http://www.ludumdare.com/compo/author/delahee/" alt='rate me'> </a>
+		</p>
+	</div>
 </body>
 </center>
 </html>
