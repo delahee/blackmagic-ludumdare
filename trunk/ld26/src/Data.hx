@@ -126,7 +126,8 @@ class SheetXml extends flash.utils.ByteArray
 	
 }
 
-@:bitmap("../gfx/lvl/1.png")
+//@:bitmap("../gfx/lvl/1.png")
+@:bitmap("../gfx/lvl/2.png")
 class BmpLevel extends flash.display.BitmapData
 {
 	
@@ -148,13 +149,15 @@ class SndSpeak3 extends Sound { }
 class SndSpeak4 extends Sound{}
 
 
-@:file("../gfx/ld.xml")
+//@:file("../gfx/ld.xml")
+@:file("../gfx/ld2.xml")
 class LDXml extends flash.utils.ByteArray
 {
 	
 }
 
 class BGM extends Sound { }
+class IntroBGM extends Sound { }
 class INTRO extends Sound { }
 
 @:bitmap("../gfx/planche/manoir.png")

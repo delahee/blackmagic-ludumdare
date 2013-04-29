@@ -112,7 +112,7 @@ class Player implements haxe.Public{
 			var aspeed = 0.2;
 			if ( Key.isDown( K.LEFT )) {
 				setAsterAngle( aster, asterAngle - aspeed * M.timer.df);
-				mc.scaleX = 1;	
+				mc.scaleX = -1;	
 				if ( movieState != 'run' ) setMovieState( 'run' );
 			}
 			else if ( Key.isDown( K.RIGHT )) {
@@ -199,6 +199,9 @@ class Player implements haxe.Public{
 	public function onLand() {
 		if ( aster.isFire ) {
 			kill();
+			setAnim( 'blown' );
+			mc.loop = false;
+			mc.rotation = mc.rotation + Math.PI;
 		}
 		else {
 			last = aster;
@@ -226,7 +229,7 @@ class Player implements haxe.Public{
 		
 		c.proc();
 		
-		mc.scaleX = -1;
+		mc.scaleX = 1;
 		
 		var delay:Float = 0.0;
 		for ( q in c.script) {
@@ -336,7 +339,7 @@ class Player implements haxe.Public{
 		tryKill();
 		handleCine();
 		
-		if ( aster != null )
+		if ( aster != null && !killed)
 			setAngle( asterAngle );
 		
 		mc.x = pos.x;

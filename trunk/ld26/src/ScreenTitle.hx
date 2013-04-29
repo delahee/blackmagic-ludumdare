@@ -2,25 +2,31 @@ import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.Shape;
 import flash.Lib;
+import fx.SndFadeOut;
 import gfx.Intro;
 import mt.deepnight.Key;
-import mt.fx.Flash;
+import flash.media.SoundChannel;
 import starling.core.Starling;
 import starling.display.Image;
 import starling.display.Sprite;
 import starling.text.TextField;
 import starling.display.DisplayObject;
-			
+import Data;
+
+
 class ScreenTitle extends Screen{
 	
 	public var info : starling.text.TextField;
 	var intro : gfx.Intro;
 	var spaced = false;
 	var exiting = false;
+	var bgm : SoundChannel;
 	public function new(){
 		super();
 		intro = new gfx.Intro();
 		loadBg = false;
+		
+		bgm = new IntroBGM().play();
 	}
 		
 	public override function init() {
@@ -35,6 +41,7 @@ class ScreenTitle extends Screen{
 		if ( intro != null) {
 			M.core.nativeOverlay.removeChild( intro );
 			intro = null;
+			
 		}
 		return b;
 	}
@@ -46,6 +53,8 @@ class ScreenTitle extends Screen{
 		if ( intro.currentFrameLabel == "pressSpace" && Key.isToggled( flash.ui.Keyboard.SPACE) && !exiting&&!spaced) {
 			intro.play(); 
 			spaced = true;
+			//bgm.soundTransform.volume = 128;
+			new SndFadeOut( bgm, 12 );
 		}
 		else
 			if ( !exiting && intro.currentFrame == intro.totalFrames) {
@@ -59,6 +68,8 @@ class ScreenTitle extends Screen{
 				M.me.addChild( M.me.transition );
 				M.me.setScreen( M.me.scursor + 1 );
 				exiting = true;
+				
+				bgm.stop();
 			}
 	}
 }
