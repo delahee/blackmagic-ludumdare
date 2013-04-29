@@ -17,8 +17,7 @@ import pix.Store;
 import starling.textures.Texture;
 
 using  Lambda;
-using  volute.LbdEx;
-using  volute.ArrEx;
+using  volute.Ex;
 
 import starling.textures.Texture;
 import volute.t.Vec2;
@@ -132,6 +131,12 @@ class BmpDeathFx extends flash.display.BitmapData
 	
 }
 
+@:bitmap("../gfx/planche/fx.png")
+class BmpFx extends flash.display.BitmapData
+{
+	
+}
+
 
 @:file("../gfx/data.xml")
 class SheetXml extends flash.utils.ByteArray
@@ -232,6 +237,7 @@ class Data implements haxe.Public
 			loadSheet("perso", new PersoSheet(0, 0, false)),
 			loadSheet("propsspritesheet", new PropsSheet(0, 0, false)),
 			loadSheet("planetes", new BmpPlanetes(0, 0, false)),
+			loadSheet("fx", new BmpFx(0, 0, false)),
 		];
 		
 		for ( s in lsheets ) {
@@ -615,8 +621,8 @@ class Data implements haxe.Public
 			fxQueue = fxQueue.filter( function(m) 
 			{
 				if ( m.isComplete  ) {
-					if ( m.parent != null)
-						m.parent.removeChild( m );
+					m.detach();
+					m.dispose();
 					return false;
 				}
 				else 
@@ -630,6 +636,7 @@ class Data implements haxe.Public
 		var m = getMovie( "fx",fx );
 		m.loop = false;
 		fxQueue.push( m );
+		Screen.me.addChild( m );
 		return m;
 	}
 }
