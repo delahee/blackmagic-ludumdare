@@ -61,7 +61,7 @@ class Aster extends Entity, implements Public {
 	static var guid : Int = 0;
 	
 	public var a(default, set_a) : Float;
-	public function new(isFire = false, sz : Float = 32) {
+	public function new(isFire = false, sz : Float = 32, ?scr) {
 		super();
 		
 		if ( bmpFlare == null) 	{ bmdFlare = new BmpFlare(0, 0, false); 	bmpFlare = new Bitmap(bmdFlare); }
@@ -77,6 +77,7 @@ class Aster extends Entity, implements Public {
 		guid++;
 		
 		decor = [];
+		script = scr;
 		compile();
 	}
 	
@@ -86,18 +87,42 @@ class Aster extends Entity, implements Public {
 		
 		if ( c != null) {
 			cineMc = Data.me.getMovie(c.sprite, 'idle');
-			cineMc.x = x + c.ofsSprite.x;
-			cineMc.y = y - img.height + c.ofsSprite.y;
+			cineMc.readjustSize();
+			cineMc.pivotX = cineMc.width * 0.5;
+			cineMc.pivotY = cineMc.height;
+			cineMc.x = c.ofsSprite.x;
+			cineMc.y = - sz + c.ofsSprite.y;
 			img.addChild( cineMc );
 			
 			switch(c.type ) {default:
 			case ELVIS:
-				var np = x + 930;
+				var np = 1040;
 				var ng =  starling.display.Image.fromBitmap( new Bitmap( Data.me.manor) );
 				ng.pivotX = ng.width;
+				ng.pivotY = ng.height*0.5;
 				ng.x = np;
+				ng.y = 10;
 				
 				img.addChild( ng );
+				
+				function getBiatch(){
+					var mc = Data.me.getMovie('biatch', 'idle');
+					mc.pivotX = mc.width * 0.5;
+					mc.pivotY = mc.height;
+					
+					mc.x = np - 200;
+					mc.y = 10;
+					return mc;
+				}				
+				
+				var b = getBiatch(); img.addChild( b );
+				var b1 = getBiatch(); 
+				b1.x += 30;
+				b1.scaleY = 0.9;
+				b1.y -= 5;
+				b1.currentFrame++;
+				b1.alpha = 0.98;
+				img.addChild( b1 );
 			}
 		}
 		
@@ -139,14 +164,18 @@ class Aster extends Entity, implements Public {
 			base.pivotX = base.width * 0.5;
 			base.pivotY = base.height * 0.5;
 			
+			
 			{
-				decal = new Image( Data.me.getTex('planetes', 'idle', 1 ) );
+				var isCp =  (script != null && script.isCheckpoint());
+				
+				decal = new Image( Data.me.getTex('planetes', 'idle', isCp ? 0 :Dice.roll( 1, 4 ) ));
 				decal.readjustSize();
 				decal.pivotX = decal.width * 0.5;
 				decal.pivotY = decal.height * 0.5;
 				decal.scaleX = decal.scaleY = sz / 100;
 				decal.blendMode = starling.display.BlendMode.ADD;
-				//decal.alpha = 0.5;
+				decal.rotation = Dice.rollF( 0, Math.PI * 2 );
+				
 				img.addChild( decal );
 			}
 			img.addChild( base );

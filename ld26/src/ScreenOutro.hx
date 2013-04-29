@@ -31,7 +31,7 @@ class ScreenOutro extends Screen{
 		
 	public override function init() {
 		super.init();
-		
+		outro.play();
 		M.core.nativeOverlay.addChild( outro );
 	}
 	

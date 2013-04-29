@@ -41,7 +41,7 @@ class ScreenTestAster extends Screen
 		level.addAster( new Aster( true, 75) ).translate( 900, 400 );
 		var a = level.addAster( new Aster(false, 75) ).translate( 1100, 400 );
 		
-		//makeElvis(b);
+		makeElvis(b);
 		
 		for ( ast in level.asters)
 			ast.a = Dice.rollF( 0 , Math.PI);
@@ -78,7 +78,7 @@ class ScreenTestAster extends Screen
 				l;
 			},
 			proc:function() { player.mute = true; },
-			ofsSprite:new Vec2(420,220),
+			ofsSprite:new Vec2(455,190),
 			ofsSpeech:new Vec2(0,0),
 		};
 		/*
