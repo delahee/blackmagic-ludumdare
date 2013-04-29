@@ -31,7 +31,7 @@ class ScreenTitle extends Screen{
 		
 	public override function init() {
 		super.init();
-		intro.x += intro.width * 0.5 - 25;
+		intro.x += intro.width * 0.5 - 24;
 		intro.y += 360;
 		M.core.nativeOverlay.addChild( intro );
 	}

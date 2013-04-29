@@ -61,6 +61,8 @@ class Aster extends Entity, implements Public {
 	static var guid : Int = 0;
 	
 	public var a(default, set_a) : Float;
+	
+	public var osz : Float;
 	public function new(isFire = false, sz : Float = 32, ?scr) {
 		super();
 		
@@ -78,6 +80,7 @@ class Aster extends Entity, implements Public {
 		
 		decor = [];
 		script = scr;
+		osz = sz;
 		compile();
 	}
 	
