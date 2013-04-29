@@ -112,7 +112,7 @@ class Player implements haxe.Public{
 			var aspeed = 0.2;
 			if ( Key.isDown( K.LEFT )) {
 				setAsterAngle( aster, asterAngle - aspeed * M.timer.df);
-				mc.scaleX = -1;	
+				mc.scaleX = 1;	
 				if ( movieState != 'run' ) setMovieState( 'run' );
 			}
 			else if ( Key.isDown( K.RIGHT )) {
@@ -151,9 +151,7 @@ class Player implements haxe.Public{
 			
 			vel.set( ca * k, sa * k);
 			
-			#if !debug // GRAVITY SETTING HERE
 			vel.y += 0.42;
-			#end
 			
 			asterAngle = Math.atan2( vel.y, vel.x );
 			
@@ -359,7 +357,6 @@ class Player implements haxe.Public{
 	}
 	
 	public function speachDur(lbl) return 0.75 + lbl.length * 0.08
-	
 	public function say( lbl:String ) {
 		if ( !mute ) 
 			speach( mc.x + 40, mc.y - 100,lbl ); 
@@ -367,14 +364,16 @@ class Player implements haxe.Public{
 	
 	public function speach( x, y, lbl:String,  col = 0xFFFFffFF ) {
 		var t = Data.me.texts.get( lbl );
-		var tf = M.getTf( t==null?lbl : t,x,y,24,col );
+		var tf = M.getTf( t == null?lbl : t, x, y, 24, col );
+		tf.blendMode = starling.display.BlendMode.ADD;
+		tf.alpha = 0.5;
 		mc.parent.addChild( tf ); 
 		volute.Lib.toFront( tf );
 		
 		var d = speachDur(lbl);
 		var v = new Vanish(tf, d);
 		v.sy = 1.0;
-		trace('saying ' + lbl);
+		//trace('saying ' + lbl);
 	}
 	
 	

@@ -95,6 +95,30 @@ class PropsSheet extends flash.display.BitmapData
 	
 }
 
+@:bitmap("../gfx/planche/star.png")
+class BmpStar extends flash.display.BitmapData
+{
+	
+}
+
+@:bitmap("../gfx/planche/star_flare.png")
+class BmpFlare extends flash.display.BitmapData
+{
+	
+}
+
+@:bitmap("../gfx/planche/degradee.png")
+class BmpDegrade extends flash.display.BitmapData
+{
+	
+}
+
+@:bitmap("../gfx/planche/sun.png")
+class BmpSun extends flash.display.BitmapData
+{
+	
+}
+
 
 @:file("../gfx/data.xml")
 class SheetXml extends flash.utils.ByteArray
@@ -111,6 +135,17 @@ class BmpLevel extends flash.display.BitmapData
 class BmpBg extends flash.display.BitmapData {
 	
 }
+
+@:sound("../snd/jumpSpace.wav")
+class SndJump extends Sound { }
+@:sound("../snd/speak1.wav")
+class SndSpeak1 extends Sound { }
+@:sound("../snd/speak2.wav")
+class SndSpeak2 extends Sound { }
+@:sound("../snd/speak3.wav")
+class SndSpeak3 extends Sound { }
+@:sound("../snd/speak4.wav")
+class SndSpeak4 extends Sound{}
 
 
 @:file("../gfx/ld.xml")
@@ -362,7 +397,7 @@ class Data implements haxe.Public
 					l.add( { line:"Strenght in you i feel, unrest clouds minds, unfocus birth haste, haste breed crasyness", side:SOther } );
 					l.add( { line:"Big man want leave LEAVE LEAVE, need my home, need my chicks, need...", side:SPlayer } );
 					l.add( { line:"Happiness no need has ? so many things but less should seek, less is MORE", side:SOther } );
-					l.add( { line:"For moron you mean... no need for less, when can have plenty, ciao stupido !", side:SPlayer} );
+					l.add( { line:"For morons you mean... no need for less, when can have plenty, ciao stupido !", side:SPlayer} );
 				l;
 			},
 			proc:function() {},

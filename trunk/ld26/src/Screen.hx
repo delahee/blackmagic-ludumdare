@@ -29,6 +29,7 @@ class Screen extends starling.display.Sprite{
 		if(loadBg){
 		var bmd = new Data.BmpBg(0, 0, false);
 		img = Image.fromBitmap( new Bitmap( bmd ) );
+		img.alpha = 0.5;
 		M.me.addChild( img );
 		bmd.dispose();
 		bmd = null;}
