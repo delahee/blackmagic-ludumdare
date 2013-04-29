@@ -90,6 +90,8 @@ class Player implements haxe.Public{
 			if ( killed ) return;
 			
 			setAngle( angle );
+			
+			if ( oas != aster ) landFx();
 		}
 		
 		if ( aster != null 
@@ -224,20 +226,28 @@ class Player implements haxe.Public{
 		}
 		else {
 			last = aster;
-			
-			landFx();
 		}
 	}
 	
-	public function landFx(){
-		var p = Data.me.playFx('land');
+	public function jumpFx(){
+		var p = Data.me.playFx('jump');
 		p.pivotX = p.width*0.3;
 		p.pivotY = p.height;
 		p.x = pos.x- 20; 
 		p.y = pos.y; 
 		p.scaleX = p.scaleY = 0.8;
-		//p.blendMode = BlendMode.ADD;
-		//p.alpha = 0.7;
+		p.rotation = mc.rotation;
+	}
+	
+	public function landFx(){
+		var p = Data.me.playFx('land');
+		p.pivotX = p.width*0.5;
+		p.pivotY = p.height;
+		p.x = pos.x; 
+		p.y = pos.y; 
+		p.scaleX = p.scaleY = 0.8;
+		p.blendMode = BlendMode.ADD;
+		p.alpha = 0.3;
 		p.rotation = mc.rotation;
 	}
 	
