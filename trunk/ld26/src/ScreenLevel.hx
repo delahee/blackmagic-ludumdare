@@ -44,7 +44,7 @@ class ScreenLevel extends Screen {
 		super.init();
 		
 		var m = new BGM();
-		m.play();
+		m.play(0,1000);
 		
 		asters = new List<ScriptedAster>();
 		

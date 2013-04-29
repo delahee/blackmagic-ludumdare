@@ -11,6 +11,8 @@ import volute.Dice;
 
 import Data;
 
+using volute.Lib;
+
 class Starfield {
 	public var bmp : Bitmap;
 	public var rep : Pool<Image>;
@@ -50,6 +52,11 @@ class Starfield {
 					r.alpha = 0.4 + Dice.rollF( -0.1, 0.1 );
 			}
 		}
+	}
+	
+	public function kill()
+	{
+		root.detach();
 	}
 }
 

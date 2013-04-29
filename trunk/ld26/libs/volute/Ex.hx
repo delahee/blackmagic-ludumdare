@@ -15,22 +15,6 @@ class Ex
 			v.parent.removeChild( v );
 	}
 	
-	public static function toFront(v: DisplayObject)
-	{
-		if (v != null && v.parent != null)
-		{
-			v.parent.setChildIndex(v, v.parent.numChildren-1);
-		}
-	}
-	
-	public static function toBack(v: DisplayObject)
-	{
-		if (v != null && v.parent != null)
-		{
-			v.parent.setChildIndex(v, 0);
-		}
-	}
-	
 	public static function putBehind(v0 : DisplayObject, v1 : DisplayObject)
 	{
 		if ( v0 == null || v1 == null) return;
@@ -49,4 +33,17 @@ class Ex
 		v1.parent.addChildAt( v0, idx+1 );
 	}
 	
+	public static function toFront( mc : DisplayObject ) {
+		detach(mc);
+		if( mc.parent != null)
+			mc.parent.setChildIndex( mc , mc.parent.numChildren-1 );
+	}
+	
+	public static function toBack( mc : DisplayObject) {
+		detach(mc);
+		if( mc.parent != null)
+			mc.parent.setChildIndex( mc , 0);
+	}
+	
+		
 }

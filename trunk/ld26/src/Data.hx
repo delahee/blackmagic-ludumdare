@@ -312,6 +312,10 @@ class Data implements haxe.Public
 			s('persoAlone_#0', 'Hi');
 			s('persoAlone_#1', 'Anybody outta ?');
 			s('persoAlone_#2', 'Darn, think I lost my party...');
+			s('persoAlone_#3', 'The poulet cream was really too much finally...');
+			s('persoAlone_#4', 'Stop watching me!');
+			s('persoAlone_#5', 'Always hated dub step anyway...');
+			//s('persoAlone_#5', '');
 			
 			s('perso_jump_#0', 'woow that sensation, flying alone is good sometime');
 			s('perso_jump_#1', 'whooooooooooooooooo that one as awesome');

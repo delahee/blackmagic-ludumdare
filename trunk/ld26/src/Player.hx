@@ -25,6 +25,7 @@ import Data;
 
 using volute.ArrEx;
 using volute.LbdEx;
+using volute.Ex;
 
 enum PlayerState {
 	
@@ -382,7 +383,7 @@ class Player implements haxe.Public{
 		tf.blendMode = starling.display.BlendMode.ADD;
 		tf.alpha = 0.5;
 		mc.parent.addChild( tf ); 
-		volute.Lib.toFront( tf );
+		tf.toFront();
 		
 		var d = speachDur(lbl);
 		var v = new Vanish(tf, d);
