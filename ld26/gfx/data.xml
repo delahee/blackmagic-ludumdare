@@ -109,9 +109,9 @@
 	</sprite>
 </tileDef>
 <tileDef file="planetes2">
-	<sprite id="planetes" >
+	<sprite id="planetes2" >
 		<state id="idle" rythm="1">
-			<slice coord="0,0,400,400" nb="2,5" />
+			<slice coord="0,0,400,400" nb="2,7" />
 		</state>
 	</sprite>
 </tileDef>
