@@ -45,7 +45,12 @@ class M extends starling.display.Sprite {
 	
 	public var fps : TextField;
 	
-	
+	static var hw :Null<Bool>= null;
+	public static function isHardware() {
+		if( hw == null) 
+			return hw = Starling.context.driverInfo.toLowerCase().indexOf("software") == -1
+		else return hw;
+	}
 	
 	static function main() {
 		var stage : flash.display.Stage = flash.Lib.current.stage;
@@ -92,6 +97,12 @@ class M extends starling.display.Sprite {
 		var a=1;
 		
 		addChild(view);
+		
+		if ( !isHardware())
+		{
+			var t = getTf("WARNING, YOU ARE RUNNING IN SOFTWARE MODE, FOR A REAL GAME EXPERIENCE, PLEASE UPDATE VIDEO DRIVER OR GPU", 50, 50, 30, 0xFF0000);
+			addChild( t );
+		}
 	}
 	
 	function init() {

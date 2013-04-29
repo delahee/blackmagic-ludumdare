@@ -155,20 +155,6 @@ class Aster extends Entity, implements Public {
 		
 		if ( !isFire )
 		{
-			/*
-			shp = new Shape();
-			var g = shp.graphics;
-			var col = 0x0;
-			g.beginFill( col,1.0);
-			g.drawCircle( sz / 2.0, sz / 2.0, sz );
-			g.endFill();
-			
-			bmp = mt.deepnight.Lib.flatten( shp );
-			base = Image.fromBitmap( bmp );
-			base.readjustSize();
-			base.pivotX = base.width * 0.5;
-			base.pivotY = base.height * 0.5;
-			*/
 			var c = Lib.rangeMinMax(0, 7);
 			c.remove(0); c.remove(5);
 			base = new Image( Data.me.getTex('planetes', 'idle', c.random()) );
@@ -244,7 +230,7 @@ class Aster extends Entity, implements Public {
 		var cull = volute.MathEx.dist2( p.pos.x, p.pos.y, img.x, img.y) > 1300 * 1300;
 		img.visible = !cull; 
 		
-		if ( isFire && !cull) {
+		if ( isFire && !cull && M.isHardware()) {
 			
 			spin += df;
 			
