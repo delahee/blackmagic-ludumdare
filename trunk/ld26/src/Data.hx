@@ -125,6 +125,11 @@ class BmpDeathFx extends flash.display.BitmapData
 {
 	
 }
+@:bitmap("../gfx/planche/planetes.png")
+class BmpPlaneteSkin extends flash.display.BitmapData
+{
+	
+}
 
 
 @:file("../gfx/data.xml")
