@@ -60,10 +60,12 @@ class ScreenTestAster extends Screen
 			a.img.toFront();
 		player.mc.toFront();
 		
+		/*
 		img = new Image(Data.me.getTex("planetes", 'idle', 0));
 		img.readjustSize();
 		img.pivotX = img.width * 0.5;
 		img.pivotY = img.height * 0.5;
+		*/
 		//addChild( img );
 	}
 	
@@ -113,6 +115,10 @@ class ScreenTestAster extends Screen
 		sf.update();
 		for ( a in level.asters) 
 			a.update();
+			
+		if ( Key.isDown( K.B )) {
+			player.landFx();
+		}
 	}
 	
 }

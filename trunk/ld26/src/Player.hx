@@ -12,6 +12,7 @@ import mt.deepnight.KDTree;
 import mt.deepnight.Key;
 import starling.display.MovieClip;
 import starling.display.Sprite;
+import starling.display.BlendMode;
 import volute.Coll;
 import volute.Dice;
 import volute.t.Vec2;
@@ -80,11 +81,12 @@ class Player implements haxe.Public{
 		if ( aster == null) {
 			Data.sndBank.stomp().play();
 		}
+		var oas  = aster;
 		aster = ias;
 		asterAngleSpeed = 0;
 		
 		if ( aster != null ) {
-			onLand();
+			if( oas != aster ) onLand();
 			if ( killed ) return;
 			
 			setAngle( angle );
@@ -222,11 +224,24 @@ class Player implements haxe.Public{
 		}
 		else {
 			last = aster;
+			
+			landFx();
 		}
 	}
 	
-	public function setAnim(anm)
-	{
+	public function landFx(){
+		var p = Data.me.playFx('land');
+		p.pivotX = p.width*0.3;
+		p.pivotY = p.height;
+		p.x = pos.x- 20; 
+		p.y = pos.y; 
+		p.scaleX = p.scaleY = 0.8;
+		//p.blendMode = BlendMode.ADD;
+		//p.alpha = 0.7;
+		p.rotation = mc.rotation;
+	}
+	
+	public function setAnim(anm){
 		if ( movieState != anm ) 
 			setMovieState( anm );
 	}
