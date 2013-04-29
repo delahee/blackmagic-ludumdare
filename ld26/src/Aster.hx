@@ -37,6 +37,7 @@ class Aster extends Entity, implements Public {
 	var bmp : Bitmap; 
 	var img : Sprite;
 	var base : starling.display.Image;
+	var decal : starling.display.Image;
 	var link  : Null<Aster>;
 	
 	var isFire:Bool;
@@ -137,6 +138,18 @@ class Aster extends Entity, implements Public {
 			base.readjustSize();
 			base.pivotX = base.width * 0.5;
 			base.pivotY = base.height * 0.5;
+			
+			{
+				decal = new Image( Data.me.getTex('planetes', 'idle', 1 ) );
+				decal.readjustSize();
+				decal.pivotX = decal.width * 0.5;
+				decal.pivotY = decal.height * 0.5;
+				decal.scaleX = decal.scaleY = sz / 100;
+				decal.blendMode = starling.display.BlendMode.ADD;
+				//decal.alpha = 0.5;
+				img.addChild( decal );
+			}
+			img.addChild( base );
 		}
 		else
 		{
@@ -144,6 +157,7 @@ class Aster extends Entity, implements Public {
 			base.pivotX = base.width * 0.5;
 			base.pivotY = base.height * 0.5;
 			base.scaleX = base.scaleY = sz / 100;
+			img.addChild( base );
 		}
 		
 		if ( isFire ) {
@@ -157,29 +171,6 @@ class Aster extends Entity, implements Public {
 			});
 			flare.reserve( 20 );
 		}
-		
-		img.addChild( base );
-		
-		if( !isFire && Dice.percent( 75 ) )
-			for ( i in 0...Dice.roll( 3, 5 ) ) {
-				
-				var f = Data.me.getFramesRectTex('props', 'idle');
-				var d = new Image( f[Std.random(f.length - 1)]);
-				d.readjustSize();
-				decor.push(d);
-				
-				var r = sz;
-				var a = Dice.rollF( 0 , Math.PI * 2 );
-				var ca = Math.cos( a );
-				var sa = Math.sin( a );
-				d.pivotX = d.width * 0.5;
-				d.pivotY = d.height;
-				//d.x = ca * r + x;
-				//d.y = sa * r + y;
-				
-				//d.rotation = a ;
-				img.addChild( d );
-			}
 		
 		return this;
 	}

@@ -4,8 +4,8 @@ import volute.Types;
 
 class Lib 
 {
-	public static inline function w() return flash.Lib.current.stage.stageWidth
-	public static inline function h() return flash.Lib.current.stage.stageHeight
+	public static inline function w() return 1280//return flash.Lib.current.stage.stageWidth
+	public static inline function h() return 720//return flash.Lib.current.stage.stageHeight
 	
 	public static inline function assert(b:Bool, ?msg:String, ?PosInfos) if(!b) throw msg == null?b:cast msg
 	

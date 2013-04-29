@@ -120,13 +120,14 @@ class BmpSun extends flash.display.BitmapData
 	
 }
 
-@:bitmap("../gfx/planche/mort.png")
-class BmpDeathFx extends flash.display.BitmapData
+@:bitmap("../gfx/planche/planetes.png")
+class BmpPlanetes extends flash.display.BitmapData
 {
 	
 }
-@:bitmap("../gfx/planche/planetes.png")
-class BmpPlaneteSkin extends flash.display.BitmapData
+
+@:bitmap("../gfx/planche/mort.png")
+class BmpDeathFx extends flash.display.BitmapData
 {
 	
 }
@@ -229,7 +230,8 @@ class Data implements haxe.Public
 		var lsheets = 
 		[
 			loadSheet("perso", new PersoSheet(0, 0, false)),
-			loadSheet("propsspritesheet", new PropsSheet(0, 0, false))
+			loadSheet("propsspritesheet", new PropsSheet(0, 0, false)),
+			loadSheet("planetes", new BmpPlanetes(0, 0, false)),
 		];
 		
 		for ( s in lsheets ) {
@@ -509,6 +511,24 @@ class Data implements haxe.Public
 		return v;
 	}
 	
+	
+	//fr idx is 0...n based
+	public function getTex(sprite,state, frIdx:Int) {
+		var spr = sprites.get( sprite );
+		var sheet = sheets.get( spr.sheet );
+		var texSheet = sheet.texSheet;
+		var tml = sheet.store.timelines.get( sprite + "." + state);
+		var fr = sheet.store.get( tml[frIdx] );
+		return starling.textures.Texture.fromTexture( texSheet, fr.rectangle ) ;
+	}
+	
+	public function getTml(sprite,state) : Array<Int>{
+		var spr = sprites.get( sprite );
+		var sheet = sheets.get( spr.sheet );
+		var texSheet = sheet.texSheet;
+		var tml = sheet.store.timelines.get( sprite + "." + state);
+		return tml;
+	}
 	
 	public function getFramesRectTex(sprite,state) : flash.Vector<starling.textures.Texture>{
 		var spr = sprites.get( sprite );

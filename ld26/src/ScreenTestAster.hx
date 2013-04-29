@@ -1,4 +1,5 @@
 import flash.ui.Keyboard;
+import starling.display.Image;
 import volute.Dice;
 import volute.Lib;
 import volute.t.Vec2;
@@ -17,6 +18,7 @@ class ScreenTestAster extends Screen
 	var player : Player;
 	var sf : Starfield;
 	
+	var img : Image;
 	public var me : ScreenTestAster;
 	public function new() 
 	{
@@ -32,14 +34,14 @@ class ScreenTestAster extends Screen
 		super.init();
 		
 		sf = new Starfield( this, Lib.w()*5, Lib.h(),1.0,400);
-		var a = new Aster(100);
+		var a = new Aster(50);
 		level.addAster( a ).translate( 150, 150 );
 		var b = level.addAster( new Aster(100) ).translate( 400, 400 );
 		//level.addAster( new Aster( 100) ).translate( 800, 200 );
 		level.addAster( new Aster( true, 75) ).translate( 900, 400 );
 		var a = level.addAster( new Aster(false, 75) ).translate( 1100, 400 );
 		
-		makeElvis(b);
+		//makeElvis(b);
 		
 		for ( ast in level.asters)
 			ast.a = Dice.rollF( 0 , Math.PI);
@@ -55,6 +57,12 @@ class ScreenTestAster extends Screen
 		for ( a in level.asters)
 			a.img.toFront();
 		player.mc.toFront();
+		
+		img = new Image(Data.me.getTex("planetes", 'idle', 0));
+		img.readjustSize();
+		img.pivotX = img.width * 0.5;
+		img.pivotY = img.height * 0.5;
+		//addChild( img );
 	}
 	
 	public function makeElvis(b:Aster) 
