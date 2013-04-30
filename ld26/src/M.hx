@@ -101,6 +101,9 @@ class M extends starling.display.Sprite {
 		if ( !isHardware())
 		{
 			var t = getTf("WARNING, YOU ARE RUNNING IN SOFTWARE MODE, FOR A REAL GAME EXPERIENCE, PLEASE UPDATE VIDEO DRIVER OR GPU", 50, 50, 30, 0xFF0000);
+			t.width = 800;
+			t.height = 800;
+			t.color = 0xFFFFFF;
 			addChild( t );
 		}
 	}

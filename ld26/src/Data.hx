@@ -486,7 +486,7 @@ class Data implements haxe.Public
 					l.add( { line:"Ok i am in, anyway.", side:SPlayer } );
 					l;
 				},
-			proc:function() {},
+			proc:function() { Player.me.input = false; },
 			ofsSprite:new Vec2( 450+135,240 ),
 			ofsSpeech:new Vec2( 0, 30),
 		});
