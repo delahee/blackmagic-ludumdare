@@ -1,3 +1,7 @@
 
 - texte a regler nivo nivo
 - avertissement software / pilote
+
+
+down now accelerate dialogs
+dialogs are not blocking anymore

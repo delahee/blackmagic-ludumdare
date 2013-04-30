@@ -117,7 +117,7 @@ class Player implements haxe.Public{
 	public function updateKey(df:Float){
 		if ( aster != null)
 		{
-			var aspeed = 0.2;
+			var aspeed = 0.15;
 			if ( Key.isDown( K.LEFT )) {
 				setAsterAngle( aster, asterAngle - aspeed * M.timer.df);
 				mc.scaleX = -1;	
@@ -315,9 +315,11 @@ class Player implements haxe.Public{
 							
 						}
 						
+						var px = mc.x + 100 + c.ofsSpeech.x;
+						var py =  mc.y - 100 + c.ofsSpeech.y;
 						p( delay, function()
 						{
-							speach( mc.x + 100 + c.ofsSpeech.x, mc.y - 100 + c.ofsSpeech.y, q.line, col);
+							speach( px,py, q.line, col);
 							Data.sndBank.speak2().play();
 						});
 					}
@@ -386,18 +388,31 @@ class Player implements haxe.Public{
 		
 		if( input )
 			updateKey(df);
-		else 
-			if ( Key.isToggled(K.SPACE) ) {
-				for ( f in volute.fx.FXManager.self.rep )
-					if ( Std.is( f, fx.SpeechDelay ) )
-					{
-						#if debug
-							f.duration -= 10.0;
-						#else 
-							f.duration -= 0.50;
-						#end
-					}
-			}
+			
+		if ( Key.isDown(K.DOWN) ) {
+			for ( f in volute.fx.FXManager.self.rep )
+				if ( Std.is( f, fx.SpeechDelay ) )
+					f.duration -= 0.1;
+		}
+		
+		
+		if ( aster == null ) {
+			var done = false;
+			for ( f in volute.fx.FXManager.self.rep )
+				if ( Std.is( f, fx.SpeechDelay ) ) {
+					volute.fx.FXManager.self.rep.remove( f );
+					done = true;
+				}
+			if ( done )
+				say( ["Tooooo booorinng",
+				"Booorinng",
+				"Too tired too make sens of this, bye !",
+				"Come on speaking is overrating",
+				"you speak me not understand ciao !",
+				"Your words feels irrelevant anyway...",
+				"Sorry, don't have time for this..."].random() );
+		}
+		
 		
 		if (isFlying()){
 			pos.x += vel.x * df;
@@ -425,17 +440,17 @@ class Player implements haxe.Public{
 		asterAngle = MathEx.normAngle(asterAngle);
 		
 		var isNear = 	asterAngle > (3 * Math.PI / 2)
-		&&				asterAngle < (2 * Math.PI ) - Math.PI / 3;
+		&&				asterAngle < (2 * Math.PI ) - Math.PI / 4;
 		
 		if( aster!=null)
 		if( aster.cine != null && isNear  ) {
-			input = false;
+			//input = false;
 			makeCine( aster.cine );
 			aster.cine = null;
 		}
 	}
 	
-	public function speachDur(lbl) return 0.75 + lbl.length * 0.07
+	public function speachDur(lbl) return 0.75 + lbl.length * 0.06
 	public function say( lbl:String ) {
 		if ( !mute ) 
 			speach( mc.x + 40, mc.y - 100,lbl ); 
