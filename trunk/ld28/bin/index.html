@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<link rel="SHORTCUT ICON" type="image/x-icon" href="/favicon.ico"/>
+		<meta property="og:title" content="Ludum Dare 28"/>
+		<meta charset="utf-8"/>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+		<meta name="description" content="Ludum Dare 28 game" />
+		<meta name="keywords" content="jeu, online, gratuit, free, ludum, dare, 28" />
+		<title>Ludum Dare 28 game</title>
+		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+		<script src="js/swfobject.js"></script>
+		<script>
+			var flashvars = {
+			};
+			var params = {
+				menu: "false",
+				scale: "noScale",
+				allowFullscreen: "false",
+				allowScriptAccess: "always",
+				bgcolor: "",
+				wmode: "gpu" // can cause issues with FP settings & webcam
+			};
+			var attributes = {
+				id:"game"
+			};
+			swfobject.embedSWF(
+				"game.swf",
+				"altContent", "640px", "480px", "11.4.0",
+				"expressInstall.swf",
+				flashvars, params, attributes);
+		</script>
+	</head>
+	
+	<body>
+		<div id="content">
+			<h1>Ludum Dare 28 game</h1>
+			<div class="block rules"><strong>Rules :</strong> Todo</div>
+			<div class="container">
+				<div id="altContent">
+					<p><a style="color:#858585" href="http://www.adobe.com/go/getflashplayer">Get Adobe Flash player</a></p>
+				</div>
+				<div class="HowtoPlay">
+					<strong>Control :</strong><em> up=jump | left/right=move | Ctrl/space=KILL !</em>
+				</div>
+				<div class="block"><em>For the Ludum Dare 28, made in 48h</em></div>
+			</div>
+			
+			Check the ludum dare history of the game <a href="http://www.ludumdare.com/compo/author/delahee/" alt="">here</a>
+			<div class="block team">
+				<a href="http://twinoid.com/user/17">BlackMagic</a> - <em>Developpeur</em>
+				<a href="http://twinoid.com/user/4">Gyhyom</a> - <em>Graphic Designer</em>
+			</div>
+		</div>
+	</body>
+	</html>

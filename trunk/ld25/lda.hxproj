@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project version="2">
+  <!-- Output SWF options -->
+  <output>
+    <movie outputType="Application" />
+    <movie input="" />
+    <movie path="bin\lda.swf" />
+    <movie fps="60" />
+    <movie width="640" />
+    <movie height="480" />
+    <movie version="11" />
+    <movie minorVersion="4" />
+    <movie platform="Flash Player" />
+    <movie background="#FFFFFF" />
+  </output>
+  <!-- Other classes to be compiled into your SWF -->
+  <classpaths>
+    <class path="src" />
+    <class path="libs" />
+  </classpaths>
+  <!-- Build options -->
+  <build>
+    <option directives="" />
+    <option flashStrict="True" />
+    <option mainClass="M" />
+    <option enabledebug="True" />
+    <option additional="-resource asset.xml@asset&#xA;" />
+  </build>
+  <!-- haxelib libraries -->
+  <haxelib>
+    <library name="spodadmin" />
+    <library name="format" />
+    <library name="" />
+  </haxelib>
+  <!-- Class files to compile (other referenced classes will automatically be included) -->
+  <compileTargets>
+    <compile path="src\M.hx" />
+  </compileTargets>
+  <!-- Assets to embed into the output SWF -->
+  <library>
+    <asset path="gfx\ld.png" bitmap="True" id="BmpLd" />
+    <asset path="gfx\tiles.png" bitmap="True" id="BmpTiles" />
+    <asset path="gfx\char.png" bitmap="True" id="BmpChar" />
+    <asset path="gfx\upheavtt.ttf" id="upheav" glyphs="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz '-&amp;quot;'%,?!$+:*.éèêëàäâïîüç0123456789+=&amp;gt;&amp;lt;()[]/âàäéèêëîïôöùûüçáéíóúÁÉÍÓÚÑñ¡¿äÄÖÜß_²αβ" />
+    <asset path="gfx\fonts\upheavtt.ttf" id="upheav" glyphs="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz '-&amp;quot;'%,?!$+:*.éèêëàäâïîüç0123456789+=&amp;gt;&amp;lt;()[]/âàäéèêëîïôöùûüçáéíóúÁÉÍÓÚÑñ¡¿äÄÖÜß_²αβ" />
+    <asset path="gfx\fonts\Pixel Square 10.ttf" id="pixel" glyphs="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz '-&amp;quot;'%,?!$+:*.éèêëàäâïîüç0123456789+=&amp;gt;&amp;lt;()[]/âàäéèêëîïôöùûüçáéíóúÁÉÍÓÚÑñ¡¿äÄÖÜß_²αβ" />
+    <asset path="gfx\images\bg01.png" bitmap="True" id="BmpBg01" />
+    <asset path="gfx\images\bg02.png" bitmap="True" id="BmpBg02" />
+    <asset path="gfx\images\light.png" bitmap="True" id="BmpLight" />
+    <asset path="gfx\images\sky.png" bitmap="True" id="BmpSky" />
+    <asset path="gfx\gfx.swf" />
+    <asset path="sound\eclate_tete2.mp3" id="Head2" />
+    <asset path="sound\eclate_tete1.mp3" id="Head1" />
+    <asset path="sound\pas_1.mp3" id="Step1" />
+    <asset path="sound\pas_2.mp3" id="Step2" />
+    <asset path="sound\start_ding.mp3" id="StartDing" />
+    <asset path="sound\Little_death_adventure2.mp3" id="Music" />
+    <asset path="sound\miss.mp3" id="Miss" />
+  </library>
+  <!-- Paths to exclude from the Project Explorer tree -->
+  <hiddenPaths>
+    <hidden path="src\Data.cache" />
+    <hidden path="gfx\LDA_char.psd" />
+    <hidden path="gfx\LDA_levelDesign.psd" />
+    <hidden path="gfx\LDA_screen320x240.psd" />
+    <hidden path="gfx\LDA_tiles.psd" />
+    <hidden path="gfx\gfx.fla" />
+  </hiddenPaths>
+  <!-- Executed before build -->
+  <preBuildCommand />
+  <!-- Executed after build -->
+  <postBuildCommand alwaysRun="False" />
+  <!-- Other project options -->
+  <options>
+    <option showHiddenPaths="True" />
+    <option testMovie="Default" />
+  </options>
+  <!-- Plugin storage -->
+  <storage />
+</project>

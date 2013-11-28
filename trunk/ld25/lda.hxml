@@ -1,0 +1,11 @@
+-cp src
+-cp libs
+-lib spodadmin
+-lib format
+-swf bin/lda.swf
+-swf-header 640:480:60:FFFFFF
+-swf-lib obj\ldaResources.swf
+--flash-strict
+-swf-version 11.4
+-main M
+-resource asset.xml@asset

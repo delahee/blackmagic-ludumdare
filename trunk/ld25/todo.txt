@@ -1,0 +1,5 @@
+
+	
+-mettre les steps
+
+-gerer double kill vec bonus + 1
