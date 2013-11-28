@@ -1,0 +1,380 @@
+
+<xml version="1.0" encoding="utf-8"/>
+
+<gd check="ok_gd">
+	<level id="0">
+		<init>
+			<addPeon>8,6</addPeon>
+		</init>
+		<enter>
+			<spawn>3,29</spawn>
+			<msg>Welcome to LDA, your very last game ! RAHHHHHHH</msg>
+			<msg>DIE DIE</msg>
+			<msg>DIE DIE2</msg>
+		</enter>
+	</level>
+	
+	<level id="1">
+		<init>
+			<addDecrochage></addDecrochage><!-- tiles n°8 à répéter y=12-->
+			<addSprite pos="42,13" id="bus" layer="charFront"></addSprite>
+			<addSprite pos="8,12" id="light_01"></addSprite>
+			<addSprite pos="62,12" id="light_01"></addSprite>
+			<addSprite pos="47,12" id="light_02"></addSprite>
+			<addSprite pos="44,12" id="light_01"></addSprite>
+			<addSprite pos="27,12" id="light_02"></addSprite>
+			<addSprite pos="9,12" id="trash"></addSprite>
+			<addSprite pos="36,12" id="bench" layer="charBack"></addSprite>
+			<addSprite pos="54,12" id="bench" layer="charBack"></addSprite>
+			
+			<peonGen pos="20,12"></peonGen>
+			<peonGen pos="12,0"></peonGen>
+			<peonGen pos="22,4"></peonGen>
+			<peonGen pos="6,12"></peonGen>
+			<peonGen pos="24,12"></peonGen>
+			<peonGen pos="33,12"></peonGen>
+			<peonGen pos="19,4" nb="1"></peonGen>
+			<peonGen pos="44,4" nb="1"></peonGen>
+			<peonGen pos="32,5"></peonGen>
+			<peonGen pos="37,5"></peonGen>
+			<peonGen pos="58,1"></peonGen>
+			<peonGen pos="44,12"></peonGen>
+			<peonGen pos="22,12"></peonGen>
+			<peonGen pos="66,12"></peonGen>
+		</init>
+		<enter>
+			<spawn>2,12</spawn>
+		</enter>
+	</level>
+	
+	<level id="2">
+		<init>
+			<addSprite pos="2,12" id="light_01"></addSprite>
+			<addSprite pos="39,12" id="light_01"></addSprite>
+			<addSprite pos="61,12" id="light_02"></addSprite>
+			<addSprite pos="25,12" id="light_02"></addSprite>
+			<addSprite pos="46,12" id="light_02"></addSprite>
+			<addSprite pos="54,12" id="light_01"></addSprite>
+			<addSprite pos="18,12" id="bench" layer="charBack"></addSprite>
+			<addSprite pos="40,12" id="bench" layer="charBack"></addSprite>
+			<addSprite pos="37,12" id="trash"></addSprite>
+			<addSprite pos="59,12" id="trash"></addSprite>
+			<addSprite pos="3,12" id="trash"></addSprite>
+			<addSprite pos="53,13" id="bus" layer="charFront"></addSprite>
+			
+			<peonGen pos="12,12"></peonGen>
+			<peonGen pos="36,12"></peonGen>
+			<peonGen pos="17,12"></peonGen>
+			<peonGen pos="23,12"></peonGen>
+			<peonGen pos="29,12"></peonGen>
+			<peonGen pos="13,8" nb="1"></peonGen>
+			<peonGen pos="20,11"></peonGen>
+			<peonGen pos="41,11"></peonGen>
+			<peonGen pos="30,1"></peonGen>
+			<peonGen pos="44,4" nb="1"></peonGen>
+		</init>
+		<enter>
+			<spawn>2,12</spawn>
+		</enter>
+	</level>
+	
+	<level id="3">
+		<init>
+			<addSprite pos="40,13" id="bus" layer="charFront"></addSprite>
+			<addSprite pos="19,12" id="light_02"></addSprite>
+			<addSprite pos="36,12" id="light_01"></addSprite>
+			<addSprite pos="48,12" id="light_01"></addSprite>
+			<addSprite pos="65,12" id="light_02"></addSprite>
+			<addSprite pos="34,12" id="bench" layer="charBack"></addSprite>
+			<addSprite pos="38,12" id="trash"></addSprite>
+			<addSprite pos="17,12" id="trash"></addSprite>
+			<addSprite pos="65,12" id="trash"></addSprite>
+			
+			<peonGen pos="10,5"></peonGen>
+			<peonGen pos="4,12"></peonGen>
+			<peonGen pos="15,5"></peonGen>
+			<peonGen pos="24,2"></peonGen>
+			<peonGen pos="29,2"></peonGen>
+			<peonGen pos="53,4"></peonGen>
+			<peonGen pos="45,12"></peonGen>
+			<peonGen pos="45,12"></peonGen>
+			<peonGen pos="60,9" nb="1"></peonGen>
+			<peonGen pos="62,7" nb="1"></peonGen>
+			<peonGen pos="12,12"></peonGen>
+			<peonGen pos="48,5" nb="1"></peonGen>
+			<peonGen pos="25,7" nb="1"></peonGen>
+			<peonGen pos="42,10"></peonGen>
+		</init>
+		<enter>
+			<spawn>10,10</spawn>
+		</enter>
+	</level>
+	
+</gd>
+
+<tileDef check="ok_tileDef">
+	
+	<!-- Player -->
+	<sprite id="hero">
+		<state id="stand" rythm="5">
+			<slice coord="0,0,48,32" nb="6" >
+			</slice>
+		</state>
+		
+		<state id="talk" >
+			<slice coord="0,32,48,32" nb="6" >
+			</slice>
+		</state>
+		
+		<state id="scythe" >
+			<slice coord="0,64,48,32" nb="6" >
+			</slice>
+		</state>
+		
+		<state id="walk" rythm="8">
+			<slice coord="0,96,48,32" nb="4" >
+			</slice>
+		</state>
+		
+		<state id="attack" rythm="2">
+			<slice coord="0,128,80,32" nb="6" >
+			</slice>
+		</state>
+		
+		<state id="jump" rythm="5">
+			<slice coord="0,160,48,48" nb="2" >
+			</slice>
+		</state>
+		
+		<state id="fall" rythm="5">
+			<slice coord="0,208,48,48" nb="2" >
+			</slice>
+		</state>
+		
+		<state id="airAttack" rythm="3">
+			<slice coord="0,256,48,48" nb="5" >
+			</slice>
+		</state>
+		
+		<state id="hit" rythm="3">
+			<slice coord="0,304,48,48" nb="5" >
+			</slice>
+		</state>
+		
+		<state id="dead" rythm="3" >
+			<slice coord="0,352,48,32" nb="4" >
+			</slice>
+		</state>
+		
+	</sprite>
+	
+	<!-- Batiment -->
+	<sprite id="building_0">
+		<state id="still" >
+			<slice coord="16,792,80,152" />
+		</state>
+	</sprite>
+	<sprite id="building_1">
+		<state id="still" >
+			<slice coord="128,792,112,199" />
+		</state>
+	</sprite>
+	<sprite id="building_2">
+		<state id="still" >
+			<slice coord="256,808,176,183" />
+		</state>
+	</sprite>
+	<sprite id="building_3">
+		<state id="still" >
+			<slice coord="16,1017,176,199" />
+		</state>
+	</sprite>
+	<sprite id="building_4">
+		<state id="still" >
+			<slice coord="240,1081,176,135" />
+		</state>
+	</sprite>
+	<sprite id="building_5">
+		<state id="still" >
+			<slice coord="16,1252,192,124" />
+		</state>
+	</sprite>
+	<sprite id="building_6">
+		<state id="still" >
+			<slice coord="224,1257,112,279" />
+		</state>
+	</sprite>
+	<sprite id="building_7">
+		<state id="still" >
+			<slice coord="368,1337,128,199" />
+		</state>
+	</sprite>
+	
+	<!-- Props -->
+	
+	<sprite id="bus">
+		<state id="still" >
+			<slice coord="368,1244,112,68" />
+		</state>
+	</sprite>
+	<sprite id="next">
+		<state id="still" >
+			<slice coord="400,720,40,48" />
+		</state>
+	</sprite>
+	<sprite id="trash">
+		<state id="still" >
+			<slice coord="464,752,16,16" />
+		</state>
+	</sprite>
+	<sprite id="light_01">
+		<state id="still" >
+			<slice coord="448,640,16,128" />
+		</state>
+	</sprite>
+	<sprite id="light_02">
+		<state id="still" >
+			<slice coord="480,640,16,128" />
+		</state>
+	</sprite>
+	<sprite id="bench">
+		<state id="still" >
+			<slice coord="320,592,64,32" />
+		</state>
+	</sprite>
+	<sprite id="sidewalk">
+		<state id="still" >
+			<slice coord="464,745,16,7" />
+		</state>
+	</sprite>
+	<!-- PNJ -->
+
+	
+	<sprite id="peon_female" >
+		<state id="stand" rythm="5">
+			<slice coord="0,400,32,32" nb="4" />
+		</state>
+	</sprite>
+	
+	<sprite id="peon_male" >
+		<state id="stand" rythm="5">
+			<slice coord="0,432,32,32" nb="3" />
+		</state>
+	</sprite>
+	
+	<sprite id="peon_elder" >
+		<state id="stand" rythm="5">
+			<slice coord="0,464,32,32" nb="5" />
+		</state>
+	</sprite>
+	
+	<sprite id="peon_granny" >
+		<state id="stand" rythm="5">
+			<slice coord="0,496,32,32" nb="5"/>
+		</state>
+	</sprite>
+	
+	<sprite id="peon_kid_male" >
+		<state id="stand" rythm="5">
+			<slice coord="0,528,32,32" nb="3" />
+		</state>
+	</sprite>
+	
+	<sprite id="goat" >
+		<state id="stand" rythm="5">
+			<slice coord="384,672,32,32" />
+		</state>
+	</sprite>
+	
+	<sprite id="notch" >
+		<state id="stand" rythm="5">
+			<slice coord="0,560,32,32" nb="6" />
+		</state>
+	</sprite>
+	
+	<sprite id="jobs" >
+		<state id="stand" rythm="5">
+			<slice coord="0,592,32,32" nb="3" />
+		</state>
+	</sprite>
+	
+	<sprite id="miyamoto" >
+		<state id="stand" rythm="5">
+			<slice coord="0,624,32,32" nb="3"/>
+		</state>
+	</sprite>
+	
+</tileDef>
+
+<tileMap>
+	<prop>
+		<unit col="0x00ff12" sprite="building_0" />
+		<unit col="0x618076" sprite="building_1" />
+		<unit col="0x806163" sprite="building_2" />
+		<unit col="0x807261" sprite="building_3" />
+		<unit col="0x616f80" sprite="building_4" />
+		<unit col="0x696180" sprite="building_5" />
+		<unit col="0x796777" sprite="building_6" />
+		<unit col="0x677879" sprite="building_7" />
+		
+		<!--<unit col="0x376b7b" sprite="bus" />-->
+		<unit col="0x882929" sprite="next" />
+		<unit col="0x82c6c6" sprite="trash" />
+		<unit col="0x8cb0ea" sprite="light_01" />
+		<unit col="0x5574a7" sprite="light_02" />
+		<unit col="0xef7575" sprite="bench" />
+		
+	</prop>
+	
+	<wall>
+		<unit col="0xFFFFFF" index="5" />
+		<unit col="0xFF0000" index="2" />
+		<unit col="0x818181i" index="7" />
+		<unit col="0x0079ff" index="0" data="nextLevel"/>
+		
+		
+		<unit col="0xde0000" index="10" data="noBlock" />
+		<unit col="0x77ac7a" index="11"  />
+		<unit col="0xde6666" index="12" data="noBlock" />
+		<unit col="0xde9999" index="13" data="noBlock" />
+		
+		<unit col="0x27a2aa" index="14"/>
+		<unit col="0xC10000" index="15" />
+		<unit col="0x9ee8a2" index="16"data="noBlock"/>
+		<unit col="0xC16666" index="17" />
+		<unit col="0xC19999" index="18" />
+		<unit col="0x3bdfea" index="19" />
+		
+		<unit col="0xb8b8b8" index="21"/>
+		<unit col="0x8d8d8d" index="22"/>
+		<unit col="0x6b6b6b" index="23"/>
+		<unit col="0x414141" index="24"/>
+		
+		<unit col="0xA00000" index="30"/>
+		<unit col="0xA0A000" index="31"/>
+		<unit col="0xA0A0A0" index="32"/>
+		
+		<unit col="0xB00000" index="35"/>
+		<unit col="0xB0B000" index="36"/>
+		<unit col="0xB0B0B0" index="37"/>
+		
+		<unit col="0xC00000" index="40"/>
+		<unit col="0xC0C000" index="41"/>
+		<unit col="0xC0C0Ci0" index="42"/>
+		
+		
+	</wall>
+	<char>
+		<unit cat="0" col="0xffff00"/><!--woman -->
+		<unit cat="1" col="0xf300d9"/><!--man-->
+		<unit cat="2" col="0xffa0da"/><!--elder-->
+		<unit cat="3" col="0x00b211"/><!--granny-->
+		<unit cat="4" col="0x00fae5"/><!--child-->
+		<unit cat="5" col="0x4d877e"/><!--goat-->
+		
+		<unit named="notch" 	cat="10" col="0xd69a5c" />
+		<unit named="jobs" 		cat="11" col="0xa6a6a6" />
+		<unit named="miyamoto" 	cat="12" col="0xb4c3d2" />
+	</char>
+</tileMap>
+	

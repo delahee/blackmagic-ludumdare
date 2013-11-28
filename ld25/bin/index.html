@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	<meta name="description" content="Little Death Adventure" />
+	<meta name="keywords" content="jeu, online, gratuit, free, hack n' slash, aventure, adventure, ludum, dare, 25" />
+	<title>Little Death Adventure</title>
+	<script src="js/swfobject.js"></script>
+	<script>
+		var flashvars = {
+		};
+		var params = {
+			menu: "false",
+			scale: "noScale",
+			allowFullscreen: "false",
+			allowScriptAccess: "always",
+			bgcolor: "",
+			wmode: "gpu" // can cause issues with FP settings & webcam
+		};
+		var attributes = {
+			id:"lda"
+		};
+		swfobject.embedSWF(
+			"lda.swf",
+			"altContent", "640px", "480px", "11.4.0",
+			"expressInstall.swf",
+			flashvars, params, attributes);
+	</script>
+	<style>
+		html, body { height:100%; overflow:hidden; }
+		body { margin:0; }
+	</style>
+</head>
+<body style="font-family:arial; font-size:11px;background-color:black;background-image:url('img/bg.gif');background-repeat:repeat-x;">
+	<div style="width:640px;margin:auto;margin-top:20px;">
+	<h1 style="color:#9d0202; font-size:25px;font-weight:bolder;margin-bottom:-3px;
+	text-shadow:0px 2px 0px black,
+				0px -2px 0px black,
+				2px 0px 0px black,
+				-2px 0px 0px black,
+				2px 2px 0px black,
+				-2px -2px 0px black,
+				-2px 2px 0px black,
+				2px -2px 0px black;">
+		Little Death Adventure</h1>
+		<div style="color:white;"><strong>Rules :</strong> Earn 666 points and win the prize of becoming the Death or fail and suffer for the rest of your...death ! </div>
+			<div id="altContent">
+			<p><a style="color:#858585" href="http://www.adobe.com/go/getflashplayer">Get Adobe Flash player</a></p>
+	</div>
+	<div style="color:#69221b; text-align:right; float:right;font-weight:bold;">
+		<div style="color:white; text-align:center; margin-bottom:-15px;"><strong>Control</strong> up=jump | left/right=move | Ctrl/space=KILL !</div><br/>
+		For the Ludum Dare 25, made in 48h</div>
+	<div style="color:#69221b; text-align:left;">Check the ludum dare history of the game <a style="color:#858585" href="http://www.ludumdare.com/compo/author/delahee/" alt="">here</a> <br/>
+		<strong>BlackMagic</strong> - <span style="color:#363636">Developpeur</span><br/>
+		<strong>Gyhyom</strong> - <span style="color:#363636">Graphic Designer</span><br/>
+		<strong>Matthal</strong> - <span style="color:#363636">Sound Designer</span><br/>
+	</div>
+</body>
+</html>
