@@ -5,7 +5,6 @@ body {
 	background-color:#1c1c1c;
 	color:white;
 	font-size:11px;
-	background-image: url('img/bg.png');
 	margin:0px;
 	padding:0px;
 }
@@ -15,14 +14,16 @@ a {
 	font-weight: bold;
 	cursor: pointer;
 	text-decoration: none;
+	transition : all 200ms ease-out;
 }
 
 a:hover {
 	color: white;
-	text-decoration:underline;
+	transition : all 200ms ease-out;
 }
 
 h1, h2, h3 {
+	font-family: 'Advent Pro', sans-serif;
 	color:#a09e8b;
 	font-size:25px;
 	font-weight:bolder;
@@ -41,6 +42,38 @@ h1, h2, h3 {
 #content {
 	width:650px;
 	margin:auto;
+}
+
+.center {
+	margin:auto;
+	text-align:center;
+	margin-top:10px;
+}
+
+a.rate {
+
+	height:50px;
+	font-family: 'Advent Pro', sans-serif;
+	text-transform:capitalize;
+	background-color:#8b8977;
+	font-size:20pt;
+	text-align:center;
+	color:#c8c6b0;
+	padding:8px;
+	padding-top:5px;
+	border:5px solid #6e6c5e;
+	outline:1px solid #c8c6b0;
+	vertical-align:bottom;
+}
+
+a.rate:hover {
+	height:46px;
+	background-color:#c8c6b0;
+	text-align:center;
+	color:white;
+	border:1px solid #6e6c5e;
+	margin-top:4px;
+	
 }
 
 .container {
@@ -76,4 +109,12 @@ strong {
 
 span {
 	color:#7b7a6a;
+    font-size: 11px;
+}
+
+.cr {
+	position:absolute;
+	bottom:20px;
+	text-align:center;
+	width:650px;
 }
