@@ -40,14 +40,18 @@ h1, h2, h3 {
 }
 
 #content {
-	width:650px;
+	width:800px;
 	margin:auto;
+	margin-top:10px;
+	background-color:black;
+	padding:10px;
 }
 
 .center {
 	margin:auto;
 	text-align:center;
 	margin-top:10px;
+	margin-bottom:10px;
 }
 
 a.rate {
@@ -76,8 +80,19 @@ a.rate:hover {
 	
 }
 
+a.glow:hover {
+	text-shadow:0px 2px 8px #646253,
+				0px -2px 8px #646253,
+				2px 0px 8px #646253,
+				-2px 0px 8px #646253,
+				2px 2px 8px #646253,
+				-2px -2px 8px #646253,
+				-2px 2px 8px #646253,
+				2px -2px 8px #646253;
+}
+
 .container {
-	background-color: black;
+	background-color: #1c1c1c;
 	padding:5px;
 	margin-bottom:10px;
 }
@@ -96,7 +111,7 @@ a.rate:hover {
 }
 
 .team {
-	width:25%;
+	width:20%;
 }
 
 .inline-block {display:inline-block;}
@@ -116,5 +131,5 @@ span {
 	position:absolute;
 	bottom:20px;
 	text-align:center;
-	width:650px;
+	width:800px;
 }
