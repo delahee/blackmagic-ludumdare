@@ -1,18 +1,20 @@
 body{font-family:"Segoe UI","Trebuchet MS",Arial;background-color:#1c1c1c;color:white;font-size:11px;margin:0px;padding:0px;}
-a{color:#8b8977;font-weight:bold;cursor:pointer;text-decoration:none;transition:all 200ms ease-out;}
+a{color:#f18d05;font-weight:bold;cursor:pointer;text-decoration:none;transition:all 200ms ease-out;}
 a:hover{color:white;transition:all 200ms ease-out;}
-h1,h2,h3{font-family:'Advent Pro',sans-serif;color:#a09e8b;font-size:25px;font-weight:bolder;margin-bottom:-3px;text-align:center;text-shadow:0px 2px 0px black,0px -2px 0px black,2px 0px 0px black,-2px 0px 0px black,2px 2px 0px black,-2px -2px 0px black,-2px 2px 0px black,2px -2px 0px black;}
-#content{width:800px;margin:auto;margin-top:10px;background-color:black;padding:10px;}
-.center{margin:auto;text-align:center;margin-top:10px;margin-bottom:10px;}
-a.rate{height:50px;font-family:'Advent Pro',sans-serif;text-transform:capitalize;background-color:#8b8977;font-size:20pt;text-align:center;color:#c8c6b0;padding:8px;padding-top:5px;border:5px solid #6e6c5e;outline:1px solid #c8c6b0;vertical-align:bottom;}
-a.rate:hover{height:46px;background-color:#c8c6b0;text-align:center;color:white;border:1px solid #6e6c5e;margin-top:4px;}
+h1,h2,h3{font-family:'Alegreya Sans SC',sans-serif;color:#f18d05;font-size:25px;font-weight:bolder;margin-bottom:-15px;margin-top:-5px;text-align:center;text-shadow:0px 2px 0px #ba3c00,0px -2px 0px #ba3c00,2px 0px 0px #ba3c00,-2px 0px 0px #ba3c00,2px 2px 0px #ba3c00,-2px -2px 0px #ba3c00,-2px 2px 0px #ba3c00,2px -2px 0px #ba3c00;}
+#content{width:600px;margin:auto;margin-top:10px;background-color:black;padding:10px;}
+.center{margin:auto;text-align:center;margin-top:20px;margin-bottom:10px;}
+a.rate{height:50px;font-family:'Alegreya Sans SC',sans-serif;text-transform:capitalize;background-color:#f18d05;font-size:20pt;text-align:center;color:#b31e00;padding:8px;padding-top:5px;border:5px solid #330504;outline:1px solid #ffff08;vertical-align:bottom;text-shadow:0px 1px 1px #ffff08,0px -1px 1px #ffff08,1px 0px 1px #ffff08,-1px 0px 1px #ffff08,1px 1px 1px #ffff08,-1px -1px 1px #ffff08,-1px 1px 1px #ffff08,1px -1px 1px #ffff08;}
+a.rate:hover{height:46px;background-color:#c8c6b0;text-align:center;color:black;margin-top:4px;text-shadow:none;border:2px solid white;outline:1px solid white;}
 a.glow:hover{text-shadow:0px 2px 8px #646253,0px -2px 8px #646253,2px 0px 8px #646253,-2px 0px 8px #646253,2px 2px 8px #646253,-2px -2px 8px #646253,-2px 2px 8px #646253,2px -2px 8px #646253;}
-.container{background-color:#1c1c1c;padding:5px;margin-bottom:10px;}
-.rules{margin-bottom:10px;margin-top:10px;}
+.container{background-color:#1c1c1c;padding:5px;width:480px;margin:auto;margin-bottom:10px;}
+.container img{margin:auto;}
+.rules{margin-bottom:5px;margin-top:10px;text-align:center;}
 .HowtoPlay{color:#aca67b;text-align:right;float:right;font-weight:bold;width:50%;}
-.team{width:20%;}
+.team{width:25%;}
 .inline-block{display:inline-block;}
 .block{display:block;}
 strong{color:#a09e8b;font-size:110%;}
 span{color:#7b7a6a;font-size:11px;}
-.cr{position:absolute;bottom:20px;text-align:center;width:800px;}
+.cr{position:absolute;bottom:20px;text-align:center;width:600px;}
+.right{float:right;position:relative;}
