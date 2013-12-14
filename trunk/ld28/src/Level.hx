@@ -7,7 +7,10 @@ import flash.geom.Rectangle;
 import flash.geom.Point;
 import haxe.ds.GenericStack.GenericStack;
 import mt.deepnight.Key;
+
+import volute.*;
 import volute.postfx.Bloom;
+
 
 import haxe.ds.Vector;
 import haxe.ds.IntMap;
@@ -30,10 +33,13 @@ class Level
 	var store : List<Entity>;
 	var view : DisplayObjectContainer;
 	var root : flash.display.Sprite;
-	var ch :Int;
-	var cw :Int;
+	
+	var nbch :Int;
+	var nbcw :Int;
+	var cw = 16;
+	var ch = 16;
 	var buffer : Buffer;
-	var char : Char;
+	var hero : Hero;
 	
 	public static var I = 0;
 	public static var DM_BG = I++;
@@ -51,7 +57,7 @@ class Level
 	var bloom : Bloom;
 	
 	public function new( szx, szy ) {
-		cw = szx;  ch = szy*50; 
+		nbcw = szx;  nbch = szy; 
 		store = new List();
 		view = new Sprite();
 		
@@ -71,8 +77,8 @@ class Level
 	
 	public function postInit() {
 		
-		char = new Char();
-		add( char );
+		hero = new Hero();
+		add( hero );
 		
 		var fl = EnumFlags.ofInt(0);
 		fl.set( BloomFlags.FULLSCREEN);
@@ -101,14 +107,14 @@ class Level
 		var gfxh = Math.round(gfx.height/th);
 		
 		var bgw =  Std.int(t.layers[0].width * tw);
-		var bgh =  Std.int(t.layers[1].height* th);
+		var bgh =  Std.int(t.layers[0].height* th);
 		
 		bg = new Bitmap( new BitmapData( bgw,bgh, false,0xFFffffff) , PixelSnapping.NEVER, false);
 		var bmd = bg.bitmapData;
 		
-		for ( y in 0...ch) {
-			for ( x in 0...cw ) {
-				var ti : Int = t.layers[0].data[x + y * cw]-1;
+		for ( y in 0...nbch) {
+			for ( x in 0...nbcw ) {
+				var ti : Int = t.layers[0].data[x + y * nbcw]-1;
 				
 				var tcx = ti % gfxw;
 				var tcy = Std.int(ti / gfxw);
@@ -136,10 +142,10 @@ class Level
 	
 	public inline function staticTest(cx, cy) {
 		if ( cx < 0) return true;
-		if ( cx >= cw) return true;
+		if ( cx >= nbcw) return true;
 		
 		if ( cy < 0) return true;
-		if ( cy >= ch) return true;
+		if ( cy >= nbch) return true;
 		
 		return colls[mkKey(cx, cy)].has( BLOCK );
 	}
@@ -154,14 +160,14 @@ class Level
 		store.remove(e);
 	}
 	
-	
-	
 	public function update() {
 		input();
 		
 		for ( el in store )
 			el.update();
-				
+		
+		cameraFollow();
+		
 		if( bloom != null)
 			bloom.update(0.0);
 	}
@@ -183,44 +189,40 @@ class Level
 		#if debug
 		if(Key.isDown( Key.SHIFT )){
 			if ( down( Key.DOWN )) {
-				view.y++;
-				trace("vy+");
+				view.y+=10;
 			}
 			
 			if ( down( Key.UP )) {
-				view.y--;
-				trace("vy-");
+				view.y-=10;
 			}
 		}
 		else 
 		#end
 		{
-			if ( down( Key.DOWN )) {
-				char.dy += 0.1;
-			}
-			
-			if ( down( Key.UP )) {
-				char.dy -= 0.1;
-			}
-			
-			if ( down( Key.LEFT )) {
-				char.dx -= 0.1;
-			}
-			
-			if ( down( Key.RIGHT )) {
-				char.dx += 0.1;
-			}
+			hero.input();
 		}
-
-		
-		char.dx = MathEx.clamp( char.dx,-mdx, mdx);
-		char.dy = MathEx.clamp( char.dy, -mdy, mdy);
-		///trace();
-		//trace('in ' + char.dx + " " + char.dy);
 	}
 	
 	public function startGame() {
+		trace("gameStart");
+		hero.cy = nbch - 2;
+		hero.cx = nbcw >> 1;
 		
+		hero.syncPos();
+	}
+	
+	public function cameraFollow() {
+		
+		var k = 0.51;
+		view.y = k * view.y + (1-k) * (hero.el.y - ( Lib.h()*3>>2));
+		
+		if ( view.y <=0 ) {
+			view.y = 0;
+		}
+		
+		if ( view.y > nbch * cw - Lib.h() ) {
+			view.y = nbch * cw - Lib.h();
+		}
 	}
 	
 }
