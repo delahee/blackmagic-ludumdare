@@ -32,9 +32,13 @@ class Entity
 	var l : Level;
 	
 	var depth : Int;
+	var name: String;
 	
+	static var uid = 0;
+	var id = uid++;
 	public function new() {
 		l = M.me.level;
+		name = "entity#" + id;
 	}
 
 	public function detach()
@@ -157,7 +161,7 @@ class Entity
 		el.x = Std.int((cx << 4) + rx * 16.0);
 		el.y = Std.int((cy << 4) + ry * 16.0);
 		
-		trace(el.x + " " + el.y);
+		//trace(el.x + " " + el.y);
 	}
 		
 		
