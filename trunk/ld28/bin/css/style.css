@@ -10,7 +10,7 @@ body {
 }
 
 a {
-	color: #8b8977;
+	color: #f18d05;
 	font-weight: bold;
 	cursor: pointer;
 	text-decoration: none;
@@ -23,24 +23,25 @@ a:hover {
 }
 
 h1, h2, h3 {
-	font-family: 'Advent Pro', sans-serif;
-	color:#a09e8b;
+	font-family: 'Alegreya Sans SC', sans-serif;
+	color:#f18d05;
 	font-size:25px;
 	font-weight:bolder;
-	margin-bottom:-3px;
+	margin-bottom:-15px;
+	margin-top:-5px;
 	text-align:center;
-	text-shadow:0px 2px 0px black,
-				0px -2px 0px black,
-				2px 0px 0px black,
-				-2px 0px 0px black,
-				2px 2px 0px black,
-				-2px -2px 0px black,
-				-2px 2px 0px black,
-				2px -2px 0px black;
+	text-shadow:0px 2px 0px #ba3c00,
+				0px -2px 0px #ba3c00,
+				2px 0px 0px #ba3c00,
+				-2px 0px 0px #ba3c00,
+				2px 2px 0px #ba3c00,
+				-2px -2px 0px #ba3c00,
+				-2px 2px 0px #ba3c00,
+				2px -2px 0px #ba3c00;
 }
 
 #content {
-	width:800px;
+	width:600px;
 	margin:auto;
 	margin-top:10px;
 	background-color:black;
@@ -50,34 +51,42 @@ h1, h2, h3 {
 .center {
 	margin:auto;
 	text-align:center;
-	margin-top:10px;
+	margin-top:20px;
 	margin-bottom:10px;
 }
 
 a.rate {
-
 	height:50px;
-	font-family: 'Advent Pro', sans-serif;
+	font-family: 'Alegreya Sans SC', sans-serif;
 	text-transform:capitalize;
-	background-color:#8b8977;
+	background-color:#f18d05;
 	font-size:20pt;
 	text-align:center;
-	color:#c8c6b0;
+	color:#b31e00;
 	padding:8px;
 	padding-top:5px;
-	border:5px solid #6e6c5e;
-	outline:1px solid #c8c6b0;
+	border:5px solid #330504;
+	outline:1px solid #ffff08;
 	vertical-align:bottom;
+	text-shadow:0px 1px 1px #ffff08,
+				0px -1px 1px #ffff08,
+				1px 0px 1px #ffff08,
+				-1px 0px 1px #ffff08,
+				1px 1px 1px #ffff08,
+				-1px -1px 1px #ffff08,
+				-1px 1px 1px #ffff08,
+				1px -1px 1px #ffff08;
 }
 
 a.rate:hover {
 	height:46px;
 	background-color:#c8c6b0;
 	text-align:center;
-	color:white;
-	border:1px solid #6e6c5e;
+	color:black;
 	margin-top:4px;
-	
+	text-shadow:none;
+	border:2px solid white;
+	outline:1px solid white;
 }
 
 a.glow:hover {
@@ -94,12 +103,19 @@ a.glow:hover {
 .container {
 	background-color: #1c1c1c;
 	padding:5px;
+	width:480px;
+	margin:auto;
 	margin-bottom:10px;
 }
 
+.container img {
+	margin:auto;
+}
+
 .rules {
-	margin-bottom:10px;
+	margin-bottom:5px;
 	margin-top:10px;
+	text-align:center;
 }
 
 .HowtoPlay {
@@ -111,7 +127,7 @@ a.glow:hover {
 }
 
 .team {
-	width:20%;
+	width:25%;
 }
 
 .inline-block {display:inline-block;}
@@ -131,5 +147,10 @@ span {
 	position:absolute;
 	bottom:20px;
 	text-align:center;
-	width:800px;
+	width:600px;
+}
+
+.right {
+	float:right;
+	position:relative;
 }
