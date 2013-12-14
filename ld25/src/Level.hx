@@ -104,7 +104,6 @@ class Level
 	{
 		grid = new flash.display.Shape();
 		
-		
 		for( y in 0...Tools.ch() )
 		{
 			for( x in 0...Tools.cw()*4 )

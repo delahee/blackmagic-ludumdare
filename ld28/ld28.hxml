@@ -1,0 +1,9 @@
+-cp src
+-cp libs
+-cp asset
+-swf bin/ld28.swf
+-swf-header 480:640:30:FFFFFF
+--flash-strict
+-swf-version 11.6
+-main M
+-dce no
