@@ -1,5 +1,4 @@
-<TextureAtlas imagePath="tiles_bg.png">
-	<SubTexture name="tiles_sand.png" x="0" y="0" width="16" height="16"/>
-	<SubTexture name="tiles_shadow.png" x="16" y="0" width="16" height="16"/>
-	<SubTexture name="tiles_water.png" x="0" y="16" width="16" height="16"/>
+<TextureAtlas imagePath="sprites.png">
+	<SubTexture name="tw_bullet_a0.png" x="3" y="0" width="3" height="8"/>
+	<SubTexture name="tw_bullet_b0.png" x="0" y="0" width="3" height="8"/>
 </TextureAtlas>
