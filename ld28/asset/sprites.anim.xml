@@ -60,4 +60,19 @@
 	<a group="opp_dead">0</a>
 	<a group="opp_hit">0</a>
 	<a group="opp_burn">0-6</a>
+	<a group="heavy_dead">0</a>
+	<a group="heavy_hit">0</a>
+	<a group="heavy_shoot_n">0</a>
+	<a group="heavy_shoot_ne">0</a>
+	<a group="heavy_shoot_nw">0</a>
+	<a group="heavy_shoot_s">0</a>
+	<a group="heavy_shoot_se">0</a>
+	<a group="heavy_shoot_sw">0</a>
+	<a group="heavy_shoot_e">0</a>
+	<a group="heavy_shoot_w">0</a>
+	<a group="boss_dead">0</a>
+	<a group="boss_hit">0</a>
+	<a group="boss_shoot_s">0</a>
+	<a group="boss_shoot_se">0</a>
+	<a group="boss_shoot_sw">0</a>
 </anim>
