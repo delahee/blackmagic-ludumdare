@@ -26,7 +26,6 @@ enum CellFlags{
 	BLOCK;
 	WATER;
 	DEEP_WATER;
-	//SAND;
 	BUSH;
 	
 	ALARM;
@@ -35,6 +34,11 @@ enum CellFlags{
 	WP_END;
 	WP_WAIT;
 	WP_PATH;
+	
+	NMY_NORMAL;
+	NMY_HEAVY;
+	NMY_BOSS;
+	
 }
 
 @:publicFields
@@ -173,9 +177,10 @@ class Level
 						var tcx = ti % gfxw;
 						var tcy = Std.int(ti / gfxw);
 						
-						bmd.copyPixels( gfx,
-							new Rectangle(tcx* tw, tcy * th,tw,th),
-							new Point(x * tw, y * th), null, null, false );
+						if( lay.visible )
+							bmd.copyPixels( gfx,
+								new Rectangle(tcx* tw, tcy * th,tw,th),
+								new Point(x * tw, y * th), null, null, false );
 							
 						var tsp = t.tilesets[0].tileproperties;
 						var fi =  Std.string(ti);
@@ -187,11 +192,13 @@ class Level
 							}
 						}
 					}
+					/*
 					else if( lay.type == "objectgroup"){
 						var arrO : Array<Dynamic> = cast lay.objects;
 						for( o in arrO)
 							onObject( o );
 					}
+					*/
 				}
 			}
 		}
@@ -206,7 +213,7 @@ class Level
 	}
 	
 	public function onProp(name:String, val:String, cx:Int, cy:Int) {
-		trace('[$cx,$cy] $name : $val');
+		//trace('[$cx,$cy] $name : $val');
 		switch(name) {
 			case "coll":
 				var e = Type.createEnum( CellFlags, val.toUpperCase());
@@ -218,23 +225,44 @@ class Level
 			}
 			
 			case "opp":
-				switch(val) {
-					case "normal":
-					case "heavy":
-				}
-			
+				
+				var e = Type.createEnum( CellFlags, "NMY_"+val.toUpperCase());
+				colls[mkKey(cx, cy)].set( e );
 		}
 	}
 	
 	public function makeObjects() {
-		var t = Timer.stamp();
-		for (o in objects) {
-			for ( p in Reflect.fields( o.properties ) ) {
-				var val = Reflect.field( o.properties, p );
-				onProp(p, val, o.x, o.y);
+		
+		for (y in 0...nbch)
+			for ( x in 0...nbcw)
+			{
+				var k = mkKey(x, y);
+				var v = colls[k];
+				
+				if ( v.has(	WP_START   	)){}
+				if ( v.has(	WP_END     	)){}
+				if ( v.has(	WP_WAIT    	)){}
+				if ( v.has(	WP_PATH    	)) { }
+				
+				if ( v.has(	NMY_NORMAL 	)) {
+					var nmy = new Nmy(Normal);
+					nmy.cy =  y;
+					nmy.cx = x; 
+					add( nmy );
+				}
+				if ( v.has(	NMY_HEAVY  	)){
+					var nmy = new Nmy(Heavy);
+					nmy.cy =  y;
+					nmy.cx = x; 
+					add( nmy );
+				}
+				if ( v.has(	NMY_BOSS   	)){
+					var nmy = new Nmy(Boss);
+					nmy.cy =  y;
+					nmy.cx = x; 
+					add( nmy );
+				}
 			}
-		}
-		trace( 'makeobj:'+ Std.string(Timer.stamp() - t ));
 	}
 	
 	public function reset(){
@@ -435,12 +463,14 @@ class Level
 		
 		hero.syncPos();
 		
+		/*
 		for ( i in 0...4) {
 			var nmy = new Nmy();
 			nmy.cy =  nbch - 10 - i + Dice.roll( -4,4 );
 			nmy.cx = (nbcw >> 1) - (2 * i) ; 
 			add( nmy );
 		}
+		*/
 	}
 	
 	public function cameraFollow() {
