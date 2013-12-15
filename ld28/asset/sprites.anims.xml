@@ -11,8 +11,8 @@
 	<a group="press">0</a>
 	<a group="palmier_a">0</a>
 	<a group="palmier_b">0</a>
-	<a group="props_bullet_a">0-1</a>
-	<a group="props_bullet_b">0-1</a>
+	<a group="props_bullet_a">0</a>
+	<a group="props_bullet_b">0</a>
 	<a group="props_chest">0-1</a>
 	<a group="props_chest_arm">0-1</a>
 	<a group="props_coins">0</a>
