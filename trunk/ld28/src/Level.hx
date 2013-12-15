@@ -31,8 +31,8 @@ enum CellFlags{
 	
 	ALARM;
 	
-	WP_START;
-	WP_END;
+	//WP_START;
+	//sWP_END;
 	WP_WAIT;
 	WP_PATH;
 	
@@ -215,6 +215,8 @@ class Level
 	
 	public function onProp(name:String, val:String, cx:Int, cy:Int) {
 		//trace('[$cx,$cy] $name : $val');
+		name=StringTools.trim(name);
+		val=StringTools.trim(val);
 		switch(name) {
 			case "coll":
 				var e = Type.createEnum( CellFlags, val.toUpperCase());
@@ -223,12 +225,14 @@ class Level
 			case "waypoint": {
 				var e = Type.createEnum( CellFlags, "WP_"+val.toUpperCase());
 				colls[mkKey(cx, cy)].set( e );
+				if ( e == WP_WAIT)
+					colls[mkKey(cx, cy)].set( WP_PATH );
 			}
 			
 			case "opp":
-				
 				var e = Type.createEnum( CellFlags, "NMY_"+val.toUpperCase());
 				colls[mkKey(cx, cy)].set( e );
+				colls[mkKey(cx, cy)].set( WP_PATH );
 		}
 	}
 	
@@ -239,11 +243,6 @@ class Level
 			{
 				var k = mkKey(x, y);
 				var v = colls[k];
-				
-				if ( v.has(	WP_START   	)){}
-				if ( v.has(	WP_END     	)){}
-				if ( v.has(	WP_WAIT    	)){}
-				if ( v.has(	WP_PATH    	)) { }
 				
 				if ( v.has(	NMY_NORMAL )) {
 					var nmy = new Nmy(Normal,new Vec2i(x,y));
@@ -298,7 +297,6 @@ class Level
 		store[storeCur++] = e;
 		e.idx = storeCur - 1;
 		dm.add( e.el , e.depth);
-		trace(e.idx);
 	}
 	
 	

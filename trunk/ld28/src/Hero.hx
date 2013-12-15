@@ -1,6 +1,7 @@
 import mt.deepnight.Key;
 
 import volute.*;
+import Dir;
 import Entity;
 using volute.Ex;
 
@@ -21,7 +22,7 @@ class Hero extends Char{
 		//basic gun
 		guns[0] = g = new Gun(this);
 		g.maxBullets = 12;
-		g.maxCooldown = 8;
+		g.maxCooldown = 16;
 		g.init();
 		
 		//gatling
@@ -57,8 +58,9 @@ class Hero extends Char{
 		
 		var fl = 0;
 		
-		if ( down( Key.SPACE ))
-			addMessage("take that");
+		var ndir : Dir= null;
+		
+		if ( down( Key.SPACE ))			addMessage("take that");
 		
 		if ( down( Key.DOWN )) 			{ dy += k; fl |= (1 << 0);}
 		else if ( down( Key.UP )) 		{ dy -= k; fl |= (1 << 1); }
@@ -67,9 +69,8 @@ class Hero extends Char{
 		else if ( down( Key.RIGHT ))	{ dx += k; fl |= (1 << 3); }
 		
 		if ( fl != 0 ) {
-			dir=
+			ndir=
 			switch(fl) {
-				case 0: state = Idle;N;
 				
 				case 1 : S;
 				case 2 : N;
@@ -91,12 +92,32 @@ class Hero extends Char{
 		dy = MathEx.clamp( dy, -mdy, mdy);
 		
 		cd--;
-		if ( down( Key.CTRL ) && cd<=0) {
+		if ( down( Key.CTRL ) && cd<=0)
 			currentGun.fire();
+		
+		syncDir(dir,ndir);
+	}
+
+	public override function syncDir(odir,ndir) {
+		if ( ndir == null ) return;
+		if ( odir == ndir ) return;
+		
+		switch(ndir) {
+		default:	
 		}
 		
-		syncDir();
+		var file = "explosion";
+		var a =
+		switch(ndir) {
+			case N, NE, NW: bsdown.playAnim("redhead_run_n");
+			case S, SE, SW: bsdown.playAnim("redhead_run_s");
+				
+			case E: bsdown.playAnim("redhead_run_e");
+			case W: bsdown.playAnim("explosion");
+		}
+		if ( !a) throw "no such anim";
+		trace("hero sync dir" + ndir);
+		super.syncDir(odir, ndir);
 	}
-	
 	
 }

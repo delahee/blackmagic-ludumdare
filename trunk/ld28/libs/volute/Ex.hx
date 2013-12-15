@@ -46,5 +46,16 @@ class Ex
 		return Type.enumIndex(e);
 	}
 	
+	public static inline function next<A>( v : A , e:Enum<A> ) : A
+	{
+		var len = Type.allEnums(e).length;
+		return Type.createEnumIndex( e,(index( cast v ) + 1 ) % len );
+	}
+	
+	public static inline function prev<A>( v : A , e:Enum<A> ) : A
+	{
+		var len = Type.allEnums(e).length;
+		return Type.createEnumIndex( e,(index( cast v ) + (len-1) ) % len );
+	}
 		
 }

@@ -100,8 +100,6 @@ class Bullet
 			bmp = null;
 		}
 		}, 8);
-		trace("bullet killed");
-		
 	}
 	
 	public static function id() {

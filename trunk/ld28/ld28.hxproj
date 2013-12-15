@@ -6,7 +6,7 @@
     <movie input="" />
     <movie path="bin\ld28.swf" />
     <movie fps="30" />
-    <movie width="480" />
+    <movie width="640" />
     <movie height="640" />
     <movie version="11" />
     <movie minorVersion="6" />
@@ -23,7 +23,7 @@
   <build>
     <option directives="" />
     <option flashStrict="True" />
-    <option noInlineOnDebug="False" />
+    <option noInlineOnDebug="True" />
     <option mainClass="M" />
     <option enabledebug="True" />
     <option additional="-dce no" />
