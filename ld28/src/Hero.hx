@@ -52,11 +52,13 @@ class Hero extends Char{
 	}
 	
 	public override function onHurt() {
-		
+		super.onHurt();
 		if( hasChest )
 			addScore( -1000);
 		else 
 			addScore( -200);
+		
+		
 	}
 	
 	public override function getFireOfset() :Vec2i{

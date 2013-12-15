@@ -1,3 +1,7 @@
+import flash.display.Shape;
+import flash.filters.GlowFilter;
+import mt.deepnight.Tweenie;
+import mt.deepnight.Tweenie.*;
 import volute.Dice;
 import volute.t.Vec2;
 import volute.t.Vec2i;
@@ -26,9 +30,8 @@ class Nmy extends Char {
 		name = "opp";
 		dir = S;
 		state = Idle;
-		
 		super();
-		name = "opp";
+		hp = 2;
 		type = ET_OPP;
 		nmyType = et;
 		stateLife = Dice.roll(0, 30);
@@ -90,7 +93,7 @@ class Nmy extends Char {
 	
 	public function tickAi() {
 		
-		if ( hp == 0 ) return;
+		if ( hp <= 0 ) return;
 		
 		var char = M.me.level.hero;
 		
@@ -101,16 +104,19 @@ class Nmy extends Char {
 		var q = getHeroQuadrant();
 		var tickAggro = (dir == q || dir.next(Dir) == q || dir.prev(Dir) == q );
 		
-		if ( tickAggro) {
+		if ( tickAggro && state != Hit) {
 			if ( dChar <= dAggro) state = Shoot;
 			else if ( dChar <= dStop) state = Watch;
 			else if( state == Shoot || state == Watch )  state = Idle;
 		}
 	
-		trace(getHeroQuadrant());
 		switch(nmyType) {
 			default: 
 				switch(state) {
+					case Hit:
+						if ( stateLife >= 30) {
+							state = Idle;
+						}
 					
 					case Watch:
 						dx = 0;
@@ -276,7 +282,7 @@ class Nmy extends Char {
 		//	return;
 		
 		#if debug
-		if ( dhy > 4 ) {
+		if ( dhy > 20 ) {
 			#if debug el.alpha = 1.0; #end
 			return;
 		}
@@ -299,6 +305,8 @@ class Nmy extends Char {
 		}
 	}
 	public override function syncDir(odir:Dir, ndir:Dir) {
+		
+		if ( state == Hit ) return;
 		
 		isRunning = !(MathEx.is0( dx ) && MathEx.is0( dy ));
 		
@@ -325,6 +333,17 @@ class Nmy extends Char {
 		if ( !a) throw "no such anim "+f;
 		
 		super.syncDir(odir, ndir);
+	}
+	
+	public override function onHurt() {
+		super.onHurt();
+		dir = getHeroQuadrant();
+		addToMajorDir(dir, -0.5);
+		addScore( 25 );
+		state = Hit;
+		bsup.playAnim( "opp_hit", 1);
+		
+		
 	}
 	
 	public override function onKill() {
