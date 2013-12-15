@@ -64,6 +64,11 @@ class Char extends Entity{
 		bsup = null;
 	}
 	
+	public function addMessage(str)
+	{
+		M.me.ui.addMessage(str, el.x - M.me.level.view.x, el.y - M.me.level.view.y );
+	}
+	
 	public function syncDir() {
 		var anim = name + "_" + Std.string( state ) .toLowerCase() + "_" + Std.string( dir ).toLowerCase(); 
 		
