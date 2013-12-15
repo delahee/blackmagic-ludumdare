@@ -6,6 +6,7 @@ import flash.display.Sprite;
 import flash.geom.Rectangle;
 import flash.geom.Point;
 import haxe.ds.GenericStack.GenericStack;
+import haxe.Timer;
 import mt.deepnight.Key;
 
 import volute.*;
@@ -119,13 +120,12 @@ class Level
 		//fl.set( BloomFlags.BLOOM_ONLY);
 		
 		bloom = new Bloom(view, fl);
-		bloom.setBlurFactors( 10 , 2 );
+		bloom.setBlurFactors( 8 , 1 );
 		bloom.nbPowPass = 3;
 		bloom.rtRes = 0.5;
 		bloom.upscale = 2;
 		
 		bloom.bmpResult.alpha = 0.75; 
-		
 		
 		startGame();
 	}
@@ -206,38 +206,51 @@ class Level
 	
 	
 	public function update() {
+		var profiler = true;
+		var t = Timer.stamp();
 		input();
 		
 		var i = storeCur-1;
 		var el = null;
 		
+		var te = Timer.stamp();
 		while (i >= 0) {
 			el = store[i];
 			el.update();
 			if( !el.dead )
 				i--;
 		}
+		if(profiler)trace("ent:"+(Timer.stamp() - te));
 		
+		var tfill = Timer.stamp();
 		for ( i in 0...storeCur){
 			//trace(i + " idx:" + i +" cy:"+ store[i].cy);
 			collList[i] = store[i].cy | (i << 10);
 		}
+		if(profiler)trace("fill:"+(Timer.stamp() - tfill));
 			
 		nbColls = storeCur;
-		
+
+		var t0 = Timer.stamp();
 		radix.sortVector(collList, nbColls);
-		
+		if(profiler)trace("radix:"+(Timer.stamp() - t0));
 		
 		//for ( i in 0...nbColls) {
 			//var ci = collList[i];
 			//trace(i + " idx:" + (ci>>10)+" cy:"+ (ci&((1<<10)-1)));
 		//}
 		
+		var t1 = Timer.stamp();
 		tickBullets();
+		if (profiler) trace("bullets:" + (Timer.stamp() - t1));
+		
 		cameraFollow();
 		
-		if( bloom != null)
-			bloom.update(0.0);
+		var t2 = Timer.stamp();
+		if ( bloom != null) bloom.update(0.0);
+		if(profiler)trace("bloom:"+(Timer.stamp() - t2));
+			
+		if(profiler)trace("total"+(Timer.stamp() - t));
 	}
 	
 	public function tickBullets() {
