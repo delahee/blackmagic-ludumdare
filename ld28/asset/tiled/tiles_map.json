@@ -205,11 +205,11 @@
                 },
              "93":
                 {
-                 "waypoint ":"start"
+                 "waypoint ":"path"
                 },
              "94":
                 {
-                 "waypoint ":"end"
+                 "waypoint ":"path"
                 },
              "95":
                 {

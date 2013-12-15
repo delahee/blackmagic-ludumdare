@@ -169,12 +169,12 @@
   </tile>
   <tile id="93">
    <properties>
-    <property name="waypoint " value="start"/>
+    <property name="waypoint " value="path"/>
    </properties>
   </tile>
   <tile id="94">
    <properties>
-    <property name="waypoint " value="end"/>
+    <property name="waypoint " value="path"/>
    </properties>
   </tile>
   <tile id="95">
@@ -3826,7 +3826,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="gp" width="15" height="120" visible="0">
+ <layer name="gp" width="15" height="120">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
