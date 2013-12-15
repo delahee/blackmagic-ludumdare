@@ -42,5 +42,9 @@ class Ex
 			mc.parent.setChildIndex( mc , 0);
 	}
 	
+	public static function index( e:EnumValue) {
+		return Type.enumIndex(e);
+	}
+	
 		
 }

@@ -20,6 +20,7 @@ import mt.deepnight.Buffer;
 import mt.DepthManager;
 import volute.MathEx;
 
+using volute.Ex;
 enum CellFlags{
 	BLOCK;
 	WATER;
@@ -30,7 +31,10 @@ enum CellFlags{
 class Level
 {
 	var colls : haxe.ds.Vector<EnumFlags<CellFlags>>;
-	var store : List<Entity>;
+	
+	var store : Vector<Entity>;
+	var storeCur : Int = 0;
+	
 	var view : DisplayObjectContainer;
 	var root : flash.display.Sprite;
 	
@@ -45,21 +49,32 @@ class Level
 	public static var DM_BG = I++;
 	public static var DM_OPP = I++;
 	public static var DM_CHAR = I++;
+	public static var DM_BULLET = I++;
 	public static var DM_TREE = I++;
 	
 	public inline static var SHIFT_X = 6;
 	public inline static var MAX_X = 1 << SHIFT_X;
 	public inline static var MAX_Y = 1024;
 	
+	public inline static var MAX_ENT = 1024;
+	
 	var dm : DepthManager;
 	var bg : Bitmap;
 	
 	var bloom : Bloom;
 	
+	var bullets : Vector<Bullet>;
+	var bulletCur : Int = 0;
+	
+	var collList : Vector<Int>;
+	var nbColls : Int = 0;
+	var radix:IntRadix;
+	
 	public function new( szx, szy ) {
 		nbcw = szx;  nbch = szy; 
-		store = new List();
+		store = new Vector(512);
 		view = new Sprite();
+		bullets = new Vector(512);
 		
 		colls = new Vector(1024<<SHIFT_X);
 		for ( i in 0...szx * szy)
@@ -73,6 +88,19 @@ class Level
 		for ( i in 0...I) dm.getPlan(i);
 		
 		dm.add( makeBg(), DM_BG );
+		
+		collList = new Vector( MAX_ENT );
+		nbColls = 0;
+		
+		var np = nextPow2(nbch);
+		radix = new IntRadix( MAX_ENT, nextPow2(nbch));
+		trace("radix bit:"+np);
+	}
+	
+	function nextPow2(x:Int)
+	{
+		var logbase2 = Math.log(x) / Math.log(2);
+		return Std.int(Math.pow(2, Math.ceil(logbase2)));
 	}
 	
 	public function postInit() {
@@ -82,12 +110,16 @@ class Level
 		
 		var fl = EnumFlags.ofInt(0);
 		fl.set( BloomFlags.FULLSCREEN);
+		//fl.set( BloomFlags.BLOOM_ONLY);
 		
 		bloom = new Bloom(view, fl);
-		bloom.setBlurFactors( 4 , 2 );
+		bloom.setBlurFactors( 10 , 2 );
 		bloom.nbPowPass = 3;
 		bloom.rtRes = 0.5;
 		bloom.upscale = 2;
+		
+		bloom.bmpResult.alpha = 0.75; 
+		
 		
 		startGame();
 	}
@@ -152,24 +184,102 @@ class Level
 	
 	public function add(e:Entity){
 		var nk = mkKey(e.cx, e.cy);
-		store.add(e);
+		store[storeCur++] = e;
+		e.idx = storeCur - 1;
 		dm.add( e.el , e.depth);
 	}
 	
+	
 	public function remove(e:Entity){
-		store.remove(e);
+		store[e.idx] = store[storeCur - 1];
+		store[e.idx].idx = e.idx;
+		e.idx = -1;
 	}
+	
 	
 	public function update() {
 		input();
 		
-		for ( el in store )
-			el.update();
+		var i = storeCur - 1;
+		var el = null;
 		
+		while (i >= 0) {
+			el = store[i];
+			el.update();
+			if( !el.dead )
+				i--;
+		}
+		
+		var ic = 0;
+		for ( i in 0...storeCur)
+			collList[i] = el.cy | (i<<10);
+			ic++;
+			
+		nbColls = i;
+		
+		radix.sortVector(collList,nbColls);
+		
+		tickBullets();
 		cameraFollow();
 		
 		if( bloom != null)
 			bloom.update(0.0);
+	}
+	
+	public function tickBullets() {
+		var bl = null;
+		for ( i in 0...bulletCur )  bullets[i].update();
+		
+		
+		for( i in 0...4) {
+			for ( i in 0...bulletCur )  { 
+				bl = bullets[i];
+				bl.x += bl.dx * 0.25; 
+				bl.y += bl.dy * 0.25; 
+			}
+			
+			/*
+			var j = bulletCur - 1;
+			var idx;
+			var cy; 
+			var e;
+			var bl;
+			while( j>=0){
+				bl = bullets[j];
+				
+				for (k in collList) {
+					idx = k >> 10;
+					cy = k & ((1 << 10) - 1);
+					e = store[idx];
+					
+					if ( e.cy - (bl.cy) < -3 )
+						continue;
+						
+					if ( e.cy - (bl.cy) > 3 )
+						break;
+						
+					if( 1<<e.type.index() & bl.harm != 0 ) 
+						e.tryCollideBullet( bl );
+				}
+				
+				if ( bl.remove ) {
+					if( bulletCur>1){
+						bullets[j] = bullets[bulletCur - 1];
+						bullets[bulletCur - 1] = null;
+						bulletCur--;
+						bl.kill();
+					}
+				}
+				j--;
+			}
+			*/
+		}
+		
+		for ( i in 0...bulletCur ) {
+			bl = bullets[i];
+			bl.dx *= bl.fx;
+			bl.dy *= bl.fy;
+		}
 	}
 	
 	public function kill() {
@@ -223,6 +333,11 @@ class Level
 		if ( view.y > nbch * cw - Lib.h() ) {
 			view.y = nbch * cw - Lib.h();
 		}
+	}
+	
+	public function addBullet( b : Bullet ) {
+		bullets[bulletCur++] = b;
+		dm.add( b.spr, DM_BULLET );
 	}
 	
 }

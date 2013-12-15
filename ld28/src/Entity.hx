@@ -5,6 +5,7 @@ using volute.Ex;
 enum ENT_TYPE
 {
 	ET_PLAYER;
+	ET_OPP;
 }
 
 @:publicFields
@@ -34,11 +35,17 @@ class Entity
 	var depth : Int;
 	var name: String;
 	
+	var dead : Bool;
+	
 	static var uid = 0;
 	var id = uid++;
+	
+	var idx :Int;
 	public function new() {
 		l = M.me.level;
 		name = "entity#" + id;
+		dead = false;
+		idx = -1;
 	}
 
 	public function detach()
@@ -167,6 +174,10 @@ class Entity
 		
 	public function kill()
 	{
+		
+	}
+	
+	public inline function tryCollideBullet(b:Bullet) {
 		
 	}
 }
