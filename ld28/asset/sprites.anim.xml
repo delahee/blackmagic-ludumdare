@@ -7,6 +7,7 @@
 	<a group="game_over">0</a>
 	<a group="title_screen">0</a>
 	<a group="insert_coins">0</a>
+	<a group="props_alarm">0</a>
 	<a group="press">0</a>
 	<a group="palmier_a">0</a>
 	<a group="palmier_b">0</a>
