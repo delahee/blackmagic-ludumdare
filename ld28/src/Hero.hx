@@ -11,6 +11,35 @@ class Hero extends Char{
 		super();
 		name = "redhead";
 		type = ET_PLAYER;
+		guns = [];
+		
+		var g = null;
+		
+		//basic gun
+		guns[0] = g = new Gun(this);
+		g.maxBullets = 12;
+		g.maxCooldown = 8;
+		g.init();
+		
+		//gatling
+		guns[1] = g = new Gun(this);
+		g.maxBullets = 80;
+		g.maxCooldown = 1;
+		g.init();
+		
+		//rocket
+		guns[2] = g = new Gun(this);
+		g.maxBullets = 2;
+		g.maxCooldown = 5;
+		g.init();
+		
+		//rocket
+		guns[3] = g = new Gun(this);
+		g.maxBullets = 40;
+		g.maxCooldown = 12;
+		g.init();
+		
+		currentGun = guns[0];
 	}
 	
 	public function down(k) {
