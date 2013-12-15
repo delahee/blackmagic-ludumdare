@@ -1,6 +1,4 @@
-<anims>
-	<a group="redhead_shoot_up">0-1</a>
-	<a group="goldpirate_run">0-1</a>
+<anims>	
 	<a group="props_bullet_a">0-1</a>
 	<a group="props_bullet_b">0-1</a>
 	<a group="props_chest">0-1</a>
@@ -10,5 +8,8 @@
 	<a group="props_gold">0</a>
 	<a group="props_hdollar">0</a>
 	<a group="props_hgold">0</a>
-	<a group="redhead_shoot_up">0-1</a>
+	<a group="redhead_shoot_n">0-1</a>
+	<a group="redhead_shoot_s">0-1</a>
+	<a group="redhead_shoot_e">0-1</a>
+	<a group="redhead_shoot_w">0-1</a>
 </anim>
