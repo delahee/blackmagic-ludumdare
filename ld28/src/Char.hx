@@ -1,8 +1,10 @@
 import flash.display.DisplayObject;
 import flash.display.Sprite;
+import flash.geom.Vector3D;
 import mt.deepnight.SpriteLibBitmap;
 import mt.deepnight.SpriteLibBitmap.*;
 import volute.MathEx;
+import volute.t.Vec2i;
 using volute.Ex;
 
 enum CharState {
@@ -23,6 +25,11 @@ class Char extends Entity{
 	var stateLife:Int = 0;
 	var currentGun : Gun;
 	
+	var isShooting : Int;
+	var isRunning : Bool;
+	
+	static inline var shootCooldown = 10;
+	
 	public function new() 
 	{
 		dir = S;
@@ -40,6 +47,12 @@ class Char extends Entity{
 			stateLife = 0;
 		state = s;
 		return s;
+	}
+	
+	static var v2id: Vec2i = new Vec2i(0, 0);
+	
+	public function getFireOfset(){
+		return v2id;
 	}
 	
 	public function onStateChange(os, ns) {
@@ -67,8 +80,8 @@ class Char extends Entity{
 			case NW: addToMajorDir(N, d * 0.7); addToMajorDir(W, d * 0.7);
 			 
 			case S: ry += d;
-			case E: rx -= d;
-			case W: rx += d;
+			case E: rx += d;
+			case W: rx -= d;
 		}
 	}
 	
@@ -85,7 +98,9 @@ class Char extends Entity{
 		else if 		( dx > 	 	rosaceLim ) ndir = E;
 		else if		 	( dy < - 	rosaceLim ) ndir = N;
 		else if 		( dy > 	 	rosaceLim ) ndir = S;
-		
+		else 
+			isRunning = false;
+			
 		syncDir(dir,ndir);
 	}
 	
@@ -103,9 +118,11 @@ class Char extends Entity{
 		if ( dx < -rosaceLim) 			{ fl |= (1 << 2);}
 		else if ( dx > rosaceLim)		{ fl |= (1 << 3); }
 		
+		isRunning = true;
+	
 		if ( fl != 0 ) {
 			ndir = switch(fl) {
-				
+				case 0 : isRunning = false; null;
 				case 1 : S;
 				case 2 : N;
 				
@@ -116,8 +133,7 @@ class Char extends Entity{
 				case 8: W;
 				case 9: SE;
 				case 10: NE;
-				
-				default: 
+				default:
 			}
 			
 		}
@@ -163,5 +179,6 @@ class Char extends Entity{
 		super.update();
 		if( currentGun!=null)
 			currentGun.update();
+		isShooting--;
 	}
 }

@@ -55,8 +55,9 @@ class Gun
 		else 
 			bl.harm |= 1 << ET_PLAYER.index();
 		
-		bl.x = c.el.x + bl.spr.width * 0.5;
-		bl.y = c.el.y + bl.spr.height * 0.5;
+		var f = c.getFireOfset();
+		bl.x = c.el.x + f.x + bl.spr.width * 0.5;
+		bl.y = c.el.y + f.y - c.el.height * 0.5 + bl.spr.height * 0.5;
 		
 		M.me.level.addBullet( bl );
 		
@@ -71,8 +72,8 @@ class Gun
 			case N: bl.dy = -sp;
 			case S: bl.dy = sp;
 				
-			case E: bl.dx = -sp;
-			case W: bl.dx = sp;
+			case E: bl.dx = sp;
+			case W: bl.dx = -sp;
 				
 			default:
 			

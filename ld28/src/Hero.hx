@@ -1,4 +1,5 @@
 import mt.deepnight.Key;
+import volute.t.Vec2i;
 
 import volute.*;
 import Dir;
@@ -46,11 +47,19 @@ class Hero extends Char{
 		currentGun = guns[0];
 	}
 	
+	public override function getFireOfset() :Vec2i{
+		return 
+		switch(dir) {
+			case N:new Vec2i(3, 0);
+			case S:new Vec2i(-3, 0);
+			default: super.getFireOfset();
+		}
+	}
+	
 	public function down(k) {
 		return Key.isDown( k );
 	}
 	
-	public var cd = 0;
 	public function input() {
 		var mdx = 0.2;
 		var mdy = 0.2;
@@ -88,29 +97,48 @@ class Hero extends Char{
 			
 		}
 
+		var wasRunning = MathEx.is0( dx ) && MathEx.is0( dy );
+		
 		dx = MathEx.clamp( dx, -mdx, mdx);
 		dy = MathEx.clamp( dy, -mdy, mdy);
 		
-		cd--;
-		if ( down( Key.CTRL ) && cd<=0)
-			currentGun.fire();
+		if ( Math.abs(dx) <= 0.01 ) dx = 0;
+		if ( Math.abs(dy) <= 0.01 ) dy = 0;
 		
+		isRunning = !(MathEx.is0( dx ) && MathEx.is0( dy ));
+		
+		var wasShooting  = isShooting;
+		
+		if ( down( Key.CTRL ) ){
+			if ( currentGun.fire() ) 
+				isShooting = Char.shootCooldown;
+		}
+			
 		syncDir(dir,ndir);
 	}
 
-	public override function syncDir(odir,ndir) {
-		if ( ndir == null ) return;
-		if ( odir == ndir ) return;
+	public override function syncDir(odir, ndir) {
+		if ( ndir == null) ndir = odir;
 		
-		bsup.playAnim("redhead_shoot_" + Std.string(ndir).toLowerCase());
+		if ( isShooting >= 0){
+			trace("shooting");
+			bsup.playAnim("redhead_shoot_" + Std.string(ndir).toLowerCase());
+		}
+		else {
+			bsup.playAnim("redhead_shoot_" + Std.string(ndir).toLowerCase());
+			bsup.stopAnim(0);
+			trace("stopping");
+		}
+		
+		var verb = isRunning?"run":"idle";
 		
 		var f = 
 		switch(ndir) {
-			case N, NE, NW: "redhead_run_n";
-			case S, SE, SW: "redhead_run_s";
+			case N, NE, NW: 'redhead_${verb}_n';
+			case S, SE, SW: 'redhead_${verb}_s';
 				
-			case E: "redhead_run_e";
-			case W: "redhead_run_w"; 
+			case E: 'redhead_${verb}_e';
+			case W: 'redhead_${verb}_w'; 
 		}
 		trace("playing " + f);
 		var a = bsdown.playAnim(f);

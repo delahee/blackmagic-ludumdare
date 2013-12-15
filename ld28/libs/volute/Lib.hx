@@ -4,7 +4,7 @@ import volute.Types;
 
 class Lib 
 {
-	public static inline function w() return 240;
+	public static inline function w() return 320;
 	public static inline function h() return 320;
 	
 	
