@@ -14,11 +14,12 @@ enum NmyType {
 class Nmy extends Char {
 	
 	var nmyType : NmyType;
-	var curTarget : Vec2;
+	var curTarget : Vec2i;
 	
 	var lastTargets : List < Vec2i >;
+	var origin : Vec2i;
 	
-	public function new( et ) 
+	public function new( et, origin ) 
 	{
 		super();
 		name = "opp";
@@ -43,14 +44,21 @@ class Nmy extends Char {
 		return l;
 	}
 	
+	public inline function getCell() {
+		return M.me.level.colls[M.me.level.mkKey(cx, cy)];
+	}
+	
 	public override function update() {
 		super.update();
 		
+		var lev = M.me.level;
+		var dhy = M.me.level.hero.cy - cy;
+		
 		//up discard
-		if ( M.me.level.hero.cy - cy > ((240 >>4 )<<1 ))
+		if ( dhy > 20 )
 			return;
 			
-		if ( cy - M.me.level.hero.cy > 4)
+		if ( dhy < -4)
 			return;
 		
 		switch(nmyType) {
@@ -60,13 +68,23 @@ class Nmy extends Char {
 					case Idle:
 						if ( stateLife > 30) {
 							//is on waypoint
-							
+							if ( getCell().has(WP_PATH) ) {
+								curTarget = new Vec2i(cx, cy);
+								state = Run;
+								trace("hooking path");
+							}
 							//else reach one
+							else {
+								curTarget = origin;
+								state = Run;
+								trace("getting to origin");
+							}
 						}
 					case Run: {
 						if ( curTarget == null) {
 							state  = Idle;
 							lastTargets.clear();
+							trace("getting back to idle");
 						}
 						else{
 							if ( cx == curTarget.x && cy == curTarget.y 
@@ -89,6 +107,7 @@ class Nmy extends Char {
 								curTarget.y = cwp.y;
 								
 								lastTargets.push(new Vec2i(cx, cy) );
+								trace("new waypoint");
 							}
 							else {
 								var realx = curTarget.x * 16;

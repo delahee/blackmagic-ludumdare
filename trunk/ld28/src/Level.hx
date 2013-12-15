@@ -8,6 +8,7 @@ import flash.geom.Point;
 import haxe.ds.GenericStack.GenericStack;
 import haxe.Timer;
 import mt.deepnight.Key;
+import volute.t.Vec2i;
 
 import volute.*;
 import volute.postfx.Bloom;
@@ -244,22 +245,28 @@ class Level
 				if ( v.has(	WP_WAIT    	)){}
 				if ( v.has(	WP_PATH    	)) { }
 				
-				if ( v.has(	NMY_NORMAL 	)) {
-					var nmy = new Nmy(Normal);
-					nmy.cy =  y;
+				if ( v.has(	NMY_NORMAL )) {
+					var nmy = new Nmy(Normal,new Vec2i(x,y));
 					nmy.cx = x; 
+					nmy.cy = y;
+					nmy.rx =  0.5;
+					nmy.ry = 0.5;
 					add( nmy );
 				}
-				if ( v.has(	NMY_HEAVY  	)){
-					var nmy = new Nmy(Heavy);
-					nmy.cy =  y;
+				if ( v.has(	NMY_HEAVY )){
+					var nmy = new Nmy(Heavy,new Vec2i(x,y));
 					nmy.cx = x; 
+					nmy.cy =  y;
+					nmy.rx =  0.5;
+					nmy.ry = 0.5;
 					add( nmy );
 				}
-				if ( v.has(	NMY_BOSS   	)){
-					var nmy = new Nmy(Boss);
+				if ( v.has(	NMY_BOSS )){
+					var nmy = new Nmy(Boss,new Vec2i(x,y));
+					nmy.cx = x;
 					nmy.cy =  y;
-					nmy.cx = x; 
+					nmy.rx =  0.5;
+					nmy.ry = 0.5;
 					add( nmy );
 				}
 			}
