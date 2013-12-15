@@ -136,7 +136,6 @@ class Bloom extends volute.scene.Scene
 		result.fillRect(result.rect, 0x0);
 		render.fillRect(render.rect, 0x0);
 		
-		
 		render.draw( src , matSrc);
 		result.applyFilter( render, result.rect, Const.Point_ZERO, grayFilter); //grey it
 		
@@ -177,17 +176,20 @@ class Bloom extends volute.scene.Scene
 	public override function update(_){
 		var t =  Timer.stamp();
 		var s = (rtRes == null)? 1.0 : 1.0 / rtRes;
-		
-		bmpResult.scaleX = s * upscale;
-		bmpResult.scaleY = s * upscale;
-		bmpRender.scaleX = upscale;
-		bmpRender.scaleY = upscale;
 	
 		if( rtRes==null)
 			drawDirect();
 		else
 			drawIndirect();
 			
+		bmpResult.scaleX = s * upscale;
+		bmpResult.scaleY = s * upscale;
+		bmpRender.scaleX = upscale;
+		bmpRender.scaleY = upscale;
+		
+		
+	//	bmpRender.visible = false;
+		//bmpResult.visible = true;
 		//trace( Timer.stamp() - t);
 	}
 	

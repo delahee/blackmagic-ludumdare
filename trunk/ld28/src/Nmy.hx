@@ -5,6 +5,7 @@ class Nmy extends Char {
 	{
 		super();
 		name = "opp";
+		type = ET_OPP;
 	}
 	
 	public function update() {
