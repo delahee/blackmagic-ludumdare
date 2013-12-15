@@ -192,4 +192,9 @@ class MathEx
 		return Math.abs(f) < EPSILON;
 	}
 	
+	public static inline function isNear(f:Float,val:Float,eps=0.001)
+	{
+		return Math.abs(val-f) < eps;
+	}
+	
 }

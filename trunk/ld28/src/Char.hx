@@ -7,7 +7,6 @@ using volute.Ex;
 
 enum CharState {
 	Idle;
-	Walk;
 	Run;
 	Shoot;
 }
@@ -20,7 +19,8 @@ class Char extends Entity{
 	var bsdown : Sprite;
 	
 	var state : CharState;
-	
+	var stateLife:Int = 0;
+	var currentGun : Gun;
 	
 	public function new() 
 	{
@@ -89,5 +89,12 @@ class Char extends Entity{
 			else onHurt();
 			b.remove = true;
 		}
+	}
+	
+	public override function update() {
+		stateLife++;
+		super.update();
+		if( currentGun!=null)
+			currentGun.update();
 	}
 }

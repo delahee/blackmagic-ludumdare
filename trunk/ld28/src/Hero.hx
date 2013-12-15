@@ -6,6 +6,7 @@ using volute.Ex;
 
 class Hero extends Char{
 
+	var guns : Array<Gun>;
 	public function new() {
 		super();
 		name = "redhead";
@@ -60,44 +61,7 @@ class Hero extends Char{
 		
 		cd--;
 		if ( down( Key.CTRL ) && cd<=0) {
-			var bl = new Bullet();
-			
-			bl.harm |= 1 << ET_OPP.index();
-			
-			bl.x = el.x + bl.spr.width * 0.5;
-			bl.y = el.y + bl.spr.height * 0.5;
-			
-			l.addBullet( bl );
-			
-			var sp = 12.0;
-			
-			var spi4 = Math.sin(-Math.PI * 0.25);
-			var cpi4 = Math.cos( -Math.PI * 0.25);
-			
-			var r2d2 = 1.414 * 0.5;
-			switch(dir) {
-				
-				case N: bl.dy = -sp;
-				case S: bl.dy = sp;
-					
-				case E: bl.dx = -sp;
-				case W: bl.dx = sp;
-					
-				default:
-				
-				case NW: bl.dx = -sp*r2d2;  bl.dy = -sp*r2d2;
-				case SW: bl.dx = -sp*r2d2; 	bl.dy = sp*r2d2;
-					     
-				case NE: bl.dx = sp*r2d2; 	bl.dy = -sp*r2d2;
-				case SE: bl.dx = sp*r2d2; 	bl.dy = sp*r2d2;
-				
-			}
-			
-			bl.x += dx;
-			bl.y += dy;
-			
-			//trace('bl ' + bl.x + " " + bl.y);
-			cd = 4;
+			currentGun.fire();
 		}
 		
 		syncDir();
