@@ -11,6 +11,7 @@ class Hero extends Char{
 	var guns : Array<Gun>;
 	public function new() {
 		name = "redhead";
+		
 		dir = N;
 		
 		super();
@@ -45,6 +46,12 @@ class Hero extends Char{
 		g.init();
 		
 		currentGun = guns[0];
+		
+		hp = 1000000;
+	}
+	
+	public override function onHurt() {
+		M.me.ui.addScore( -100, cx * 16 + rx * 16, cy * 16 + ry * 16);
 	}
 	
 	public override function getFireOfset() :Vec2i{
@@ -121,13 +128,11 @@ class Hero extends Char{
 		if ( ndir == null) ndir = odir;
 		
 		if ( isShooting >= 0){
-			trace("shooting");
 			bsup.playAnim("redhead_shoot_" + Std.string(ndir).toLowerCase());
 		}
 		else {
 			bsup.playAnim("redhead_shoot_" + Std.string(ndir).toLowerCase());
 			bsup.stopAnim(0);
-			trace("stopping");
 		}
 		
 		var verb = isRunning?"run":"idle";
@@ -140,7 +145,6 @@ class Hero extends Char{
 			case E: 'redhead_${verb}_e';
 			case W: 'redhead_${verb}_w'; 
 		}
-		trace("playing " + f);
 		var a = bsdown.playAnim(f);
 		if ( !a) throw "no such anim "+f;
 		

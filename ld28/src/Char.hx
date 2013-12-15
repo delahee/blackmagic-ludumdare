@@ -5,6 +5,7 @@ import mt.deepnight.SpriteLibBitmap;
 import mt.deepnight.SpriteLibBitmap.*;
 import volute.MathEx;
 import volute.t.Vec2i;
+import Dir;
 using volute.Ex;
 
 enum CharState {
@@ -28,7 +29,7 @@ class Char extends Entity{
 	var isShooting : Int;
 	var isRunning : Bool;
 	
-	static inline var shootCooldown = 10;
+	static inline var shootCooldown = 5;
 	
 	public function new() 
 	{
@@ -85,7 +86,7 @@ class Char extends Entity{
 		}
 	}
 	
-	static inline var rosaceLim = 0.001;
+	static inline var rosaceLim = 0.02;
 	
 	public function rosace4() {
 		
@@ -105,15 +106,14 @@ class Char extends Entity{
 	}
 	
 	public function rosace8() {
-		
-		if ( MathEx.is0( dx ) && MathEx.is0( dy ))
-			return;
+		if ( Math.abs(dx) <= 0.01 ) dx = 0;
+		if ( Math.abs(dy) <= 0.01 ) dy = 0;
 		
 		var ndir : Dir = null;
 		var fl = 0;
 		
 		if ( dy > rosaceLim) 			{ fl |= (1 << 0);}
-		else if ( dy < rosaceLim) 		{ fl |= (1 << 1); }
+		else if ( dy < -rosaceLim) 		{ fl |= (1 << 1); }
 		
 		if ( dx < -rosaceLim) 			{ fl |= (1 << 2);}
 		else if ( dx > rosaceLim)		{ fl |= (1 << 3); }
@@ -126,19 +126,34 @@ class Char extends Entity{
 				case 1 : S;
 				case 2 : N;
 				
-				case 4: E;
+				case 4: W;
 				case 5: SW;
 				case 6: NW;
 				
-				case 8: W;
+				case 8: E;
 				case 9: SE;
 				case 10: NE;
 				default:
 			}
 			
 		}
-		
+		trace(dir+" "+ndir+" "+dx+" "+dy);
 		syncDir(dir,ndir);
+	}
+	
+	public function angleToDir(a:Float) {
+		while (a <= 0) a += 2 * Math.PI;
+		while (a >= 2 * Math.PI) a -= 2 * Math.PI;
+		
+		return 
+		if 		( a <= 0*Math.PI * 0.25 && a <= 1*Math.PI * 0.25) 	E;
+		else if	( a <= 1*Math.PI * 0.25 && a <= 2*Math.PI * 0.25) 	NE;
+		else if	( a <= 2*Math.PI * 0.25 && a <= 3*Math.PI * 0.25) 	N;
+		else if	( a <= 3*Math.PI * 0.25 && a <= 4*Math.PI * 0.25) 	NW;
+		else if	( a <= 4*Math.PI * 0.25 && a <= 5*Math.PI * 0.25) 	W;
+		else if	( a <= 5*Math.PI * 0.25 && a <= 6*Math.PI * 0.25) 	SW;
+		else if	( a <= 6*Math.PI * 0.25 && a <= 7*Math.PI * 0.25) 	S;
+		else 	SE;
 	}
 	
 	public override function kill() {
