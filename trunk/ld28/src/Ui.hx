@@ -94,6 +94,8 @@ class Ui extends Sprite
 		tf.text = txt;
 		tf.width = tf.textWidth + 5;
 		
+		tf.filters = [ new GlowFilter(0xc201e, 1, 4 , 4, 20) ];
+		
 		addChild( tf ); 
 		
 		return tf;
@@ -108,10 +110,10 @@ class Ui extends Sprite
 		score += d;
 	}
 	
-	public function addMessage( msg ,x,y )
+	public function addMessage( msg ,x:Float,y )
 	{
 		var tf = getScoreTf(msg);
-		tf.x = x;
+		tf.x = x - tf.textWidth * 0.5;
 		tf.y = y;
 		tfMsg.add( new Tf(tf, 30, 0.3 ) );
 	}
