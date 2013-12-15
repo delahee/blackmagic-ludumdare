@@ -98,17 +98,8 @@ class Nmy extends Char {
 		var dAggro = 5 * 5;
 		var dStop = 7 * 7;
 		
-		var tickAggro = switch(dir) {
-			case N: cy >= char.cy;
-			case S: cy <= char.cy;
-			case E: cx >= char.cx;
-			case W:	cx <= char.cx;
-			
-			case NE: cy >= char.cy && cx >= char.cx;
-			case NW: cy >= char.cy && cx <= char.cx;
-			case SE: cy <= char.cy && cx <= char.cx;
-			case SW: cy <= char.cy && cx >= char.cx;
-		};
+		var q = getHeroQuadrant();
+		var tickAggro = (dir == q || dir.next(Dir) == q || dir.prev(Dir) == q );
 		
 		if ( tickAggro) {
 			if ( dChar <= dAggro) state = Shoot;
