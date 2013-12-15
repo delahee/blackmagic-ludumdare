@@ -105,6 +105,15 @@ class Char extends Entity{
 		syncDir(dir,ndir);
 	}
 	
+	public function addScore(d)
+	{
+		var s = M.me.ui.addScore(d, 
+		el.x - M.me.level.view.x - el.width * 0.5,
+		el.y - M.me.level.view.y - el.height  );
+	
+		s.x -= s.textWidth * 0.5;
+	}
+	
 	public function rosace8() {
 		if ( Math.abs(dx) <= 0.01 ) dx = 0;
 		if ( Math.abs(dy) <= 0.01 ) dy = 0;
