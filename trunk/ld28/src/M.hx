@@ -57,11 +57,11 @@ class M {
 		var t = tweenie.create(f, "alpha", 0, TType.TLinear, 0.375);
 		intro = new gfx.Intro();
 		ending = new gfx.Ending();
-		ui.addChild(f);
+		//ui.addChild(f);
 		
 		intro.stop();
-		intro.x = 100;
-		intro.y = 80;
+		intro.x = 120;
+		//intro.y = 80;
 		intro.scaleX = intro.scaleY = 2.0;
 		ui.addChild(intro);
 		
