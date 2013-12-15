@@ -25,7 +25,16 @@ using volute.Ex;
 enum CellFlags{
 	BLOCK;
 	WATER;
-	SAND;
+	DEEP_WATER;
+	//SAND;
+	BUSH;
+	
+	ALARM;
+	
+	WP_START;
+	WP_END;
+	WP_WAIT;
+	WP_PATH;
 }
 
 @:publicFields
@@ -200,21 +209,12 @@ class Level
 		trace('[$cx,$cy] $name : $val');
 		switch(name) {
 			case "coll":
-				switch(val) {
-					case "block":
-						//colls[mkKey(o.]
-					case "water":
-					case "deep_water":
-					case "bush":
-				}
+				var e = Type.createEnum( CellFlags, val.toUpperCase());
+				colls[mkKey(cx, cy)].set( e );
 				
 			case "waypoint": {
-				switch(val) {
-					case "start":
-					case "end":
-					case "wait":
-					case "path":
-				}
+				var e = Type.createEnum( CellFlags, "WP_"+val.toUpperCase());
+				colls[mkKey(cx, cy)].set( e );
 			}
 			
 			case "opp":
@@ -260,7 +260,7 @@ class Level
 		return null;
 	}
 	
-	public inline function staticTest(cx, cy) {
+	public inline function staticTest(e:Entity,cx, cy) {
 		if ( cx < 0) return true;
 		if ( cx >= nbcw) return true;
 		
