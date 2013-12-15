@@ -206,7 +206,7 @@ class Level
 	
 	
 	public function update() {
-		var profiler = true;
+		var profiler = false;
 		var t = Timer.stamp();
 		input();
 		
@@ -235,11 +235,6 @@ class Level
 		radix.sortVector(collList, nbColls);
 		if(profiler)trace("radix:"+(Timer.stamp() - t0));
 		
-		//for ( i in 0...nbColls) {
-			//var ci = collList[i];
-			//trace(i + " idx:" + (ci>>10)+" cy:"+ (ci&((1<<10)-1)));
-		//}
-		
 		var t1 = Timer.stamp();
 		tickBullets();
 		if (profiler) trace("bullets:" + (Timer.stamp() - t1));
@@ -258,6 +253,14 @@ class Level
 		for ( i in 0...bulletCur )  bullets[i].update();
 		
 		
+		var j = bulletCur - 1;
+		var idx;
+		var cy; 
+		var e;
+		var bl;
+		var k =  0;
+		var dy;
+		
 		for( i in 0...4) {
 			for ( i in 0...bulletCur )  { 
 				bl = bullets[i];
@@ -265,13 +268,6 @@ class Level
 				bl.y += bl.dy * 0.25; 
 			}
 			
-			var j = bulletCur - 1;
-			var idx;
-			var cy; 
-			var e;
-			var bl;
-			var k =  0;
-			var dy;
 			while( j>=0){
 				bl = bullets[j];
 				
