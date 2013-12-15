@@ -61,7 +61,7 @@ class Entity
 	
 	public inline function test(cx, cy)
 	{
-		return l.staticTest(cx, cy);
+		return l.staticTest(this,cx, cy);
 	}
 	
 	public function updateX()
