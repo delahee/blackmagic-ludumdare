@@ -54,6 +54,7 @@ class M {
 		tweenie.update();
 		level.update();
 		ui.update();
+		mt.deepnight.SpriteLibBitmap.updateAll(1.0);
 	}
 	
 	public static function main() {

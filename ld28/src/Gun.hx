@@ -1,6 +1,8 @@
 import Entity;
 using volute.Ex;
 
+import volute.MathEx;
+import volute.Dice;
 enum BulletType{
 	Standard;
 	Fire;
@@ -19,6 +21,7 @@ class Gun
 	
 	var reloading : Bool = false;
 	var bulletType : BulletType;
+	var recoil = 0.05;
 	
 	public function new( e : Char ) 
 	{
@@ -81,16 +84,16 @@ class Gun
 			
 		}
 		
-		bl.x += bl.dx;
-		bl.y += bl.dy;
-		
 		curCooldown = maxCooldown;
 		bullets--;
 		if ( bullets == 0 ){
 			curCooldown *= 5;
 			reloading = true;
+			c.addMessage("reloading !");
 		}
-		c.addMessage("reloading !");
+		
+		c.addToMajorDir( c.dir, -Dice.rollF( recoil, 2 * recoil) );
+		
 		return true;
 	}
 }

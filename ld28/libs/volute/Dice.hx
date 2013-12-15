@@ -27,6 +27,11 @@ class Dice
 	public static inline function toss(?mr:volute.Rand)
 		return Dice.roll(0, 1, mr) == 0;
 	
-	public static inline function rollF( min : Float,max:Float ) : Float
+	public static inline function rollF( min : Float, max:Float ) : Float{
+		if ( max < min ) {
+			var o = max;
+			max = min; min = max;
+		}
 		return  Math.random() * (max - min) + min;
-}
+	}
+}	

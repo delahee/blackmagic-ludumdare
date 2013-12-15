@@ -2,13 +2,11 @@
 enum Dir
 {
 	N;
-	S;
-	E;
-	W;
-	
 	NE;
-	NW;
-	
+	E;
 	SE;
+	S;
 	SW;
+	W;
+	NW;
 }

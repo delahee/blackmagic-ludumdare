@@ -1,7 +1,5 @@
 package mt.deepnight;
 
-import haxe.ds.StringMap;
-import haxe.ds.IntMap;
 
 #if !macro
 import flash.display.Bitmap;
@@ -13,17 +11,32 @@ import haxe.macro.Expr;
 import haxe.macro.Context;
 
 
-#if !macro 
+#if !macro
 typedef LibGroup = {id:String, wid:Int, hei:Int, frames:Array<{x:Int, y:Int}>, anim:Array<Int> };
-#end
 
+#end
+enum SLBError {
+	UnknownGroup(g:String);
+	NoGroupSelected;
+	GroupAlreadyExists(g:String);
+	NoFrameInGroup(f:Int, g:String);
+	WidthMismatch(f:Int, g:String);
+	HeightMismatch(f:Int, g:String);
+	InvalidFrameDuration(s:String);
+	EndFrameLower(s:String);
+	InvalidFrames(s:String);
+	NoCurrentGroup;
+	AnimFrameExceeds(f:Int, id:String, l:Int);
+	ShoeboxError(m:String, u:String);
+	FailParseShoebox(e:Dynamic);
+}
 
 /** SPRITE *******************************************************************************************
- * 
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
+ *
  * */
 
 #if !macro
@@ -31,11 +44,12 @@ class BSprite extends flash.display.Sprite
 {
 	public static var ALL : List<BSprite> = new List();
 	
-	public var lib(default,null)		: SpriteLibBitmap;
-	public var group(default,null)		: Null<LibGroup>;
-	public var groupName(default,null)	: Null<String>;
-	public var frame(default,null)		: Int;
-	public var destroyed(default, null ): Bool;
+	public var lib(default,null)			: SpriteLibBitmap;
+	public var group(default,null)			: Null<LibGroup>;
+	public var groupName(default,null)		: Null<String>;
+	public var frame(default,null)			: Int;
+	public var destroyed(default, null )	: Bool;
+	public var bitmapVisible(default,set)	: Bool;
 	
 	var bmp				: Bitmap;
 	
@@ -48,6 +62,7 @@ class BSprite extends flash.display.Sprite
 	//var animId			: Null<String>;
 	var animFrames		: Array<Int>;
 	var animPlays		: Int;
+	var animChain		: Array<String>;
 	
 	public var onEndAnim		: Null<Void->Void>;
 	public var onLoopAnim		: Null<Void->Void>;
@@ -55,14 +70,16 @@ class BSprite extends flash.display.Sprite
 	
 	var needUpdate		: Bool;
 	
-	var pivotCoord		: Null<{x:Float, y:Float}>; // pixel coordinates, excluses pivotCoord 
+	var pivotCoord		: Null<{x:Float, y:Float}>; // pixel coordinates, excluses pivotCoord
 	var pivotFactor		: Null<{xr:Float, yr:Float}>; // homogeneous coordinates : 0-1 (based on actual width/height) excludes pivotFactor
 	
 	public function new(l:SpriteLibBitmap, ?g:String, ?frame=0) {
 		super();
+		animChain = [];
 		isPlaying = false;
 		destroyed = false;
 		killAfterAnim = false;
+		bitmapVisible = true;
 		this.cacheAsBitmap = false;
 		pt0 = new flash.geom.Point(0, 0);
 		curFrameCpt = 0;
@@ -74,6 +91,15 @@ class BSprite extends flash.display.Sprite
 		setCenter(lib.defaultCenterX, lib.defaultCenterY);
 	}
 	
+	public function clone() {
+		var s = new BSprite(lib, groupName, frame);
+		s.pivotCoord = pivotCoord;
+		s.pivotFactor = pivotFactor;
+		s.applyPivot();
+		return s;
+	}
+	
+
 	public override function toString() {
 		return "BSprite_"+groupName+"["+frame+"]";
 	}
@@ -95,13 +121,20 @@ class BSprite extends flash.display.Sprite
 		}
 	}
 	
+	function set_bitmapVisible(v) {
+		bitmapVisible = v;
+		if( bmp!=null )
+			bmp.visible = bitmapVisible;
+		return v;
+	}
+	
 	public function getAnimDuration() {
 		var a = getAnim();
 		return a!=null ? a.length : 0;
 	}
 	
 	inline function getAnim() {
-		return isReady() && group.anim.length>0 ? group.anim : null;
+		return isReady() && group.anim.length>=0 ? group.anim : null;
 	}
 	
 	inline function hasAnim() {
@@ -112,11 +145,11 @@ class BSprite extends flash.display.Sprite
 		return bmp.bitmapData;
 	}
 	
-	public inline function isPlayingAnim() {
-		return isPlaying;
+	public inline function isPlayingAnim(?k:String) {
+		return isPlaying && (k==null || isGroup(k));
 	}
 	
-	public function isGroup(k) {
+	public inline function isGroup(k) {
 		return groupName==k;
 	}
 	
@@ -131,12 +164,13 @@ class BSprite extends flash.display.Sprite
 		
 		if( bmp.bitmapData!=null ) {
 			#if debug
-			trace("WARNING"+groupName+": re-allocation of bitmapdata occured");
+			trace('WARNING($groupName): re-allocation of bitmapdata occured');
 			#end
 			bmp.bitmapData.dispose();
 		}
 		
 		bmp.bitmapData = new BitmapData(group.wid, group.hei, true, 0x0);
+		bmp.visible = bitmapVisible;
 		applyPivot();
 	}
 	
@@ -203,7 +237,7 @@ class BSprite extends flash.display.Sprite
 		}
 	}
 	
-	public function restartAnim(?plays=999999) {
+	public function restartAnim(?plays=9999999) {
 		playAnim(groupName, plays);
 	}
 	
@@ -219,16 +253,36 @@ class BSprite extends flash.display.Sprite
 		return !destroyed && groupName!=null;
 	}
 	
-	public function playAnim(g:String, ?plays=999999, ?killAfterPlay=false) {
+	public function chainAnims(animList:Array<String>) {
+		if( animList.length>0 ) {
+			animChain = animList;
+			popChainedAnim();
+		}
+	}
+	
+	function popChainedAnim() {
+		if( animChain.length==1 )
+			_playAnim( animChain.shift() ) ;
+		else
+			_playAnim( animChain.shift(), 1 ) ;
+	}
+	
+	public function playAnim(g:String, ?plays=9999999, ?killAfterPlay=false) {
+		if( animChain.length>0 )
+			animChain = [];
+		return _playAnim(g, plays, killAfterPlay);
+	}
+	
+	function _playAnim(g:String, ?plays=9999999, ?killAfterPlay=false) {
 		if( groupName==g )
-			return;
+			return false;
 			
 		setGroup(g);
 		
 		var a = getAnim();
 		
 		if( a==null )
-			return;
+			return false;
 			
 		killAfterAnim = killAfterPlay;
 		
@@ -239,6 +293,7 @@ class BSprite extends flash.display.Sprite
 		animFrames = a;
 		startUpdates();
 		setFrame(animFrames[0]);
+		return true;
 	}
 	
 	public inline function offsetAnimFrame(?randFunc:Int->Int) {
@@ -269,6 +324,9 @@ class BSprite extends flash.display.Sprite
 							onEndAnim = null;
 							cb();
 						}
+						
+						if( animChain.length>0 )
+							popChainedAnim();
 					}
 					else {
 						setFrame(animFrames[animCursor]);
@@ -300,9 +358,9 @@ class BSprite extends flash.display.Sprite
 class SpriteLibBitmap {
 	#if !macro
 	public var source			: BitmapData;
-	var groups					: StringMap<LibGroup>;
+	var groups					: Map<String, LibGroup>;
 	var currentGroup			: Null<LibGroup>;
-	var frameRandDraw			: StringMap<Array<Int>>;
+	var frameRandDraw			: Map<String, Array<Int>>;
 	public var defaultCenterX(default, null)	: Float;
 	public var defaultCenterY(default, null)	: Float;
 	var gridX					: Int;
@@ -310,11 +368,15 @@ class SpriteLibBitmap {
 	
 	public function new(bd:BitmapData) {
 		source = bd;
-		groups = new StringMap();
-		frameRandDraw = new StringMap();
+		groups = new Map();
+		frameRandDraw = new Map();
 		defaultCenterX = 0;
 		defaultCenterY = 0;
 		gridX = gridY = 16;
+	}
+	
+	public function destroy() {
+		source.dispose();
 	}
 	
 	
@@ -343,7 +405,7 @@ class SpriteLibBitmap {
 		return
 			if(k==null ) {
 				if( currentGroup==null )
-					throw "No group selected previously";
+					throw SLBError.NoGroupSelected;
 				else
 					currentGroup;
 			}
@@ -351,7 +413,7 @@ class SpriteLibBitmap {
 				if(groups.exists(k))
 					groups.get(k);
 				else
-					throw "Unknown group "+k;
+					throw SLBError.UnknownGroup(k);
 	}
 	
 	public inline function getGroups() {
@@ -368,7 +430,7 @@ class SpriteLibBitmap {
 	
 	public function createGroup(k:String, wid:Int, hei:Int) {
 		if( groups.exists(k) )
-			throw "group "+k+" already exists";
+			throw SLBError.GroupAlreadyExists(k);
 		groups.set(k, {
 			id		: k,
 			wid		: wid,
@@ -388,7 +450,7 @@ class SpriteLibBitmap {
 	public inline function getRectangle(k:String,?frame:Int=0) {
 		var g = getGroup(k);
 		var fr = g.frames[frame];
-		if ( fr == null) throw "no such frame " + frame + " in group " + k;
+		if ( fr == null) throw SLBError.NoFrameInGroup(frame, k);
 		return new flash.geom.Rectangle(fr.x, fr.y, g.wid, g.hei);
 	}
 	
@@ -450,6 +512,10 @@ class SpriteLibBitmap {
 		);
 	}
 	
+	public inline function drawIntoBitmapRandom(bd:flash.display.BitmapData, x:Float,y:Float, k:String, ?randFunc:Int->Int, ?centerX, ?centerY) {
+		drawIntoBitmap(bd, x,y,k, getRandomFrame(k, randFunc), centerX, centerY);
+	}
+	
 	public function getBitmapData(k:String, ?frame=0, ?padding=0) {
 		var r = getRectangle(k, frame);
 		var bd = new BitmapData(Std.int(r.width+padding*2), Std.int(r.height+padding*2), true, 0x0);
@@ -463,10 +529,10 @@ class SpriteLibBitmap {
 		var g = if( exists(groupName) ) getGroup(groupName) else createGroup(groupName, wid, hei);
 		
 		if( wid!=g.wid )
-			throw "ERROR: width mismatch for frame "+frame+" in group "+groupName;
+			throw SLBError.WidthMismatch(frame, groupName);
 			
 		if( hei!=g.hei )
-			throw "ERROR: height mismatch for frame "+frame+" in group "+groupName;
+			throw SLBError.HeightMismatch(frame, groupName);
 			
 		g.frames[frame] = { x:x, y:y };
 	}
@@ -521,7 +587,7 @@ class SpriteLibBitmap {
 			if( p.indexOf("(")>0 ) {
 				var t = Std.parseInt( p.split("(")[1] );
 				if( Math.isNaN(t) )
-					throw "invalid frame duration in "+p;
+					throw SLBError.InvalidFrameDuration(p);
 				curTiming = t;
 				p = p.substr( 0, p.indexOf("(") );
 			}
@@ -535,7 +601,7 @@ class SpriteLibBitmap {
 				var from = Std.parseInt(p.split("-")[0]);
 				var to = Std.parseInt(p.split("-")[1])+1;
 				if( to<from )
-					throw "end frame lower than start frame in "+p;
+					throw SLBError.EndFrameLower(p);
 				while( from<to ) {
 					for(i in 0...curTiming)
 						frames.push(from);
@@ -543,7 +609,7 @@ class SpriteLibBitmap {
 				}
 				continue;
 			}
-			throw "invalid frames in "+p;
+			throw SLBError.InvalidFrames(p);
 		}
 		return frames;
 	}
@@ -552,7 +618,7 @@ class SpriteLibBitmap {
 	public function __defineAnim(?group:String, anim:Array<Int>) {
 		#if flash
 		if( currentGroup==null && group==null )
-			throw "No current group.";
+			throw SLBError.NoCurrentGroup;
 		
 		if( group!=null )
 			setCurrentGroup(group);
@@ -560,7 +626,7 @@ class SpriteLibBitmap {
 		var a = [];
 		for(f in anim) {
 			if( f>=currentGroup.frames.length )
-				throw "Anim frame "+f+" exceeds max frame in group "+currentGroup.id+" ("+currentGroup.frames.length+"f)";
+				throw SLBError.AnimFrameExceeds(f, currentGroup.id, currentGroup.frames.length);
 			a.push(f);
 		}
 			
@@ -573,7 +639,7 @@ class SpriteLibBitmap {
 	
 	#if macro
 	static function error( ?msg="", p : Position ) {
-		haxe.macro.Context.error("ERROR: "+msg,p);
+		haxe.macro.Context.error(msg, p);
 	}
 	#end
 	
@@ -590,19 +656,19 @@ class SpriteLibBitmap {
 			<a group="attack"> 0-5(2) </a>
 		</animations>
 		
-		optionally you can specify the base frame timing i.e. 
+		optionally you can specify the base frame timing i.e.
 		<a group="attack" timing="1"> 0-5(2) </a>
 		
 		will specify that base animtion timing is "repeat all frames one
 		
 		<a group="attack" timing="66"> 0-5(2) </a>
 		
-		will specify that base animtion timing is "repeat all frames 66 times 
+		will specify that base animtion timing is "repeat all frames 66 times
 		
 		Base Timing is one.
 	 */
-	
-	macro public static function importShoeBox(xmlUrl:String) {
+		
+	public static macro function importShoeBox(xmlUrl:String) {
 		var p = Context.currentPos();
 		
 		xmlUrl = StringTools.replace(xmlUrl, "\\", "/");
@@ -612,7 +678,9 @@ class SpriteLibBitmap {
 		var file = try Context.resolvePath(xmlUrl) catch( e : Dynamic ) { error("File not found", p); null; }
 		var fileContent = sys.io.File.getContent(file);
 		var xml = new haxe.xml.Fast( Xml.parse(fileContent) );
+		var fileContentExpr = { expr:EConst(CString(fileContent)), pos:p }
 		
+		// Bitmap source declaration
 		var sourceName = xml.node.TextureAtlas.att.imagePath;
 		var r = ~/\.(png|gif|jpeg|jpg)/gi;
 		var sourceType = {
@@ -630,12 +698,18 @@ class SpriteLibBitmap {
 		var zeroExpr = { expr:EConst(CInt("0")), pos:p }
 		var newSourceExpr = { expr : ENew({pack:sourceType.pack, name:sourceType.name, params:[]}, [zeroExpr,zeroExpr]), pos:p }
 		
-		var fileContentExpr = { expr:EConst(CString(fileContent)), pos:p }
-
 		
 		// OPTIONAL: anim file
-		var animUrl = StringTools.replace( xmlUrl, ".xml", ".anims.xml" );
-		var animFile = try Context.resolvePath(animUrl) catch( e : Dynamic ) { null; }
+		var animFileExt = [".anims.xml", ".anim.xml"];
+		var animUrl = "";
+		var animFile = null;
+		for(ext in animFileExt) {
+			animUrl = StringTools.replace( xmlUrl, ".xml", ext );
+			animFile = try Context.resolvePath(animUrl) catch( e : Dynamic ) { null; }
+			if( animFile!=null )
+				break;
+		}
+		
 		if( animFile!=null ) {
 			var blockContent : Array<Expr> = [];
 			// New lib declaration
@@ -670,7 +744,52 @@ class SpriteLibBitmap {
 	}
 	
 	
+	
 	#if !macro
+	public static function downloadShoebox(xmlUrl:String, imgUrl:String, onComplete:SpriteLibBitmap->Void) {
+		var xml : String = null;
+		var bd : BitmapData = null;
+		var steps = 0;
+		
+		function onError(msg, url) {
+			throw SLBError.ShoeboxError(msg, url);
+		}
+		
+		function onOneDone() {
+			steps++;
+			if( steps>=2 ) {
+				var lib = parseShoeBoxXml(xml, bd);
+				onComplete(lib);
+			}
+		}
+		
+		// Load XML
+		var r = new haxe.Http(xmlUrl);
+		r.onError = function(msg) {
+			onError(msg, xmlUrl);
+		};
+		r.onData = function(data) {
+			xml = data;
+			onOneDone();
+		}
+		r.request(true);
+		
+		// Load bitmap
+		var l = new flash.display.Loader();
+		#if flash
+		l.contentLoaderInfo.addEventListener( flash.events.IOErrorEvent.NETWORK_ERROR, function(e) onError(e.text, imgUrl) );
+		#end
+		l.contentLoaderInfo.addEventListener( flash.events.IOErrorEvent.IO_ERROR, function(e) onError(e.text, imgUrl) );
+		l.contentLoaderInfo.addEventListener( flash.events.Event.COMPLETE, function(_) {
+			var bmp : Bitmap = cast( l.contentLoaderInfo.content );
+			bd = bmp.bitmapData;
+			onOneDone();
+		});
+		var ctx = new flash.system.LoaderContext(true);
+		var r = new flash.net.URLRequest(imgUrl);
+		l.load(r, ctx);
+	}
+	
 	public static function parseShoeBoxXml(xmlString:String, source:BitmapData, ?importSequencesAsFrames=true) {
 		var lib = new SpriteLibBitmap(source);
 		var xml = new haxe.xml.Fast( Xml.parse(xmlString) );
@@ -704,14 +823,12 @@ class SpriteLibBitmap {
 			}
 		}
 		catch(e:Dynamic) {
-			throw "Failed to parse ShoeBox XML : "+e;
+			throw SLBError.FailParseShoebox(e);
 		}
 
 		return lib;
 	}
 	#end
-	
-	
 	
 	
 	/* MACRO : Animation declaration ********************************************************************************************
@@ -721,7 +838,7 @@ class SpriteLibBitmap {
 	 *
 	 * EXAMPLE: defineAnim( "walk", "0-5, 6(2), 7(1)" );
 	 */
-	macro public function defineAnim(ethis:Expr, ?groupName:String, ?baseFrame:Int, ?animDefinition:Expr) : Expr {
+	public macro function defineAnim(ethis:Expr, ?groupName:String, ?baseFrame:Int, ?animDefinition:Expr) : Expr {
 		var p = ethis.pos;
 		var def = animDefinition;
 		

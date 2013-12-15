@@ -56,7 +56,7 @@ class Ui extends Sprite
 		{
 			tfScore = new TextField();
 			
-			var tft = new TextFormat(nokia.fontName,16,0xFF0707);
+			var tft = new TextFormat(nokia.fontName,16,0x70bab5);
 			tfScore.setTextFormat( tfScore.defaultTextFormat = tft ); 
 			tfScore.embedFonts = true;
 			
@@ -71,7 +71,7 @@ class Ui extends Sprite
 			
 			//tfScore.x = 50;
 			//tfScore.y = 50;
-			//tfScore.filters = [ new GlowFilter(0, 1, 4 , 4, 12) ];
+			tfScore.filters = [ new GlowFilter(0xc201e, 1, 4 , 4, 20) ];
 			
 			addChild( tfScore ); 
 		}

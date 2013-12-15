@@ -170,9 +170,8 @@ class Entity
 	
 	public inline function syncPos()
 	{
-		el.x = Std.int((cx << 4) + rx * 16.0);
-		el.y = Std.int((cy << 4) + ry * 16.0);
-		
+		el.x = Std.int((cx << 4) + rx * 16.0) + ofsX;
+		el.y = Std.int((cy << 4) + ry * 16.0) + ofsY;
 		//trace(el.x + " " + el.y);
 	}
 		
