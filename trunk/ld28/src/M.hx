@@ -1,7 +1,10 @@
+import flash.display.Sprite;
 import flash.display.StageQuality;
 import flash.events.Event;
 import flash.Lib;
+import haxe.Timer;
 import mt.deepnight.*;
+import mt.deepnight.Tweenie.TType;
 import mt.fx.*;
 import volute.*;
 
@@ -17,7 +20,10 @@ class M {
 	
 	public static var me : M = null;
 	
+	var canPlay = false;
 	
+	var intro : gfx.Intro;
+	var ending : gfx.Ending;
 	function stage() {
 		return Lib.current.stage;
 	}
@@ -41,7 +47,29 @@ class M {
 		
 		stage().addEventListener( Event.ENTER_FRAME , update );
 		stage().quality = StageQuality.LOW;
+		
+		
+		
+		var f = new Sprite();
+		f.graphics.beginFill(0);
+		f.graphics.drawRect(0,0,640,640);
+		f.graphics.endFill();
+		var t = tweenie.create(f, "alpha", 0, TType.TLinear, 0.375);
+		intro = new gfx.Intro();
+		ending = new gfx.Ending();
+		ui.addChild(f);
+		
+		intro.stop();
+		intro.x = 100;
+		intro.y = 80;
+		intro.scaleX = intro.scaleY = 2.0;
+		ui.addChild(intro);
+		
+		t.onEnd = function() {
+			intro.play();
+		};
 	}
+	
 	
 	public function update(_) {
 		timer.update();
@@ -52,7 +80,8 @@ class M {
 	
 	public function frameUpdate() {
 		tweenie.update();
-		level.update();
+		if( canPlay)
+			level.update();
 		ui.update();
 		mt.deepnight.SpriteLibBitmap.updateAll(1.0);
 	}

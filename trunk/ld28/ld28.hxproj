@@ -38,7 +38,8 @@
   </compileTargets>
   <!-- Assets to embed into the output SWF -->
   <library>
-    <!-- example: <asset path="..." id="..." update="..." glyphs="..." mode="..." place="..." sharepoint="..." /> -->
+    <asset path="asset\intro.swf" />
+    <asset path="asset\ending.swf" />
   </library>
   <!-- Paths to exclude from the Project Explorer tree -->
   <hiddenPaths>
