@@ -54,21 +54,19 @@ class Hero extends Char{
 		
 		cd--;
 		if ( down( Key.SPACE ) && cd<=0) {
-			//trace("bullet");
 			var bl = new Bullet();
 			
-			//bl.harm |= 1 << ET_OPP.index();
+			bl.harm |= 1 << ET_OPP.index();
 			
 			bl.x = el.x + bl.spr.width * 0.5;
 			bl.y = el.y + bl.spr.height * 0.5;
 			
 			l.addBullet( bl );
 			
-			var sp = 8.0;
+			var sp = 12.0;
 			
 			var spi4 = Math.sin(-Math.PI * 0.25);
 			var cpi4 = Math.cos( -Math.PI * 0.25);
-			
 			
 			var r2d2 = 1.414 * 0.5;
 			switch(dir) {
@@ -98,4 +96,6 @@ class Hero extends Char{
 		
 		syncDir();
 	}
+	
+	
 }

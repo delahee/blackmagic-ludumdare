@@ -3,6 +3,8 @@ import flash.display.Sprite;
 import mt.deepnight.SpriteLibBitmap;
 import mt.deepnight.SpriteLibBitmap.*;
 
+using volute.Ex;
+
 enum CharState {
 	Idle;
 	Walk;
@@ -18,6 +20,8 @@ class Char extends Entity{
 	var bsdown : Sprite;
 	
 	var state : CharState;
+	
+	
 	public function new() 
 	{
 		//var s = M.me.data.lib.getAndPlay("goldpirate_run");
@@ -52,6 +56,14 @@ class Char extends Entity{
 		syncDir();
 	}
 	
+	public override function kill() {
+		bsdown.detach();
+		bsup.detach();
+		
+		bsdown = null;
+		bsup = null;
+	}
+	
 	public function syncDir() {
 		var anim = name + "_" + Std.string( state ) .toLowerCase() + "_" + Std.string( dir ).toLowerCase(); 
 		
@@ -61,4 +73,16 @@ class Char extends Entity{
 		 */
 	}
 	
+	public override  function tryCollideBullet(b:Bullet) {
+		var t = volute.Coll.testCircleRectAA(	b.headX(), b.headY(), b.headRadius(),
+												el.x - el.width * 0.5, el.y - el.height, el.width, el.height);
+		if ( t ) {
+			hp--;
+			if ( hp == 0 ) {
+				onKill();
+			}
+			else onHurt();
+			b.remove = true;
+		}
+	}
 }
