@@ -38,22 +38,23 @@ class Hero extends Char{
 				case 2 : N;
 				
 				case 4: E;
-				case 5: SE;
-				case 6: NE;
+				case 5: SW;
+				case 6: NW;
 				
 				case 8: W;
-				case 9: SW;
-				case 10: NW;
+				case 9: SE;
+				case 10: NE;
 				
-				default: trace("need " + fl); N;
+				default: 
 			}
+			
 		}
 
 		dx = MathEx.clamp( dx, -mdx, mdx);
 		dy = MathEx.clamp( dy, -mdy, mdy);
 		
 		cd--;
-		if ( down( Key.SPACE ) && cd<=0) {
+		if ( down( Key.CTRL ) && cd<=0) {
 			var bl = new Bullet();
 			
 			bl.harm |= 1 << ET_OPP.index();
@@ -79,11 +80,11 @@ class Hero extends Char{
 					
 				default:
 				
-				case NW: bl.dx = sp*r2d2;  	bl.dy = -sp*r2d2;
-				case SW: bl.dx = sp*r2d2; 	bl.dy = sp*r2d2;
+				case NW: bl.dx = -sp*r2d2;  bl.dy = -sp*r2d2;
+				case SW: bl.dx = -sp*r2d2; 	bl.dy = sp*r2d2;
 					     
-				case NE: bl.dx = -sp*r2d2; 	bl.dy = -sp*r2d2;
-				case SE: bl.dx = -sp*r2d2; 	bl.dy = sp*r2d2;
+				case NE: bl.dx = sp*r2d2; 	bl.dy = -sp*r2d2;
+				case SE: bl.dx = sp*r2d2; 	bl.dy = sp*r2d2;
 				
 			}
 			
