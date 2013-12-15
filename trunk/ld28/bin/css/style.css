@@ -46,6 +46,7 @@ h1, h2, h3 {
 	margin-top:10px;
 	background-color:black;
 	padding:10px;
+	border:1px solid #2e2e2e;
 }
 
 .center {
