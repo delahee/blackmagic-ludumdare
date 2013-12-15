@@ -163,8 +163,8 @@ class Entity
 		
 		dx *= fx;
 		dy *= fy;
-		if(dx!=0)
-			el.scaleX = dx < 0 ? -1 : 1;
+		
+		//if(dx!=0) el.scaleX = dx < 0 ? -1 : 1;
 		
 	}
 	

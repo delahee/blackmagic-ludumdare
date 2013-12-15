@@ -75,11 +75,11 @@ class Hero extends Char{
 				case 1 : S;
 				case 2 : N;
 				
-				case 4: E;
+				case 4: W;
 				case 5: SW;
 				case 6: NW;
 				
-				case 8: W;
+				case 8: E;
 				case 9: SE;
 				case 10: NE;
 				
@@ -102,21 +102,20 @@ class Hero extends Char{
 		if ( ndir == null ) return;
 		if ( odir == ndir ) return;
 		
-		switch(ndir) {
-		default:	
-		}
+		bsup.playAnim("redhead_shoot_" + Std.string(ndir).toLowerCase());
 		
-		var file = "explosion";
-		var a =
+		var f = 
 		switch(ndir) {
-			case N, NE, NW: bsdown.playAnim("redhead_run_n");
-			case S, SE, SW: bsdown.playAnim("redhead_run_s");
+			case N, NE, NW: "redhead_run_n";
+			case S, SE, SW: "redhead_run_s";
 				
-			case E: bsdown.playAnim("redhead_run_e");
-			case W: bsdown.playAnim("explosion");
+			case E: "redhead_run_e";
+			case W: "redhead_run_w"; 
 		}
-		if ( !a) throw "no such anim";
-		trace("hero sync dir" + ndir);
+		trace("playing " + f);
+		var a = bsdown.playAnim(f);
+		if ( !a) throw "no such anim "+f;
+		
 		super.syncDir(odir, ndir);
 	}
 	

@@ -275,7 +275,7 @@ class BSprite extends flash.display.Sprite
 	
 	function _playAnim(g:String, ?plays=9999999, ?killAfterPlay=false) {
 		if( groupName==g )
-			return false;
+			return true;
 			
 		setGroup(g);
 		

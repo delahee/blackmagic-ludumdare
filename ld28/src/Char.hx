@@ -50,6 +50,8 @@ class Char extends Entity{
 		var anim_up = name + "_shoot_" + Std.string( dir ).toLowerCase(); 
 		var anim_down = name + "_" + Std.string( state ) .toLowerCase() + "_" + Std.string( dir ).toLowerCase(); 
 		
+		trace("loading " + anim_up);
+		trace("loading " + anim_down);
 		bsup = M.me.data.lib.getAndPlay(anim_up);
 		bsdown = M.me.data.lib.getAndPlay(anim_down);
 	}
