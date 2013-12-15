@@ -279,7 +279,7 @@ class Nmy extends Char {
 			default:rosace8();
 		}
 	}
-	public override function syncDir(odir,ndir) {
+	public override function syncDir(odir:Dir,ndir:Dir) {
 		if ( ndir == null ) return;
 		if ( odir == ndir ) return;
 		
