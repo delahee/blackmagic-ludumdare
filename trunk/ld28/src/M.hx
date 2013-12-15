@@ -13,9 +13,9 @@ class M {
 	var tweenie : Tweenie;
 	var level :Level;
 	var data:Data;
+	var ui:Ui;
 	
 	public static var me : M = null;
-	
 	
 	
 	function stage() {
@@ -33,7 +33,11 @@ class M {
 		
 		var r = level.getRender();
 		stage().addChild( level.getRender() );
+		
 		level.postInit();
+		
+		stage().addChild( ui = new Ui() );
+		ui.scaleX = ui.scaleY = 2;
 		
 		stage().addEventListener( Event.ENTER_FRAME , update );
 		stage().quality = StageQuality.LOW;
@@ -49,6 +53,7 @@ class M {
 	public function frameUpdate() {
 		tweenie.update();
 		level.update();
+		ui.update();
 	}
 	
 	public static function main() {

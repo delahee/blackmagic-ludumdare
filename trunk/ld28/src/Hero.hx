@@ -24,6 +24,11 @@ class Hero extends Char{
 		
 		var fl = 0;
 		
+		
+		if ( down( Key.SPACE )) {
+			addMessage("take that");
+		}
+		
 		if ( down( Key.DOWN )) 			{ dy += k; fl |= (1 << 0);}
 		else if ( down( Key.UP )) 		{ dy -= k; fl |= (1 << 1); }
 		
