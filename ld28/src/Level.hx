@@ -247,26 +247,14 @@ class Level
 				
 				if ( v.has(	NMY_NORMAL )) {
 					var nmy = new Nmy(Normal,new Vec2i(x,y));
-					nmy.cx = x; 
-					nmy.cy = y;
-					nmy.rx =  0.5;
-					nmy.ry = 0.5;
 					add( nmy );
 				}
 				if ( v.has(	NMY_HEAVY )){
 					var nmy = new Nmy(Heavy,new Vec2i(x,y));
-					nmy.cx = x; 
-					nmy.cy =  y;
-					nmy.rx =  0.5;
-					nmy.ry = 0.5;
 					add( nmy );
 				}
 				if ( v.has(	NMY_BOSS )){
 					var nmy = new Nmy(Boss,new Vec2i(x,y));
-					nmy.cx = x;
-					nmy.cy =  y;
-					nmy.rx =  0.5;
-					nmy.ry = 0.5;
 					add( nmy );
 				}
 			}

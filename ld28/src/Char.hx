@@ -24,26 +24,21 @@ class Char extends Entity{
 	
 	public function new() 
 	{
-		//var s = M.me.data.lib.getAndPlay("goldpirate_run");
 		dir = S;
 		state = Idle;
-		//el = s;
-		bsup =  new Sprite();
-		bsup.graphics.beginFill(0xFF0000);
-		bsup.graphics.drawRect( -8, -24, 16, 16);
-		bsup.graphics.endFill();
-		
-		bsdown =  new Sprite();
-		bsdown.graphics.beginFill(0x00FF00);
-		bsdown.graphics.drawRect( -8, -8, 16, 16);
-		bsdown.graphics.endFill();
-		
+		createSprites();
 		bsdown.addChild(bsup);
-		
 		el = bsdown;
-		
 		depth = Level.DM_CHAR;
 		super();
+	}
+	
+	public function createSprites() {
+		var anim_up = name + "_shoot_" + Std.string( dir ).toLowerCase(); 
+		var anim_down = name + "_" + Std.string( state ) .toLowerCase() + "_" + Std.string( dir ).toLowerCase(); 
+		
+		bsup = M.me.data.lib.getAndPlay(anim_up);
+		bsdown = M.me.data.lib.getAndPlay(anim_down);
 	}
 	
 	static inline var rosaceLim = 0.001;

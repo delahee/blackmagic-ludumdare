@@ -21,11 +21,19 @@ class Nmy extends Char {
 	
 	public function new( et, origin ) 
 	{
+		name = "opp";
+		dir = S;
+		state = Idle;
+		
 		super();
 		name = "opp";
 		type = ET_OPP;
 		nmyType = et;
 		stateLife = Dice.roll(0, 30);
+		lastTargets = new List();
+		this.origin = origin;
+		cx = origin.x;
+		cy = origin.y;
 	}
 	
 	public function getNearWaypoint()
@@ -55,11 +63,20 @@ class Nmy extends Char {
 		var dhy = M.me.level.hero.cy - cy;
 		
 		//up discard
-		if ( dhy > 20 )
+		if ( dhy > 10 )
+			#if debug el.alpha = 1.0; #end
 			return;
+		
+		/*
+		if ( dhy < -4) {
+			#if debug el.alpha = 1.0; #end
+			return;
+		}
+		*/
 			
-		if ( dhy < -4)
-			return;
+		#if debug
+		el.alpha = 0.5;
+		#end
 		
 		switch(nmyType) {
 			default: 
@@ -131,6 +148,8 @@ class Nmy extends Char {
 							}
 						}
 					}
+					
+					
 				}
 				
 			case Boss:
