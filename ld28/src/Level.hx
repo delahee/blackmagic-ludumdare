@@ -45,6 +45,7 @@ class Level
 	var ch = 16;
 	var buffer : Buffer;
 	var hero : Hero;
+	var objects : List<Dynamic>;
 	
 	public static var I = 0;
 	public static var DM_BG = I++;
@@ -76,7 +77,7 @@ class Level
 		store = new Vector(512);
 		view = new Sprite();
 		bullets = new Vector(512);
-		
+		objects = new List();
 		colls = new Vector(1024<<SHIFT_X);
 		for ( i in 0...szx * szy)
 			colls[i] = EnumFlags.ofInt(0);
@@ -150,20 +151,101 @@ class Level
 		bg = new Bitmap( new BitmapData( bgw,bgh, false,0xFFffffff) , PixelSnapping.NEVER, false);
 		var bmd = bg.bitmapData;
 		
-		for ( y in 0...nbch) {
-			for ( x in 0...nbcw ) {
-				var ti : Int = t.layers[0].data[x + y * nbcw]-1;
-				
-				var tcx = ti % gfxw;
-				var tcy = Std.int(ti / gfxw);
-				
-				bmd.copyPixels( gfx,
-					new Rectangle(tcx* tw, tcy * th,tw,th),
-					new Point(x * tw, y * th), null, null, false );
+		//var i = 0;
+		for ( i in 0...t.layers.length ) {
+			var lay = t.layers[i];
+			
+			for ( y in 0...nbch) {
+				for ( x in 0...nbcw ) {
+					
+					if( lay.type == "tilelayer"){
+						var ti : Int = lay.data[x + y * nbcw]-1;
+						
+						var tcx = ti % gfxw;
+						var tcy = Std.int(ti / gfxw);
+						
+						bmd.copyPixels( gfx,
+							new Rectangle(tcx* tw, tcy * th,tw,th),
+							new Point(x * tw, y * th), null, null, false );
+							
+						var tsp = t.tilesets[0].tileproperties;
+						var fi =  Std.string(ti);
+						if( Reflect.hasField( tsp, fi)){
+							var obj : Dynamic = Reflect.field( tsp, fi );
+							if ( obj != null) {
+								for( o in Reflect.fields( obj ))
+									onProp( o, Reflect.field(obj,o), x, y);
+							}
+						}
+					}
+					else if( lay.type == "objectgroup"){
+						var arrO : Array<Dynamic> = cast lay.objects;
+						for( o in arrO)
+							onObject( o );
+					}
+				}
 			}
 		}
 			
 		return bg;
+	}
+	
+	
+	
+	public function onObject(o) {
+		objects.push( o );
+	}
+	
+	public function onProp(name:String, val:String, cx:Int, cy:Int) {
+		trace('[$cx,$cy] $name : $val');
+		switch(name) {
+			case "coll":
+				switch(val) {
+					case "block":
+						//colls[mkKey(o.]
+					case "water":
+					case "deep_water":
+					case "bush":
+				}
+				
+			case "waypoint": {
+				switch(val) {
+					case "start":
+					case "end":
+					case "wait":
+					case "path":
+				}
+			}
+			
+			case "opp":
+				switch(val) {
+					case "normal":
+					case "heavy":
+				}
+			
+		}
+	}
+	
+	public function makeObjects() {
+		var t = Timer.stamp();
+		for (o in objects) {
+			for ( p in Reflect.fields( o.properties ) ) {
+				var val = Reflect.field( o.properties, p );
+				onProp(p, val, o.x, o.y);
+			}
+		}
+		trace( 'makeobj:'+ Std.string(Timer.stamp() - t ));
+	}
+	
+	public function reset(){
+		var i = storeCur-1;
+		while (i >= 0) {
+			if ( store[i].type != ET_PLAYER )
+				remove(store[i]);
+			else 
+				i--;
+		}
+		makeObjects();
 	}
 	
 	public inline function mkKey(cx, cy){
@@ -345,6 +427,8 @@ class Level
 	}
 	
 	public function startGame() {
+		
+		reset();
 		trace("gameStart");
 		hero.cy = nbch - 2;
 		hero.cx = nbcw >> 1;
