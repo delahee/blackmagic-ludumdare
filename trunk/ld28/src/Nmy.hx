@@ -39,8 +39,9 @@ class Nmy extends Char {
 		curTarget = new Vec2i();
 		
 		currentGun = new Gun(this);
-		currentGun.maxBullets = 4;
-		currentGun.maxCooldown = 5;
+		currentGun.maxBullets = 10;
+		currentGun.maxCooldown = 4;
+		currentGun.reloadCdFactor = 10;
 		currentGun.init();
 	}
 	
@@ -78,6 +79,15 @@ class Nmy extends Char {
 		}
 	}
 	
+	public function getHeroQuadrant() :Dir {
+		var char = M.me.level.hero;
+		var q = 3;
+		
+		var d = Math.PI - Math.atan2( cy - char.cy, cx - char.cx );
+		return angleToDir(d);
+	}
+	
+	
 	public function tickAi() {
 		
 		if ( hp == 0 ) return;
@@ -85,8 +95,8 @@ class Nmy extends Char {
 		var char = M.me.level.hero;
 		
 		var dChar = Math.abs( MathEx.sqrI(cy - char.cy) + MathEx.sqrI(cx - char.cx));
-		var dAggro = 3 * 3;
-		var dStop = 5 * 5;
+		var dAggro = 5 * 5;
+		var dStop = 7 * 7;
 		
 		var tickAggro = switch(dir) {
 			case N: cy >= char.cy;
@@ -96,8 +106,8 @@ class Nmy extends Char {
 			
 			case NE: cy >= char.cy && cx >= char.cx;
 			case NW: cy >= char.cy && cx <= char.cx;
-			case SE: cy <= char.cy && cx >= char.cx;
-			case SW: cy <= char.cy && cx <= char.cx;
+			case SE: cy <= char.cy && cx <= char.cx;
+			case SW: cy <= char.cy && cx >= char.cx;
 		};
 		
 		if ( tickAggro) {
@@ -106,6 +116,7 @@ class Nmy extends Char {
 			else if( state == Shoot || state == Watch )  state = Idle;
 		}
 	
+		trace(getHeroQuadrant());
 		switch(nmyType) {
 			default: 
 				switch(state) {
@@ -120,6 +131,15 @@ class Nmy extends Char {
 							
 						}
 					case Shoot:
+						if ( stateLife >= 20 ) {
+							
+							if( Dice.percent(10))
+								Dice.toss() ? dir = dir.next( Dir ) : dir = dir.prev( Dir );
+							else 
+							if ( Dice.percent(80))
+								dir =  getHeroQuadrant();
+							stateLife = 0;
+						}
 						
 					case Idle:
 						if ( stateLife > 30) {
@@ -247,10 +267,14 @@ class Nmy extends Char {
 			if( currentGun!= null)
 				if ( currentGun.fire() )
 					isShooting = Char.shootCooldown;
+					
+		
 	}
 	
 	public override function update() {
 		super.update();
+		
+		if ( hp <= 0 ) return;
 		
 		var lev = M.me.level;
 		var dhy = M.me.level.hero.cy - cy;
@@ -261,7 +285,7 @@ class Nmy extends Char {
 		//	return;
 		
 		#if debug
-		if ( dhy > 20 ) {
+		if ( dhy > 4 ) {
 			#if debug el.alpha = 1.0; #end
 			return;
 		}
@@ -283,9 +307,31 @@ class Nmy extends Char {
 			default:rosace8();
 		}
 	}
-	public override function syncDir(odir:Dir,ndir:Dir) {
-		if ( ndir == null ) return;
-		if ( odir == ndir ) return;
+	public override function syncDir(odir:Dir, ndir:Dir) {
+		
+		isRunning = !(MathEx.is0( dx ) && MathEx.is0( dy ));
+		
+		if ( ndir == null) ndir = odir;
+		
+		if ( isShooting >= 0)
+			bsup.playAnim("opp_shoot_" + Std.string(ndir).toLowerCase());
+		else {
+			bsup.playAnim("opp_shoot_" + Std.string(ndir).toLowerCase());
+			bsup.stopAnim(0);
+		}
+		
+		var verb = isRunning?"run":"idle";
+		
+		var f = 
+		switch(ndir) {
+			case N, NE, NW: 'opp_${verb}_n';
+			case S, SE, SW: 'opp_${verb}_s';
+				
+			case E: 'opp_${verb}_e';
+			case W: 'opp_${verb}_w'; 
+		}
+		var a = bsdown.playAnim(f);
+		if ( !a) throw "no such anim "+f;
 		
 		super.syncDir(odir, ndir);
 	}

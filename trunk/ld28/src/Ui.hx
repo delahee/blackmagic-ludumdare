@@ -35,6 +35,8 @@ class Tf {
 class Ui extends Sprite
 {
 	var score : Int;
+	var prevScore : Int;
+	
 	var dols : Int;
 	
 	var tfScore : TextField;
@@ -50,7 +52,7 @@ class Ui extends Sprite
 		tfMsg = new List();
 		nokia = new Nokia();
 		
-		score = 0;
+		score = 5000000;
 		dols = 0;
 		
 		{
@@ -66,7 +68,7 @@ class Ui extends Sprite
 			tfScore.width = 500;
 			tfScore.height = 100;
 			
-			tfScore.x = volute.Lib.w() - 40;
+			tfScore.x = volute.Lib.w() - 100;
 			tfScore.y = volute.Lib.h() - 40;
 			
 			//tfScore.x = 50;
@@ -116,7 +118,9 @@ class Ui extends Sprite
 	
 	
 	public function update() {
-		tfScore.text = Std.string(score);
+		var s = Std.int(score * 0.7 + prevScore * 0.3 +0.5);
+		tfScore.text = "$" + s;
+		prevScore = s;
 		tfScore.width = tfScore.textWidth + 5;
 		
 		for ( t in tfMsg) {

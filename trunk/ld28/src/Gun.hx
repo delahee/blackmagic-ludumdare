@@ -9,19 +9,21 @@ enum BulletType{
 	rocket;
 }
 
+@:publicFields
 class Gun
 {
 	var c:Char;
 	
 	var curCooldown : Int;
-	public var maxCooldown : Int;
+	var maxCooldown : Int;
 	
 	var bullets : Int;
-	public var maxBullets : Int;
+	var maxBullets : Int;
 	
 	var reloading : Bool = false;
 	var bulletType : BulletType;
 	var recoil = 0.05;
+	var reloadCdFactor = 5;
 	
 	public function new( e : Char ) 
 	{
@@ -88,7 +90,7 @@ class Gun
 		curCooldown = maxCooldown;
 		bullets--;
 		if ( bullets == 0 ){
-			curCooldown *= 5;
+			curCooldown *= reloadCdFactor;
 			reloading = true;
 			c.addMessage("reloading !");
 		}
