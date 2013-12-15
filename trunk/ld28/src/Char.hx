@@ -13,6 +13,7 @@ enum CharState {
 	Run;
 	Shoot;
 	Watch;
+	Hit;
 }
 
 class Char extends Entity{
@@ -146,7 +147,6 @@ class Char extends Entity{
 			}
 			
 		}
-		trace(dir+" "+ndir+" "+dx+" "+dy);
 		syncDir(dir,ndir);
 	}
 	
@@ -184,14 +184,20 @@ class Char extends Entity{
 	}
 	
 	public override  function tryCollideBullet(b:Bullet) {
+		if ( b.remove) return;
+		
 		var t = volute.Coll.testCircleRectAA(	b.headX(), b.headY(), b.headRadius(),
 												el.x - el.width * 0.5, el.y - el.height, el.width, el.height);
 		if ( t ) {
+			
+			trace( "collided" );
 			hp--;
-			if ( hp == 0 ) {
+			if ( hp <= 0 ) {
 				onKill();
 			}
-			else onHurt();
+			else 
+				onHurt();
+				
 			b.remove = true;
 			dx = 0;
 			dy = 0;

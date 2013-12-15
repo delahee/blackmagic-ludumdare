@@ -1,8 +1,13 @@
 import flash.display.Bitmap;
 import flash.display.BitmapData;
+import flash.display.BlendMode;
 import flash.display.DisplayObjectContainer;
 import flash.display.PixelSnapping;
+import flash.display.Shape;
 import flash.display.Sprite;
+import flash.filters.BevelFilter;
+import flash.filters.GlowFilter;
+import flash.geom.Matrix;
 import flash.geom.Rectangle;
 import flash.geom.Point;
 import haxe.ds.GenericStack.GenericStack;
@@ -63,6 +68,7 @@ class Level
 	
 	public static var I = 0;
 	public static var DM_BG = I++;
+	public static var DM_BLOOD = I++;
 	public static var DM_OPP = I++;
 	public static var DM_CHAR = I++;
 	public static var DM_BULLET = I++;
@@ -85,6 +91,8 @@ class Level
 	var collList : Vector<Int>;
 	var nbColls : Int = 0;
 	var radix:IntRadix;
+	
+	var blood : Bitmap;
 	
 	public function new( szx, szy ) {
 		nbcw = szx;  nbch = szy; 
@@ -110,8 +118,20 @@ class Level
 		
 		var np = superiorBit(nbch);
 		radix = new IntRadix( MAX_ENT, np);
-		trace("radix bit:"+np);
+		trace("radix bit:" + np);
+		
+		disc = new Shape();
+		disc.graphics.beginFill(0xFF0000);
+		disc.graphics.drawCircle( -4, -4, 8);
+		disc.graphics.endFill();
+		
+		blood = new Bitmap( new BitmapData( nbcw*16,nbch*16,true,0x0) );
+		dm.add( blood, DM_BLOOD);
+		//blood.filters = [ new GlowFilter(0, 1, 10, 10) ];
+		blood.filters = [ new BevelFilter(1,45,0xfff,0.5,0x070707,0.0,2,2) ];
 	}
+	
+	var disc : Shape;
 	
 	function nextPow2(x:Int)
 	{
@@ -456,14 +476,16 @@ class Level
 		
 		hero.syncPos();
 		
-		/*
-		for ( i in 0...4) {
-			var nmy = new Nmy();
-			nmy.cy =  nbch - 10 - i + Dice.roll( -4,4 );
-			nmy.cx = (nbcw >> 1) - (2 * i) ; 
-			add( nmy );
-		}
-		*/
+		//bloodAt( hero.el.x, hero.el.y);
+	}
+	
+	var mat = new Matrix();
+	public function bloodAt(x,y, smin=0.1,smax=0.3){
+		mat.identity();
+		mat.scale(Dice.rollF(smin,smax),Dice.rollF(smin,smax));
+		mat.translate( x, y);
+		
+		blood.bitmapData.draw( disc, mat, null, BlendMode.ADD );
 	}
 	
 	public function cameraFollow() {
