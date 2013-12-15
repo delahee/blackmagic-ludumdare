@@ -79,10 +79,10 @@ class Ui extends Sprite
 		}
 	}
 	
-	public function getScoreTf(txt) {
+	public function getScoreTf(txt,?col=0xFF0707) {
 		var tf = new TextField();
 		
-		var tft = new TextFormat(nokia.fontName,8,0xFF0707);
+		var tft = new TextFormat(nokia.fontName,8,col);
 		tf.setTextFormat( tf.defaultTextFormat = tft ); 
 		tf.embedFonts = true;
 		
@@ -103,11 +103,12 @@ class Ui extends Sprite
 	
 	public function addScore( d ,x,y )
 	{
-		var tf = getScoreTf((d>0?"+":"-")+Std.string(d));
+		var tf = getScoreTf((d>0?"+":"-")+Std.string(d), d<0?null : 0xFFF27C);
 		tf.x = x;
 		tf.y = y;
-		tfMsg.add(  new Tf(tf, 15, 0.3 ) );
+		tfMsg.add(  new Tf(tf, 30, 0.3 ) );
 		score += d;
+		return tf;
 	}
 	
 	public function addMessage( msg ,x:Float,y )
@@ -116,6 +117,7 @@ class Ui extends Sprite
 		tf.x = x - tf.textWidth * 0.5;
 		tf.y = y;
 		tfMsg.add( new Tf(tf, 30, 0.3 ) );
+		return tf;
 	}
 	
 	

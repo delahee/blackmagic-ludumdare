@@ -9,6 +9,7 @@ using volute.Ex;
 class Hero extends Char{
 
 	var guns : Array<Gun>;
+	var hasChest = false;
 	public function new() {
 		name = "redhead";
 		
@@ -51,7 +52,11 @@ class Hero extends Char{
 	}
 	
 	public override function onHurt() {
-		M.me.ui.addScore( -100, cx * 16 + rx * 16, cy * 16 + ry * 16);
+		
+		if( hasChest )
+			addScore( -1000);
+		else 
+			addScore( -200);
 	}
 	
 	public override function getFireOfset() :Vec2i{
