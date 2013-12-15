@@ -92,8 +92,8 @@ class Level
 		collList = new Vector( MAX_ENT );
 		nbColls = 0;
 		
-		var np = nextPow2(nbch);
-		radix = new IntRadix( MAX_ENT, nextPow2(nbch));
+		var np = superiorBit(nbch);
+		radix = new IntRadix( MAX_ENT, np);
 		trace("radix bit:"+np);
 	}
 	
@@ -101,6 +101,12 @@ class Level
 	{
 		var logbase2 = Math.log(x) / Math.log(2);
 		return Std.int(Math.pow(2, Math.ceil(logbase2)));
+	}
+	
+	function superiorBit(x:Int)
+	{
+		var logbase2 = Math.log(x) / Math.log(2);
+		return Math.ceil(logbase2);
 	}
 	
 	public function postInit() {
@@ -187,6 +193,7 @@ class Level
 		store[storeCur++] = e;
 		e.idx = storeCur - 1;
 		dm.add( e.el , e.depth);
+		trace(e.idx);
 	}
 	
 	
@@ -194,13 +201,14 @@ class Level
 		store[e.idx] = store[storeCur - 1];
 		store[e.idx].idx = e.idx;
 		e.idx = -1;
+		trace("removing");
 	}
 	
 	
 	public function update() {
 		input();
 		
-		var i = storeCur - 1;
+		var i = storeCur-1;
 		var el = null;
 		
 		while (i >= 0) {
@@ -210,14 +218,20 @@ class Level
 				i--;
 		}
 		
-		var ic = 0;
-		for ( i in 0...storeCur)
-			collList[i] = el.cy | (i<<10);
-			ic++;
+		for ( i in 0...storeCur){
+			//trace(i + " idx:" + i +" cy:"+ store[i].cy);
+			collList[i] = store[i].cy | (i << 10);
+		}
 			
-		nbColls = i;
+		nbColls = storeCur;
 		
-		radix.sortVector(collList,nbColls);
+		radix.sortVector(collList, nbColls);
+		
+		
+		//for ( i in 0...nbColls) {
+			//var ci = collList[i];
+			//trace(i + " idx:" + (ci>>10)+" cy:"+ (ci&((1<<10)-1)));
+		//}
 		
 		tickBullets();
 		cameraFollow();
@@ -238,32 +252,40 @@ class Level
 				bl.y += bl.dy * 0.25; 
 			}
 			
-			/*
 			var j = bulletCur - 1;
 			var idx;
 			var cy; 
 			var e;
 			var bl;
+			var k =  0;
+			var dy;
 			while( j>=0){
 				bl = bullets[j];
 				
-				for (k in collList) {
+				for (m in 0...nbColls) {
+					k = collList[m];
 					idx = k >> 10;
 					cy = k & ((1 << 10) - 1);
 					e = store[idx];
+					dy = e.cy - bl.cy;
 					
-					if ( e.cy - (bl.cy) < -3 )
+					//trace('cy:$cy<>bcy:${bl.cy}<>dy:$dy');
+					if ( dy < -3 )
 						continue;
 						
-					if ( e.cy - (bl.cy) > 3 )
+					if ( dy > 3 )
 						break;
 						
-					if( 1<<e.type.index() & bl.harm != 0 ) 
+					if ( (bl.harm  & (1 << e.type.index())) != 0 ) {
+						//trace("trying");
 						e.tryCollideBullet( bl );
+					}
+					
 				}
 				
 				if ( bl.remove ) {
-					if( bulletCur>1){
+					
+					if( bulletCur>=1){
 						bullets[j] = bullets[bulletCur - 1];
 						bullets[bulletCur - 1] = null;
 						bulletCur--;
@@ -272,7 +294,7 @@ class Level
 				}
 				j--;
 			}
-			*/
+			
 		}
 		
 		for ( i in 0...bulletCur ) {
@@ -319,6 +341,13 @@ class Level
 		hero.cx = nbcw >> 1;
 		
 		hero.syncPos();
+		
+		for ( i in 0...4) {
+			var nmy = new Nmy();
+			nmy.cy =  nbch - 10 - i + Dice.roll( -4,4 );
+			nmy.cx = (nbcw >> 1) - (2 * i) ; 
+			add( nmy );
+		}
 	}
 	
 	public function cameraFollow() {

@@ -8,7 +8,7 @@ class Nmy extends Char {
 		type = ET_OPP;
 	}
 	
-	public function update() {
+	public override function update() {
 		super.update();
 		rosace4();
 	}

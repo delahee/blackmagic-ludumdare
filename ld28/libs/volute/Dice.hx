@@ -19,14 +19,14 @@ class Dice
 	}
 	
 	public static inline function oneChance( qty : Int ) : Bool
-		return roll( 1, qty) == qty
+		return roll( 1, qty) == qty;
 		
 	public static inline function D100( )
-		return roll(  1, 100)
+		return roll(  1, 100);
 	
 	public static inline function toss(?mr:volute.Rand)
-		return Dice.roll(0, 1, mr) == 0
+		return Dice.roll(0, 1, mr) == 0;
 	
 	public static inline function rollF( min : Float,max:Float ) : Float
-		return  Math.random() * (max - min) + min
+		return  Math.random() * (max - min) + min;
 }

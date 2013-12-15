@@ -1,4 +1,6 @@
 import flash.display.Sprite;
+import volute.Coll;
+import volute.Time;
 
 using volute.Ex;
 
@@ -6,6 +8,8 @@ enum ENT_TYPE
 {
 	ET_PLAYER;
 	ET_OPP;
+	
+	ET_CADAVER;
 }
 
 @:publicFields
@@ -39,8 +43,9 @@ class Entity
 	
 	static var uid = 0;
 	var id = uid++;
-	
 	var idx :Int;
+	
+	var hp = 1;
 	public function new() {
 		l = M.me.level;
 		name = "entity#" + id;
@@ -174,10 +179,33 @@ class Entity
 		
 	public function kill()
 	{
+		if (el != null) el.detach();
+		l.remove(this);
+	}
+	
+	public function onHurt() {
 		
 	}
 	
-	public inline function tryCollideBullet(b:Bullet) {
+	public function onKill() {
+		type = ET_CADAVER;
 		
+		M.me.timer.delay(function()
+		{
+			kill();
+		}, 10);
+	}
+	
+	public function tryCollideBullet(b:Bullet) {
+		var t = Coll.testCircleRectAA(	b.headX(), b.headY(), b.headRadius(),
+										el.x, el.y, el.width, el.height);
+		if ( t ) {
+			hp--;
+			if ( hp == 0 ) {
+				onKill();
+			}
+			else onHurt();
+			b.remove = true;
+		}
 	}
 }
