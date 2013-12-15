@@ -8,8 +8,11 @@ class Hero extends Char{
 
 	var guns : Array<Gun>;
 	public function new() {
-		super();
 		name = "redhead";
+		dir = N;
+		
+		super();
+		
 		type = ET_PLAYER;
 		guns = [];
 		
@@ -54,10 +57,8 @@ class Hero extends Char{
 		
 		var fl = 0;
 		
-		
-		if ( down( Key.SPACE )) {
+		if ( down( Key.SPACE ))
 			addMessage("take that");
-		}
 		
 		if ( down( Key.DOWN )) 			{ dy += k; fl |= (1 << 0);}
 		else if ( down( Key.UP )) 		{ dy -= k; fl |= (1 << 1); }
@@ -68,7 +69,8 @@ class Hero extends Char{
 		if ( fl != 0 ) {
 			dir=
 			switch(fl) {
-				case 0: N;
+				case 0: state = Idle;N;
+				
 				case 1 : S;
 				case 2 : N;
 				
