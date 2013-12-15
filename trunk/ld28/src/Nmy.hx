@@ -51,7 +51,10 @@ class Nmy extends Char {
 		
 		var l = new List();
 		for ( y in cy - 1...cy + 2)
-		for ( x in cx - 1...cx + 2){
+		for ( x in cx - 1...cx + 2) {
+			if ( y < 0 ) continue;
+			if ( x < 0 ) continue;
+			
 			if ( x == cx && y == cy )
 				continue;
 			if (  colls[lev.mkKey(x,y)].has(WP_PATH) )
@@ -242,7 +245,8 @@ class Nmy extends Char {
 		
 		if ( state == Shoot)
 			if( currentGun!= null)
-				currentGun.fire();
+				if ( currentGun.fire() )
+					isShooting = Char.shootCooldown;
 	}
 	
 	public override function update() {
