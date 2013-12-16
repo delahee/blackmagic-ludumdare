@@ -49,6 +49,9 @@ class Hero extends Char{
 		currentGun = guns[0];
 		
 		hp = 1000000;
+		
+	//	bsup.y += 2;
+	//	bsup.x -= 1;
 	}
 	
 	public override function onHurt() {
