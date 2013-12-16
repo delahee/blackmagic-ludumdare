@@ -130,10 +130,11 @@ class Level
 		disc.graphics.drawCircle( -4, -4, 8);
 		disc.graphics.endFill();
 		
-		blood = new Bitmap( new BitmapData( nbcw*16,nbch*16,true,0x0) );
+		blood = new Bitmap( new BitmapData( nbcw * 16, nbch * 16, true, 0x0) );
+		blood.alpha = 0.85;
 		dm.add( blood, DM_BLOOD);
 		//blood.filters = [ new GlowFilter(0, 1, 10, 10) ];
-		blood.filters = [ new BevelFilter(1,45,0xfff,0.5,0x070707,0.0,2,2) ];
+		//blood.filters = [ new BevelFilter(1,45,0xfff,0.5,0x070707,0.0,2,2) ];
 	}
 	
 	var disc : Shape;

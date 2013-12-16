@@ -305,6 +305,13 @@ class Nmy extends Char {
 	public override function update() {
 		super.update();
 		
+		if ( hp == 0 && bsup !=null && bsdown != null) {
+			if ( (M.me.timer.ufr & 1) == 0 )
+				bsup.alpha = bsdown.alpha = 0;
+			else
+				bsup.alpha = bsdown.alpha = 1.0;
+		}
+		
 		if ( hp <= 0 ) return;
 		
 		var lev = M.me.level;
@@ -315,21 +322,9 @@ class Nmy extends Char {
 		//	#if debug el.alpha = 1.0; #end
 		//	return;
 		
-		#if debug
 		if ( dhy > 20 ) {
-			#if debug el.alpha = 1.0; #end
 			return;
 		}
-		#else 
-		if ( dhy > (300>>4) || dhy < -10) {
-			#if debug el.alpha = 1.0; #end
-			return;
-		}
-		#end
-			
-		#if debug
-		el.alpha = 0.5;
-		#end
 		
 		if( nmyType != Boss)
 			tickAi();
@@ -340,6 +335,8 @@ class Nmy extends Char {
 			case Boss: rosaceBoss();
 			default:rosace8();
 		}
+		
+		
 	}
 	
 	public function rosaceBoss() {

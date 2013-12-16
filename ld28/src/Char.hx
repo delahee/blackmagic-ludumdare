@@ -37,6 +37,8 @@ class Char extends Entity{
 		dir = S;
 		state = Idle;
 		createSprites();
+		
+		
 		bsdown.addChild(bsup);
 		el = bsdown;
 		depth = Level.DM_CHAR;
