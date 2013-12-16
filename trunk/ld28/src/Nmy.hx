@@ -548,6 +548,7 @@ class Nmy extends Char {
 						if ( Key.isDown(Key.SPACE)) {
 							var t = addMessage("I see");
 							t.onEnd = function() {
+								
 								bossState = Choice;
 							}
 							return true;
