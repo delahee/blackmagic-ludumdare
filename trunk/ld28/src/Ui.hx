@@ -73,7 +73,6 @@ class Ui extends Sprite
 	var nokia : Font;
 	
 	var press : BSprite;
-	var title_screen:BSprite;
 	var pa:BSprite;
 	var pb:BSprite;
 	
@@ -81,6 +80,11 @@ class Ui extends Sprite
 	var ad : BSprite;
 	var ts : BSprite;
 	
+	
+	public var fading = false;
+	public function getTitle() :Array<BSprite>{
+		return [press, ts, pa, pb, ts];
+	}
 	
 	public function new() {
 		
@@ -127,9 +131,6 @@ class Ui extends Sprite
 		spr.y = 120;
 		spr.blendMode = OVERLAY;
 		addChild( au = spr );
-		
-		
-		
 		
 		
 		{
