@@ -78,8 +78,8 @@ class Hero extends Char{
 	}
 	
 	public function input() {
-		var mdx = 0.2;
-		var mdy = 0.2;
+		var mdx = 0.15;
+		var mdy = 0.15;
 		var k = 0.05;
 		
 		var fl = 0;

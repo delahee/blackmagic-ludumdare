@@ -33,8 +33,8 @@ class M {
 	}
 	
 	var playIntro = #if debug false #else true #end;
+	var playEnding = false;
 	public function new() {
-		playIntro = true;
 		me = this;
 		data = new Data();
 		
@@ -64,14 +64,15 @@ class M {
 		intro = new gfx.Intro();
 		ending = new gfx.Ending();
 		
-		
 		intro.stop();
-		//intro.x = 240;
-		//intro.y = 80;
-		//intro.scaleX = intro.scaleY = 2.0;
-		//intro.getChildAt(0).scaleX = intro.getChildAt(0).scaleY = 2.0;
 		
-		if (playIntro) {
+		if ( playEnding) {
+			ending.x += 240;
+			ending.y += 220;
+			ending.scaleX = ending.scaleY = 2.0;
+			stage().addChild(ending);
+		}
+		else if (playIntro) {
 			var sp = new Sprite();
 			sp.addChild(intro);
 			sp.scaleX = sp.scaleY = 2.0;
