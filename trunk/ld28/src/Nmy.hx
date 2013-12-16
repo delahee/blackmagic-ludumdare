@@ -1,6 +1,7 @@
 import flash.display.Shape;
 import flash.filters.GlowFilter;
 import flash.Lib;
+import flash.media.SoundChannel;
 import haxe.Timer;
 import mt.deepnight.Key;
 import mt.deepnight.Tweenie;
@@ -517,13 +518,20 @@ class Nmy extends Char {
 			
 		switch(bossState) {
 			case Talk:
-				if (stateLife == 0) {
-					addPersistMessage("Grrrr ! So you are that badass that decimate my treasure ! [SPACE to continue]",
+				if (stateLife <= 2) {
+					if ( M.me.level.bgm != null) M.me.level.bgm.stop();
+					
+					if( bgm == null)
+						bgm = new Ui.Chased().play(0, 1000);
+						
+					stateLife = 3;
+					addPersistMessage("Grrrr ! So you are that badass that decimate my treasure !\n[SPACE to continue]",
 					function() {
 						if ( Key.isDown(Key.SPACE)) {
 							var t = addMessage("I see");
 							t.onEnd = function() {
 								bossState = Choice;
+								stateLife = 0;
 							}
 							return true;
 						}
@@ -531,6 +539,35 @@ class Nmy extends Char {
 					});
 				}
 			case Choice:
+				if (stateLife <= 2) {
+					stateLife = 3;
+					var resp = ["\n[Press key 1]-OVER MY DEAD BODY", "\n[Press key 2]-I'll pay !"];
+					var msg = "You are now a rich bunny, let's make a deal.\n $500000 and i'll let you go!\n";
+					if ( M.me.ui.score <= 500000) {
+						msg += "\nYou can't pay...\n";
+						msg += resp[0];
+					}
+					else {
+						msg += resp[0];
+						msg += resp[1];
+					}
+					addPersistMessage(msg,
+					function() {
+						if ( Key.isDown(Key.NUMBER_1)) {
+							bossState = ShootAtWill;
+							var t = addMessage("Let's Rock then !");
+							return true;
+						}
+						else if ( Key.isDown(Key.NUMBER_2)) {
+							
+							var t = addMessage("I am rich then !!!");
+							M.me.ui.score -= 500000;
+							Timer.delay(M.me.endGame, 30);
+							return true;
+						}
+						else return false;
+					});
+				}
 			default:
 			if( currentGun!= null)
 				if ( currentGun.fire() )
@@ -546,6 +583,8 @@ class Nmy extends Char {
 			case Boss:"boss";
 		}
 	}
+	
+	var bgm : SoundChannel;
 	
 	public override function syncDir(odir:Dir, ndir:Dir) {
 		

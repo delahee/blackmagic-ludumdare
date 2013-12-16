@@ -22,6 +22,9 @@ class Key {
 	public static inline var DELETE                = 46;
 	
 	public static inline var NUMBER_0        = 48;
+	public static inline var NUMBER_1        = 49;
+	public static inline var NUMBER_2        = 50;
+	
 	public static inline var NUMPAD_0        = 96;
 	public static inline var A                        = 65;
 	public static inline var F1                        = 112;
