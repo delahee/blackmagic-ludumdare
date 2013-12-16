@@ -173,9 +173,14 @@ class Char extends Entity{
 		bsup = null;
 	}
 	
-	public function addMessage(str)
+	public inline function addMessage(str)
 	{
 		return  M.me.ui.addMessage(str, el.x - M.me.level.view.x, el.y - M.me.level.view.y - el.height * 0.5 );
+	}
+	
+	public inline function addPersistMessage(str,test)
+	{
+		return  M.me.ui.addPersistMessage(str, el.x - M.me.level.view.x, el.y - M.me.level.view.y - el.height * 0.5 ,test);
 	}
 	
 	public function syncDir(odir,ndir) {

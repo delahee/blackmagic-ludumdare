@@ -18,14 +18,26 @@ class Tf {
 	var y(default,set): Float;
 	var sp:Float;
 	
-	public function new(tf,fr,sp){
+	var persist:Bool;
+	var ylife = 0;
+	var test:Void->Bool;
+	var onEnd:Void->Void;
+	function new(tf,fr,sp){
 		this.tf = tf;
 		y = tf.y;
 		this.fr = fr;
 		this.sp = sp;
+		test = function() return true;
+		onEnd = function() return ;
 	}
 	
-	public inline function set_y(v) {
+	inline function setPersist(p,test) {
+		persist = p;
+		this.test = test;
+		ylife = 10;
+	}
+	
+	inline function set_y(v) {
 		y = v;
 		tf.y = Std.int( y );
 		return v;
@@ -117,8 +129,28 @@ class Ui extends Sprite
 		var tf = getScoreTf(msg);
 		tf.x = x - tf.textWidth * 0.5;
 		tf.y = y;
-		tfMsg.add( new Tf(tf, 30, 0.3 ) );
-		return tf;
+		var t = null;
+		tfMsg.add( t=new Tf(tf, 30, 0.3 ) );
+		return t;
+	}
+	
+	public function addPersistMessage( msg ,x:Float,y,test )
+	{
+		var tf = getScoreTf(msg);
+		tf.multiline = true;
+		tf.wordWrap = true;
+		tf.width = 100;
+		tf.text = msg;
+		tf.width = tf.textWidth+5;
+		tf.height = tf.textHeight + 5;
+		
+		tf.x = x - tf.textWidth * 0.5;
+		tf.y = y;
+		var t = null;
+		tfMsg.add( t=new Tf(tf, 30, 0.3 ) );
+		t.persist = true;
+		t.test = test;
+		return t;
 	}
 	
 	
@@ -130,12 +162,26 @@ class Ui extends Sprite
 		
 		for ( t in tfMsg) {
 			t.fr--;
-			if ( t.fr <= 0) {
+			if ( t.fr <= 0 && !t.persist ) {
 				t.tf.detach();
 				tfMsg.remove(t);
 			}
-			else 
-				t.y-=t.sp;
+			else {
+				if ( t.persist && t.ylife<=0){
+					
+				}
+				else{
+					t.y -= t.sp;
+					t.ylife--;
+				}
+				
+				if ( t.persist ) {
+					if ( t.test() ) {
+						t.tf.detach();
+						tfMsg.remove(t);
+					}
+				}
+			}
 		}
 	}
 	

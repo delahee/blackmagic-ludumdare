@@ -33,7 +33,7 @@ class Bullet
 	var cy:Int = 0;
 	var harm : Int = 0;
 	
-	var life = 200;
+	var life = 14;
 	
 	public function new(?sp=null) {
 		tick = id;
@@ -121,6 +121,7 @@ class Bullet
 		life--;
 		if ( life <= 0 ) {
 			remove = true;
+			spr.detach();
 		}
 		//trace('bl update $x $y $dx $dy');
 	}
