@@ -540,7 +540,8 @@ class Nmy extends Char {
 					
 					bossStateLife=11;
 					if ( M.me.level.bgm != null) M.me.level.bgm.stop();
-					if( bgm == null) bgm = new Ui.Chased().play(0, 1000);
+					if ( bgm == null) bgm = new Chased().play(0, 1000);
+					bgm.soundTransform = new flash.media.SoundTransform(0.5);
 					addPersistMessage("Grrrr ! So you are that badass that decimate my treasure !\n[SPACE to continue]",
 					
 					function() {
@@ -657,6 +658,11 @@ class Nmy extends Char {
 			M.me.timer.delay( M.me.endGame, 120);
 			M.me.level.hero.addMessage("VICTORYYYYY");
 			M.me.level.hero.bsup.playAnim("redhead_victory");
+			
+			var spr = M.me.data.lib.getAndPlay("game_over");
+				spr.x = 120;
+			spr.y = 200;
+			M.me.ui.addChild( spr );
 		}
 	}
 }

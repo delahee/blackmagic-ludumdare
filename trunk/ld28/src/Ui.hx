@@ -4,23 +4,11 @@ import flash.text.*;
 import mt.deepnight.SpriteLibBitmap.BSprite;
 using volute.Ex;
 
+import Types;
 import flash.media.Sound;
 import flash.media.SoundMixer;
 
-@:font('asset/nokiafc22.ttf')
-class Nokia extends Font{
-	
-}
 
-@:sound('Chased_16PCM.mp3')
-class Chased extends Sound {
-	
-}
-
-@:sound('Healing_16PCM.mp3')
-class Healing extends Sound {
-	
-}
 
 @:publicFields
 class Tf {
