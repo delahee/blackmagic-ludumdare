@@ -16,6 +16,8 @@ class Hero extends Char{
 	var guns : Array<Gun>;
 	var hasChest = false;
 	var chestTakeCd = 0;
+	
+	
 	public function new() {
 		name = "redhead";
 		
@@ -107,8 +109,9 @@ class Hero extends Char{
 		var c = getChest();
 		var fl = 0;
 		
-		var ndir : Dir= null;
-		/*
+		var ndir : Dir = null;
+		
+		
 		#if debug
 		if ( down( Key.ENTER ))	{
 			for ( e in M.me.level.store) {
@@ -120,7 +123,7 @@ class Hero extends Char{
 			}
 		}
 		#end
-		*/
+		
 		
 		if ( down( Key.DOWN )) 			{ dy += k; fl |= (1 << 0);}
 		else if ( down( Key.UP )) 		{ dy -= k; fl |= (1 << 1); }

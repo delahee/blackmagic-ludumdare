@@ -7,6 +7,7 @@ import flash.display.Shape;
 import flash.display.Sprite;
 import flash.media.Sound;
 import flash.media.SoundChannel;
+import flash.media.SoundTransform;
 import flash.text.*;
 import flash.filters.BevelFilter;
 import flash.filters.GlowFilter;
@@ -21,7 +22,7 @@ import volute.t.Vec2i;
 import volute.*;
 import volute.postfx.Bloom;
 
-
+import Types;
 import haxe.ds.Vector;
 import haxe.ds.IntMap;
 import haxe.ds.StringMap;
@@ -503,7 +504,8 @@ class Level
 		hero.syncPos();
 		chest.syncPos();
 		
-		bgm = (new Ui.Healing().play(0, 1000));
+		bgm = (new Healing().play(0, 1000));
+		bgm.soundTransform = new SoundTransform(0.5);
 		
 		
 		//bloodAt( hero.el.x, hero.el.y);

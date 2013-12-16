@@ -1,6 +1,7 @@
 import flash.display.Bitmap;
 import flash.display.Sprite;
 import flash.filters.GlowFilter;
+import flash.media.SoundChannel;
 import mt.deepnight.Lib;
 import mt.deepnight.SpriteLibBitmap.BSprite;
 import volute.*;
@@ -34,7 +35,10 @@ class Bullet
 	
 	var life = 14;
 	
+	static var fire : SoundChannel;
 	public function new(?sp) {
+		fire = new Types.Pok().play();
+		
 		tick = id;
 		coll = ide;
 		remove = false;
