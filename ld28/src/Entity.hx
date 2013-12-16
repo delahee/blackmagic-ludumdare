@@ -76,10 +76,9 @@ class Entity
 	
 	public inline function test(cx, cy)
 	{
-		if ( type == ET_PLAYER )
-			if ( customTest(cx, cy) )
+		if ( type == ET_PLAYER && customTest(cx, cy) )
 				return true;
-				
+		
 		return l.staticTest(this,cx, cy);
 	}
 	
