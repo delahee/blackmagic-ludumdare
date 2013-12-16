@@ -11,20 +11,10 @@ import volute.t.Vec2;
 import volute.t.Vec2i;
 import volute.*;
 import Char.CharState;
-
+import Types;
 using volute.Ex;
 
-enum NmyType {
-	Normal;
-	Heavy;
-	Boss;
-}
 
-enum BS {
-	Talk;
-	Choice;
-	ShootAtWill;
-}
 
 class Nmy extends Char {
 	
@@ -59,6 +49,7 @@ class Nmy extends Char {
 			currentGun.maxCooldown = 4;
 			currentGun.reloadCdFactor = 10;
 			currentGun.init();
+			
 			case Heavy:
 			currentGun = new Gun(this);
 			currentGun.maxBullets = 120;
@@ -74,10 +65,13 @@ class Nmy extends Char {
 			currentGun.maxBullets = 80;
 			currentGun.maxCooldown = 1;
 			currentGun.reloadCdFactor = 5;
+			currentGun.recoil = 0;
+			currentGun.spread = Math.PI / 6.0;
+			currentGun.bulletLife = 100;
 			currentGun.init();
-			hp = 200;
-			sp = 0;								var sp = 0.1;
-
+			hp = 50;
+			sp = 0.025;			
+			aggroDist = 100;
 		}
 	}
 	
@@ -132,6 +126,7 @@ class Nmy extends Char {
 		
 		var dChar = Math.abs( MathEx.sqrI(cy - char.cy) + MathEx.sqrI(cx - char.cx));
 		var dAggro = 5 * 5;
+		if ( aggroDist != 0) dAggro = aggroDist*aggroDist;
 		var dStop = 7 * 7;
 		
 		var q = getHeroQuadrant();
@@ -139,7 +134,13 @@ class Nmy extends Char {
 		
 		if ( tickAggro && state != Hit) {
 			if ( dChar <= dAggro) state = Shoot;
-			else if ( dChar <= dStop) state = Watch;
+			else if ( dChar <= dStop) {
+				state = Watch;
+				if ( dir == getHeroQuadrant()) {
+					dAggro = 7 * 7;
+					dStop = 9 * 9;
+				}
+			}
 			else if( state == Shoot || state == Watch )  state = Idle;
 		}
 	
@@ -290,6 +291,7 @@ class Nmy extends Char {
 				}
 				
 			case Boss:
+				
 		}
 		
 		if ( state == Shoot)
@@ -361,11 +363,11 @@ class Nmy extends Char {
 				case 1 : S;
 				case 2 : S;
 				
-				case 4: W;
+				case 4: SW;
 				case 5: SW;
 				case 6: SW;
 				
-				case 8: E;
+				case 8: SE;
 				case 9: SE;
 				case 10: SE;
 				default:
@@ -375,7 +377,17 @@ class Nmy extends Char {
 		syncDir(dir,ndir);
 	}
 	
-	var bossState : BS;
+	var aggroDist=0;
+	var bossState(default, set) : BS;
+	
+	public function set_bossState(v) {
+		if( v != bossState)
+			bossStateLife = 0;
+		return bossState = v;
+	}
+	
+	var bossStateLife : Int = 0;
+	
 	public function tickBoss()
 	{
 		if ( hp <= 0 ) return;
@@ -384,18 +396,25 @@ class Nmy extends Char {
 		
 		var dChar = Math.abs( MathEx.sqrI(cy - char.cy) + MathEx.sqrI(cx - char.cx));
 		var dAggro = 5 * 5;
+		if ( aggroDist != 0) dAggro = aggroDist*aggroDist;
 		var dStop = 7 * 7;
 		
 		var q = getHeroQuadrant();
 		var tickAggro = (dir == q || dir.next(Dir) == q || dir.prev(Dir) == q );
 	
+		if (hp == 20) {
+			currentGun.spread = Math.PI;
+			currentGun.maxCooldown *= 4;
+			hp = 19;
+		}
+		
 		switch(nmyType) {
 			default: 
 				switch(state) {
 					default:
 						state = Idle;
 					case Idle:
-						if ( stateLife > 30) {
+						if ( stateLife > 20) {
 							lastTargets.clear();
 							if ( curTarget == null) curTarget = new Vec2i();
 							
@@ -413,6 +432,7 @@ class Nmy extends Char {
 							}
 						}
 						
+					case Watch: state = Idle;
 					case Run: {
 						if ( curTarget == null) {
 							state  = Idle;
@@ -425,7 +445,7 @@ class Nmy extends Char {
 								&& MathEx.isNear(ry, 0, 0.1)
 							) {
 								
-								if ( getCell().has( WP_WAIT ) && stateLife <= 30) {
+								if ( getCell().has( WP_WAIT ) && stateLife <= 20) {
 									dx = 0.0;
 									dy = 0.0;
 									return;
@@ -513,25 +533,24 @@ class Nmy extends Char {
 				}
 		}
 		
-		if (bossState == null)
+		if (bossState == null){
 			bossState = Talk;
-			
+		}
+		
 		switch(bossState) {
 			case Talk:
-				if (stateLife <= 2) {
-					if ( M.me.level.bgm != null) M.me.level.bgm.stop();
+				if (bossStateLife == 10) {
 					
-					if( bgm == null)
-						bgm = new Ui.Chased().play(0, 1000);
-						
-					stateLife = 3;
+					bossStateLife=11;
+					if ( M.me.level.bgm != null) M.me.level.bgm.stop();
+					if( bgm == null) bgm = new Ui.Chased().play(0, 1000);
 					addPersistMessage("Grrrr ! So you are that badass that decimate my treasure !\n[SPACE to continue]",
+					
 					function() {
 						if ( Key.isDown(Key.SPACE)) {
 							var t = addMessage("I see");
 							t.onEnd = function() {
 								bossState = Choice;
-								stateLife = 0;
 							}
 							return true;
 						}
@@ -539,8 +558,8 @@ class Nmy extends Char {
 					});
 				}
 			case Choice:
-				if (stateLife <= 2) {
-					stateLife = 3;
+				if (bossStateLife <= 2) {
+					bossStateLife = 3;
 					var resp = ["\n[Press key 1]-OVER MY DEAD BODY", "\n[Press key 2]-I'll pay !"];
 					var msg = "You are now a rich bunny, let's make a deal.\n $500000 and i'll let you go!\n";
 					if ( M.me.ui.score <= 500000) {
@@ -562,7 +581,7 @@ class Nmy extends Char {
 							
 							var t = addMessage("I am rich then !!!");
 							M.me.ui.score -= 500000;
-							Timer.delay(M.me.endGame, 30);
+							M.me.timer.delay(M.me.endGame, 30);
 							return true;
 						}
 						else return false;
@@ -573,6 +592,7 @@ class Nmy extends Char {
 				if ( currentGun.fire() )
 					isShooting = Char.shootCooldown;	
 		}
+		bossStateLife++;
 	}
 	
 	
@@ -593,6 +613,7 @@ class Nmy extends Char {
 		isRunning = !(MathEx.is0( dx ) && MathEx.is0( dy ));
 		
 		if ( ndir == null) ndir = odir;
+		
 		
 		if ( isShooting >= 0)
 			bsup.playAnim('${getBust()}_shoot_' + Std.string(ndir).toLowerCase());
@@ -620,7 +641,10 @@ class Nmy extends Char {
 	public override function onHurt() {
 		super.onHurt();
 		dir = getHeroQuadrant();
-		addToMajorDir(dir, -0.5);
+		
+		if( nmyType!=Boss )
+			addToMajorDir(dir, -0.5);
+			
 		addScore( 25 );
 		state = Hit;
 		bsup.playAnim( '${getBust()}_hit', 1);
@@ -633,9 +657,8 @@ class Nmy extends Char {
 		
 		if ( nmyType == Boss) {
 			M.me.canPlay = false;
-			Timer.delay(function(){
-			flash.Lib.current.stage.addChild(M.me.ending);
-			}, 60);
+			M.me.timer.delay( M.me.endGame, 120);
+			M.me.level.hero.addMessage("VICTORYYYYY");
 		}
 	}
 }

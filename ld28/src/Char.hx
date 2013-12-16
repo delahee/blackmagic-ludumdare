@@ -195,17 +195,18 @@ class Char extends Entity{
 												el.x - el.width * 0.5, el.y - el.height, el.width, el.height);
 		if ( t ) {
 			
-			trace( "collided" );
+			b.remove = true;
+			dx = 0;
+			dy = 0;
+			
+			if ( type == ET_CHEST ) return;
 			hp--;
+			
 			if ( hp <= 0 ) {
 				onKill();
 			}
 			else 
 				onHurt();
-				
-			b.remove = true;
-			dx = 0;
-			dy = 0;
 		}
 	}
 	

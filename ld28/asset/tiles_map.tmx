@@ -9486,7 +9486,7 @@
    <tile gid="0"/>
   </data>
  </layer>
- <layer name="gp" width="20" height="230">
+ <layer name="gp" width="20" height="230" visible="0">
   <data>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -13871,11 +13871,11 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="101"/>
-   <tile gid="101"/>
-   <tile gid="85"/>
-   <tile gid="101"/>
-   <tile gid="101"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
