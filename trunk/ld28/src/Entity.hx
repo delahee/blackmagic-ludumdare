@@ -258,14 +258,14 @@ class Entity
 		M.me.timer.delay(function()
 		{
 			kill();
-		}, 10);
+		}, 60);
 	}
 	
 	public function tryCollideBullet(b:Bullet) {
 		if ( b.remove) return;
 		
 		var t = Coll.testCircleRectAA(	b.headX(), b.headY(), b.headRadius(),
-										el.x, el.y, el.width, el.height);
+										realX(), realY(), el.width, el.height);
 		if ( t ) {
 			trace( "collided" );
 			hp--;

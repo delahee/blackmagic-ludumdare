@@ -220,13 +220,6 @@ class Level
 							}
 						}
 					}
-					/*
-					else if( lay.type == "objectgroup"){
-						var arrO : Array<Dynamic> = cast lay.objects;
-						for( o in arrO)
-							onObject( o );
-					}
-					*/
 				}
 			}
 		}
@@ -509,47 +502,36 @@ class Level
 		hero.syncPos();
 		chest.syncPos();
 		
-		
 		bgm = (new Ui.Healing().play(0, 1000));
+		
 		
 		//bloodAt( hero.el.x, hero.el.y);
 	}
 	
 	public function write() {
-		var tf = new TextField();
-		var tft = new TextFormat('arial',12,0x0);
-		tf.setTextFormat( tf.defaultTextFormat = tft ); 
-		tf.mouseEnabled = false;
-		tf.selectable = false;
-		tf.width = 100;
-		tf.height = 30;
-		tf.text = "press [CTRL] to act";
-		tf.width = tf.textWidth + 5;
-		tf.filters = [ new GlowFilter(0x706934, 0.5, 2, 2, 20) ];
-		tf.alpha = 0.5;
 		
 		
-		mat.identity();
-		mat.translate( hero.realX(), hero.realY() - 100 );
+		function writeDown(msg, x, y) {
+			var tf = new TextField();
+			var tft = new TextFormat('arial',12,0x0);
+			tf.setTextFormat( tf.defaultTextFormat = tft ); 
+			tf.mouseEnabled = false;
+			tf.selectable = false;
+			tf.width = 100;
+			tf.height = 30;
+			tf.text = msg;
+			tf.width = tf.textWidth + 5;
+			tf.filters = [ new GlowFilter(0x706934, 0.5, 2, 2, 20) ];
+			tf.alpha = 0.5;
+			mat.identity();
+			mat.translate( x, y );
+			bg.bitmapData.draw( tf, mat,null,OVERLAY);
+		}
 		
+		writeDown("press [CTRL] to act", hero.realX(), hero.realY() - 100);
+		writeDown("DON'T FORGET THE CHEST!", hero.realX() - 50, hero.realY() - 170);
 		
-		
-		bg.bitmapData.draw( tf, mat,null,OVERLAY);
-		
-		var tf = new TextField();
-		var tft = new TextFormat('arial',12,0x0);
-		tf.setTextFormat( tf.defaultTextFormat = tft ); 
-		tf.mouseEnabled = false;
-		tf.selectable = false;
-		tf.width = 100;
-		tf.height = 30;
-		tf.text = "DON'T FORGET THE CHEST!";
-		tf.width = tf.textWidth + 5;
-		tf.filters = [ new GlowFilter(0x706934, 0.5, 2, 2, 20) ];
-		tf.alpha = 0.5;
-		mat.identity();
-		mat.translate( hero.realX()-50, hero.realY() - 170 );
-		bg.bitmapData.draw( tf, mat,null,OVERLAY);
+		writeDown("Money is life ! Well... Literally !", hero.realX()-50, hero.realY() - 300);
 	}
 	
 	var mat = new Matrix();

@@ -125,9 +125,10 @@ class Ui extends Sprite
 		return tf;
 	}
 	
-	public function addScore( d ,x,y )
+	public function addScore( d:Int,x,y )
 	{
-		var tf = getScoreTf((d>0?"+":"")+Std.string(d), d<0?null : 0xFFF27C);
+		var dstr = Std.string(Std.int(Math.abs(d)));
+		var tf = getScoreTf( (d>0?"+":"-")+"$"+dstr, d<0?null : 0xFFF27C);
 		tf.x = x;
 		tf.y = y;
 		tfMsg.add(  new Tf(tf, 30, 0.3 ) );

@@ -25,6 +25,9 @@ class Gun
 	var recoil = 0.05;
 	var reloadCdFactor = 5;
 	
+	var spread = 0.0;
+	var bulletLife = 14;
+	
 	public function new( e : Char ) 
 	{
 		this.c = e;
@@ -52,10 +55,13 @@ class Gun
 		var dir = c.dir;
 		var bl = new Bullet();
 			
+		bl.life = bulletLife; 
 		if( c.type == ET_PLAYER)
 			bl.harm |= 1 << ET_OPP.index();
-		else 
+		else {
 			bl.harm |= 1 << ET_PLAYER.index();
+			bl.harm |= 1 << ET_CHEST.index();
+		}
 		
 		var f = c.getFireOfset();
 		bl.x = c.el.x + f.x + bl.spr.width * 0.5;
@@ -71,19 +77,19 @@ class Gun
 		var r2d2 = 1.414 * 0.5;
 		switch(dir) {
 			
-			case N: bl.dy = -sp;
-			case S: bl.dy = sp;
+			case N: bl.dy = -sp + Dice.rollF(-spread,spread);
+			case S: bl.dy = sp + Dice.rollF(-spread,spread);
 				
-			case E: bl.dx = sp;
-			case W: bl.dx = -sp;
+			case E: bl.dx = sp + Dice.rollF(-spread,spread);
+			case W: bl.dx = -sp + Dice.rollF(-spread,spread);
 				
 			default:
 			
-			case NW: bl.dx = -sp*r2d2;  bl.dy = -sp*r2d2;
-			case SW: bl.dx = -sp*r2d2; 	bl.dy = sp*r2d2;
+			case NW: bl.dx = -sp*r2d2 + r2d2*Dice.rollF(-spread,spread);  	bl.dy = -sp*r2d2+ r2d2*Dice.rollF(-spread,spread);
+			case SW: bl.dx = -sp*r2d2 + r2d2*Dice.rollF(-spread,spread); 	bl.dy = sp*r2d2+ r2d2*Dice.rollF(-spread,spread);
 					 
-			case NE: bl.dx = sp*r2d2; 	bl.dy = -sp*r2d2;
-			case SE: bl.dx = sp*r2d2; 	bl.dy = sp*r2d2;
+			case NE: bl.dx = sp*r2d2+ r2d2*Dice.rollF(-spread,spread); 		bl.dy = -sp*r2d2+ r2d2*Dice.rollF(-spread,spread);
+			case SE: bl.dx = sp*r2d2+ r2d2*Dice.rollF(-spread,spread); 		bl.dy = sp*r2d2+ r2d2*Dice.rollF(-spread,spread);
 			
 		}
 		

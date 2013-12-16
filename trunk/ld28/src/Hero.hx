@@ -2,6 +2,8 @@ import mt.deepnight.Key;
 import mt.deepnight.Tweenie.TType;
 import mt.deepnight.Tweenie;
 import volute.t.Vec2i;
+import Nmy;
+import Types;
 
 import volute.*;
 import Dir;
@@ -72,7 +74,7 @@ class Hero extends Char{
 		if( hasChest )
 			addScore( -5000);
 		else 
-			addScore( -100);
+			addScore( -500);
 		
 	}
 	
@@ -105,8 +107,19 @@ class Hero extends Char{
 		var fl = 0;
 		
 		var ndir : Dir= null;
-		
-		if ( down( Key.SPACE ))			addMessage("take that");
+		/*
+		#if debug
+		if ( down( Key.ENTER ))	{
+			for ( e in M.me.level.store) {
+				if ( e.type == ET_OPP && (cast e).nmyType == NmyType.Boss) {
+					e.hp = 0;
+					e.onKill();
+					return;
+				}
+			}
+		}
+		#end
+		*/
 		
 		if ( down( Key.DOWN )) 			{ dy += k; fl |= (1 << 0);}
 		else if ( down( Key.UP )) 		{ dy -= k; fl |= (1 << 1); }
