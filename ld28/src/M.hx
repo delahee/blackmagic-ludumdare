@@ -63,9 +63,10 @@ class M {
 		
 		
 		intro.stop();
-		intro.x = 240;
-		intro.y = 80;
-		intro.scaleX = intro.scaleY = 2.0;
+		//intro.x = 240;
+		//intro.y = 80;
+		//intro.scaleX = intro.scaleY = 2.0;
+		//intro.getChildAt(0).scaleX = intro.getChildAt(0).scaleY = 2.0;
 		
 		if(playIntro){
 			stage().addChild(intro);
