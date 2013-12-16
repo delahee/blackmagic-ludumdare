@@ -505,7 +505,7 @@ class Level
 		chest.syncPos();
 		
 		bgm = (new Healing().play(0, 1000));
-		bgm.soundTransform = new SoundTransform(0.5);
+		bgm.soundTransform = new SoundTransform(0.2);
 		
 		
 		//bloodAt( hero.el.x, hero.el.y);

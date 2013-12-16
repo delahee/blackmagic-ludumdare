@@ -94,6 +94,7 @@ class Hero extends Char{
 		return Key.isDown( k );
 	}
 	
+	var stepCd = 0;
 	public function input() {
 		var mdx = 0.15;
 		var mdy = 0.15;
@@ -163,6 +164,13 @@ class Hero extends Char{
 					M.me.tweenie.create(s, "alpha", 0, TType.TBurnOut, 350);
 				}
 				ui.fading = true;
+			}
+			
+			stepCd--;
+			
+			if ( stepCd  <= 0 ) {
+				new Types.Sand().play();
+				stepCd = 3;
 			}
 		}
 		
