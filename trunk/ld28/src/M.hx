@@ -1,7 +1,6 @@
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.Sprite;
-import flash.display.StageQuality;
 import flash.events.Event;
 import flash.geom.Matrix;
 import flash.Lib;

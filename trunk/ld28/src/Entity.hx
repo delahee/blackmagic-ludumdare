@@ -201,8 +201,10 @@ class Entity
 		
 	public function kill()
 	{
-		if (el != null) 
+		if (el != null) {
 			el.detach();
+			
+		}
 		if( idx > 0 )
 			l.remove(this);
 	}
@@ -258,7 +260,7 @@ class Entity
 		M.me.timer.delay(function()
 		{
 			kill();
-		}, 60);
+		}, 45);
 	}
 	
 	public function tryCollideBullet(b:Bullet) {
