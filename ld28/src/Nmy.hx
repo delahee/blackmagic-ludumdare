@@ -57,7 +57,7 @@ class Nmy extends Char {
 			currentGun.reloadCdFactor = 30;
 			currentGun.recoil *= 0.25;
 			currentGun.init();
-			hp = 20;
+			hp = 10;
 			sp = 0.05;
 			
 			case Boss:
@@ -69,7 +69,7 @@ class Nmy extends Char {
 			currentGun.spread = Math.PI / 6.0;
 			currentGun.bulletLife = 100;
 			currentGun.init();
-			hp = 50;
+			hp = 25;
 			sp = 0.025;			
 			aggroDist = 100;
 		}
@@ -399,10 +399,10 @@ class Nmy extends Char {
 		var q = getHeroQuadrant();
 		var tickAggro = (dir == q || dir.next(Dir) == q || dir.prev(Dir) == q );
 	
-		if (hp == 20) {
+		if (hp == 15) {
 			currentGun.spread = Math.PI;
 			currentGun.maxCooldown *= 4;
-			hp = 19;
+			hp = 14;
 		}
 		
 		switch(nmyType) {

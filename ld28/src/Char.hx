@@ -152,17 +152,18 @@ class Char extends Entity{
 	}
 	
 	public function angleToDir(a:Float) {
-		while (a <= 0) a += 2 * Math.PI;
-		while (a >= 2 * Math.PI) a -= 2 * Math.PI;
+		a += Math.PI / 8;
+		while (a < 0) a += 2 * Math.PI;
+		while (a > 2 * Math.PI) a -= 2 * Math.PI;
 		
 		return 
-		if 		( a <= 0*Math.PI * 0.25 && a <= 1*Math.PI * 0.25) 	E;
-		else if	( a <= 1*Math.PI * 0.25 && a <= 2*Math.PI * 0.25) 	NE;
-		else if	( a <= 2*Math.PI * 0.25 && a <= 3*Math.PI * 0.25) 	N;
-		else if	( a <= 3*Math.PI * 0.25 && a <= 4*Math.PI * 0.25) 	NW;
-		else if	( a <= 4*Math.PI * 0.25 && a <= 5*Math.PI * 0.25) 	W;
-		else if	( a <= 5*Math.PI * 0.25 && a <= 6*Math.PI * 0.25) 	SW;
-		else if	( a <= 6*Math.PI * 0.25 && a <= 7*Math.PI * 0.25) 	S;
+		if 		( a >= 0*Math.PI * 0.25 && a < 1*Math.PI * 0.25) 	E;
+		else if	( a >= 1*Math.PI * 0.25 && a < 2*Math.PI * 0.25) 	NE;
+		else if	( a >= 2*Math.PI * 0.25 && a < 3*Math.PI * 0.25) 	N;
+		else if	( a >= 3*Math.PI * 0.25 && a < 4*Math.PI * 0.25) 	NW;
+		else if	( a >= 4*Math.PI * 0.25 && a < 5*Math.PI * 0.25) 	W;
+		else if	( a >= 5*Math.PI * 0.25 && a < 6*Math.PI * 0.25) 	SW;
+		else if	( a >= 6*Math.PI * 0.25 && a < 7*Math.PI * 0.25) 	S;
 		else 	SE;
 	}
 	

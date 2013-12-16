@@ -1,4 +1,5 @@
 import flash.geom.ColorTransform;
+import flash.Lib;
 import mt.deepnight.Key;
 import mt.deepnight.Tweenie.TType;
 import mt.deepnight.Tweenie;
@@ -132,7 +133,20 @@ class Hero extends Char{
 		if ( down( Key.LEFT )) 			{ dx -= k; fl |= (1 << 2);}
 		else if ( down( Key.RIGHT ))	{ dx += k; fl |= (1 << 3); }
 		
+		ndir = null;
+		var stg = flash.Lib.current.stage;
+		var mx = stg.mouseX * 0.5;
+		var my = stg.mouseY * 0.5;
+		var glbX = realX() - M.me.level.view.x;
+		var glbY = realY() - M.me.level.view.y;
+			
+		var a = Math.atan2( mx - glbX, my - glbY );
+		trace(a);
+		var d = - Math.PI/2  + a;
+		dir = angleToDir(d);
+			
 		if ( fl != 0 ) {
+			/*
 			ndir=
 			switch(fl) {
 				
@@ -149,6 +163,11 @@ class Hero extends Char{
 				
 				default:
 			}
+			*/
+			
+			//var 
+			//var d = Math.PI - Math.atan2( stg.mou - char.cy, cx - char.cx );
+			//angleToDir(d);
 			
 			var ui = M.me.ui;
 			if ( !ui.fading) {
@@ -188,7 +207,14 @@ class Hero extends Char{
 		var wasShooting  = isShooting;
 		
 		chestTakeCd--;
-		if ( down( Key.CTRL ) ) {
+		
+		var fire = down( Key.CTRL );
+		var lvl = level();
+		if ( lvl.mouseDown != null) {
+			fire = true;
+		}
+		
+		if ( fire ) {
 			
 			if ( chestTakeCd <= 0 && !hasChest && MathEx.dist(realX(),realY(),c.realX(),c.realY() )<= 32 ){
 				hasChest = true;

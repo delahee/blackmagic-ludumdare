@@ -5,6 +5,7 @@ import flash.display.DisplayObjectContainer;
 import flash.display.PixelSnapping;
 import flash.display.Shape;
 import flash.display.Sprite;
+import flash.events.MouseEvent;
 import flash.media.Sound;
 import flash.media.SoundChannel;
 import flash.media.SoundTransform;
@@ -508,8 +509,20 @@ class Level
 		bgm.soundTransform = new SoundTransform(0.2);
 		
 		
-		//bloodAt( hero.el.x, hero.el.y);
+		
 	}
+	
+	public function onMouseDown(e) {
+		trace("md");
+		mouseDown = e;
+	}
+	
+	public function onMouseUp(e) {
+		trace("mu");
+		mouseDown = null;
+	}
+	
+	public var mouseDown : MouseEvent = null;
 	
 	public function write() {
 		
