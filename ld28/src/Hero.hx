@@ -1,3 +1,4 @@
+import flash.geom.ColorTransform;
 import mt.deepnight.Key;
 import mt.deepnight.Tweenie.TType;
 import mt.deepnight.Tweenie;
@@ -142,10 +143,26 @@ class Hero extends Char{
 				case 9: SE;
 				case 10: NE;
 				
-				default: 
+				default:
 			}
 			
+			var ui = M.me.ui;
+			if ( !ui.fading) {
+				for ( s in ui.getTitle()) {
+					if ( s == null) {
+						var i = 0;
+					}
+					var ct = new ColorTransform();
+					ct.redMultiplier = ct.greenMultiplier = ct.blueMultiplier = 0;
+					ct.redOffset = ct.greenOffset = ct.blueOffset = 255;
+					s.transform.colorTransform = ct;
+					
+					M.me.tweenie.create(s, "alpha", 0, TType.TBurnOut, 350);
+				}
+				ui.fading = true;
+			}
 		}
+		
 
 		var wasRunning = MathEx.is0( dx ) && MathEx.is0( dy );
 		
