@@ -89,6 +89,14 @@ class M {
 		}
 	}
 	
+	public function endGame() {
+		canPlay = false;
+		ending.x += 240;
+		ending.y += 220;
+		ending.scaleX = ending.scaleY = 2.0;
+		stage().addChild(ending);
+	}
+	
 	
 	public function update(_) {
 		timer.update();

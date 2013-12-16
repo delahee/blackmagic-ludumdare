@@ -3,8 +3,21 @@ import flash.filters.GlowFilter;
 import flash.text.*;
 using volute.Ex;
 
+import flash.media.Sound;
+import flash.media.SoundMixer;
+
 @:font('asset/nokiafc22.ttf')
 class Nokia extends Font{
+	
+}
+
+@:sound('Chased_16PCM.mp3')
+class Chased extends Sound {
+	
+}
+
+@:sound('Healing_16PCM.mp3')
+class Healing extends Sound {
 	
 }
 
@@ -46,7 +59,7 @@ class Tf {
 
 class Ui extends Sprite
 {
-	var score : Int;
+	public var score : Int;
 	var prevScore : Int;
 	
 	var dols : Int;
@@ -139,7 +152,7 @@ class Ui extends Sprite
 		var tf = getScoreTf(msg);
 		tf.multiline = true;
 		tf.wordWrap = true;
-		tf.width = 100;
+		tf.width = 150;
 		tf.text = msg;
 		tf.width = tf.textWidth+5;
 		tf.height = tf.textHeight + 5;
@@ -164,20 +177,24 @@ class Ui extends Sprite
 			t.fr--;
 			if ( t.fr <= 0 && !t.persist ) {
 				t.tf.detach();
+				t.onEnd();
 				tfMsg.remove(t);
 			}
 			else {
+				
 				if ( t.persist && t.ylife<=0){
 					
 				}
 				else{
 					t.y -= t.sp;
 					t.ylife--;
+					
 				}
 				
 				if ( t.persist ) {
 					if ( t.test() ) {
 						t.tf.detach();
+						t.onEnd();
 						tfMsg.remove(t);
 					}
 				}

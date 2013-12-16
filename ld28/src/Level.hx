@@ -5,6 +5,8 @@ import flash.display.DisplayObjectContainer;
 import flash.display.PixelSnapping;
 import flash.display.Shape;
 import flash.display.Sprite;
+import flash.media.Sound;
+import flash.media.SoundChannel;
 import flash.text.*;
 import flash.filters.BevelFilter;
 import flash.filters.GlowFilter;
@@ -493,6 +495,7 @@ class Level
 		}
 	}
 	
+	public var bgm : SoundChannel;
 	public function startGame() {
 		
 		reset();
@@ -507,6 +510,7 @@ class Level
 		chest.syncPos();
 		
 		
+		bgm = (new Ui.Healing().play(0, 1000));
 		
 		//bloodAt( hero.el.x, hero.el.y);
 	}
