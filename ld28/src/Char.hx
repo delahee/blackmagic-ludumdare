@@ -38,7 +38,6 @@ class Char extends Entity{
 		state = Idle;
 		createSprites();
 		
-		
 		bsdown.addChild(bsup);
 		el = bsdown;
 		depth = Level.DM_CHAR;
@@ -168,8 +167,8 @@ class Char extends Entity{
 	}
 	
 	public override function kill() {
-		bsdown.detach();
-		bsup.detach();
+		bsdown.destroy();
+		bsup.destroy();
 		
 		bsdown = null;
 		bsup = null;

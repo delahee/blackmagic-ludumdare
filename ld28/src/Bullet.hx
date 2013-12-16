@@ -2,6 +2,7 @@ import flash.display.Bitmap;
 import flash.display.Sprite;
 import flash.filters.GlowFilter;
 import mt.deepnight.Lib;
+import mt.deepnight.SpriteLibBitmap.BSprite;
 
 using volute.Ex;
 
@@ -20,9 +21,7 @@ class Bullet
 	var fx : Float = 1.0;
 	var fy : Float = 1.0;
 	
-	var el : Sprite;
-	
-	var spr:Sprite;
+	var spr:BSprite;
 	var bmp : Bitmap;
 	
 	var remove : Bool;
@@ -35,23 +34,11 @@ class Bullet
 	
 	var life = 14;
 	
-	public function new(?sp=null) {
+	public function new() {
 		tick = id;
 		coll = ide;
 		remove = false;
-		spr = sp;
-		if ( spr == null ) {
-			spr = new flash.display.Sprite();
-			spr.graphics.beginFill(0xFFF052);
-			spr.graphics.drawCircle( -1, -1, 2);
-			spr.graphics.endFill();
-			
-			bmp = Lib.flatten( spr , true);
-			spr.addChild(bmp);
-			spr.graphics.clear();
-			
-			spr.filters = [new GlowFilter(0,1,2,2,8)];
-		}
+		spr = M.me.data.lib.getAndPlay( "props_bullet_a" );
 	}
 	
 	public inline function headX() {
@@ -93,12 +80,7 @@ class Bullet
 		dy = 0;
 		
 		M.me.timer.delay( function(){
-		spr.detach();
-		if ( bmp != null){
-			bmp.bitmapData.dispose();
-			bmp.bitmapData = null;
-			bmp = null;
-		}
+		spr.destroy();
 		}, 8);
 	}
 	
@@ -119,11 +101,11 @@ class Bullet
 	public function update() {
 		tick();
 		life--;
+		//spr.rotation = Math.PI/2;
 		if ( life <= 0 ) {
 			remove = true;
-			spr.detach();
+			spr.destroy();
 		}
-		//trace('bl update $x $y $dx $dy');
 	}
 	
 }

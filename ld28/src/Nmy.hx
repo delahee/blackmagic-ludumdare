@@ -306,7 +306,7 @@ class Nmy extends Char {
 		super.update();
 		
 		if ( hp == 0 && bsup !=null && bsdown != null) {
-			if ( (M.me.timer.ufr & 1) == 0 )
+			if ( ((M.me.timer.ufr>>1) & 1) == 0 )
 				bsup.alpha = bsdown.alpha = 0;
 			else
 				bsup.alpha = bsdown.alpha = 1.0;
@@ -656,6 +656,7 @@ class Nmy extends Char {
 			M.me.canPlay = false;
 			M.me.timer.delay( M.me.endGame, 120);
 			M.me.level.hero.addMessage("VICTORYYYYY");
+			M.me.level.hero.bsup.playAnim("redhead_victory");
 		}
 	}
 }
