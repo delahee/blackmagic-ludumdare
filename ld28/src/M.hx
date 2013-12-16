@@ -1,6 +1,9 @@
+import flash.display.Bitmap;
+import flash.display.BitmapData;
 import flash.display.Sprite;
 import flash.display.StageQuality;
 import flash.events.Event;
+import flash.geom.Matrix;
 import flash.Lib;
 import haxe.Timer;
 import mt.deepnight.*;
@@ -48,7 +51,7 @@ class M {
 		ui.scaleX = ui.scaleY = 2;
 		
 		stage().addEventListener( Event.ENTER_FRAME , update );
-		stage().quality = StageQuality.LOW;
+		
 		
 		/*
 		var f = new Sprite();
@@ -68,8 +71,13 @@ class M {
 		//intro.scaleX = intro.scaleY = 2.0;
 		//intro.getChildAt(0).scaleX = intro.getChildAt(0).scaleY = 2.0;
 		
-		if(playIntro){
-			stage().addChild(intro);
+		if (playIntro) {
+			var sp = new Sprite();
+			sp.addChild(intro);
+			sp.scaleX = sp.scaleY = 2.0;
+			sp.x += 240;
+			sp.y += 220;
+			stage().addChild(sp);
 			intro.play();
 			ui.visible = false;
 			canPlay = false;
@@ -92,8 +100,12 @@ class M {
 			canPlay = true;
 			intro.alpha *= 0.95;
 		}
+		else if ( intro.alpha >= 0.99) {
+			
+		}
 		
 		if ( intro.alpha <= 0) {
+			
 			intro.detach();
 		}
 	}
