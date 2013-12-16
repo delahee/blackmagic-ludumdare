@@ -86,6 +86,10 @@ class M {
 			ui.visible = true;
 			canPlay = true;
 		}
+		
+		//bloodAt( hero.el.x, hero.el.y);
+		stage().addEventListener( flash.events.MouseEvent.MOUSE_DOWN, level.onMouseDown );
+		stage().addEventListener( flash.events.MouseEvent.MOUSE_UP, level.onMouseUp );
 	}
 	
 	public function endGame() {
