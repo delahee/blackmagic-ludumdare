@@ -1,5 +1,7 @@
 import flash.display.Shape;
 import flash.filters.GlowFilter;
+import flash.Lib;
+import haxe.Timer;
 import mt.deepnight.Tweenie;
 import mt.deepnight.Tweenie.*;
 import volute.Dice;
@@ -374,13 +376,18 @@ class Nmy extends Char {
 		addScore( 25 );
 		state = Hit;
 		bsup.playAnim( '${getBust()}_hit', 1);
-		
-		
 	}
 	
 	public override function onKill() {
 		super.onKill();
 		addScore( 50 );
 		bsup.playAnim( '${getBust()}_dead', 1);
+		
+		if ( nmyType == Boss) {
+			M.me.canPlay = false;
+			Timer.delay(function(){
+			flash.Lib.current.stage.addChild(M.me.ending);
+			}, 60);
+		}
 	}
 }
