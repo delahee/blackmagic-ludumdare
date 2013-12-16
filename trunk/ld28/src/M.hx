@@ -8,6 +8,7 @@ import mt.deepnight.Tweenie.TType;
 import mt.fx.*;
 import volute.*;
 
+using volute.Ex;
 
 @:publicFields
 class M {
@@ -28,7 +29,9 @@ class M {
 		return Lib.current.stage;
 	}
 	
+	var playIntro = #if debug false #else true #end;
 	public function new() {
+		playIntro = true;
 		me = this;
 		data = new Data();
 		
@@ -59,16 +62,21 @@ class M {
 		ending = new gfx.Ending();
 		
 		
-		
 		intro.stop();
 		intro.x = 240;
 		intro.y = 80;
 		intro.scaleX = intro.scaleY = 2.0;
-		stage().addChild(intro);
-		intro.play();
 		
-		
-		canPlay = true;
+		if(playIntro){
+			stage().addChild(intro);
+			intro.play();
+			ui.visible = false;
+			canPlay = false;
+		}
+		else {
+			ui.visible = true;
+			canPlay = true;
+		}
 	}
 	
 	
@@ -77,6 +85,16 @@ class M {
 		
 		for ( i in 0...timer.dfr)
 			frameUpdate();
+			
+		if ( intro.currentFrame >= intro.totalFrames - 1) {
+			ui.visible = true;
+			canPlay = true;
+			intro.alpha *= 0.95;
+		}
+		
+		if ( intro.alpha <= 0) {
+			intro.detach();
+		}
 	}
 	
 	public function frameUpdate() {
