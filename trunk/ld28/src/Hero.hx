@@ -81,8 +81,8 @@ class Hero extends Char{
 	public override function getFireOfset() :Vec2i{
 		return 
 		switch(dir) {
-			case N:new Vec2i(3, 0);
-			case S:new Vec2i(-3, 0);
+			case N:new Vec2i(3, -1);
+			case S:new Vec2i(-3, -1);
 			default: super.getFireOfset();
 		}
 	}
@@ -181,6 +181,7 @@ class Hero extends Char{
 				if (chestTakeCd <= 0 && hasChest) {
 					c.detach();
 					level().add(c);
+					
 					if ( !test( cx-1, cy - 2)) {
 						c.cx = cx-1;
 						c.cy = cy-2;
@@ -195,6 +196,21 @@ class Hero extends Char{
 						c.ry = ry;
 						c.syncPos();
 					}
+					else if ( !test( cx+1, cy)) {
+						c.cx = cx+1;
+						c.cy = cy;
+						c.rx = rx;
+						c.ry = ry;
+						c.syncPos();
+					}
+					else {
+						c.cx = 10;
+						c.cy = cy;
+						c.rx = rx;
+						c.ry = ry;
+						c.syncPos();
+					}
+					
 					hasChest = false;
 					chestTakeCd = 4;
 					M.me.tweenie.create(c, "ry", c.ry + 1 / 16.0, TType.TZigZag, 100 );

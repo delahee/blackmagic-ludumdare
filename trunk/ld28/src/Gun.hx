@@ -53,7 +53,7 @@ class Gun
 			return false;
 			
 		var dir = c.dir;
-		var bl = new Bullet();
+		var bl = new Bullet( c.type == ET_OPP ? M.me.data.lib.getAndPlay( "props_bullet_b" ) : null);
 			
 		bl.life = bulletLife; 
 		if( c.type == ET_PLAYER)
