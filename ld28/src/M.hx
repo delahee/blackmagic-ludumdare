@@ -39,7 +39,6 @@ class M {
 		
 		var r = level.getRender();
 		stage().addChild( level.getRender() );
-		
 		level.postInit();
 		
 		stage().addChild( ui = new Ui() );
@@ -48,8 +47,7 @@ class M {
 		stage().addEventListener( Event.ENTER_FRAME , update );
 		stage().quality = StageQuality.LOW;
 		
-		
-		
+		/*
 		var f = new Sprite();
 		f.graphics.beginFill(0);
 		f.graphics.drawRect(0,0,640,640);
@@ -57,8 +55,9 @@ class M {
 		var t = tweenie.create(f, "alpha", 0, TType.TLinear, 0.375);
 		intro = new gfx.Intro();
 		ending = new gfx.Ending();
+		*/
 		//ui.addChild(f);
-		
+		/*
 		intro.stop();
 		intro.x = 120;
 		//intro.y = 80;
@@ -68,6 +67,9 @@ class M {
 		t.onEnd = function() {
 			intro.play();
 		};
+		*/
+		
+		canPlay = true;
 	}
 	
 	

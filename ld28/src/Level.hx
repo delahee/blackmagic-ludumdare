@@ -492,6 +492,7 @@ class Level
 		
 		var k = 0.51;
 		view.y = k * view.y + (1-k) * (hero.el.y - ( Lib.h()*3>>2));
+		view.x = k * view.x + (1-k) * (hero.el.x - ( Lib.w()>>1));
 		
 		if ( view.y <=0 ) {
 			view.y = 0;
@@ -499,6 +500,14 @@ class Level
 		
 		if ( view.y > nbch * cw - Lib.h() ) {
 			view.y = nbch * cw - Lib.h();
+		}
+		
+		if ( view.x <=0 ) {
+			view.x = 0;
+		}
+		
+		if ( view.x >=  320 - 240 ) {
+			view.x = 320-240;
 		}
 	}
 	
