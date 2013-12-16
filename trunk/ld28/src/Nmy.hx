@@ -25,6 +25,8 @@ class Nmy extends Char {
 	var lastTargets : List < Vec2i >;
 	var origin : Vec2i;
 	var instaShoot = false;
+	var sp = 0.1;
+
 	public function new( et, origin ) 
 	{
 		name = "opp";
@@ -41,11 +43,33 @@ class Nmy extends Char {
 		cy = origin.y;
 		curTarget = new Vec2i();
 		
-		currentGun = new Gun(this);
-		currentGun.maxBullets = 10;
-		currentGun.maxCooldown = 4;
-		currentGun.reloadCdFactor = 10;
-		currentGun.init();
+		switch( et ) {
+			case Normal:
+			currentGun = new Gun(this);
+			currentGun.maxBullets = 8;
+			currentGun.maxCooldown = 4;
+			currentGun.reloadCdFactor = 10;
+			currentGun.init();
+			case Heavy:
+			currentGun = new Gun(this);
+			currentGun.maxBullets = 120;
+			currentGun.maxCooldown = 2;
+			currentGun.reloadCdFactor = 30;
+			currentGun.recoil *= 0.25;
+			currentGun.init();
+			hp = 20;
+			sp = 0.05;
+			
+			case Boss:
+			currentGun = new Gun(this);
+			currentGun.maxBullets = 80;
+			currentGun.maxCooldown = 1;
+			currentGun.reloadCdFactor = 5;
+			currentGun.init();
+			hp = 200;
+			sp = 0;								var sp = 0.1;
+
+		}
 	}
 	
 	public function getNearWaypoint()
@@ -224,7 +248,6 @@ class Nmy extends Char {
 								var realx = curTarget.x * 16;
 								var realy = curTarget.y * 16;
 								//trace(curTarget + " <> cx:" + cx + " cy:" + cy + " rx:" + rx +" ry:" + ry);  
-								var sp = 0.1;
 								var diffX = realx - ((cx << 4) + rx*16.0);
 								var diffY = realy - ((cy << 4) + ry*16.0);
 								var lenDiff = Math.sqrt(diffX * diffX + diffY * diffY);
@@ -304,6 +327,15 @@ class Nmy extends Char {
 			default:rosace8();
 		}
 	}
+	
+	public inline function getBust() {
+		return switch(nmyType) {
+			case Normal:"opp";
+			case Heavy:"heavy";
+			case Boss:"boss";
+		}
+	}
+	
 	public override function syncDir(odir:Dir, ndir:Dir) {
 		
 		if ( state == Hit ) return;
@@ -313,9 +345,9 @@ class Nmy extends Char {
 		if ( ndir == null) ndir = odir;
 		
 		if ( isShooting >= 0)
-			bsup.playAnim("opp_shoot_" + Std.string(ndir).toLowerCase());
+			bsup.playAnim('${getBust()}_shoot_' + Std.string(ndir).toLowerCase());
 		else {
-			bsup.playAnim("opp_shoot_" + Std.string(ndir).toLowerCase());
+			bsup.playAnim('${getBust()}_shoot_' + Std.string(ndir).toLowerCase());
 			bsup.stopAnim(0);
 		}
 		
@@ -341,14 +373,14 @@ class Nmy extends Char {
 		addToMajorDir(dir, -0.5);
 		addScore( 25 );
 		state = Hit;
-		bsup.playAnim( "opp_hit", 1);
+		bsup.playAnim( '${getBust()}_hit', 1);
 		
 		
 	}
 	
 	public override function onKill() {
 		super.onKill();
-		
 		addScore( 50 );
+		bsup.playAnim( '${getBust()}_dead', 1);
 	}
 }
