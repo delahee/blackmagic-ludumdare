@@ -1,6 +1,7 @@
 import flash.display.Sprite;
 import flash.filters.GlowFilter;
 import flash.text.*;
+import mt.deepnight.SpriteLibBitmap.BSprite;
 using volute.Ex;
 
 import flash.media.Sound;
@@ -70,6 +71,17 @@ class Ui extends Sprite
 	var tfMsg : List<Tf>;
 	
 	var nokia : Font;
+	
+	var press : BSprite;
+	var title_screen:BSprite;
+	var pa:BSprite;
+	var pb:BSprite;
+	
+	var au : BSprite;
+	var ad : BSprite;
+	var ts : BSprite;
+	
+	
 	public function new() {
 		
 		super();
@@ -79,6 +91,46 @@ class Ui extends Sprite
 		
 		score = 1000000;
 		dols = 0;
+		
+		var data = M.me.data;
+		
+		var spr = data.lib.getAndPlay("palmier_a");
+		spr.x = 50;
+		spr.y = (320 >> 1) + 50;
+		spr.blendMode = OVERLAY;
+		addChild( pa = spr );
+		
+		var spr = data.lib.getAndPlay("palmier_b");
+		spr.x = 240-50;
+		spr.y = (320 >> 1) + 50;
+		spr.blendMode = OVERLAY;
+		addChild( pb = spr );
+		
+		var spr = data.lib.getAndPlay("press");
+		spr.x = 240>>1;
+		spr.y = 200;
+		addChild( press = spr );
+		
+		var spr = data.lib.getAndPlay("title_screen");
+		spr.x = 240>>1;
+		spr.y = 120;
+		addChild( ts = spr );
+		
+		var spr = data.lib.getAndPlay("ambiant_down");
+		spr.x = 120;
+		spr.y = 320;
+		spr.blendMode = OVERLAY;
+		addChild( ad = spr );
+		
+		var spr = data.lib.getAndPlay("ambiant_up");
+		spr.x = 120;
+		spr.y = 120;
+		spr.blendMode = OVERLAY;
+		addChild( au = spr );
+		
+		
+		
+		
 		
 		{
 			tfScore = new TextField();
@@ -100,6 +152,7 @@ class Ui extends Sprite
 			
 			addChild( tfScore ); 
 		}
+		
 		
 	}
 	

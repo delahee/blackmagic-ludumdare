@@ -166,7 +166,7 @@ class Level
 		bloom.rtRes = 0.5;
 		bloom.upscale = 2;
 		
-		bloom.bmpResult.alpha = 0.75; 
+		bloom.bmpResult.alpha = 0.8; 
 		
 		startGame();
 		
@@ -546,19 +546,22 @@ class Level
 		blood.bitmapData.draw( disc, mat, null, BlendMode.ADD );
 	}
 	
+	public var isBottom = false;
 	public function cameraFollow() {
 		
 		var k = 0.51;
 		var target = hero.hasChest ? hero : chest;
-		view.y = k * view.y + (1-k) * (target.el.y - ( Lib.h()*3>>2));
-		view.x = k * view.x + (1-k) * (target.el.x - ( Lib.w()>>1));
+		view.y = Math.round( k * view.y + (1-k) * (target.el.y - ( Lib.h()*3>>2)));
+		view.x = Math.round(k * view.x + (1-k) * (target.el.x - ( Lib.w()>>1)));
 		
 		if ( view.y <=0 ) {
 			view.y = 0;
 		}
 		
+		isBottom = true;
 		if ( view.y > nbch * cw - Lib.h() ) {
 			view.y = nbch * cw - Lib.h();
+			isBottom = false;
 		}
 		
 		if ( view.x <=0 ) {
