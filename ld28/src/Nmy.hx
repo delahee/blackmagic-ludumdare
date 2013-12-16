@@ -2,6 +2,7 @@ import flash.display.Shape;
 import flash.filters.GlowFilter;
 import flash.Lib;
 import haxe.Timer;
+import mt.deepnight.Key;
 import mt.deepnight.Tweenie;
 import mt.deepnight.Tweenie.*;
 import volute.Dice;
@@ -18,6 +19,11 @@ enum NmyType {
 	Boss;
 }
 
+enum BS {
+	Talk;
+	Choice;
+	ShootAtWill;
+}
 
 class Nmy extends Char {
 	
@@ -322,13 +328,216 @@ class Nmy extends Char {
 		el.alpha = 0.5;
 		#end
 		
-		tickAi();
+		if( nmyType != Boss)
+			tickAi();
+		else 
+			tickBoss();
 		
 		switch(nmyType) {
-			case Boss: dir = S;
+			case Boss: rosaceBoss();
 			default:rosace8();
 		}
 	}
+	
+	public function rosaceBoss() {
+		if ( Math.abs(dx) <= 0.01 ) dx = 0;
+		if ( Math.abs(dy) <= 0.01 ) dy = 0;
+		
+		var ndir : Dir = null;
+		var fl = 0;
+		
+		if ( dy > Char.rosaceLim) 			{ fl |= (1 << 0);}
+		else if ( dy < -Char.rosaceLim) 		{ fl |= (1 << 1); }
+		
+		if ( dx < -Char.rosaceLim) 			{ fl |= (1 << 2);}
+		else if ( dx > Char.rosaceLim)		{ fl |= (1 << 3); }
+		
+		isRunning = true;
+	
+		if ( fl != 0 ) {
+			ndir = switch(fl) {
+				case 0 : isRunning = false; null;
+				case 1 : S;
+				case 2 : S;
+				
+				case 4: W;
+				case 5: SW;
+				case 6: SW;
+				
+				case 8: E;
+				case 9: SE;
+				case 10: SE;
+				default:
+			}
+			
+		}
+		syncDir(dir,ndir);
+	}
+	
+	var bossState : BS;
+	public function tickBoss()
+	{
+		if ( hp <= 0 ) return;
+		
+		var char = M.me.level.hero;
+		
+		var dChar = Math.abs( MathEx.sqrI(cy - char.cy) + MathEx.sqrI(cx - char.cx));
+		var dAggro = 5 * 5;
+		var dStop = 7 * 7;
+		
+		var q = getHeroQuadrant();
+		var tickAggro = (dir == q || dir.next(Dir) == q || dir.prev(Dir) == q );
+	
+		switch(nmyType) {
+			default: 
+				switch(state) {
+					default:
+						state = Idle;
+					case Idle:
+						if ( stateLife > 30) {
+							lastTargets.clear();
+							if ( curTarget == null) curTarget = new Vec2i();
+							
+							//is on waypoint
+							if ( getCell().has(WP_PATH) ) {
+								curTarget.set(cx, cy);
+								state = Run;
+								//trace('hooking path $cx $cy');
+							}
+							//else reach one
+							else {
+								curTarget.copy( origin );
+								state = Run;
+								//trace("getting to origin");
+							}
+						}
+						
+					case Run: {
+						if ( curTarget == null) {
+							state  = Idle;
+							lastTargets.clear();
+							//trace("getting back to idle");
+						}
+						else{
+							if ( cx == curTarget.x && cy == curTarget.y 
+								&& MathEx.isNear(rx, 0, 0.1)
+								&& MathEx.isNear(ry, 0, 0.1)
+							) {
+								
+								if ( getCell().has( WP_WAIT ) && stateLife <= 30) {
+									dx = 0.0;
+									dy = 0.0;
+									return;
+								}
+								
+								//change way point
+								var wp = getNearWaypoint();
+								if ( getNearWaypoint().length == 0 ) {
+									state = Idle;
+									curTarget.copy( origin );
+									//trace('$cx $cy : no near waypoint...getting to origin (${curTarget.x},${curTarget.y})');
+									return;
+								}
+								//trace("found " + wp);
+								//trace("explored " + lastTargets);
+								var cwp : Vec2i = null;
+								for ( w in wp ) {
+									
+									var explored = false;
+									if( lastTargets.length >0){
+										for ( l in lastTargets )
+											if ( l.x == w.x && l.y == w.y) {
+												explored = true;
+												break;
+											}
+									}
+									
+									if ( explored ) continue;
+									else {
+										cwp = w;
+										break;
+									}
+								}
+									
+								//trace("requiring " + cwp);
+								if ( cwp == null) {
+									state = Idle;
+									curTarget = null;
+									lastTargets.clear();
+									//trace("no unexplored waypoint...getting to origin");
+									return;
+								}
+								
+								curTarget.x = cwp.x;
+								curTarget.y = cwp.y;
+								
+								lastTargets.push(new Vec2i(cx, cy) );
+								//trace("new waypoint");
+								stateLife = 0;
+								tickAi();
+							}
+							else {
+								var realx = curTarget.x * 16;
+								var realy = curTarget.y * 16;
+								//trace(curTarget + " <> cx:" + cx + " cy:" + cy + " rx:" + rx +" ry:" + ry);  
+								var diffX = realx - ((cx << 4) + rx*16.0);
+								var diffY = realy - ((cy << 4) + ry*16.0);
+								var lenDiff = Math.sqrt(diffX * diffX + diffY * diffY);
+								
+								if ( lenDiff <= 1.0 ) 
+								{
+									cx = curTarget.x;
+									cy = curTarget.y;
+									rx = ry = 0.0;
+									dx = 0;
+									dy = 0;
+									//trace('sticking $dx $dy $diffX $diffY');
+								}
+								else 
+								{
+									var ddx = diffX / lenDiff * sp;
+									var ddy = diffY / lenDiff * sp;
+									
+									dx = ddx;
+									//if ( Math.abs(dx) > Math.abs(diffX)) dx = diffX;
+										
+									dy = ddy;
+									//if ( Math.abs(dy) > Math.abs(diffY)) dy = diffY;
+									//trace('advancing $lenDiff $ddx $ddy $diffX $diffY');
+								}
+							}
+						}
+					}
+					
+				}
+		}
+		
+		if (bossState == null)
+			bossState = Talk;
+			
+		switch(bossState) {
+			case Talk:
+				if (stateLife == 0) {
+					addPersistMessage("Grrrr ! So you are that badass that decimate my treasure ! [SPACE to continue]",
+					function() {
+						if ( Key.isDown(Key.SPACE)) {
+							var t = addMessage("I see");
+							t.onEnd = function() {
+								bossState = Choice;
+							}
+							return true;
+						}
+						else return false;
+					});
+				}
+			case Choice:
+			default:
+			if( currentGun!= null)
+				if ( currentGun.fire() )
+					isShooting = Char.shootCooldown;	
+		}
+	}
+	
 	
 	public inline function getBust() {
 		return switch(nmyType) {
