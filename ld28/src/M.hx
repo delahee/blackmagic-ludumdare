@@ -53,21 +53,20 @@ class M {
 		f.graphics.drawRect(0,0,640,640);
 		f.graphics.endFill();
 		var t = tweenie.create(f, "alpha", 0, TType.TLinear, 0.375);
+		//ui.addChild(f);
+		*/
 		intro = new gfx.Intro();
 		ending = new gfx.Ending();
-		*/
-		//ui.addChild(f);
-		/*
-		intro.stop();
-		intro.x = 120;
-		//intro.y = 80;
-		intro.scaleX = intro.scaleY = 2.0;
-		ui.addChild(intro);
 		
-		t.onEnd = function() {
-			intro.play();
-		};
-		*/
+		
+		
+		intro.stop();
+		intro.x = 240;
+		intro.y = 80;
+		intro.scaleX = intro.scaleY = 2.0;
+		stage().addChild(intro);
+		intro.play();
+		
 		
 		canPlay = true;
 	}

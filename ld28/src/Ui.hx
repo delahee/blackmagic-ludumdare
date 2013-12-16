@@ -3,7 +3,7 @@ import flash.filters.GlowFilter;
 import flash.text.*;
 using volute.Ex;
 
-@:font('nokiafc22.ttf')
+@:font('asset/nokiafc22.ttf')
 class Nokia extends Font{
 	
 }
@@ -58,7 +58,7 @@ class Ui extends Sprite
 		{
 			tfScore = new TextField();
 			
-			var tft = new TextFormat(nokia.fontName,16,0x70bab5);
+			var tft = new TextFormat('nokiafc22',16,0x70bab5);
 			tfScore.setTextFormat( tfScore.defaultTextFormat = tft ); 
 			tfScore.embedFonts = true;
 			
@@ -68,21 +68,20 @@ class Ui extends Sprite
 			tfScore.width = 500;
 			tfScore.height = 100;
 			
-			tfScore.x = volute.Lib.w() - 100;
+			tfScore.x = volute.Lib.w() - 180;
 			tfScore.y = volute.Lib.h() - 40;
 			
-			//tfScore.x = 50;
-			//tfScore.y = 50;
 			tfScore.filters = [ new GlowFilter(0xc201e, 1, 4 , 4, 20) ];
 			
 			addChild( tfScore ); 
 		}
+		
 	}
 	
 	public function getScoreTf(txt,?col=0xFF0707) {
 		var tf = new TextField();
 		
-		var tft = new TextFormat(nokia.fontName,8,col);
+		var tft = new TextFormat('nokiafc22',8,col);
 		tf.setTextFormat( tf.defaultTextFormat = tft ); 
 		tf.embedFonts = true;
 		
