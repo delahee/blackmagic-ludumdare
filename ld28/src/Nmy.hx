@@ -626,11 +626,11 @@ class Nmy extends Char {
 		
 		var f = 
 		switch(ndir) {
-			case N, NE, NW: 'opp_${verb}_n';
-			case S, SE, SW: 'opp_${verb}_s';
+			case N: 'opp_${verb}_n';
+			case S: 'opp_${verb}_s';
 				
-			case E: 'opp_${verb}_e';
-			case W: 'opp_${verb}_w'; 
+			case E, NE, SE: 'opp_${verb}_e';
+			case W, NW, SW: 'opp_${verb}_w'; 
 		}
 		var a = bsdown.playAnim(f);
 		if ( !a) throw "no such anim "+f;

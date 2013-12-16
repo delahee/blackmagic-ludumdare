@@ -223,11 +223,11 @@ class Hero extends Char{
 		
 		var f = 
 		switch(ndir) {
-			case N, NE, NW: 'redhead_${verb}_n';
-			case S, SE, SW: 'redhead_${verb}_s';
+			case N: 'redhead_${verb}_n';
+			case S: 'redhead_${verb}_s';
 				
-			case E: 'redhead_${verb}_e';
-			case W: 'redhead_${verb}_w'; 
+			case E, NE, SE: 'redhead_${verb}_e';
+			case W, NW, SW: 'redhead_${verb}_w'; 
 		}
 		var a = bsdown.playAnim(f);
 		if ( !a) throw "no such anim "+f;
