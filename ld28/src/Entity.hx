@@ -11,8 +11,10 @@ using volute.Ex;
 
 enum ENT_TYPE
 {
+	ET_NONE;
 	ET_PLAYER;
 	ET_OPP;
+	ET_CHEST;
 	
 	ET_CADAVER;
 }
@@ -52,6 +54,7 @@ class Entity
 	
 	var hp = 1;
 	public function new() {
+		type = ET_NONE;
 		l = M.me.level;
 		name = "entity#" + id;
 		dead = false;
@@ -64,8 +67,19 @@ class Entity
 		l.remove(this);
 	}
 	
+	public inline function realX() : Float return ((cx << 4) + rx * 16.0);
+	public inline function realY() : Float return ((cy << 4) + ry * 16.0);
+	
+	public function customTest(cx, cy) {
+		return false;
+	}
+	
 	public inline function test(cx, cy)
 	{
+		if ( type == ET_PLAYER )
+			if ( customTest(cx, cy) )
+				return true;
+				
 		return l.staticTest(this,cx, cy);
 	}
 	
@@ -187,8 +201,10 @@ class Entity
 		
 	public function kill()
 	{
-		if (el != null) el.detach();
-		l.remove(this);
+		if (el != null) 
+			el.detach();
+		if( idx > 0 )
+			l.remove(this);
 	}
 	
 	public function onHurt() {

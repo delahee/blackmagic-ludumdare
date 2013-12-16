@@ -1,4 +1,6 @@
 import mt.deepnight.Key;
+import mt.deepnight.Tweenie.TType;
+import mt.deepnight.Tweenie;
 import volute.t.Vec2i;
 
 import volute.*;
@@ -10,6 +12,7 @@ class Hero extends Char{
 
 	var guns : Array<Gun>;
 	var hasChest = false;
+	var chestTakeCd = 0;
 	public function new() {
 		name = "redhead";
 		
@@ -54,13 +57,22 @@ class Hero extends Char{
 	//	bsup.x -= 1;
 	}
 	
+	
+	public inline function getChest() {
+		return M.me.level.chest;
+	}
+	
+	public override function customTest(cx, cy) {
+		var c = getChest();
+		return (c.cy == cy ||c.cy-1==cy) && (c.cx == cx||c.cx + 1 == cx);
+	}
+	
 	public override function onHurt() {
 		super.onHurt();
 		if( hasChest )
-			addScore( -1000);
+			addScore( -5000);
 		else 
-			addScore( -200);
-		
+			addScore( -100);
 		
 	}
 	
@@ -82,6 +94,14 @@ class Hero extends Char{
 		var mdy = 0.15;
 		var k = 0.05;
 		
+		if ( hasChest ) { 
+			k *= 0.5;
+			mdx *= 0.5;
+			mdy *= 0.5;
+		}
+			
+		
+		var c = getChest();
 		var fl = 0;
 		
 		var ndir : Dir= null;
@@ -126,9 +146,50 @@ class Hero extends Char{
 		
 		var wasShooting  = isShooting;
 		
-		if ( down( Key.CTRL ) ){
-			if ( currentGun.fire() ) 
-				isShooting = Char.shootCooldown;
+		chestTakeCd--;
+		if ( down( Key.CTRL ) ) {
+			
+			if ( chestTakeCd <= 0 && !hasChest && MathEx.dist(realX(),realY(),c.realX(),c.realY() )<= 32 ){
+				hasChest = true;
+				level().remove(c);
+				c.cx = 0;
+				c.cy = 0;
+				c.rx = 0;
+				c.ry = 0;
+				c.syncPos();
+				bsdown.addChild( c.el );
+				c.el.x -= 16;
+				c.el.y -= 16;
+				chestTakeCd = 4;
+				hasChest = true;
+				addMessage(["come back baby","mummy gotcha","precioooouuus","missed you too","yess"].random());
+			}
+			else {
+				if (chestTakeCd <= 0 && hasChest) {
+					c.detach();
+					level().add(c);
+					if ( !test( cx-1, cy - 2)) {
+						c.cx = cx-1;
+						c.cy = cy-2;
+						c.rx = rx;
+						c.ry = ry;
+						c.syncPos();
+					}
+					else if ( !test( cx-1, cy + 2)) {
+						c.cx = cx-1;
+						c.cy = cy+2;
+						c.rx = rx;
+						c.ry = ry;
+						c.syncPos();
+					}
+					hasChest = false;
+					chestTakeCd = 4;
+					M.me.tweenie.create(c, "ry", c.ry + 1 / 16.0, TType.TZigZag, 100 );
+					addMessage(["wait a sec","time to kick ass !","again!"].random());
+				}
+				else if ( currentGun.fire() ) 
+					isShooting = Char.shootCooldown;
+			}
 		}
 			
 		syncDir(dir,ndir);

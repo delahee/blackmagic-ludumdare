@@ -5,6 +5,7 @@ import flash.display.DisplayObjectContainer;
 import flash.display.PixelSnapping;
 import flash.display.Shape;
 import flash.display.Sprite;
+import flash.text.*;
 import flash.filters.BevelFilter;
 import flash.filters.GlowFilter;
 import flash.geom.Matrix;
@@ -45,6 +46,7 @@ enum CellFlags{
 	NMY_HEAVY;
 	NMY_BOSS;
 	
+	BRIDGE;
 }
 
 @:publicFields
@@ -64,6 +66,7 @@ class Level
 	var ch = 16;
 	var buffer : Buffer;
 	var hero : Hero;
+	var chest : Chest;
 	var objects : List<Dynamic>;
 	
 	public static var I = 0;
@@ -147,8 +150,8 @@ class Level
 	
 	public function postInit() {
 		
-		hero = new Hero();
-		add( hero );
+		add( hero = new Hero() );
+		add( chest = new Chest() );
 		
 		var fl = EnumFlags.ofInt(0);
 		fl.set( BloomFlags.FULLSCREEN);
@@ -163,6 +166,8 @@ class Level
 		bloom.bmpResult.alpha = 0.75; 
 		
 		startGame();
+		
+		write();
 	}
 	
 	public function getRender()
@@ -240,7 +245,19 @@ class Level
 		switch(name) {
 			case "coll":
 				var e = Type.createEnum( CellFlags, val.toUpperCase());
+				
+				var k = mkKey(cx, cy);
+				var src = colls[k];
+				
 				colls[mkKey(cx, cy)].set( e );
+				
+				if ( e == DEEP_WATER && !src.has(BRIDGE) ) 
+					colls[mkKey(cx, cy)].set( BLOCK );
+					
+				if ( e == BRIDGE ) {
+					colls[mkKey(cx, cy)].unset( BLOCK );
+					colls[mkKey(cx, cy)].unset( DEEP_WATER );
+				}
 				
 			case "waypoint": {
 				var e = Type.createEnum( CellFlags, "WP_"+val.toUpperCase());
@@ -279,14 +296,13 @@ class Level
 			}
 	}
 	
-	public function reset(){
-		var i = storeCur-1;
-		while (i >= 0) {
-			if ( store[i].type != ET_PLAYER )
-				remove(store[i]);
-			else 
-				i--;
-		}
+	public function reset() {
+		while( store[0] != null ) 
+			remove(store[0]);
+		
+		add(hero);
+		add(chest);
+		
 		makeObjects();
 	}
 	
@@ -315,16 +331,26 @@ class Level
 	public function add(e:Entity){
 		var nk = mkKey(e.cx, e.cy);
 		store[storeCur++] = e;
+		if ( e.idx != -1 ) throw "already add";
 		e.idx = storeCur - 1;
 		dm.add( e.el , e.depth);
 	}
 	
 	
-	public function remove(e:Entity){
-		store[e.idx] = store[storeCur - 1];
-		store[e.idx].idx = e.idx;
-		e.idx = -1;
-		trace("removing");
+	public function remove(e:Entity) {
+		if ( e.idx < 0) return;
+		
+		if ( storeCur > 0) {
+			var o = store[e.idx];
+			store[e.idx] = store[storeCur - 1];
+			store[e.idx].idx = e.idx;
+			e.idx = -1;
+			store[storeCur - 1] = null;
+			storeCur--;
+		}
+		else {
+			store[storeCur=0] = null;
+		}
 	}
 	
 	
@@ -472,11 +498,54 @@ class Level
 		reset();
 		trace("gameStart");
 		hero.cy = nbch - 2;
-		hero.cx = nbcw >> 1;
+		hero.cx = 5;
+		
+		chest.cx = hero.cx;
+		chest.cy = hero.cy-3;
 		
 		hero.syncPos();
+		chest.syncPos();
+		
+		
 		
 		//bloodAt( hero.el.x, hero.el.y);
+	}
+	
+	public function write() {
+		var tf = new TextField();
+		var tft = new TextFormat('arial',12,0x0);
+		tf.setTextFormat( tf.defaultTextFormat = tft ); 
+		tf.mouseEnabled = false;
+		tf.selectable = false;
+		tf.width = 100;
+		tf.height = 30;
+		tf.text = "press [CTRL] to act";
+		tf.width = tf.textWidth + 5;
+		tf.filters = [ new GlowFilter(0x706934, 0.5, 2, 2, 20) ];
+		tf.alpha = 0.5;
+		
+		
+		mat.identity();
+		mat.translate( hero.realX(), hero.realY() - 100 );
+		
+		
+		
+		bg.bitmapData.draw( tf, mat,null,OVERLAY);
+		
+		var tf = new TextField();
+		var tft = new TextFormat('arial',12,0x0);
+		tf.setTextFormat( tf.defaultTextFormat = tft ); 
+		tf.mouseEnabled = false;
+		tf.selectable = false;
+		tf.width = 100;
+		tf.height = 30;
+		tf.text = "DON'T FORGET THE CHEST!";
+		tf.width = tf.textWidth + 5;
+		tf.filters = [ new GlowFilter(0x706934, 0.5, 2, 2, 20) ];
+		tf.alpha = 0.5;
+		mat.identity();
+		mat.translate( hero.realX()-50, hero.realY() - 170 );
+		bg.bitmapData.draw( tf, mat,null,OVERLAY);
 	}
 	
 	var mat = new Matrix();
@@ -491,8 +560,9 @@ class Level
 	public function cameraFollow() {
 		
 		var k = 0.51;
-		view.y = k * view.y + (1-k) * (hero.el.y - ( Lib.h()*3>>2));
-		view.x = k * view.x + (1-k) * (hero.el.x - ( Lib.w()>>1));
+		var target = hero.hasChest ? hero : chest;
+		view.y = k * view.y + (1-k) * (target.el.y - ( Lib.h()*3>>2));
+		view.x = k * view.x + (1-k) * (target.el.x - ( Lib.w()>>1));
 		
 		if ( view.y <=0 ) {
 			view.y = 0;

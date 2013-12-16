@@ -9,7 +9,7 @@ class Coll{
 		return cx*cx + cy*cy< r3*r3;
 	}
 	
-	public static inline function testCircleRectAA(cx,cy, cr, rx,ry, rw,rh)
+	public static inline function testCircleRectAA(cx:Float,cy:Float, cr:Float, rx,ry, rw,rh)
 	{
 		var closestx = MathEx.clamp(cx, rx, rx + rw);
 		var closesty = MathEx.clamp(cy, ry, ry + rh);
@@ -20,7 +20,7 @@ class Coll{
 		return dx * dx + dy * dy < cr * cr;
 	}
 	
-	public static inline function testPointRectAA(px,py,rx,ry,rw,rh)
+	public static inline function testPointRectAA(px:Float,py:Float,rx:Float,ry,rw,rh)
 	{
 		return px >= rx && py >= ry && px <= rx + rw && py <= ry + rh;
 	}
