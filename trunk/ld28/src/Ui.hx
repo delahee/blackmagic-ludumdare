@@ -94,7 +94,7 @@ class Ui extends Sprite
 			tfScore.height = 100;
 			
 			tfScore.x = volute.Lib.w() - 180;
-			tfScore.y = volute.Lib.h() - 40;
+			tfScore.y = volute.Lib.h() - 25;
 			
 			tfScore.filters = [ new GlowFilter(0xc201e, 1, 4 , 4, 20) ];
 			
