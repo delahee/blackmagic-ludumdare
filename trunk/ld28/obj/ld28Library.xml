@@ -6,7 +6,7 @@
   <frame>
     <library>
       <clip id="Sharepoint__" />
-      <clip id="asset.intro.swf" name="asset.intro.swf" import="asset\intro.swf" size="49389" modified="16/12/2013 00:29:55" />
+      <clip id="asset.intro.swf" name="asset.intro.swf" import="asset\intro.swf" size="49388" modified="16/12/2013 01:06:48" />
       <clip id="asset.ending.swf" name="asset.ending.swf" import="asset\ending.swf" size="39497" modified="16/12/2013 00:29:55" />
       <font id="nokiafc22" name="nokiafc22" import="asset\nokiafc22.ttf" glyphs="1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ `~!@#$%^&amp;*()-_=+[]{}\|;:'&quot;,./&lt;&gt;?" size="16272" modified="15/12/2013 09:57:16" />
     </library>
