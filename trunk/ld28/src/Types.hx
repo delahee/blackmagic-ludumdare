@@ -31,3 +31,18 @@ class Healing extends Sound {
 class Pok extends Sound {
 	
 }
+
+@:sound('impact.wav')
+class Impact extends Sound {
+	
+}
+
+@:sound('death.wav')
+class Death extends Sound {
+	
+}
+
+@:sound('sand.wav')
+class Sand extends Sound {
+	
+}

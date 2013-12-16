@@ -1,6 +1,8 @@
 import flash.display.Sprite;
 import flash.display.Shape;
 import flash.filters.GlowFilter;
+import flash.media.Sound;
+import flash.media.SoundChannel;
 import mt.deepnight.Tweenie.*;
 import mt.deepnight.Tweenie.TType;
 import volute.Coll;
@@ -208,7 +210,10 @@ class Entity
 			l.remove(this);
 	}
 	
+	
+	static var impact : SoundChannel;
 	public function onHurt() {
+		impact = new Types.Impact().play();
 		for ( i in 0...2) {
 			var s = new Shape();
 			s.graphics.beginFill(0xFF0000);
@@ -229,8 +234,9 @@ class Entity
 		}
 	}
 	
+	static var death : SoundChannel;
 	public function onKill() {
-		
+		death = new Types.Death().play();
 		var sup = 1.0;
 		for ( i in 0...12) {
 			if (Dice.percent(50))

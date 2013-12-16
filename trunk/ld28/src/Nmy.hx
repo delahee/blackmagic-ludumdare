@@ -541,7 +541,7 @@ class Nmy extends Char {
 					bossStateLife=11;
 					if ( M.me.level.bgm != null) M.me.level.bgm.stop();
 					if ( bgm == null) bgm = new Chased().play(0, 1000);
-					bgm.soundTransform = new flash.media.SoundTransform(0.5);
+					bgm.soundTransform = new flash.media.SoundTransform(0.2);
 					addPersistMessage("Grrrr ! So you are that badass that decimate my treasure !\n[SPACE to continue]",
 					
 					function() {
