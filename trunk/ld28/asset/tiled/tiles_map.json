@@ -119,6 +119,26 @@
                 {
                  "coll":"deep_water"
                 },
+             "60":
+                {
+                 "coll":"bridge"
+                },
+             "61":
+                {
+                 "coll":"bridge"
+                },
+             "62":
+                {
+                 "coll":"bridge"
+                },
+             "63":
+                {
+                 "coll":"bridge"
+                },
+             "64":
+                {
+                 "coll":"bridge"
+                },
              "67":
                 {
                  "coll":"deep_water"
@@ -142,6 +162,10 @@
              "72":
                 {
                  "coll":"block"
+                },
+             "73":
+                {
+                 "coll":"bridge"
                 },
              "74":
                 {
@@ -186,6 +210,10 @@
              "85":
                 {
                  "coll":"block"
+                },
+             "86":
+                {
+                 "coll":"bridge"
                 },
              "87":
                 {
@@ -238,6 +266,10 @@
              "98":
                 {
                  "coll":"block"
+                },
+             "99":
+                {
+                 "coll":"bridge"
                 }
             },
          "tilewidth":16

@@ -77,6 +77,31 @@
     <property name="coll" value="block"/>
    </properties>
   </tile>
+  <tile id="60">
+   <properties>
+    <property name="coll" value="bridge"/>
+   </properties>
+  </tile>
+  <tile id="61">
+   <properties>
+    <property name="coll" value="bridge"/>
+   </properties>
+  </tile>
+  <tile id="62">
+   <properties>
+    <property name="coll" value="bridge"/>
+   </properties>
+  </tile>
+  <tile id="63">
+   <properties>
+    <property name="coll" value="bridge"/>
+   </properties>
+  </tile>
+  <tile id="64">
+   <properties>
+    <property name="coll" value="bridge"/>
+   </properties>
+  </tile>
   <tile id="67">
    <properties>
     <property name="coll" value="deep_water"/>
@@ -100,6 +125,11 @@
   <tile id="72">
    <properties>
     <property name="coll" value="block"/>
+   </properties>
+  </tile>
+  <tile id="73">
+   <properties>
+    <property name="coll" value="bridge"/>
    </properties>
   </tile>
   <tile id="74">
@@ -150,6 +180,11 @@
   <tile id="85">
    <properties>
     <property name="coll" value="block"/>
+   </properties>
+  </tile>
+  <tile id="86">
+   <properties>
+    <property name="coll" value="bridge"/>
    </properties>
   </tile>
   <tile id="87">
@@ -210,6 +245,11 @@
   <tile id="98">
    <properties>
     <property name="coll" value="block"/>
+   </properties>
+  </tile>
+  <tile id="99">
+   <properties>
+    <property name="coll" value="bridge"/>
    </properties>
   </tile>
   <tile id="100">

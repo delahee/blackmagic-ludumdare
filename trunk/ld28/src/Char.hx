@@ -175,7 +175,7 @@ class Char extends Entity{
 	
 	public function addMessage(str)
 	{
-		M.me.ui.addMessage(str, el.x - M.me.level.view.x, el.y - M.me.level.view.y - el.height*0.5 );
+		return  M.me.ui.addMessage(str, el.x - M.me.level.view.x, el.y - M.me.level.view.y - el.height * 0.5 );
 	}
 	
 	public function syncDir(odir,ndir) {

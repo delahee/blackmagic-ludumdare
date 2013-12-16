@@ -52,7 +52,7 @@ class Ui extends Sprite
 		tfMsg = new List();
 		nokia = new Nokia();
 		
-		score = 5000000;
+		score = 1000000;
 		dols = 0;
 		
 		{
@@ -102,11 +102,13 @@ class Ui extends Sprite
 	
 	public function addScore( d ,x,y )
 	{
-		var tf = getScoreTf((d>0?"+":"-")+Std.string(d), d<0?null : 0xFFF27C);
+		var tf = getScoreTf((d>0?"+":"")+Std.string(d), d<0?null : 0xFFF27C);
 		tf.x = x;
 		tf.y = y;
 		tfMsg.add(  new Tf(tf, 30, 0.3 ) );
 		score += d;
+		if ( score <= 0)
+			score = 0;
 		return tf;
 	}
 	
