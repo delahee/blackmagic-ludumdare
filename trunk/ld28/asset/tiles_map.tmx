@@ -177,6 +177,11 @@
     <property name="coll" value="block"/>
    </properties>
   </tile>
+  <tile id="84">
+   <properties>
+    <property name="opp" value="boss"/>
+   </properties>
+  </tile>
   <tile id="85">
    <properties>
     <property name="coll" value="block"/>
@@ -13866,11 +13871,11 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="101"/>
+   <tile gid="101"/>
+   <tile gid="85"/>
+   <tile gid="101"/>
+   <tile gid="101"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
