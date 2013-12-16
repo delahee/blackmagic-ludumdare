@@ -40,6 +40,7 @@
   <library>
     <asset path="asset\intro.swf" />
     <asset path="asset\ending.swf" />
+    <asset path="asset\nokiafc22.ttf" id="nokiafc22" />
   </library>
   <!-- Paths to exclude from the Project Explorer tree -->
   <hiddenPaths>
