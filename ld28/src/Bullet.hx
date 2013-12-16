@@ -3,7 +3,7 @@ import flash.display.Sprite;
 import flash.filters.GlowFilter;
 import mt.deepnight.Lib;
 import mt.deepnight.SpriteLibBitmap.BSprite;
-
+import volute.*;
 using volute.Ex;
 
 @:publicFields
@@ -34,11 +34,15 @@ class Bullet
 	
 	var life = 14;
 	
-	public function new() {
+	public function new(?sp) {
 		tick = id;
 		coll = ide;
 		remove = false;
-		spr = M.me.data.lib.getAndPlay( "props_bullet_a" );
+		
+		if(sp==null)
+			spr = M.me.data.lib.getAndPlay( "props_bullet_a" );
+		else 
+			spr = sp;
 	}
 	
 	public inline function headX() {
@@ -101,7 +105,7 @@ class Bullet
 	public function update() {
 		tick();
 		life--;
-		//spr.rotation = Math.PI/2;
+		spr.rotation = MathEx.RAD2DEG * (Math.PI*0.5 + Math.atan2(dy,dx));
 		if ( life <= 0 ) {
 			remove = true;
 			spr.destroy();

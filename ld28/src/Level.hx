@@ -529,6 +529,8 @@ class Level
 			bg.bitmapData.draw( tf, mat,null,OVERLAY);
 		}
 		
+		writeDown("press Arrow keys to move", hero.realX()- 50, hero.realY() - 20);
+		
 		writeDown("press [CTRL] to act", hero.realX(), hero.realY() - 100);
 		writeDown("DON'T FORGET THE CHEST!", hero.realX() - 50, hero.realY() - 170);
 		
