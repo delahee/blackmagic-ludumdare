@@ -175,14 +175,19 @@ class Char extends Entity{
 		bsup = null;
 	}
 	
-	public inline function addMessage(str)
+	public inline function addMessage(str,?c)
 	{
-		return  M.me.ui.addMessage(str, el.x - M.me.level.view.x, el.y - M.me.level.view.y - el.height * 0.5 );
+		return  M.me.ui.addMessage(str, el.x - M.me.level.view.x, el.y - M.me.level.view.y - el.height * 0.5,c );
 	}
 	
 	public inline function addPersistMessage(str,test)
 	{
-		return  M.me.ui.addPersistMessage(str, el.x - M.me.level.view.x, el.y - M.me.level.view.y - el.height * 0.5 ,test);
+		var pmx = el.x - M.me.level.view.x;
+		if ( pmx <= 0) pmx = 0;
+		
+		var pmy = el.y - M.me.level.view.y - el.height * 0.5 ;
+		if ( pmy <= 0) pmy = 0;
+		return  M.me.ui.addPersistMessage(str, pmx,pmy,test);
 	}
 	
 	public function syncDir(odir,ndir) {

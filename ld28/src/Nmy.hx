@@ -40,6 +40,8 @@ class Nmy extends Char {
 		this.origin = origin;
 		cx = origin.x;
 		cy = origin.y;
+		//ry++;
+		//cy--;
 		curTarget = new Vec2i();
 		
 		switch( et ) {
@@ -69,7 +71,7 @@ class Nmy extends Char {
 			currentGun.spread = Math.PI / 6.0;
 			currentGun.bulletLife = 100;
 			currentGun.init();
-			hp = 25;
+			hp = 30;
 			sp = 0.025;			
 			aggroDist = 100;
 		}
@@ -198,8 +200,8 @@ class Nmy extends Char {
 						}
 						else{
 							if ( cx == curTarget.x && cy == curTarget.y 
-								&& MathEx.isNear(rx, 0, 0.1)
-								&& MathEx.isNear(ry, 0, 0.1)
+								&& MathEx.isNear(rx, 0.5, 0.1)
+								&& MathEx.isNear(ry, 0.5, 0.1)
 							) {
 								
 								if ( getCell().has( WP_WAIT ) && stateLife <= 30) {
@@ -255,21 +257,19 @@ class Nmy extends Char {
 								tickAi();
 							}
 							else {
-								var realx = curTarget.x * 16;
-								var realy = curTarget.y * 16;
-								//trace(curTarget + " <> cx:" + cx + " cy:" + cy + " rx:" + rx +" ry:" + ry);  
-								var diffX = realx - ((cx << 4) + rx*16.0);
-								var diffY = realy - ((cy << 4) + ry*16.0);
+								var realx = curTarget.x * 16 + 8;
+								var realy = curTarget.y * 16 + 8;
+								var diffX = realx - realX();
+								var diffY = realy - realY();
 								var lenDiff = Math.sqrt(diffX * diffX + diffY * diffY);
 								
 								if ( lenDiff <= 1.0 ) 
 								{
 									cx = curTarget.x;
 									cy = curTarget.y;
-									rx = ry = 0.0;
+									rx = ry = 0.5;
 									dx = 0;
 									dy = 0;
-									//trace('sticking $dx $dy $diffX $diffY');
 								}
 								else 
 								{
@@ -322,9 +322,18 @@ class Nmy extends Char {
 		//	#if debug el.alpha = 1.0; #end
 		//	return;
 		
-		if ( dhy > 20 ) {
+		//if ( dhy > 20 ) {
+		//	return;
+		//}
+		
+		if ( dhy > 20 || dhy < -10) {
+			#if debug el.alpha = 1.0; #end
 			return;
 		}
+		
+		#if debug
+		el.alpha = 0.5;
+		#end
 		
 		if( nmyType != Boss)
 			tickAi();
@@ -378,8 +387,12 @@ class Nmy extends Char {
 	var bossState(default, set) : BS;
 	
 	public function set_bossState(v) {
-		if( v != bossState)
+		if( v != bossState){
 			bossStateLife = 0;
+			if ( bossState == ShootAtWill ) {
+				addMessage("ALARM !");
+			}
+		}
 		return bossState = v;
 	}
 	
@@ -392,9 +405,9 @@ class Nmy extends Char {
 		var char = M.me.level.hero;
 		
 		var dChar = Math.abs( MathEx.sqrI(cy - char.cy) + MathEx.sqrI(cx - char.cx));
-		var dAggro = 5 * 5;
+		var dAggro = 20 * 20;
 		if ( aggroDist != 0) dAggro = aggroDist*aggroDist;
-		var dStop = 7 * 7;
+		var dStop = 10 * 10;
 		
 		var q = getHeroQuadrant();
 		var tickAggro = (dir == q || dir.next(Dir) == q || dir.prev(Dir) == q );
@@ -438,8 +451,8 @@ class Nmy extends Char {
 						}
 						else{
 							if ( cx == curTarget.x && cy == curTarget.y 
-								&& MathEx.isNear(rx, 0, 0.1)
-								&& MathEx.isNear(ry, 0, 0.1)
+								&& MathEx.isNear(rx, 0.5, 0.1)
+								&& MathEx.isNear(ry, 0.5, 0.1)
 							) {
 								
 								if ( getCell().has( WP_WAIT ) && stateLife <= 20) {
@@ -453,11 +466,8 @@ class Nmy extends Char {
 								if ( getNearWaypoint().length == 0 ) {
 									state = Idle;
 									curTarget.copy( origin );
-									//trace('$cx $cy : no near waypoint...getting to origin (${curTarget.x},${curTarget.y})');
 									return;
 								}
-								//trace("found " + wp);
-								//trace("explored " + lastTargets);
 								var cwp : Vec2i = null;
 								for ( w in wp ) {
 									
@@ -477,7 +487,6 @@ class Nmy extends Char {
 									}
 								}
 									
-								//trace("requiring " + cwp);
 								if ( cwp == null) {
 									state = Idle;
 									curTarget = null;
@@ -490,26 +499,23 @@ class Nmy extends Char {
 								curTarget.y = cwp.y;
 								
 								lastTargets.push(new Vec2i(cx, cy) );
-								//trace("new waypoint");
 								stateLife = 0;
-								tickAi();
+								tickBoss();
 							}
 							else {
-								var realx = curTarget.x * 16;
-								var realy = curTarget.y * 16;
-								//trace(curTarget + " <> cx:" + cx + " cy:" + cy + " rx:" + rx +" ry:" + ry);  
-								var diffX = realx - ((cx << 4) + rx*16.0);
-								var diffY = realy - ((cy << 4) + ry*16.0);
+								var realx = curTarget.x * 16 + 8;
+								var realy = curTarget.y * 16 + 8;
+								var diffX = realx - realX();
+								var diffY = realy - realY();
 								var lenDiff = Math.sqrt(diffX * diffX + diffY * diffY);
 								
 								if ( lenDiff <= 1.0 ) 
 								{
 									cx = curTarget.x;
 									cy = curTarget.y;
-									rx = ry = 0.0;
+									rx = ry = 0.5;
 									dx = 0;
 									dy = 0;
-									//trace('sticking $dx $dy $diffX $diffY');
 								}
 								else 
 								{
@@ -517,11 +523,7 @@ class Nmy extends Char {
 									var ddy = diffY / lenDiff * sp;
 									
 									dx = ddx;
-									//if ( Math.abs(dx) > Math.abs(diffX)) dx = diffX;
-										
 									dy = ddy;
-									//if ( Math.abs(dy) > Math.abs(diffY)) dy = diffY;
-									//trace('advancing $lenDiff $ddx $ddy $diffX $diffY');
 								}
 							}
 						}
@@ -531,10 +533,15 @@ class Nmy extends Char {
 		}
 		
 		if (bossState == null){
-			bossState = Talk;
+			bossState = Waitplayer;
 		}
 		
 		switch(bossState) {
+			case Waitplayer:
+				var p = M.me.level.hero;
+				if ( MathEx.dist(realX(), realY(), p.realX(), p.realY()) <= 200) {
+					bossState = Talk;
+				}
 			case Talk:
 				if (bossStateLife == 10) {
 					
@@ -641,8 +648,15 @@ class Nmy extends Char {
 		super.onHurt();
 		dir = getHeroQuadrant();
 		
-		if( nmyType!=Boss )
+		if( nmyType!=Boss ){
 			addToMajorDir(dir, -0.5);
+		}
+		else {
+			if ( bossState == Choice || bossState == Talk) {
+				M.me.ui.tfMsg.clear();
+			}
+			bossState = ShootAtWill;
+		}
 			
 		addScore( 25 );
 		state = Hit;

@@ -56,7 +56,7 @@ class Ui extends Sprite
 	var tfScore : TextField;
 	var tfDols : TextField;
 	
-	var tfMsg : List<Tf>;
+	public var tfMsg : List<Tf>;
 	
 	var nokia : Font;
 	
@@ -180,9 +180,9 @@ class Ui extends Sprite
 		return tf;
 	}
 	
-	public function addMessage( msg ,x:Float,y )
+	public function addMessage( msg ,x:Float,y,c )
 	{
-		var tf = getScoreTf(msg);
+		var tf = getScoreTf(msg,c);
 		tf.x = x - tf.textWidth * 0.5;
 		tf.y = y;
 		var t = null;

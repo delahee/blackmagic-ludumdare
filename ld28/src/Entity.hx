@@ -61,6 +61,7 @@ class Entity
 		name = "entity#" + id;
 		dead = false;
 		idx = -1;
+		ry = 0.5; rx = 0.5;
 	}
 
 	public function detach()

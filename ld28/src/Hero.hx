@@ -35,6 +35,7 @@ class Hero extends Char{
 		guns[0] = g = new Gun(this);
 		g.maxBullets = 12;
 		g.maxCooldown = 16;
+		g.bulletLife = 10;
 		g.init();
 		
 		//gatling
@@ -97,9 +98,9 @@ class Hero extends Char{
 	
 	var stepCd = 0;
 	public function input() {
-		var mdx = 0.15;
-		var mdy = 0.15;
-		var k = 0.05;
+		var mdx = 0.14;
+		var mdy = 0.14;
+		var k = 0.035;
 		
 		if ( hasChest ) { 
 			k *= 0.5;
@@ -221,8 +222,8 @@ class Hero extends Char{
 				level().remove(c);
 				c.cx = 0;
 				c.cy = 0;
-				c.rx = 0;
-				c.ry = 0;
+				c.rx = 0.5;
+				c.ry = 0.5;
 				c.syncPos();
 				bsdown.addChild( c.el );
 				c.el.x -= 16;
