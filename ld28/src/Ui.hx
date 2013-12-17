@@ -88,13 +88,13 @@ class Ui extends Sprite
 		
 		var spr = data.lib.getAndPlay("palmier_a");
 		spr.x = 50;
-		spr.y = (320 >> 1) + 50;
+		spr.y =  50;
 		spr.blendMode = OVERLAY;
 		addChild( pa = spr );
 		
 		var spr = data.lib.getAndPlay("palmier_b");
 		spr.x = 240-50;
-		spr.y = (320 >> 1) + 50;
+		spr.y = 50;
 		spr.blendMode = OVERLAY;
 		addChild( pb = spr );
 		
@@ -110,13 +110,13 @@ class Ui extends Sprite
 		
 		var spr = data.lib.getAndPlay("ambiant_down");
 		spr.x = 120;
-		spr.y = 320;
+		spr.y = 240;
 		spr.blendMode = OVERLAY;
 		addChild( ad = spr );
 		
 		var spr = data.lib.getAndPlay("ambiant_up");
 		spr.x = 120;
-		spr.y = 120;
+		spr.y = 80;
 		spr.blendMode = OVERLAY;
 		addChild( au = spr );
 		

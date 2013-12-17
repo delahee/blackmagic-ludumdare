@@ -4,6 +4,8 @@ import flash.filters.GlowFilter;
 import flash.media.Sound;
 import flash.media.SoundChannel;
 import mt.deepnight.Tweenie.*;
+import mt.deepnight.SpriteLibBitmap;
+import mt.deepnight.SpriteLibBitmap.*;
 import mt.deepnight.Tweenie.TType;
 import volute.Coll;
 import volute.Time;
@@ -62,6 +64,7 @@ class Entity
 		dead = false;
 		idx = -1;
 		ry = 0.5; rx = 0.5;
+		
 	}
 
 	public function detach()
@@ -73,14 +76,14 @@ class Entity
 	public inline function realX() : Float return ((cx << 4) + rx * 16.0);
 	public inline function realY() : Float return ((cy << 4) + ry * 16.0);
 	
-	public function customTest(cx, cy) {
-		return false;
-	}
+	//public function customTest(cx, cy) {
+	//	return false;
+	//}
 	
 	public inline function test(cx, cy)
 	{
-		if ( type == ET_PLAYER && customTest(cx, cy) )
-				return true;
+		//if ( type == ET_PLAYER && customTest(cx, cy) )
+		//		return true;
 		
 		return l.staticTest(this,cx, cy);
 	}
@@ -99,7 +102,7 @@ class Entity
 				moved = true;
 			}
 			else{
-				rx -= 0.05;
+				rx -= 0.2;
 				dx = 0;
 				
 				moved = true;
@@ -114,7 +117,7 @@ class Entity
 				moved = true;
 			}
 			else{
-				rx += 0.05;
+				rx += 0.2;
 				dx = 0;
 				
 				moved = true;
@@ -136,7 +139,7 @@ class Entity
 				moved = true;
 			}
 			else{
-				ry -= 0.05;
+				ry -= 0.2;
 				dy = 0;
 				moved = true;
 			}
@@ -150,7 +153,7 @@ class Entity
 				moved = true;
 			}
 			else{
-				ry += 0.05;
+				ry += 0.2;
 				dy = 0;
 				
 				moved = true;
@@ -160,7 +163,20 @@ class Entity
 		return moved;
 	}
 	
-	public function update(){
+	
+	var rep : Sprite;
+	public function update() {
+		
+		#if false
+		if ( rep == null) {
+			rep = new Sprite();
+			rep.graphics.beginFill(0xFF0000, 0.5);
+			rep.graphics.drawRect( -8, -8, 16, 16);
+			rep.graphics.endFill();
+			if( Std.is(el,BSprite))
+				(cast el).addChild( rep);
+		}
+		#end
 		rx += dx;
 		ry += dy;
 					

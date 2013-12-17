@@ -317,14 +317,6 @@ class Nmy extends Char {
 		var lev = M.me.level;
 		var dhy = M.me.level.hero.cy - cy;
 		
-		//up discard
-		//if ( dhy > 10 )
-		//	#if debug el.alpha = 1.0; #end
-		//	return;
-		
-		//if ( dhy > 20 ) {
-		//	return;
-		//}
 		
 		if ( dhy > 20 || dhy < -10) {
 			#if debug el.alpha = 1.0; #end

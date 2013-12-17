@@ -66,7 +66,7 @@ class Data
 		//makeShoebox();
 		
 		lib = mt.deepnight.SpriteLibBitmap.importShoeBox("asset/sprites.xml");
-		lib.setDefaultCenter(0.5, 1.0);
+		lib.setDefaultCenter(0.5, 0.5);
 	}
 	
 	var tiles : Dynamic = null;

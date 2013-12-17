@@ -57,7 +57,9 @@ class Hero extends Char{
 		g.init();
 		
 		currentGun = guns[0];
-		
+		#if debug 
+		currentGun = guns[1];
+		#end
 		hp = 1000000;
 		
 	//	bsup.y += 2;
@@ -69,10 +71,10 @@ class Hero extends Char{
 		return M.me.level.chest;
 	}
 	
-	public override function customTest(cx, cy) {
-		var c = getChest();
-		return (c.cy == cy ||c.cy-1==cy) && (c.cx == cx||c.cx + 1 == cx);
-	}
+	//public override function customTest(cx, cy) {
+	//	var c = getChest();
+	//	return (c.cy == cy ||c.cy-1==cy) && (c.cx == cx||c.cx + 1 == cx);
+	//}
 	
 	public override function onHurt() {
 		super.onHurt();
@@ -101,6 +103,13 @@ class Hero extends Char{
 		var mdx = 0.14;
 		var mdy = 0.14;
 		var k = 0.035;
+		
+		#if false 
+		mdx *= 10;
+		mdy *= 10;
+		//var k = 0.035;
+		k *= 10;
+		#end
 		
 		if ( hasChest ) { 
 			k *= 0.5;
@@ -142,33 +151,10 @@ class Hero extends Char{
 		var glbY = realY() - M.me.level.view.y;
 			
 		var a = Math.atan2( mx - glbX, my - glbY );
-		trace(a);
 		var d = - Math.PI/2  + a;
 		dir = angleToDir(d);
 			
 		if ( fl != 0 ) {
-			/*
-			ndir=
-			switch(fl) {
-				
-				case 1 : S;
-				case 2 : N;
-				
-				case 4: W;
-				case 5: SW;
-				case 6: NW;
-				
-				case 8: E;
-				case 9: SE;
-				case 10: NE;
-				
-				default:
-			}
-			*/
-			
-			//var 
-			//var d = Math.PI - Math.atan2( stg.mou - char.cy, cx - char.cx );
-			//angleToDir(d);
 			
 			var ui = M.me.ui;
 			if ( !ui.fading) {
@@ -217,7 +203,7 @@ class Hero extends Char{
 		
 		if ( fire ) {
 			
-			if ( chestTakeCd <= 0 && !hasChest && MathEx.dist(realX(),realY(),c.realX(),c.realY() )<= 32 ){
+			if ( chestTakeCd <= 0 && !hasChest && MathEx.dist(realX(),realY(),c.realX(),c.realY() )<= 24 ){
 				hasChest = true;
 				level().remove(c);
 				c.cx = 0;
@@ -226,8 +212,6 @@ class Hero extends Char{
 				c.ry = 0.5;
 				c.syncPos();
 				bsdown.addChild( c.el );
-				c.el.x -= 16;
-				c.el.y -= 16;
 				chestTakeCd = 4;
 				hasChest = true;
 				addMessage(["come back baby","mummy gotcha","precioooouuus","missed you too","yess"].random());
@@ -237,15 +221,15 @@ class Hero extends Char{
 					c.detach();
 					level().add(c);
 					
-					if ( !test( cx-1, cy - 2)) {
-						c.cx = cx-1;
+					if ( !test( cx, cy - 2)) {
+						c.cx = cx;
 						c.cy = cy-2;
 						c.rx = rx;
 						c.ry = ry;
 						c.syncPos();
 					}
-					else if ( !test( cx-1, cy + 2)) {
-						c.cx = cx-1;
+					else if ( !test( cx, cy + 2)) {
+						c.cx = cx;
 						c.cy = cy+2;
 						c.rx = rx;
 						c.ry = ry;
@@ -274,6 +258,11 @@ class Hero extends Char{
 				else if ( currentGun.fire() ) 
 					isShooting = Char.shootCooldown;
 			}
+		}
+		
+		if (hasChest) {
+			c.el.y = ((Std.int(el.y) >> 1) & 1) - 8;
+			c.el.x = 0;// c.el.width * 0.5;
 		}
 			
 		syncDir(dir,ndir);
