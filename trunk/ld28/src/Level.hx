@@ -283,11 +283,11 @@ class Level
 					var nmy = new Nmy(Normal,new Vec2i(x,y));
 					add( nmy );
 				}
-				if ( v.has(	NMY_HEAVY )){
+				else if ( v.has(	NMY_HEAVY )){
 					var nmy = new Nmy(Heavy,new Vec2i(x,y));
 					add( nmy );
 				}
-				if ( v.has(	NMY_BOSS )){
+				else if ( v.has(	NMY_BOSS )){
 					var nmy = new Nmy(Boss,new Vec2i(x,y));
 					add( nmy );
 				}
@@ -549,7 +549,10 @@ class Level
 		writeDown("press [CTRL] to act", hero.realX(), hero.realY() - 100);
 		writeDown("DON'T FORGET THE CHEST!", hero.realX() - 50, hero.realY() - 170);
 		
-		writeDown("Money is life ! Well... Literally !", hero.realX()-50, hero.realY() - 300);
+		writeDown("Money is life ! Well... Literally !", hero.realX() - 50, hero.realY() - 300);
+		writeDown("The chest is a lie !", hero.realX() + 100, hero.realY() - 510);
+		
+		writeDown("but it can save your life !", hero.realX()+100, hero.realY() - 700);
 	}
 	
 	var mat = new Matrix();
@@ -565,7 +568,11 @@ class Level
 	public function cameraFollow() {
 		
 		var k = 0.51;
+		#if !debug
 		var target = hero.hasChest ? hero : chest;
+		#else
+		var target = hero;
+		#end
 		view.y = Math.round( k * view.y + (1-k) * (target.el.y - ( Lib.h()*3>>2)));
 		view.x = Math.round(k * view.x + (1-k) * (target.el.x - ( Lib.w()>>1)));
 		

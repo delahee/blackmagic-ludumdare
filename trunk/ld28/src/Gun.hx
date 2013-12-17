@@ -98,7 +98,7 @@ class Gun
 		if ( bullets == 0 ){
 			curCooldown *= reloadCdFactor;
 			reloading = true;
-			c.addMessage("reloading !");
+			c.addMessage("reloading !",0xFF11FF);
 		}
 		
 		c.addToMajorDir( c.dir, -Dice.rollF( recoil, 2 * recoil) );

@@ -7,6 +7,7 @@ enum NmyType {
 }
 
 enum BS {
+	Waitplayer;
 	Talk;
 	Choice;
 	ShootAtWill;
