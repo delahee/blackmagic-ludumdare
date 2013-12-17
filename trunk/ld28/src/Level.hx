@@ -544,15 +544,15 @@ class Level
 			bg.bitmapData.draw( tf, mat,null,OVERLAY);
 		}
 		
-		writeDown("press Arrow keys to move", hero.realX()- 50, hero.realY() - 20);
+		writeDown("Arrow keys to move", hero.realX()- 50, hero.realY() - 20);
 		
-		writeDown("press [CTRL] to act", hero.realX(), hero.realY() - 100);
+		writeDown("Click / CTRL to shoot", hero.realX(), hero.realY() - 100);
 		writeDown("DON'T FORGET THE CHEST!", hero.realX() - 50, hero.realY() - 170);
 		
-		writeDown("Money is life ! Well... Literally !", hero.realX() - 50, hero.realY() - 300);
+		writeDown("Money is life... somehow...", hero.realX() - 50, hero.realY() - 300);
 		writeDown("The chest is a lie !", hero.realX() + 100, hero.realY() - 510);
 		
-		writeDown("but it can save your life !", hero.realX()+100, hero.realY() - 700);
+		writeDown("but it can protect you !", hero.realX()+100, hero.realY() - 700);
 	}
 	
 	var mat = new Matrix();
@@ -568,11 +568,8 @@ class Level
 	public function cameraFollow() {
 		
 		var k = 0.51;
-		#if !debug
 		var target = hero.hasChest ? hero : chest;
-		#else
-		var target = hero;
-		#end
+		
 		view.y = Math.round( k * view.y + (1-k) * (target.el.y - ( Lib.h()*3>>2)));
 		view.x = Math.round(k * view.x + (1-k) * (target.el.x - ( Lib.w()>>1)));
 		

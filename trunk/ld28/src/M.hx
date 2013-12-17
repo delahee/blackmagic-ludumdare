@@ -98,6 +98,23 @@ class M {
 		ending.y += 220;
 		ending.scaleX = ending.scaleY = 2.0;
 		stage().addChild(ending);
+		
+		var tf = new flash.text.TextField();
+			
+		var tft = new flash.text.TextFormat('nokiafc22',24,0xF56016);
+		tf.setTextFormat( tf.defaultTextFormat = tft ); 
+		tf.embedFonts = true;
+		
+		
+		tf.width = 500;
+		tf.height = 100;
+		tf.y = 400;
+		
+		tf.filters = [ new flash.filters.GlowFilter(0xc201e, 1, 4 , 4, 20) ];
+		tf.text = "$" + Std.string( ui.score);
+		tf.width = tf.textWidth + 5;
+		tf.x = 240 - tf.width * 0.5;
+		stage().addChild( tf ); 
 	}
 	
 	

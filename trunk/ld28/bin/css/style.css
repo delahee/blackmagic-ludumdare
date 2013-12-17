@@ -145,7 +145,7 @@ span {
 }
 
 .cr {
-	position:absolute;
+	//position:absolute;
 	bottom:20px;
 	text-align:center;
 	width:600px;

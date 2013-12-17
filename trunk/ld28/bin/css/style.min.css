@@ -16,5 +16,5 @@ a.glow:hover{text-shadow:0px 2px 8px #646253,0px -2px 8px #646253,2px 0px 8px #6
 .block{display:block;}
 strong{color:#a09e8b;font-size:110%;}
 span{color:#7b7a6a;font-size:11px;}
-.cr{position:absolute;bottom:20px;text-align:center;width:600px;}
+.cr{//position:absolute;bottom:20px;text-align:center;width:600px;}
 .right{float:right;position:relative;}
