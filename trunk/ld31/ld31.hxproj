@@ -51,6 +51,9 @@
     <hidden path="assets" />
     <hidden path="bin" />
     <hidden path="gfx" />
+    <hidden path="C:\Workspace\motionTools\haxe3\lib\h3d\git\h3d" />
+    <hidden path="C:\Workspace\motionTools\haxe3\lib\h3d\git\samples" />
+    <hidden path="C:\Workspace\motionTools\haxe3\lib\h3d\git\tools" />
   </hiddenPaths>
   <!-- Executed before build -->
   <preBuildCommand />
@@ -58,7 +61,7 @@
   <postBuildCommand alwaysRun="False" />
   <!-- Other project options -->
   <options>
-    <option showHiddenPaths="False" />
+    <option showHiddenPaths="True" />
     <option testMovie="Custom" />
     <option testMovieCommand="" />
   </options>

@@ -1,22 +1,16 @@
-
 import mt.deepnight.slb.BLib;
 import h2d.Tile;
 import h3d.Matrix;
 
-enum Scenes {
-	Top;
-	Left;
-	Right;
-	Bottom;
-}
 
 class App extends flash.display.Sprite {
+	public var engine : h3d.Engine;
+	public var g : G;
+	public static var me : App;
 	
-	var engine : h3d.Engine;
-	var scenes : Map<Scenes,h2d.Scene> = new Map();
-	var masterScene : mt.heaps.OffscreenScene3D;
 	function new() {
 		super();
+		me = this;
 		engine = new h3d.Engine();
 		engine.onReady = init;
 		engine.backgroundColor = 0xFFCCCCCC;
@@ -26,25 +20,13 @@ class App extends flash.display.Sprite {
 	function init() {
 		hxd.System.setLoop(update);
 		hxd.Key.initialize();
-		
-		masterScene = new mt.heaps.OffscreenScene3D(C.W,C.H);
-		for ( i in Scenes.createAll() ) {
-			var s = null;	
-			scenes.set( i, s = new h2d.Scene() );
-			new h2d.Bitmap( Tile.fromColor(0xFF00FFFF, 100, 100), s );
-			masterScene.addPass( s );
-		}
-		
-		scenes[Bottom].y = C.H - C.BAND_H;
+		g = new G();
+		g.init();
 	}
 	
 	function update() {
-		engine.render(masterScene);
-		engine.restoreOpenfl();
-		
-		var m = new Matrix();
-		m.colorHue( 0.5 );
-		masterScene.targetDisplay.colorMatrix = m;
+		hxd.Timer.update();
+		g.update(hxd.Timer.tmod);
 	}
 	
 	static function main() {
@@ -52,3 +34,4 @@ class App extends flash.display.Sprite {
 	}
 	
 }
+
