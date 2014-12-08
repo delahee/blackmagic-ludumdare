@@ -9,7 +9,8 @@
 -D display
 -D web
 --no-output
--dce no
+-dce std
+--no-traces
 -swf-version 11.6
 -swf bin/flash/bin/app.swf
 -swf-header 800:800:30:000000

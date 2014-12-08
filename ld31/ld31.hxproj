@@ -26,7 +26,7 @@
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />
     <option enabledebug="True" />
-    <option additional="--no-output&#xA;-dce no&#xA;-swf-version 11.6&#xA;#--remap nme:flash" />
+    <option additional="--no-output&#xA;-dce std&#xA;--no-traces&#xA;-swf-version 11.6&#xA;#--remap nme:flash" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>
@@ -54,6 +54,7 @@
     <hidden path="C:\Workspace\motionTools\haxe3\lib\h3d\git\h3d" />
     <hidden path="C:\Workspace\motionTools\haxe3\lib\h3d\git\samples" />
     <hidden path="C:\Workspace\motionTools\haxe3\lib\h3d\git\tools" />
+    <hidden path="application.xml" />
   </hiddenPaths>
   <!-- Executed before build -->
   <preBuildCommand />
