@@ -10,7 +10,7 @@
 		<meta name="description" content="Ludum Dare 31 game" />
 		<meta name="keywords" content="jeu, online, gratuit, free, ludum, dare, 31" />
 		<title>Ludum Dare 31 game</title>
-		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 		<script src="js/swfobject.js"></script>
 		<script>
 			var flashvars = {
@@ -20,15 +20,15 @@
 				scale: "noScale",
 				allowFullscreen: "false",
 				allowScriptAccess: "always",
-				bgcolor: "#000",
-				wmode: "gpu" // can cause issues with FP settings & webcam
+				bgcolor: "#00000",
+				wmode: "direct" // can cause issues with FP settings & webcam
 			};
 			var attributes = {
 				id:"game"
 			};
 			swfobject.embedSWF(
-				"../flash/bin/app.swf",
-				"altContent", "800px", "800px", "11.4.0",
+				"flash/bin/app.swf",
+				"altContent", "800px", "800px", "11.6.0",
 				"expressInstall.swf",
 				flashvars, params, attributes);
 		</script>
@@ -37,14 +37,15 @@
 	<body>
 		<div id="content">
 			<h1><a class="rate" href="http://www.ludumdare.com/compo/author/delahee/" target="blank" alt="">FINAL SWAP</a></h1>
-			<div class="block rules">Rules : Defend your healer, attack your foe, and destroy the boss!</div>
+			<div class="HowtoPlay marginTop"><strong>Rules :</strong> Defend your healer, attack your foe, and destroy the boss!</div>
 			<div class="HowtoPlay">
-				Control : Choose the warrior, the whiteMage or the blackMage, then select it to move it elsewhere.
+				<strong>How to play :</strong> Choose the warrior, the whiteMage or the blackMage, then select it to move it elsewhere.
 			</div>
-			<div id="altContent">
-				<p><a style="color:#858585" href="http://www.adobe.com/go/getflashplayer">Get Adobe Flash player</a></p>
+			<div id="game">
+				<div id="altContent">
+					<p><a style="color:#858585" href="http://www.adobe.com/go/getflashplayer">Get Adobe Flash player</a></p>
+				</div>
 			</div>
-			<div class="block"><em>Theme : Entire Game on One Screen!</em></div>
 			<div class="float">For the Ludum Dare 31, made in 48h.</div>
 			
 			Check the ludum dare history of the game <a href="http://www.ludumdare.com/compo/author/delahee/" target="blank" alt="">here</a>
@@ -53,7 +54,6 @@
 			<div class="block"><a href="http://elmobo.bandcamp.com/" target="blank">ElMobo</a> - <em>Sound Designer</em></div>
 		</div>
 		
-		
 		<div class="center">
 			<a href="http://www.ludumdare.com/compo/author/delahee/" alt="" target="blank" class="rate">Rate this game</a>
 				<div class="cr">
@@ -61,18 +61,5 @@
 				<a class="black" href="http://motion-twin.fr/" target="blank">Motion Twin - prends un Marx et ça repart !</a>
 			</div>
 		</div>
-		
-		
-		<script type="text/javascript">
-			function resize(){
-				var ratio=0.8;
-				var h= $(window).height() - $(".center").height();
-				$("#altContent").height(h);
-				$("#altContent").width(h*ratio);
-			};
-			$(document).ready(resize);
-			$(window).resize(resize);
-		</script>
-		
 	</body>
 </html>

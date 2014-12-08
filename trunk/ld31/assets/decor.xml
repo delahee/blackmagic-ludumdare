@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:b81b5936e2026c4c5b21a6b28ff7bbfe:de6b1bb82d2e91da8c52534caf25f231:19d43f6530a109e9c20733abbf3d583e$ -->
+<!-- $TexturePacker:SmartUpdate:d16a0d4eec0c267add9081b465721d5c:de6b1bb82d2e91da8c52534caf25f231:19d43f6530a109e9c20733abbf3d583e$ -->
 <TextureAtlas imagePath="decor.png">
     <SubTexture name="bgDecor" x="2" y="2" width="799" height="800" frameX="-1" frameY="0" frameWidth="800" frameHeight="800"/>
     <SubTexture name="bgElement" x="552" y="804" width="111" height="111" frameX="-4" frameY="-4" frameWidth="120" frameHeight="120"/>

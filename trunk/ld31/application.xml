@@ -23,12 +23,11 @@
 	<haxedef name="resourcesPath" value="assets" />
 	<haxeflag name="-dce" value="std" />
 
-	<!--
+	
 	<haxedef name="godMode" />
-	-->
-	<!--
+	
 	<haxedef name="doubleSpeed" />
-	-->
+	
 	
 	
 	<section unless="debug">

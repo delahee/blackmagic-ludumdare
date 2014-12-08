@@ -20,7 +20,7 @@ class App extends flash.display.Sprite {
 		me = this;
 		engine = new h3d.Engine();
 		engine.onReady = init;
-		engine.backgroundColor = 0xFFFFFFFF;
+		engine.backgroundColor = 0xFF000000;
 		engine.init();
 	}
 	

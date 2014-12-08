@@ -38,14 +38,6 @@ class CenterScreen extends S {
 		bg.alpha = 0.99;
 		boss.visible = false;
 		
-		//char[0] = mkChar(0);
-		//char[1] = mkChar(1);
-		//char[2] = mkChar(2);
-		//nextNmy = [ mkNmy(0, 1), mkNmy(1, 1), mkNmy(2, 1)];
-		//nmy = [ mkNmy(0, 0), mkNmy(1, 0), mkNmy(2, 0)];
-		
-		//nextWave();
-		
 		makeColumn(0);
 		makeColumn(1);
 		makeColumn(2);
@@ -103,31 +95,44 @@ class CenterScreen extends S {
 				c.setDeselected();
 				return;
 			}
+			
+			//deselect
+			if ( c.selected ) {
+				c.setDeselected();
+				return;
+			}
+			
+			var curSel = null;
 			for ( cg in columnsGraphics ) 
-				if ( cg == c && cg.selected){
-					c.setDeselected();
-					return;
-				}
+				if ( cg.selected )
+					curSel = cg;
 				
 			for ( cg in columnsGraphics ) 
 				if ( cg != c && cg.selected ) {
-					var cin = char[idx];
-					var cout = char[cg.idx];
-					if( cin!=null && cin.isLocked()) continue;
-					if( cout!=null && cout.isLocked()) continue;
+					var cin = c.char();
+					var cout = cg.char();
+					
+					if ( cin != null && cin.isLocked()) {
+						onSwapLocked();
+						deselect();
+						continue; 
+					}
+					if ( cout != null && cout.isLocked()) {
+						onSwapLocked();
+						deselect();
+						continue;
+					}
 					
 					if( cin !=null || cout != null)
 						swap(cg.idx, c.idx);
 					
-					for ( cg in columnsGraphics )
-						cg.setDeselected();
-						
+					deselect();
 					return;
 				}
 				
-			if ( char[idx] == null )
-				return;
+			
 			c.setSelected();
+				
 			trace("onclick");
 		};
 		
@@ -146,8 +151,13 @@ class CenterScreen extends S {
 				c.setDeselected();
 				return;
 			}
+				
 			c.setHovered();
 		};
+	}
+	
+	public function onSwapLocked() {
+		
 	}
 	
 	public function xOf(i) {
@@ -175,19 +185,11 @@ class CenterScreen extends S {
 			});
 		}
 		
-		#if debug
-		var g = new h2d.Graphics(b);
-		g.beginFill(0xFF00FF);
-		g.drawRect( 0, 0, 64, 64);
-		g.endFill();
-		g.visible = false;
-		#end
-		
 		b.x = xOf( col );
 		b.y = C.NMY_Y;
 		switch(line) {
 			default: 
-			case 1: b.x += 16;  b.y -= 64; b.scaleX = b.scaleY = 0.5;
+			case 1: b.x += 16;  b.y -= 80; b.scaleX = b.scaleY = 0.5;
 		}
 		return b;
 	}
@@ -211,7 +213,7 @@ class CenterScreen extends S {
 	public function mkChar(i,cl) {
 		var b = new Char(cl, scene);
 		b.isGood = true;
-		b.setTile( "char" + getLetter(cl));
+		b.setTile( "char" + getLetter(cl)); 
 		b.finish(i,0);
 		b.x = xOf( i );
 		b.y = C.CHAR_Y;
@@ -219,54 +221,45 @@ class CenterScreen extends S {
 	}
 	
 	public function onDeath(){
-		
 		var areAllDead = true;
 		for ( cs in c.char ) 
 			if ( cs != null && !cs.isDead ) 
 				areAllDead = false;
-				
 		if( areAllDead)
 			g.launchLostScreen();
+			
+		checkLines();
+	}
+	
+	public function finishWave() {
+		var b = new h2d.Sprite(root);
+		var t = new h2d.Text( d.wendyUber, b);
+		t.text = "WAVE " + (wave) +" COMPLETE";
+		t.textColor = 0xFFE8400A;
+		t.x = -t.textWidth * 0.5;
+		t.y = -t.textHeight * 0.5;
+		t.dropShadow = { dx:2, dy:2, color:0x000000, alpha:0.9 };
 		
-		var isWaveFinished = true;
-		for ( i in 0...c.nmy.length ) {
-			var cs = c.nmy[i];
-			if( cs != null){
-				if ( !cs.isDead )
-					isWaveFinished = false;
-				if ( cs.isDead ) 
-					if ( c.nextNmy[i] != null ){
-						c.nmy[i] = c.nextNmy[i];
-						c.nextNmy[i] = null;
-						c.nmy[i].setToFront();
-						isWaveFinished = false;
-					}
-			}
-		}
-		
-		if ( isWaveFinished ){
-			var b = new h2d.Sprite(root);
-			var t = new h2d.Text( d.wendyUber, b);
-			t.text = "WAVE " + (wave+1) +" COMPLETE";
-			t.textColor = 0xFFE8400A;
-			t.x = -t.textWidth * 0.5;
-			t.y = -t.textHeight * 0.5;
-			
-			b.x = C.CW * 0.5;
-			b.y = C.CH * 0.33;
-			
-			t.dropShadow = { dx:2, dy:2, color:0x000000, alpha:0.9 };
-			new mt.heaps.fx.Spawn( b, 0.1, false, true);
-			
-			if(d.battle!=null) d.battle.tweenVolume( 0.0, 100 );
+		//hide because boss !
+		if ( wave >= 10 ) 
+			t.visible = false;
+		else {
 			D.music.jingle_win_OK().playLoop(1);
-			haxe.Timer.delay( function() if( d.battle != null ) d.battle.tweenVolume(1.0,100), 4500 );
-			
-			haxe.Timer.delay( function() {
-				nextWave();
-				new mt.heaps.fx.Vanish( b );
-			}, 200 );
 		}
+		
+		b.x = C.CW * 0.5;
+		b.y = C.CH * 0.33;
+		
+		new mt.heaps.fx.Spawn( b, 0.1, false, true);
+		
+		if(d.battle!=null) d.battle.tweenVolume( 0.0, 100 );
+		
+		haxe.Timer.delay( function() if( d.battle != null ) d.battle.tweenVolume(1.0,100), 4500 );
+		
+		haxe.Timer.delay( function() {
+			nextWave();
+			new mt.heaps.fx.Vanish( b );
+		}, 3000 );
 	}
 	
 	
@@ -275,6 +268,10 @@ class CenterScreen extends S {
 		super.update(tmod);
 		
 		#if debug
+		if ( mt.flash.Key.isToggled(mt.flash.Key.D)) {
+			char[1].hit(1000);
+		}
+		
 		if ( mt.flash.Key.isToggled(mt.flash.Key.SPACE)) {
 			for ( c in char ) 
 			
@@ -290,23 +287,51 @@ class CenterScreen extends S {
 		}
 		#end
 		
-		for ( c in char )
-			if( c != null && canInteract() ) 
-				c.update( tmod );
+		if( char != null )
+			for ( c in char )
+				if( c != null && canInteract() ) 
+					c.update( tmod );
 			
-		for ( c in nmy )
-			if( c != null && canInteract() ) 
-				c.update( tmod );
+		if( nmy != null )
+			for ( c in nmy )
+				if( c != null && canInteract() ) 
+					c.update( tmod );
 			
 		updateLine();
+		
+		
+	}
+	
+	public function checkLines() {
+		var isWaveFinished = true;
+		for ( i in 0...nmy.length ) {
+			if ( nmy[i] != null && nmy[i].isDead ) {
+				nmy[i].dispose();
+				nmy[i] = null;
+			}
+			
+			if( nmy[i] != null && !nmy[i].isDead )
+				isWaveFinished = false;
+				
+			if ( nmy[i] == null && nextNmy[i] != null ) {
+				nmy[i] = nextNmy[i];
+				nextNmy[i] = null;
+				nmy[i].setToFront();
+				nmy[i].line = 0;
+				isWaveFinished = false;
+			}
+		}
+		
+		if ( isWaveFinished ) 
+			finishWave();
+		
 	}
 	
 	public function oppSwap(i, j) {
-		var d = 300;
 		var from = nmy[i];
 		var to = nmy[j];
 		var tt = mt.deepnight.Tweenie.TType.TElasticEnd;
-		
+		var d = C.SWAP_DUR;
 		var t = null;
 		if ( from != null) {
 			from.lock();
@@ -316,10 +341,15 @@ class CenterScreen extends S {
 			to.lock();
 			t = app.tweenie.create( nmy[j], "x", xOf(i), tt, d);
 		}
+		
+		if( t!=null)
 		t.onEnd = function() {
 			var o = nmy[j];
 			nmy[j] = nmy[i];
 			nmy[i] = o;
+			if(nmy[i]!=null) nmy[i].lock();
+			if (nmy[j] != null) nmy[j].lock();
+			checkLines();
 		}
 		
 		D.sfx.slide().play();
@@ -328,7 +358,6 @@ class CenterScreen extends S {
 	public function swap(i, j) {
 		lockInteraction++;
 		
-		var d = 300;
 		var from = char[i];
 		var to = char[j];
 		var tt = mt.deepnight.Tweenie.TType.TElasticEnd;
@@ -338,6 +367,7 @@ class CenterScreen extends S {
 		if ( from == null && to == null) return;
 		
 		var t = null;
+		var d = C.SWAP_DUR;
 		if( char[i]!=null)	t = app.tweenie.create( char[i], "x", xOf(j), tt, d);
 		if( char[j]!=null) 	t = app.tweenie.create( char[j], "x", xOf(i), tt, d);
 		t.onEnd = function() {
@@ -346,6 +376,8 @@ class CenterScreen extends S {
 			var o = char[j];
 			char[j] = char[i];
 			char[i] = o;
+			if( char[i]!=null) char[i].lock();
+			if( char[j]!=null) char[j].lock();
 			trace("unlocked");
 		}
 		
@@ -400,11 +432,26 @@ class CenterScreen extends S {
 		return new h3d.Vector(xOf(i) - (C.CHAR_W >> 1) - margin, margin, C.CHAR_W, C.CH);
 	}
 	
+	public function deselect() {
+		for ( c in columnsGraphics) 
+			c.setDeselected();
+	}
+	
 	public function nextWave() {
+		deselect();
+		
 		var nmy = [null,null,null];
 		var nextNmy = [null,null,null];
-			
-		if ( wave == 14 ) {
+		
+		for ( i in 0...char.length) {
+			var c = char[i];
+			if ( c != null && c.isDead ) {
+				c.remove();
+				char[i] = null;
+			}
+		}
+		
+		if ( wave == 13 ) {
 			g.launchVictoryScreen();
 		}
 		else {
@@ -419,9 +466,9 @@ class CenterScreen extends S {
 			switch(wave) {
 				
 				case -1:
-					char = [mkChar(0, Whitemage), mkChar(1, Blackmage), mkChar(2, Warrior)];
-					nmy = [Dummy, Dummy, Dummy]; 
-					nextNmy = [Dummy, Dummy, Dummy]; 
+					char = [mkChar(0, Whitemage), mkChar(1, Blackmage), null];
+					nmy = [Dummy, null, Dummy]; 
+					nextNmy = [Dummy, null, Dummy]; 
 					d.sndPlayBattle();
 					
 				case 0:
@@ -461,12 +508,12 @@ class CenterScreen extends S {
 					}
 					
 				case 6:
-					nmy 	= [Thug,null, 	Thug]; 
+					nmy 	= [Thug,Leech, Thug]; 
 					nextNmy = [Skel,null, 	Taxman];
 					
 				case 7:
 					nmy 	= [Leech, 	Taxman,	Thug]; 
-					nextNmy = [Skel, 	null, 	Taxman];
+					nextNmy = [Skel, 	Leech, 	Taxman];
 					
 				case 8:
 					nmy 	= [Skel, 	Thug,	Taxman]; 
@@ -487,10 +534,7 @@ class CenterScreen extends S {
 					
 				case 12:
 					nmy 	= [Tentacle, Tentacle,	Tentacle]; 
-					
-				case 13:
-					nmy 	= [Tentacle, Tentacle,	Tentacle]; 
-					nextNmy = [null, 	Tentacle,		null]; 
+				
 			}
 			
 			for ( i in 0...nextNmy.length )

@@ -1,235 +1,307 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:acb79cf3abf4d8aaa29f7ee419abebbe:fd326e5f9b315b3da1e0a6e0b4792e61:57ef0b4f36012e2dacefebfa7d58e2d4$ -->
+<!-- $TexturePacker:SmartUpdate:b119e5cff15df7b09ab2f74b9158667c:915ea0533541635589f8414d14ec03f8:57ef0b4f36012e2dacefebfa7d58e2d4$ -->
 <TextureAtlas imagePath="assets.png">
-    <SubTexture name="armor" x="282" y="1816" width="28" height="40" frameX="-4" frameY="0" frameWidth="32" frameHeight="44"/>
+    <SubTexture name="armor" x="792" y="802" width="28" height="40" frameX="-4" frameY="0" frameWidth="32" frameHeight="44"/>
     <SubTexture name="bg" x="2" y="604" width="598" height="600" frameX="0" frameY="0" frameWidth="600" frameHeight="600"/>
     <SubTexture name="bgNight" x="2" y="2" width="600" height="600"/>
-    <SubTexture name="bolt" x="892" y="1658" width="22" height="40" frameX="-6" frameY="-2" frameWidth="32" frameHeight="44"/>
-    <SubTexture name="charA00" x="764" y="558" width="84" height="88" frameX="-6" frameY="-6" frameWidth="100" frameHeight="96"/>
-    <SubTexture name="charA01" x="764" y="558" width="84" height="88" frameX="-6" frameY="-6" frameWidth="100" frameHeight="96"/>
-    <SubTexture name="charA02" x="764" y="558" width="84" height="88" frameX="-6" frameY="-6" frameWidth="100" frameHeight="96"/>
-    <SubTexture name="charA03" x="764" y="558" width="84" height="88" frameX="-6" frameY="-6" frameWidth="100" frameHeight="96"/>
-    <SubTexture name="charA04" x="892" y="462" width="84" height="86" frameX="-6" frameY="-10" frameWidth="100" frameHeight="96"/>
-    <SubTexture name="charA05" x="892" y="462" width="84" height="86" frameX="-6" frameY="-10" frameWidth="100" frameHeight="96"/>
-    <SubTexture name="charA06" x="892" y="462" width="84" height="86" frameX="-6" frameY="-10" frameWidth="100" frameHeight="96"/>
-    <SubTexture name="charA07" x="892" y="462" width="84" height="86" frameX="-6" frameY="-10" frameWidth="100" frameHeight="96"/>
-    <SubTexture name="charA08" x="1160" y="2" width="80" height="84" frameX="-10" frameY="-10" frameWidth="100" frameHeight="96"/>
-    <SubTexture name="charA09" x="1160" y="2" width="80" height="84" frameX="-10" frameY="-10" frameWidth="100" frameHeight="96"/>
-    <SubTexture name="charA10" x="1160" y="2" width="80" height="84" frameX="-10" frameY="-10" frameWidth="100" frameHeight="96"/>
-    <SubTexture name="charA11" x="1160" y="2" width="80" height="84" frameX="-10" frameY="-10" frameWidth="100" frameHeight="96"/>
-    <SubTexture name="charA12" x="764" y="2" width="80" height="82" frameX="-10" frameY="-12" frameWidth="100" frameHeight="96"/>
-    <SubTexture name="charA13" x="764" y="2" width="80" height="82" frameX="-10" frameY="-12" frameWidth="100" frameHeight="96"/>
-    <SubTexture name="charA14" x="764" y="2" width="80" height="82" frameX="-10" frameY="-12" frameWidth="100" frameHeight="96"/>
-    <SubTexture name="charA15" x="764" y="2" width="80" height="82" frameX="-10" frameY="-12" frameWidth="100" frameHeight="96"/>
-    <SubTexture name="charAAttack_0000" x="916" y="1658" width="132" height="94" frameX="-44" frameY="-202" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charAAttack_0001" x="916" y="1658" width="132" height="94" frameX="-44" frameY="-202" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charAAttack_0002" x="846" y="2" width="112" height="90" frameX="-52" frameY="-204" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charAAttack_0003" x="846" y="2" width="112" height="90" frameX="-52" frameY="-204" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charAAttack_0004" x="1890" y="2" width="118" height="90" frameX="-46" frameY="-204" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charAAttack_0005" x="1890" y="2" width="118" height="90" frameX="-46" frameY="-204" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charAAttack_0006" x="1242" y="88" width="120" height="90" frameX="-48" frameY="-204" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charAAttack_0007" x="1242" y="88" width="120" height="90" frameX="-48" frameY="-204" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charAAttack_0008" x="604" y="470" width="98" height="90" frameX="-56" frameY="-204" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charAAttack_0009" x="604" y="470" width="98" height="90" frameX="-56" frameY="-204" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charAAttack_0010" x="916" y="1658" width="132" height="94" frameX="-44" frameY="-202" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charAAttack_0011" x="916" y="1658" width="132" height="94" frameX="-44" frameY="-202" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charAAttack_0012" x="846" y="2" width="112" height="90" frameX="-52" frameY="-204" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charAAttack_0013" x="846" y="2" width="112" height="90" frameX="-52" frameY="-204" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charAAttack_0014" x="1890" y="2" width="118" height="90" frameX="-46" frameY="-204" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charAAttack_0015" x="1890" y="2" width="118" height="90" frameX="-46" frameY="-204" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charAAttack_0016" x="1242" y="88" width="120" height="90" frameX="-48" frameY="-204" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charAAttack_0017" x="1242" y="88" width="120" height="90" frameX="-48" frameY="-204" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charAAttack_0018" x="604" y="470" width="98" height="90" frameX="-56" frameY="-204" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charAAttack_0019" x="604" y="470" width="98" height="90" frameX="-56" frameY="-204" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charADead" x="1042" y="182" width="70" height="92" frameX="-58" frameY="-10" frameWidth="200" frameHeight="116"/>
-    <SubTexture name="charADefend" x="1116" y="98" width="92" height="84" frameX="-66" frameY="-36" frameWidth="200" frameHeight="134"/>
-    <SubTexture name="charAHit" x="1108" y="1754" width="116" height="100" frameX="-46" frameY="-12" frameWidth="200" frameHeight="134"/>
-    <SubTexture name="charAWin" x="1382" y="2" width="80" height="90" frameX="-52" frameY="-30" frameWidth="200" frameHeight="134"/>
-    <SubTexture name="charB00" x="792" y="946" width="104" height="108" frameX="-10" frameY="-8" frameWidth="124" frameHeight="116"/>
-    <SubTexture name="charB01" x="792" y="946" width="104" height="108" frameX="-10" frameY="-8" frameWidth="124" frameHeight="116"/>
-    <SubTexture name="charB02" x="792" y="946" width="104" height="108" frameX="-10" frameY="-8" frameWidth="124" frameHeight="116"/>
-    <SubTexture name="charB03" x="704" y="1332" width="104" height="108" frameX="-10" frameY="-8" frameWidth="124" frameHeight="116"/>
-    <SubTexture name="charB04" x="704" y="1332" width="104" height="108" frameX="-10" frameY="-8" frameWidth="124" frameHeight="116"/>
-    <SubTexture name="charB05" x="704" y="1332" width="104" height="108" frameX="-10" frameY="-8" frameWidth="124" frameHeight="116"/>
-    <SubTexture name="charB06" x="948" y="1440" width="104" height="106" frameX="-10" frameY="-10" frameWidth="124" frameHeight="116"/>
-    <SubTexture name="charB07" x="948" y="1440" width="104" height="106" frameX="-10" frameY="-10" frameWidth="124" frameHeight="116"/>
-    <SubTexture name="charB08" x="948" y="1440" width="104" height="106" frameX="-10" frameY="-10" frameWidth="124" frameHeight="116"/>
-    <SubTexture name="charB09" x="1000" y="1548" width="104" height="106" frameX="-10" frameY="-10" frameWidth="124" frameHeight="116"/>
-    <SubTexture name="charB10" x="1000" y="1548" width="104" height="106" frameX="-10" frameY="-10" frameWidth="124" frameHeight="116"/>
-    <SubTexture name="charB11" x="1000" y="1548" width="104" height="106" frameX="-10" frameY="-10" frameWidth="124" frameHeight="116"/>
-    <SubTexture name="charB12" x="776" y="1180" width="104" height="108" frameX="-10" frameY="-8" frameWidth="124" frameHeight="116"/>
-    <SubTexture name="charB13" x="776" y="1180" width="104" height="108" frameX="-10" frameY="-8" frameWidth="124" frameHeight="116"/>
-    <SubTexture name="charB14" x="776" y="1180" width="104" height="108" frameX="-10" frameY="-8" frameWidth="124" frameHeight="116"/>
-    <SubTexture name="charB15" x="776" y="1180" width="104" height="108" frameX="-10" frameY="-8" frameWidth="124" frameHeight="116"/>
-    <SubTexture name="charBAttack_0000" x="212" y="1474" width="162" height="178" frameX="-18" frameY="-122" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charBAttack_0001" x="212" y="1474" width="162" height="178" frameX="-18" frameY="-122" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charBAttack_0002" x="212" y="1474" width="162" height="178" frameX="-18" frameY="-122" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charBAttack_0003" x="840" y="1754" width="160" height="116" frameX="-20" frameY="-184" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charBAttack_0004" x="840" y="1754" width="160" height="116" frameX="-20" frameY="-184" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charBAttack_0005" x="840" y="1754" width="160" height="116" frameX="-20" frameY="-184" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charBAttack_0006" x="602" y="604" width="160" height="114" frameX="-20" frameY="-186" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charBAttack_0007" x="602" y="604" width="160" height="114" frameX="-20" frameY="-186" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charBAttack_0008" x="602" y="604" width="160" height="114" frameX="-20" frameY="-186" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charBAttack_0009" x="862" y="1872" width="164" height="114" frameX="-16" frameY="-186" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charBAttack_0010" x="862" y="1872" width="164" height="114" frameX="-16" frameY="-186" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charBAttack_0011" x="862" y="1872" width="164" height="114" frameX="-16" frameY="-186" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charBDead" x="846" y="94" width="102" height="94" frameX="-40" frameY="-10" frameWidth="200" frameHeight="116"/>
-    <SubTexture name="charBDefend" x="728" y="720" width="114" height="108" frameX="-60" frameY="-22" frameWidth="200" frameHeight="134"/>
-    <SubTexture name="charBHit" x="694" y="1068" width="128" height="110" frameX="-34" frameY="-4" frameWidth="200" frameHeight="134"/>
-    <SubTexture name="charBWin" x="602" y="720" width="124" height="114" frameX="-50" frameY="-14" frameWidth="200" frameHeight="134"/>
-    <SubTexture name="charC00" x="604" y="262" width="86" height="92" frameX="-10" frameY="-14" frameWidth="106" frameHeight="106"/>
-    <SubTexture name="charC01" x="604" y="262" width="86" height="92" frameX="-10" frameY="-14" frameWidth="106" frameHeight="106"/>
-    <SubTexture name="charC02" x="604" y="262" width="86" height="92" frameX="-10" frameY="-14" frameWidth="106" frameHeight="106"/>
-    <SubTexture name="charC03" x="692" y="262" width="86" height="90" frameX="-10" frameY="-16" frameWidth="106" frameHeight="106"/>
-    <SubTexture name="charC04" x="692" y="262" width="86" height="90" frameX="-10" frameY="-16" frameWidth="106" frameHeight="106"/>
-    <SubTexture name="charC05" x="692" y="262" width="86" height="90" frameX="-10" frameY="-16" frameWidth="106" frameHeight="106"/>
-    <SubTexture name="charC06" x="1208" y="1856" width="86" height="96" frameX="-10" frameY="-10" frameWidth="106" frameHeight="106"/>
-    <SubTexture name="charC07" x="1208" y="1856" width="86" height="96" frameX="-10" frameY="-10" frameWidth="106" frameHeight="106"/>
-    <SubTexture name="charC08" x="1208" y="1856" width="86" height="96" frameX="-10" frameY="-10" frameWidth="106" frameHeight="106"/>
-    <SubTexture name="charC09" x="1226" y="1744" width="86" height="96" frameX="-10" frameY="-10" frameWidth="106" frameHeight="106"/>
-    <SubTexture name="charC10" x="1226" y="1744" width="86" height="96" frameX="-10" frameY="-10" frameWidth="106" frameHeight="106"/>
-    <SubTexture name="charC11" x="1226" y="1744" width="86" height="96" frameX="-10" frameY="-10" frameWidth="106" frameHeight="106"/>
-    <SubTexture name="charCAttack_0000" x="462" y="1922" width="126" height="124" frameX="-10" frameY="-176" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charCAttack_0001" x="576" y="1334" width="126" height="124" frameX="-10" frameY="-176" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charCAttack_0002" x="716" y="1756" width="122" height="132" frameX="-14" frameY="-168" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charCAttack_0003" x="738" y="1890" width="122" height="126" frameX="-14" frameY="-174" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charCAttack_0004" x="576" y="1206" width="114" height="126" frameX="-22" frameY="-174" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charCAttack_0005" x="602" y="836" width="114" height="114" frameX="-22" frameY="-186" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charCAttack_0006" x="602" y="952" width="106" height="114" frameX="-30" frameY="-186" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charCAttack_0007" x="892" y="1550" width="106" height="106" frameX="-30" frameY="-194" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charCAttack_0008" x="1002" y="1754" width="104" height="106" frameX="-32" frameY="-194" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charCAttack_0009" x="1010" y="1318" width="104" height="106" frameX="-32" frameY="-194" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charCAttack_0010" x="1054" y="1426" width="104" height="106" frameX="-32" frameY="-194" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charCAttack_0011" x="692" y="1460" width="126" height="124" frameX="-10" frameY="-176" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="charCDead" x="604" y="374" width="86" height="94" frameX="-62" frameY="-10" frameWidth="200" frameHeight="116"/>
-    <SubTexture name="charCDefend" x="1050" y="1656" width="96" height="96" frameX="-32" frameY="-32" frameWidth="200" frameHeight="134"/>
-    <SubTexture name="charCHit" x="1242" y="2" width="134" height="84" frameX="-38" frameY="-28" frameWidth="200" frameHeight="134"/>
-    <SubTexture name="charCWin" x="1106" y="1534" width="104" height="106" frameX="-28" frameY="-14" frameWidth="200" frameHeight="134"/>
-    <SubTexture name="earth" x="950" y="172" width="90" height="90"/>
-    <SubTexture name="fire" x="950" y="264" width="90" height="90"/>
-    <SubTexture name="fxHeal_add" x="2010" y="2" width="36" height="36"/>
-    <SubTexture name="fxHeal_blend" x="2010" y="40" width="36" height="36"/>
-    <SubTexture name="fxSpike_add" x="2010" y="78" width="34" height="90"/>
-    <SubTexture name="fxSpike_blend" x="1212" y="128" width="24" height="62" frameX="-6" frameY="-20" frameWidth="34" frameHeight="90"/>
-    <SubTexture name="gaugeBg" x="226" y="1654" width="2" height="14"/>
-    <SubTexture name="gaugeEarth" x="230" y="1654" width="2" height="14"/>
-    <SubTexture name="gaugeFire" x="234" y="1654" width="2" height="14"/>
+    <SubTexture name="bolt" x="822" y="802" width="22" height="40" frameX="-6" frameY="-2" frameWidth="32" frameHeight="44"/>
+    <SubTexture name="charA00" x="832" y="1338" width="84" height="88" frameX="-6" frameY="-6" frameWidth="100" frameHeight="96"/>
+    <SubTexture name="charA01" x="832" y="1338" width="84" height="88" frameX="-6" frameY="-6" frameWidth="100" frameHeight="96"/>
+    <SubTexture name="charA02" x="832" y="1338" width="84" height="88" frameX="-6" frameY="-6" frameWidth="100" frameHeight="96"/>
+    <SubTexture name="charA03" x="832" y="1338" width="84" height="88" frameX="-6" frameY="-6" frameWidth="100" frameHeight="96"/>
+    <SubTexture name="charA04" x="1200" y="1952" width="84" height="86" frameX="-6" frameY="-10" frameWidth="100" frameHeight="96"/>
+    <SubTexture name="charA05" x="1200" y="1952" width="84" height="86" frameX="-6" frameY="-10" frameWidth="100" frameHeight="96"/>
+    <SubTexture name="charA06" x="1200" y="1952" width="84" height="86" frameX="-6" frameY="-10" frameWidth="100" frameHeight="96"/>
+    <SubTexture name="charA07" x="1200" y="1952" width="84" height="86" frameX="-6" frameY="-10" frameWidth="100" frameHeight="96"/>
+    <SubTexture name="charA08" x="924" y="1226" width="80" height="84" frameX="-10" frameY="-10" frameWidth="100" frameHeight="96"/>
+    <SubTexture name="charA09" x="924" y="1226" width="80" height="84" frameX="-10" frameY="-10" frameWidth="100" frameHeight="96"/>
+    <SubTexture name="charA10" x="924" y="1226" width="80" height="84" frameX="-10" frameY="-10" frameWidth="100" frameHeight="96"/>
+    <SubTexture name="charA11" x="924" y="1226" width="80" height="84" frameX="-10" frameY="-10" frameWidth="100" frameHeight="96"/>
+    <SubTexture name="charA12" x="1228" y="572" width="80" height="82" frameX="-10" frameY="-12" frameWidth="100" frameHeight="96"/>
+    <SubTexture name="charA13" x="1228" y="572" width="80" height="82" frameX="-10" frameY="-12" frameWidth="100" frameHeight="96"/>
+    <SubTexture name="charA14" x="1228" y="572" width="80" height="82" frameX="-10" frameY="-12" frameWidth="100" frameHeight="96"/>
+    <SubTexture name="charA15" x="1228" y="572" width="80" height="82" frameX="-10" frameY="-12" frameWidth="100" frameHeight="96"/>
+    <SubTexture name="charAAttack_0000" x="1090" y="104" width="132" height="94" frameX="-44" frameY="-202" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charAAttack_0001" x="1090" y="104" width="132" height="94" frameX="-44" frameY="-202" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charAAttack_0002" x="1342" y="84" width="112" height="90" frameX="-52" frameY="-204" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charAAttack_0003" x="1342" y="84" width="112" height="90" frameX="-52" frameY="-204" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charAAttack_0004" x="1252" y="180" width="118" height="90" frameX="-46" frameY="-204" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charAAttack_0005" x="1252" y="180" width="118" height="90" frameX="-46" frameY="-204" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charAAttack_0006" x="1160" y="296" width="120" height="90" frameX="-48" frameY="-204" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charAAttack_0007" x="1160" y="296" width="120" height="90" frameX="-48" frameY="-204" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charAAttack_0008" x="1048" y="598" width="98" height="90" frameX="-56" frameY="-204" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charAAttack_0009" x="1048" y="598" width="98" height="90" frameX="-56" frameY="-204" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charAAttack_0010" x="1090" y="104" width="132" height="94" frameX="-44" frameY="-202" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charAAttack_0011" x="1090" y="104" width="132" height="94" frameX="-44" frameY="-202" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charAAttack_0012" x="1342" y="84" width="112" height="90" frameX="-52" frameY="-204" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charAAttack_0013" x="1342" y="84" width="112" height="90" frameX="-52" frameY="-204" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charAAttack_0014" x="1252" y="180" width="118" height="90" frameX="-46" frameY="-204" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charAAttack_0015" x="1252" y="180" width="118" height="90" frameX="-46" frameY="-204" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charAAttack_0016" x="1160" y="296" width="120" height="90" frameX="-48" frameY="-204" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charAAttack_0017" x="1160" y="296" width="120" height="90" frameX="-48" frameY="-204" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charAAttack_0018" x="1048" y="598" width="98" height="90" frameX="-56" frameY="-204" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charAAttack_0019" x="1048" y="598" width="98" height="90" frameX="-56" frameY="-204" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charADead" x="1094" y="396" width="70" height="92" frameX="-58" frameY="-10" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="charADefend" x="1294" y="1864" width="92" height="84" frameX="-66" frameY="-36" frameWidth="200" frameHeight="134"/>
+    <SubTexture name="charAHit" x="714" y="2" width="116" height="100" frameX="-46" frameY="-12" frameWidth="200" frameHeight="134"/>
+    <SubTexture name="charAWin" x="1114" y="690" width="80" height="90" frameX="-52" frameY="-30" frameWidth="200" frameHeight="134"/>
+    <SubTexture name="charB00" x="686" y="732" width="104" height="108" frameX="-10" frameY="-8" frameWidth="124" frameHeight="116"/>
+    <SubTexture name="charB01" x="686" y="732" width="104" height="108" frameX="-10" frameY="-8" frameWidth="124" frameHeight="116"/>
+    <SubTexture name="charB02" x="686" y="732" width="104" height="108" frameX="-10" frameY="-8" frameWidth="124" frameHeight="116"/>
+    <SubTexture name="charB03" x="602" y="1068" width="104" height="108" frameX="-10" frameY="-8" frameWidth="124" frameHeight="116"/>
+    <SubTexture name="charB04" x="602" y="1068" width="104" height="108" frameX="-10" frameY="-8" frameWidth="124" frameHeight="116"/>
+    <SubTexture name="charB05" x="602" y="1068" width="104" height="108" frameX="-10" frameY="-8" frameWidth="124" frameHeight="116"/>
+    <SubTexture name="charB06" x="808" y="952" width="104" height="106" frameX="-10" frameY="-10" frameWidth="124" frameHeight="116"/>
+    <SubTexture name="charB07" x="808" y="952" width="104" height="106" frameX="-10" frameY="-10" frameWidth="124" frameHeight="116"/>
+    <SubTexture name="charB08" x="808" y="952" width="104" height="106" frameX="-10" frameY="-10" frameWidth="124" frameHeight="116"/>
+    <SubTexture name="charB09" x="796" y="578" width="104" height="106" frameX="-10" frameY="-10" frameWidth="124" frameHeight="116"/>
+    <SubTexture name="charB10" x="796" y="578" width="104" height="106" frameX="-10" frameY="-10" frameWidth="124" frameHeight="116"/>
+    <SubTexture name="charB11" x="796" y="578" width="104" height="106" frameX="-10" frameY="-10" frameWidth="124" frameHeight="116"/>
+    <SubTexture name="charB12" x="708" y="1068" width="104" height="108" frameX="-10" frameY="-8" frameWidth="124" frameHeight="116"/>
+    <SubTexture name="charB13" x="708" y="1068" width="104" height="108" frameX="-10" frameY="-8" frameWidth="124" frameHeight="116"/>
+    <SubTexture name="charB14" x="708" y="1068" width="104" height="108" frameX="-10" frameY="-8" frameWidth="124" frameHeight="116"/>
+    <SubTexture name="charB15" x="708" y="1068" width="104" height="108" frameX="-10" frameY="-8" frameWidth="124" frameHeight="116"/>
+    <SubTexture name="charBAttack_0000" x="284" y="1474" width="162" height="178" frameX="-18" frameY="-122" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charBAttack_0001" x="284" y="1474" width="162" height="178" frameX="-18" frameY="-122" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charBAttack_0002" x="284" y="1474" width="162" height="178" frameX="-18" frameY="-122" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charBAttack_0003" x="944" y="1746" width="160" height="116" frameX="-20" frameY="-184" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charBAttack_0004" x="944" y="1746" width="160" height="116" frameX="-20" frameY="-184" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charBAttack_0005" x="944" y="1746" width="160" height="116" frameX="-20" frameY="-184" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charBAttack_0006" x="604" y="352" width="160" height="114" frameX="-20" frameY="-186" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charBAttack_0007" x="604" y="352" width="160" height="114" frameX="-20" frameY="-186" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charBAttack_0008" x="604" y="352" width="160" height="114" frameX="-20" frameY="-186" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charBAttack_0009" x="924" y="2" width="164" height="114" frameX="-16" frameY="-186" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charBAttack_0010" x="924" y="2" width="164" height="114" frameX="-16" frameY="-186" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charBAttack_0011" x="924" y="2" width="164" height="114" frameX="-16" frameY="-186" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charBDead" x="814" y="1060" width="102" height="94" frameX="-40" frameY="-10" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="charBDefend" x="684" y="846" width="114" height="108" frameX="-60" frameY="-22" frameWidth="200" frameHeight="134"/>
+    <SubTexture name="charBHit" x="686" y="1754" width="128" height="110" frameX="-34" frameY="-4" frameWidth="200" frameHeight="134"/>
+    <SubTexture name="charBWin" x="604" y="468" width="124" height="114" frameX="-50" frameY="-14" frameWidth="200" frameHeight="134"/>
+    <SubTexture name="charC00" x="1028" y="504" width="86" height="92" frameX="-10" frameY="-14" frameWidth="106" frameHeight="106"/>
+    <SubTexture name="charC01" x="1028" y="504" width="86" height="92" frameX="-10" frameY="-14" frameWidth="106" frameHeight="106"/>
+    <SubTexture name="charC02" x="1028" y="504" width="86" height="92" frameX="-10" frameY="-14" frameWidth="106" frameHeight="106"/>
+    <SubTexture name="charC03" x="1002" y="914" width="86" height="90" frameX="-10" frameY="-16" frameWidth="106" frameHeight="106"/>
+    <SubTexture name="charC04" x="1002" y="914" width="86" height="90" frameX="-10" frameY="-16" frameWidth="106" frameHeight="106"/>
+    <SubTexture name="charC05" x="1002" y="914" width="86" height="90" frameX="-10" frameY="-16" frameWidth="106" frameHeight="106"/>
+    <SubTexture name="charC06" x="1038" y="200" width="86" height="96" frameX="-10" frameY="-10" frameWidth="106" frameHeight="106"/>
+    <SubTexture name="charC07" x="1038" y="200" width="86" height="96" frameX="-10" frameY="-10" frameWidth="106" frameHeight="106"/>
+    <SubTexture name="charC08" x="1038" y="200" width="86" height="96" frameX="-10" frameY="-10" frameWidth="106" frameHeight="106"/>
+    <SubTexture name="charC09" x="1006" y="406" width="86" height="96" frameX="-10" frameY="-10" frameWidth="106" frameHeight="106"/>
+    <SubTexture name="charC10" x="1006" y="406" width="86" height="96" frameX="-10" frameY="-10" frameWidth="106" frameHeight="106"/>
+    <SubTexture name="charC11" x="1006" y="406" width="86" height="96" frameX="-10" frameY="-10" frameWidth="106" frameHeight="106"/>
+    <SubTexture name="charCAttack_0000" x="576" y="1348" width="126" height="124" frameX="-10" frameY="-176" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charCAttack_0001" x="704" y="1348" width="126" height="124" frameX="-10" frameY="-176" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charCAttack_0002" x="708" y="1866" width="122" height="132" frameX="-14" frameY="-168" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charCAttack_0003" x="1924" y="2" width="122" height="126" frameX="-14" frameY="-174" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charCAttack_0004" x="602" y="604" width="114" height="126" frameX="-22" frameY="-174" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charCAttack_0005" x="732" y="200" width="114" height="114" frameX="-22" frameY="-186" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charCAttack_0006" x="604" y="2" width="106" height="114" frameX="-30" frameY="-186" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charCAttack_0007" x="604" y="118" width="106" height="106" frameX="-30" frameY="-194" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charCAttack_0008" x="766" y="316" width="104" height="106" frameX="-32" frameY="-194" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charCAttack_0009" x="848" y="200" width="104" height="106" frameX="-32" frameY="-194" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charCAttack_0010" x="802" y="424" width="104" height="106" frameX="-32" frameY="-194" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charCAttack_0011" x="604" y="226" width="126" height="124" frameX="-10" frameY="-176" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="charCDead" x="914" y="952" width="86" height="94" frameX="-62" frameY="-10" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="charCDefend" x="908" y="416" width="96" height="96" frameX="-32" frameY="-32" frameWidth="200" frameHeight="134"/>
+    <SubTexture name="charCHit" x="1286" y="1952" width="134" height="84" frameX="-38" frameY="-28" frameWidth="200" frameHeight="134"/>
+    <SubTexture name="charCWin" x="872" y="308" width="104" height="106" frameX="-28" frameY="-14" frameWidth="200" frameHeight="134"/>
+    <SubTexture name="earth" x="1166" y="388" width="90" height="90"/>
+    <SubTexture name="fire" x="832" y="1156" width="90" height="90"/>
+    <SubTexture name="fxHeal_add" x="570" y="2010" width="36" height="36"/>
+    <SubTexture name="fxHeal_blend" x="608" y="2010" width="36" height="36"/>
+    <SubTexture name="fxSpike_add" x="1212" y="480" width="34" height="90"/>
+    <SubTexture name="fxSpike_blend" x="474" y="1814" width="24" height="62" frameX="-6" frameY="-20" frameWidth="34" frameHeight="90"/>
+    <SubTexture name="gaugeBg" x="250" y="1884" width="2" height="14"/>
+    <SubTexture name="gaugeEarth" x="250" y="1900" width="2" height="14"/>
+    <SubTexture name="gaugeFire" x="250" y="1916" width="2" height="14"/>
     <SubTexture name="gaugeLeft" x="132" y="1682" width="12" height="18"/>
-    <SubTexture name="gaugeNext" x="212" y="1654" width="12" height="18"/>
-    <SubTexture name="gaugeShield" x="238" y="1654" width="2" height="14"/>
+    <SubTexture name="gaugeNext" x="284" y="1654" width="12" height="18"/>
+    <SubTexture name="gaugeShield" x="298" y="1654" width="2" height="14"/>
     <SubTexture name="gaugeStaff" x="132" y="1702" width="2" height="10"/>
-    <SubTexture name="gaugeSword" x="242" y="1654" width="2" height="14"/>
-    <SubTexture name="gaugeWand" x="246" y="1654" width="2" height="14"/>
-    <SubTexture name="gaugeWater" x="250" y="1654" width="2" height="14"/>
+    <SubTexture name="gaugeSword" x="302" y="1654" width="2" height="14"/>
+    <SubTexture name="gaugeWand" x="306" y="1654" width="2" height="14"/>
+    <SubTexture name="gaugeWater" x="310" y="1654" width="2" height="14"/>
     <SubTexture name="glowEarth" x="146" y="1886" width="50" height="50"/>
     <SubTexture name="glowFire" x="198" y="1886" width="50" height="50"/>
-    <SubTexture name="glowShield" x="862" y="1988" width="50" height="50"/>
-    <SubTexture name="glowSword" x="914" y="1988" width="50" height="50"/>
-    <SubTexture name="glowWater" x="966" y="1988" width="50" height="50"/>
-    <SubTexture name="heal" x="858" y="1706" width="30" height="44" frameX="-2" frameY="0" frameWidth="32" frameHeight="44"/>
-    <SubTexture name="left" x="806" y="1706" width="24" height="46"/>
-    <SubTexture name="loseTxt" x="1464" y="2" width="424" height="80"/>
-    <SubTexture name="mobA" x="844" y="736" width="86" height="84" frameX="-58" frameY="-16" frameWidth="200" frameHeight="114"/>
-    <SubTexture name="mobAAttack_0000" x="460" y="1778" width="82" height="142" frameX="-44" frameY="-8" frameWidth="200" frameHeight="150"/>
-    <SubTexture name="mobAAttack_0001" x="460" y="1778" width="82" height="142" frameX="-44" frameY="-8" frameWidth="200" frameHeight="150"/>
-    <SubTexture name="mobAAttack_0002" x="460" y="1778" width="82" height="142" frameX="-44" frameY="-8" frameWidth="200" frameHeight="150"/>
-    <SubTexture name="mobAAttack_0003" x="824" y="1056" width="76" height="108" frameX="-50" frameY="-42" frameWidth="200" frameHeight="150"/>
-    <SubTexture name="mobAAttack_0004" x="824" y="1056" width="76" height="108" frameX="-50" frameY="-42" frameWidth="200" frameHeight="150"/>
-    <SubTexture name="mobAAttack_0005" x="824" y="1056" width="76" height="108" frameX="-50" frameY="-42" frameWidth="200" frameHeight="150"/>
-    <SubTexture name="mobAAttack_0006" x="810" y="1332" width="70" height="108" frameX="-56" frameY="-42" frameWidth="200" frameHeight="150"/>
-    <SubTexture name="mobAAttack_0007" x="810" y="1332" width="70" height="108" frameX="-56" frameY="-42" frameWidth="200" frameHeight="150"/>
-    <SubTexture name="mobAAttack_0008" x="810" y="1332" width="70" height="108" frameX="-56" frameY="-42" frameWidth="200" frameHeight="150"/>
-    <SubTexture name="mobAAttack_0009" x="882" y="1166" width="76" height="108" frameX="-50" frameY="-42" frameWidth="200" frameHeight="150"/>
-    <SubTexture name="mobAAttack_0010" x="882" y="1166" width="76" height="108" frameX="-50" frameY="-42" frameWidth="200" frameHeight="150"/>
-    <SubTexture name="mobAAttack_0011" x="882" y="1166" width="76" height="108" frameX="-50" frameY="-42" frameWidth="200" frameHeight="150"/>
-    <SubTexture name="mobAHit" x="1112" y="1856" width="94" height="96" frameX="-50" frameY="-8" frameWidth="200" frameHeight="116"/>
-    <SubTexture name="mobB" x="960" y="88" width="76" height="82" frameX="-64" frameY="-14" frameWidth="200" frameHeight="114"/>
-    <SubTexture name="mobBAttack_0000" x="602" y="1068" width="90" height="114" frameX="-62" frameY="-16" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobBAttack_0001" x="602" y="1068" width="90" height="114" frameX="-62" frameY="-16" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobBAttack_0002" x="380" y="1944" width="80" height="102" frameX="-64" frameY="-28" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobBAttack_0003" x="380" y="1944" width="80" height="102" frameX="-64" frameY="-28" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobBAttack_0004" x="692" y="1184" width="82" height="112" frameX="-62" frameY="-18" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobBAttack_0005" x="692" y="1184" width="82" height="112" frameX="-62" frameY="-18" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobBAttack_0006" x="1028" y="1862" width="82" height="106" frameX="-64" frameY="-24" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobBAttack_0007" x="1028" y="1862" width="82" height="106" frameX="-64" frameY="-24" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobBAttack_0008" x="710" y="952" width="80" height="110" frameX="-64" frameY="-20" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobBAttack_0009" x="710" y="952" width="80" height="110" frameX="-64" frameY="-20" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobBHit" x="1248" y="1954" width="88" height="92" frameX="-52" frameY="-8" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="glowShield" x="500" y="1814" width="50" height="50"/>
+    <SubTexture name="glowSword" x="552" y="1814" width="50" height="50"/>
+    <SubTexture name="glowWater" x="840" y="1994" width="50" height="50"/>
+    <SubTexture name="heal" x="808" y="2000" width="30" height="44" frameX="-2" frameY="0" frameWidth="32" frameHeight="44"/>
+    <SubTexture name="left" x="756" y="2000" width="24" height="46"/>
+    <SubTexture name="loseTxt" x="1200" y="2" width="416" height="80" frameX="-4" frameY="0" frameWidth="424" frameHeight="80"/>
+    <SubTexture name="mobA00" x="1282" y="272" width="90" height="78" frameX="-54" frameY="-22" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobA01" x="1282" y="272" width="90" height="78" frameX="-54" frameY="-22" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobA02" x="1282" y="272" width="90" height="78" frameX="-54" frameY="-22" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobA03" x="832" y="118" width="88" height="80" frameX="-56" frameY="-20" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobA04" x="832" y="118" width="88" height="80" frameX="-56" frameY="-20" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobA05" x="832" y="118" width="88" height="80" frameX="-56" frameY="-20" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobA06" x="924" y="1140" width="86" height="84" frameX="-58" frameY="-16" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobA07" x="924" y="1140" width="86" height="84" frameX="-58" frameY="-16" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobA08" x="924" y="1140" width="86" height="84" frameX="-58" frameY="-16" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobA09" x="1128" y="1864" width="86" height="86" frameX="-58" frameY="-14" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobA10" x="1128" y="1864" width="86" height="86" frameX="-58" frameY="-14" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobA11" x="1128" y="1864" width="86" height="86" frameX="-58" frameY="-14" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobAAttack_0000" x="590" y="1618" width="82" height="142" frameX="-44" frameY="-8" frameWidth="200" frameHeight="150"/>
+    <SubTexture name="mobAAttack_0001" x="590" y="1618" width="82" height="142" frameX="-44" frameY="-8" frameWidth="200" frameHeight="150"/>
+    <SubTexture name="mobAAttack_0002" x="590" y="1618" width="82" height="142" frameX="-44" frameY="-8" frameWidth="200" frameHeight="150"/>
+    <SubTexture name="mobAAttack_0003" x="730" y="956" width="76" height="108" frameX="-50" frameY="-42" frameWidth="200" frameHeight="150"/>
+    <SubTexture name="mobAAttack_0004" x="730" y="956" width="76" height="108" frameX="-50" frameY="-42" frameWidth="200" frameHeight="150"/>
+    <SubTexture name="mobAAttack_0005" x="730" y="956" width="76" height="108" frameX="-50" frameY="-42" frameWidth="200" frameHeight="150"/>
+    <SubTexture name="mobAAttack_0006" x="730" y="468" width="70" height="108" frameX="-56" frameY="-42" frameWidth="200" frameHeight="150"/>
+    <SubTexture name="mobAAttack_0007" x="730" y="468" width="70" height="108" frameX="-56" frameY="-42" frameWidth="200" frameHeight="150"/>
+    <SubTexture name="mobAAttack_0008" x="730" y="468" width="70" height="108" frameX="-56" frameY="-42" frameWidth="200" frameHeight="150"/>
+    <SubTexture name="mobAAttack_0009" x="718" y="584" width="76" height="108" frameX="-50" frameY="-42" frameWidth="200" frameHeight="150"/>
+    <SubTexture name="mobAAttack_0010" x="718" y="584" width="76" height="108" frameX="-50" frameY="-42" frameWidth="200" frameHeight="150"/>
+    <SubTexture name="mobAAttack_0011" x="718" y="584" width="76" height="108" frameX="-50" frameY="-42" frameWidth="200" frameHeight="150"/>
+    <SubTexture name="mobAHit" x="978" y="308" width="94" height="96" frameX="-50" frameY="-8" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="mobB00" x="1248" y="480" width="76" height="82" frameX="-64" frameY="-14" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobB01" x="1248" y="480" width="76" height="82" frameX="-64" frameY="-14" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobB02" x="1248" y="480" width="76" height="82" frameX="-64" frameY="-14" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobB03" x="1006" y="1226" width="76" height="84" frameX="-64" frameY="-12" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobB04" x="1006" y="1226" width="76" height="84" frameX="-64" frameY="-12" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobB05" x="1006" y="1226" width="76" height="84" frameX="-64" frameY="-12" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobB06" x="1022" y="1312" width="76" height="84" frameX="-64" frameY="-12" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobB07" x="1022" y="1312" width="76" height="84" frameX="-64" frameY="-12" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobB08" x="1022" y="1312" width="76" height="84" frameX="-64" frameY="-12" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobB09" x="1002" y="118" width="76" height="80" frameX="-64" frameY="-16" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobB10" x="1002" y="118" width="76" height="80" frameX="-64" frameY="-16" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobB11" x="1002" y="118" width="76" height="80" frameX="-64" frameY="-16" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobBAttack_0000" x="832" y="2" width="90" height="114" frameX="-62" frameY="-16" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobBAttack_0001" x="832" y="2" width="90" height="114" frameX="-62" frameY="-16" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobBAttack_0002" x="604" y="1762" width="80" height="102" frameX="-64" frameY="-28" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobBAttack_0003" x="604" y="1762" width="80" height="102" frameX="-64" frameY="-28" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobBAttack_0004" x="602" y="732" width="82" height="112" frameX="-62" frameY="-18" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobBAttack_0005" x="602" y="732" width="82" height="112" frameX="-62" frameY="-18" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobBAttack_0006" x="954" y="200" width="82" height="106" frameX="-64" frameY="-24" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobBAttack_0007" x="954" y="200" width="82" height="106" frameX="-64" frameY="-24" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobBAttack_0008" x="602" y="846" width="80" height="110" frameX="-64" frameY="-20" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobBAttack_0009" x="602" y="846" width="80" height="110" frameX="-64" frameY="-20" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobBHit" x="920" y="728" width="88" height="92" frameX="-52" frameY="-8" frameWidth="200" frameHeight="116"/>
     <SubTexture name="mobBoss" x="2" y="1206" width="572" height="266" frameX="-16" frameY="0" frameWidth="600" frameHeight="266"/>
-    <SubTexture name="mobC" x="876" y="374" width="90" height="86" frameX="-54" frameY="-18" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="mobC00" x="1116" y="490" width="94" height="90" frameX="-50" frameY="-14" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="mobC01" x="1116" y="490" width="94" height="90" frameX="-50" frameY="-14" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="mobC02" x="1116" y="490" width="94" height="90" frameX="-50" frameY="-14" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="mobC03" x="1010" y="1006" width="92" height="82" frameX="-52" frameY="-22" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="mobC04" x="1010" y="1006" width="92" height="82" frameX="-52" frameY="-22" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="mobC05" x="1010" y="1006" width="92" height="82" frameX="-52" frameY="-22" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="mobC06" x="924" y="1514" width="92" height="86" frameX="-54" frameY="-18" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="mobC07" x="924" y="1514" width="92" height="86" frameX="-54" frameY="-18" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="mobC08" x="924" y="1514" width="92" height="86" frameX="-54" frameY="-18" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="mobC09" x="950" y="1602" width="92" height="86" frameX="-54" frameY="-18" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="mobC10" x="950" y="1602" width="92" height="86" frameX="-54" frameY="-18" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="mobC11" x="950" y="1602" width="92" height="86" frameX="-54" frameY="-18" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="mobC12" x="1018" y="1514" width="92" height="86" frameX="-52" frameY="-18" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="mobC13" x="1018" y="1514" width="92" height="86" frameX="-52" frameY="-18" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="mobC14" x="1018" y="1514" width="92" height="86" frameX="-52" frameY="-18" frameWidth="200" frameHeight="116"/>
     <SubTexture name="mobCAttack_0000" x="2" y="1946" width="124" height="100" frameX="-40" frameY="-30" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobCAttack_0001" x="1042" y="2" width="116" height="94" frameX="-44" frameY="-30" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobCAttack_0002" x="1888" y="94" width="102" height="86" frameX="-50" frameY="-30" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobCAttack_0003" x="844" y="648" width="88" height="86" frameX="-56" frameY="-30" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobCAttack_0004" x="968" y="356" width="86" height="82" frameX="-58" frameY="-30" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobCAttack_0005" x="1042" y="98" width="72" height="82" frameX="-62" frameY="-30" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobCAttack_0001" x="714" y="104" width="116" height="94" frameX="-44" frameY="-30" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobCAttack_0002" x="918" y="1338" width="102" height="86" frameX="-50" frameY="-30" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobCAttack_0003" x="1044" y="1602" width="88" height="86" frameX="-56" frameY="-30" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobCAttack_0004" x="1120" y="782" width="86" height="82" frameX="-58" frameY="-30" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobCAttack_0005" x="1258" y="388" width="72" height="82" frameX="-62" frameY="-30" frameWidth="200" frameHeight="160"/>
     <SubTexture name="mobCAttack_0006" x="128" y="1946" width="124" height="100" frameX="-40" frameY="-30" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobCAttack_0007" x="604" y="2" width="116" height="94" frameX="-44" frameY="-30" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobCAttack_0008" x="846" y="190" width="102" height="90" frameX="-50" frameY="-30" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobCAttack_0009" x="850" y="552" width="88" height="86" frameX="-56" frameY="-30" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobCAttack_0010" x="846" y="822" width="86" height="82" frameX="-58" frameY="-30" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobCAttack_0011" x="764" y="86" width="78" height="90" frameX="-62" frameY="-30" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobCAttack_0012" x="254" y="1946" width="124" height="100" frameX="-40" frameY="-30" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobCAttack_0013" x="1770" y="84" width="116" height="94" frameX="-44" frameY="-30" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobCAttack_0014" x="846" y="282" width="102" height="90" frameX="-50" frameY="-30" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="mobCHit" x="1148" y="1642" width="92" height="100" frameX="-50" frameY="-8" frameWidth="200" frameHeight="116"/>
-    <SubTexture name="mobD" x="960" y="2" width="80" height="84" frameX="-58" frameY="-16" frameWidth="200" frameHeight="116"/>
-    <SubTexture name="mobDHit" x="1296" y="1842" width="84" height="96" frameX="-50" frameY="-10" frameWidth="200" frameHeight="116"/>
-    <SubTexture name="mobE" x="1116" y="184" width="92" height="82" frameX="-64" frameY="-14" frameWidth="200" frameHeight="116"/>
-    <SubTexture name="mobEHit" x="792" y="464" width="98" height="86" frameX="-52" frameY="-16" frameWidth="200" frameHeight="116"/>
-    <SubTexture name="mobF" x="626" y="1618" width="136" height="136" frameX="-26" frameY="0" frameWidth="200" frameHeight="170"/>
-    <SubTexture name="mobFAttack" x="554" y="1474" width="136" height="142" frameX="-28" frameY="-26" frameWidth="200" frameHeight="170"/>
-    <SubTexture name="mobFHit" x="312" y="1816" width="146" height="126" frameX="-28" frameY="-10" frameWidth="200" frameHeight="170"/>
-    <SubTexture name="moon" x="704" y="466" width="86" height="90" frameX="0" frameY="0" frameWidth="90" frameHeight="90"/>
-    <SubTexture name="phA" x="692" y="1298" width="32" height="32"/>
-    <SubTexture name="phB" x="726" y="1298" width="32" height="32"/>
-    <SubTexture name="phC" x="760" y="1298" width="32" height="32"/>
+    <SubTexture name="mobCAttack_0007" x="1224" y="84" width="116" height="94" frameX="-44" frameY="-30" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobCAttack_0008" x="928" y="822" width="102" height="90" frameX="-50" frameY="-30" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobCAttack_0009" x="1106" y="1690" width="88" height="86" frameX="-56" frameY="-30" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobCAttack_0010" x="1196" y="674" width="86" height="82" frameX="-58" frameY="-30" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobCAttack_0011" x="1148" y="582" width="78" height="90" frameX="-62" frameY="-30" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobCAttack_0012" x="902" y="532" width="124" height="100" frameX="-40" frameY="-30" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobCAttack_0013" x="714" y="1178" width="116" height="94" frameX="-44" frameY="-30" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobCAttack_0014" x="1010" y="728" width="102" height="90" frameX="-50" frameY="-30" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="mobCHit" x="1106" y="2" width="92" height="100" frameX="-50" frameY="-8" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="mobD00" x="1372" y="176" width="80" height="78" frameX="-54" frameY="-22" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobD01" x="1372" y="176" width="80" height="78" frameX="-54" frameY="-22" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobD02" x="1372" y="176" width="80" height="78" frameX="-54" frameY="-22" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobD03" x="922" y="118" width="78" height="80" frameX="-56" frameY="-20" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobD04" x="922" y="118" width="78" height="80" frameX="-56" frameY="-20" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobD05" x="922" y="118" width="78" height="80" frameX="-56" frameY="-20" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobD06" x="1024" y="1398" width="76" height="84" frameX="-58" frameY="-16" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobD07" x="1024" y="1398" width="76" height="84" frameX="-58" frameY="-16" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobD08" x="1024" y="1398" width="76" height="84" frameX="-58" frameY="-16" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobD09" x="1216" y="1864" width="76" height="86" frameX="-58" frameY="-14" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobD10" x="1216" y="1864" width="76" height="86" frameX="-58" frameY="-14" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobD11" x="1216" y="1864" width="76" height="86" frameX="-58" frameY="-14" frameWidth="200" frameHeight="114"/>
+    <SubTexture name="mobDHit" x="1074" y="298" width="84" height="96" frameX="-50" frameY="-10" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="mobE" x="1090" y="912" width="92" height="82" frameX="-64" frameY="-14" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="mobEHit" x="924" y="1426" width="98" height="86" frameX="-52" frameY="-16" frameWidth="200" frameHeight="116"/>
+    <SubTexture name="mobF00" x="786" y="1474" width="136" height="136" frameX="-26" frameY="-20" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF01" x="786" y="1474" width="136" height="136" frameX="-26" frameY="-20" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF02" x="786" y="1474" width="136" height="136" frameX="-26" frameY="-20" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF03" x="432" y="1878" width="136" height="152" frameX="-26" frameY="-4" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF04" x="432" y="1878" width="136" height="152" frameX="-26" frameY="-4" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF05" x="432" y="1878" width="136" height="152" frameX="-26" frameY="-4" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF06" x="812" y="1612" width="136" height="132" frameX="-26" frameY="-24" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF07" x="812" y="1612" width="136" height="132" frameX="-26" frameY="-24" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF08" x="812" y="1612" width="136" height="132" frameX="-26" frameY="-24" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF09" x="576" y="1206" width="136" height="140" frameX="-26" frameY="-16" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF10" x="576" y="1206" width="136" height="140" frameX="-26" frameY="-16" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF11" x="576" y="1206" width="136" height="140" frameX="-26" frameY="-16" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF12" x="674" y="1614" width="136" height="138" frameX="-26" frameY="-18" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF13" x="674" y="1614" width="136" height="138" frameX="-26" frameY="-18" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF14" x="674" y="1614" width="136" height="138" frameX="-26" frameY="-18" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF15" x="674" y="1614" width="136" height="138" frameX="-26" frameY="-18" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF16" x="674" y="1614" width="136" height="138" frameX="-26" frameY="-18" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF17" x="674" y="1614" width="136" height="138" frameX="-26" frameY="-18" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF18" x="674" y="1614" width="136" height="138" frameX="-26" frameY="-18" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF19" x="674" y="1614" width="136" height="138" frameX="-26" frameY="-18" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF20" x="674" y="1614" width="136" height="138" frameX="-26" frameY="-18" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF21" x="674" y="1614" width="136" height="138" frameX="-26" frameY="-18" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF22" x="674" y="1614" width="136" height="138" frameX="-26" frameY="-18" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF23" x="674" y="1614" width="136" height="138" frameX="-26" frameY="-18" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobF24" x="674" y="1614" width="136" height="138" frameX="-26" frameY="-18" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobFAttack" x="570" y="1866" width="136" height="142" frameX="-28" frameY="-26" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="mobFHit" x="832" y="1866" width="146" height="126" frameX="-28" frameY="-10" frameWidth="200" frameHeight="170"/>
+    <SubTexture name="moon" x="1032" y="820" width="86" height="90" frameX="0" frameY="0" frameWidth="90" frameHeight="90"/>
+    <SubTexture name="phA" x="448" y="1618" width="32" height="32"/>
+    <SubTexture name="phB" x="482" y="1618" width="32" height="32"/>
+    <SubTexture name="phC" x="516" y="1618" width="32" height="32"/>
     <SubTexture name="pixel" x="136" y="1702" width="4" height="4"/>
     <SubTexture name="pixel_transparent" x="136" y="1708" width="1" height="1" frameX="0" frameY="0" frameWidth="8" frameHeight="8"/>
-    <SubTexture name="right" x="832" y="1706" width="24" height="46"/>
-    <SubTexture name="root" x="908" y="1276" width="24" height="42" frameX="-6" frameY="-2" frameWidth="32" frameHeight="44"/>
-    <SubTexture name="roots_0000" x="794" y="1290" width="112" height="40" frameX="-40" frameY="-120" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="roots_0001" x="1120" y="1954" width="126" height="92" frameX="-32" frameY="-68" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="roots_0002" x="820" y="1442" width="126" height="106" frameX="-32" frameY="-54" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="roots_0003" x="718" y="836" width="126" height="108" frameX="-32" frameY="-52" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="roots_0004" x="882" y="1332" width="126" height="106" frameX="-32" frameY="-52" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="roots_0005" x="1338" y="1940" width="124" height="94" frameX="-32" frameY="-48" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="roots_0006" x="1052" y="1970" width="66" height="70" frameX="-54" frameY="-54" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="roots_0007" x="764" y="1706" width="40" height="46" frameX="-72" frameY="-60" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="roots_0008" x="250" y="1882" width="60" height="62" frameX="-62" frameY="-52" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="roots_0009" x="764" y="1586" width="126" height="118" frameX="-28" frameY="-24" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="roots_0010" x="544" y="1778" width="170" height="138" frameX="-2" frameY="-22" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="roots_0011" x="590" y="1918" width="146" height="126" frameX="-8" frameY="-12" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="roots_0012" x="460" y="1634" width="164" height="142" frameX="0" frameY="-4" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="roots_0013" x="376" y="1474" width="176" height="158" frameX="0" frameY="0" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="roots_0014" x="282" y="1654" width="176" height="160" frameX="0" frameY="0" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="roots_0015" x="136" y="1708" width="1" height="1" frameX="0" frameY="0" frameWidth="200" frameHeight="160"/>
-    <SubTexture name="shadow" x="934" y="1276" width="106" height="40" frameX="-46" frameY="0" frameWidth="200" frameHeight="40"/>
-    <SubTexture name="shield" x="722" y="2" width="32" height="36" frameX="0" frameY="-6" frameWidth="32" frameHeight="44"/>
+    <SubTexture name="right" x="782" y="2000" width="24" height="46"/>
+    <SubTexture name="root" x="952" y="1994" width="24" height="42" frameX="-6" frameY="-2" frameWidth="32" frameHeight="44"/>
+    <SubTexture name="roots_0000" x="978" y="1994" width="112" height="40" frameX="-40" frameY="-120" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="roots_0001" x="920" y="634" width="126" height="92" frameX="-32" frameY="-68" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="roots_0002" x="792" y="694" width="126" height="106" frameX="-32" frameY="-54" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="roots_0003" x="602" y="958" width="126" height="108" frameX="-32" frameY="-52" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="roots_0004" x="800" y="844" width="126" height="106" frameX="-32" frameY="-52" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="roots_0005" x="1126" y="200" width="124" height="94" frameX="-32" frameY="-48" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="roots_0006" x="714" y="1274" width="66" height="70" frameX="-54" frameY="-54" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="roots_0007" x="714" y="2000" width="40" height="46" frameX="-72" frameY="-60" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="roots_0008" x="412" y="1814" width="60" height="62" frameX="-62" frameY="-52" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="roots_0009" x="816" y="1746" width="126" height="118" frameX="-28" frameY="-24" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="roots_0010" x="614" y="1474" width="170" height="138" frameX="-2" frameY="-22" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="roots_0011" x="980" y="1864" width="146" height="126" frameX="-8" frameY="-12" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="roots_0012" x="448" y="1474" width="164" height="142" frameX="0" frameY="-4" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="roots_0013" x="412" y="1654" width="176" height="158" frameX="0" frameY="0" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="roots_0014" x="254" y="1884" width="176" height="160" frameX="0" frameY="0" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="roots/roots_0015" x="136" y="1708" width="1" height="1" frameX="0" frameY="0" frameWidth="200" frameHeight="160"/>
+    <SubTexture name="shadow" x="1092" y="1992" width="106" height="40" frameX="-46" frameY="0" frameWidth="200" frameHeight="40"/>
+    <SubTexture name="shield" x="646" y="2010" width="32" height="36" frameX="0" frameY="-6" frameWidth="32" frameHeight="44"/>
     <SubTexture name="slash_0000" x="2" y="1714" width="142" height="230" frameX="-64" frameY="0" frameWidth="240" frameHeight="300"/>
     <SubTexture name="slash_0001" x="2" y="1714" width="142" height="230" frameX="-64" frameY="0" frameWidth="240" frameHeight="300"/>
     <SubTexture name="slash_0002" x="2" y="1474" width="128" height="238" frameX="-66" frameY="-14" frameWidth="240" frameHeight="300"/>
     <SubTexture name="slash_0003" x="2" y="1474" width="128" height="238" frameX="-66" frameY="-14" frameWidth="240" frameHeight="300"/>
-    <SubTexture name="slash_0004" x="210" y="1682" width="70" height="198" frameX="-56" frameY="-86" frameWidth="240" frameHeight="300"/>
-    <SubTexture name="slash_0005" x="210" y="1682" width="70" height="198" frameX="-56" frameY="-86" frameWidth="240" frameHeight="300"/>
+    <SubTexture name="slash_0004" x="212" y="1474" width="70" height="198" frameX="-56" frameY="-86" frameWidth="240" frameHeight="300"/>
+    <SubTexture name="slash_0005" x="212" y="1474" width="70" height="198" frameX="-56" frameY="-86" frameWidth="240" frameHeight="300"/>
     <SubTexture name="slash_0006" x="132" y="1474" width="78" height="206" frameX="-52" frameY="-90" frameWidth="240" frameHeight="300"/>
     <SubTexture name="slash_0007" x="132" y="1474" width="78" height="206" frameX="-52" frameY="-90" frameWidth="240" frameHeight="300"/>
     <SubTexture name="slash_0008" x="146" y="1682" width="62" height="202" frameX="-52" frameY="-98" frameWidth="240" frameHeight="300"/>
     <SubTexture name="slash_0009" x="146" y="1682" width="62" height="202" frameX="-52" frameY="-98" frameWidth="240" frameHeight="300"/>
-    <SubTexture name="slash_0010" x="1364" y="88" width="14" height="88" frameX="-52" frameY="-212" frameWidth="240" frameHeight="300"/>
-    <SubTexture name="slash_0011" x="1364" y="88" width="14" height="88" frameX="-52" frameY="-212" frameWidth="240" frameHeight="300"/>
-    <SubTexture name="slash_0012" x="1364" y="88" width="14" height="88" frameX="-52" frameY="-212" frameWidth="240" frameHeight="300"/>
-    <SubTexture name="slash_0013" x="1364" y="88" width="14" height="88" frameX="-52" frameY="-212" frameWidth="240" frameHeight="300"/>
+    <SubTexture name="slash_0010" x="1090" y="2" width="14" height="88" frameX="-52" frameY="-212" frameWidth="240" frameHeight="300"/>
+    <SubTexture name="slash_0011" x="1090" y="2" width="14" height="88" frameX="-52" frameY="-212" frameWidth="240" frameHeight="300"/>
+    <SubTexture name="slash_0012" x="1090" y="2" width="14" height="88" frameX="-52" frameY="-212" frameWidth="240" frameHeight="300"/>
+    <SubTexture name="slash_0013" x="1090" y="2" width="14" height="88" frameX="-52" frameY="-212" frameWidth="240" frameHeight="300"/>
     <SubTexture name="slash_0014" x="136" y="1708" width="1" height="1" frameX="0" frameY="0" frameWidth="240" frameHeight="300"/>
-    <SubTexture name="speed" x="1212" y="88" width="26" height="38" frameX="-2" frameY="-2" frameWidth="32" frameHeight="44"/>
-    <SubTexture name="sphere_add" x="254" y="1654" width="12" height="12"/>
-    <SubTexture name="sphere_blend" x="254" y="1668" width="12" height="12"/>
-    <SubTexture name="spike" x="890" y="1706" width="24" height="44" frameX="-4" frameY="0" frameWidth="32" frameHeight="44"/>
-    <SubTexture name="startTxt" x="604" y="178" width="232" height="82"/>
-    <SubTexture name="sun" x="692" y="374" width="90" height="90"/>
-    <SubTexture name="swap" x="1018" y="1988" width="32" height="42" frameX="0" frameY="0" frameWidth="32" frameHeight="44"/>
-    <SubTexture name="sword" x="722" y="40" width="32" height="36" frameX="0" frameY="-6" frameWidth="32" frameHeight="44"/>
-    <SubTexture name="water" x="784" y="374" width="90" height="88" frameX="0" frameY="0" frameWidth="90" frameHeight="90"/>
-    <SubTexture name="winTxt" x="1464" y="84" width="304" height="80"/>
+    <SubTexture name="speed" x="846" y="802" width="26" height="38" frameX="-2" frameY="-2" frameWidth="32" frameHeight="44"/>
+    <SubTexture name="sphereBig_add" x="210" y="1682" width="200" height="200"/>
+    <SubTexture name="sphere_add" x="314" y="1654" width="12" height="12"/>
+    <SubTexture name="sphere_blend" x="314" y="1668" width="12" height="12"/>
+    <SubTexture name="spike" x="892" y="1994" width="24" height="44" frameX="-4" frameY="0" frameWidth="32" frameHeight="44"/>
+    <SubTexture name="startTxt" x="1106" y="1778" width="220" height="84" frameX="-4" frameY="0" frameWidth="236" frameHeight="84"/>
+    <SubTexture name="sun" x="918" y="1048" width="90" height="90"/>
+    <SubTexture name="swap" x="918" y="1994" width="32" height="42" frameX="0" frameY="0" frameWidth="32" frameHeight="44"/>
+    <SubTexture name="sword" x="680" y="2010" width="32" height="36" frameX="0" frameY="-6" frameWidth="32" frameHeight="44"/>
+    <SubTexture name="water" x="832" y="1248" width="90" height="88" frameX="0" frameY="0" frameWidth="90" frameHeight="90"/>
+    <SubTexture name="winTxt" x="1618" y="2" width="304" height="80"/>
 </TextureAtlas>
