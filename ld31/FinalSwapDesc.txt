@@ -1,0 +1,16 @@
+Final Swap reloads the concept of final fantasy's active time battle!
+Defend your healer, attack the monsters and take advantage of your blackmage to successfully p0wn the final boss!
+
+Your character's actions are automatic, you only have to place the right character in front of the right monster.
+Select a character, then move it left or right from his position.
+Take care of your gauge as well as your opponent's ones.
+Manage your team, and you'll be victorious !
+
+The sun and moon represent the difficulty, at night, monsters are much more stronger.
+Elements can boost your elemental attacks or defences, but be aware that your foe can take advantage of it also. 
+
+Thank you for playing!
+
+Dev: BlackMagic ~ David Elahee
+Art: Gyhyom ~ Guillaume Breton
+Sound: ElMobo ~ Frédéric Motte

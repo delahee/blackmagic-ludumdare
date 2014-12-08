@@ -89,7 +89,11 @@ class G {
 			
 		}
 		
+		#if !debug
 		launchIntroScreen();
+		#else
+		c.nextWave();
+		#end
 		return this;
 	}
 	
@@ -111,8 +115,12 @@ class G {
 		#end
 		
 		#if doubleSpeed
-		tmod = 4.0;
+		tmod *= 4.0;
 		#end
+		
+		if ( 	mt.flash.Key.isDown( mt.flash.Key.F ) ) {
+			tmod *= 6.0;
+		}
 		
 		if ( stopped ) 
 			tmod = 0.0;
@@ -139,8 +147,6 @@ class G {
 		#end
 		
 		d.update();
-		
-		//mt.deepnight.Lib.up
 	}
 	
 	public function makeCredits(sp){
@@ -155,36 +161,28 @@ class G {
 	public function launchIntroScreen() {
 		var sp = new h2d.Sprite( postScene);
 		
-		var b = d.char.h_get("startTxt",sp);
+		var b = d.decor.h_get("title",sp);
 		b.x = C.W * 0.5 - b.width * 0.5;
-		b.y = C.H * 0.2;
+		b.y = C.H * 0.37;
 		
 		stopped = true;
 		c.cleanup();
 		
-		var bt = new h2d.Bitmap(Tile.fromColor(0xFF000000,200,40), sp);
-		bt.x = C.W * 0.5 - bt.width * 0.5;
-		bt.y = C.H * 0.5 - bt.height * 0.5;
-		
-
 		makeCredits(sp);
-		var t = new h2d.Text(d.wendyBig, bt);
-		t.text = "PLAY NOW";
-		t.x = bt.width * 0.5 -t.textWidth * 0.5;
-		t.y = bt.height * 0.5 -t.textHeight * 0.5;
-		t.textColor = 0xFFFFFFFF;
+		
+		var b = d.char.h_get("startTxt",sp);
+		b.x = C.W * 0.5 - b.width * 0.5;
+		b.y = C.H * 0.60;
 		
 		var i = new h2d.Interactive( C.W, C.H, sp);
 		i.onClick = function(_) {
-			stopped = false;
-			c.wave = 0;
-			c.nextWave();
+			restart();
 			sp.detach();
-			D.sfx.START().play();
-			d.sndStopIntro();
 		}
 		
 		d.sndStopBattle();
+		d.sndStopBoss();
+		d.sndStopGameover();
 		d.sndPlayIntro();
 	}
 	
@@ -209,23 +207,21 @@ class G {
 		t.textColor = 0xFFFFFFFF;
 		
 		makeCredits(sp);
-		
+		var playMusic = true;
 		var i = new h2d.Interactive( C.W, C.H, sp);
 		i.onClick = function(_) {
-			stopped = false;
-			c.wave = 0;
-			c.nextWave();
+			restart();
 			sp.detach();
-			D.sfx.START().play();
+			playMusic = false;
 		}
 		
 		d.sndStopBattle();
+		d.sndStopBoss();
 		D.music.jingle_lost_OK().playLoop(1);
-		haxe.Timer.delay( d.sndPlayGameover, 6000);
+		haxe.Timer.delay( function() if(playMusic) d.sndPlayGameover(), 3500);
 	}
 	
 	public function launchVictoryScreen() {
-		
 		D.music.jingle_win_OK().play();
 		var sp = new h2d.Sprite( postScene);
 		stopped = true;
@@ -252,18 +248,29 @@ class G {
 		t.y = bt.height * 0.5 -t.textHeight * 0.5;
 		t.textColor = 0xFFFFFFFF;
 		
+		var playMusic = true;
 		var i = new h2d.Interactive( C.W, C.H, sp);
 		i.onClick = function(_) {
-			c.cleanup();
-			stopped = false;
-			c.wave = 0;
-			c.nextWave();
+			playMusic = false;
+			restart();
 			sp.detach();
-			D.sfx.START().play();
 		}
 		
 		d.sndStopBattle();
+		d.sndStopBoss();
+		
 		D.music.jingle_win_OK().playLoop(1);
-		haxe.Timer.delay( d.sndPlayGameover, 6000);
+		haxe.Timer.delay( function() if(playMusic) d.sndPlayGameover(), 4500);
+	}
+	
+	function restart() {
+		d.sndStopIntro();
+		d.sndStopGameover();
+		d.sndStopBoss();
+		D.sfx.START().play();
+		c.cleanup();
+		stopped = false;
+		c.wave = 0;
+		c.nextWave();
 	}
 }

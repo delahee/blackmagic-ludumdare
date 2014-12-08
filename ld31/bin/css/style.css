@@ -36,8 +36,13 @@ h1, h2, h3 {
 
 #content {
 	margin:auto;
-	margin-top:10px;
-	margin:20px;
+	width:800px;
+}
+
+#game {
+	width:800px;
+	margin:auto;
+	text-align:center;
 }
 
 .center {
@@ -45,6 +50,10 @@ h1, h2, h3 {
 	text-align:center;
 	margin-top:20px;
 	margin-bottom:10px;
+}
+
+.marginTop {
+	margin-top:5px;
 }
 
 a.rate {
@@ -66,19 +75,14 @@ a.rate:hover {
 	color:white;
 }
 
-.rules {
-	margin-bottom:5px;
-	margin-top:10px;
-	text-align:center;
-}
-
 .float {
 	float:right;
 	margin-right:40px;
 }
 
 .HowtoPlay {
-	font-size:1.1em;
+	font-size:1em;
+	text-align:center;
 }
 
 .inline-block {display:inline-block;}

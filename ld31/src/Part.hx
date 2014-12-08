@@ -11,13 +11,13 @@ class Part {
 	var ax = 0.;
 	var ay = 0.;
 	
-	var iLife = 100.0;
+	var iLife = 200.0;
 	
 	var x(get, set):Float; 
 	var y(get, set):Float; 
 	var alpha(get, set):Float; 
 	
-	var update : Array < Void->Void >;
+	private var update : Array < Void->Void >;
 	
 	var sp : h2d.Drawable;
 	
@@ -35,7 +35,7 @@ class Part {
 		this.sp = sp;
 		x = sp.x;
 		y = sp.y;
-		update = [];
+		update = [life];
 		vx = 0; vy = 0;
 		ALL.push( this );
 		this.name = name;
@@ -54,7 +54,7 @@ class Part {
 	
 	public function kill() {
 		onKill();
-		sp.detach();
+		sp.dispose();
 		ALL.remove(this);
 	}
 	

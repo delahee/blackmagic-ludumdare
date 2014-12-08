@@ -19,4 +19,5 @@ class C {
 	
 	public static inline var CHANGE_LIGHT_DUR = 2.0;
 	public static inline var FPS = 30.0;
+	public static inline var SWAP_DUR = 300;
 }

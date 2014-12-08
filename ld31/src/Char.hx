@@ -43,7 +43,7 @@ class Char extends h2d.Sprite {
 	var c(get, null) : CenterScreen; 	function get_c() return CenterScreen.me;
 	
 	public var bar : Float = 0.0;
-	public var maxBar : Float = 20.0;
+	public var maxBar : Float = 16.0;
 	public var atbSpeed = 1.0;
 	public var maxAtbSpeed:Float = 1.0;
 	
@@ -62,6 +62,8 @@ class Char extends h2d.Sprite {
 	public var cl:CharClass;
 	
 	public var lifeText : h2d.Text;
+	
+	public var atb:Sprite;
 	
 	public var pendingArrow : HSprite;
 	public var pendingAction : HSprite;
@@ -105,7 +107,9 @@ class Char extends h2d.Sprite {
 			sp = d.char.h_getAndPlay(str, 999, false);
 			addChild( sp );
 		}
-		else 			sp.a.playAndLoop( str );
+		else 
+			sp.a.playAndLoop( str );
+		sp.setFrame( Dice.roll(0,sp.totalFrames()-1 ));
 		sp.setCenter(0.5, 1.0);
 	}
 	
@@ -122,7 +126,7 @@ class Char extends h2d.Sprite {
 	}
 	
 	public function goodClass() {
-		maxBar -= 5.0;
+		maxBar *= 0.9;
 	}
 	
 	public function badClass() {
@@ -135,8 +139,8 @@ class Char extends h2d.Sprite {
 			
 			case Dummy:
 				badClass();
-				hp = 2500;
-				spells = [ mk(Atk, 10) ];
+				hp = 20;
+				spells = [ mk(Atk, 10),mk(Swap,10) ];
 			case Skel:
 				badClass();
 				hp = 25;
@@ -162,7 +166,7 @@ class Char extends h2d.Sprite {
 			case Tentacle:
 				badClass();
 				hp = 50;
-				maxBar *= 2.0;
+				//maxBar *= 1.0;
 				spells = [ 
 					mk( Atk, 10), 
 					mk( Def, 10),
@@ -177,7 +181,8 @@ class Char extends h2d.Sprite {
 				atk *= 2;
 				lockTimerCap = 1.0;
 				spells = [ 
-					mk(Atk, 10), mk(Def, 10) 
+					mk(Atk, 5), mk(Def, 5),
+					mk(Atk, 5), mk(Def, 5),
 				];
 				maxBar = maxBar * 1.1;
 				
@@ -185,14 +190,14 @@ class Char extends h2d.Sprite {
 				goodClass();
 				hp = 100;
 				atk *= 0.5;
-				atkMag *= 2;
+				atkMag *= 1.8;
 				spells = [ 
 					mk( Def, 5), 
 					mk( Atk, 10),
 					mk( WhiteSpell( Water, Heal), 15),
 					mk( WhiteSpell( Earth, Armor), 15),
 					mk( WhiteSpell( Fire, Speed), 15),
-					mk( BlackSpell( Earth, Root), 15),
+					mk( BlackSpell( Earth, Root), 5),
 				];
 				
 				maxBar = maxBar * 0.9;
@@ -232,12 +237,15 @@ class Char extends h2d.Sprite {
 					return idx;
 				idx++;
 		}}
-		throw "assert!";
+		return -1;
 	}
 	
 	public function getTarget() : Char {
 		var idx = getMyIndex();
-		return  isGood ? c.nmy[idx] : c.char[idx];
+		var c = isGood ? c.nmy[idx] : c.char[idx];
+		if ( c!=null && c.isDead )
+			c = null;
+		return c;
 	}
 	
 	public function getNeighBours() {
@@ -252,6 +260,7 @@ class Char extends h2d.Sprite {
 			if(src[idx - 1]!=null) a.push( src[idx - 1]);
 			if(src[idx + 1]!=null) a.push( src[idx + 1]);
 		}
+		a = a.filter( function(c) return !c.isDead );
 		return a;
 	}
 	
@@ -302,10 +311,12 @@ class Char extends h2d.Sprite {
 	}
 	
 	public function heal(v:Float) {
+		if ( isDead ) return;
+		
 		hp += v;
 		if( v > 0 ){
 			var t = new h2d.Text(lifeText.font,lifeText.parent);
-			t.text = "-" + Math.round(v);
+			t.text = "+" + Math.round(v);
 			t.x = lifeText.x;
 			t.y = lifeText.y;
 			t.textColor = 0xFF00FF00;
@@ -331,6 +342,14 @@ class Char extends h2d.Sprite {
 	public function update(tmod:Float) {
 		if ( hp == 0 ) lockTimer = 0;
 		
+		lockTimer -= tmod;
+		
+		if ( isDead ) {
+			atb.visible = false;
+			lifeText.visible = false;
+			return;
+		}
+			
 		if ( atbSpeed < maxAtbSpeed ) {
 			atbSpeed += tmod / maxBar;
 			if ( atbSpeed >= maxAtbSpeed ) 
@@ -373,10 +392,8 @@ class Char extends h2d.Sprite {
 			lockTimer -= tmod;
 		}
 		
-		lifeText.text = Math.round( hp ) + "PV";
+		lifeText.text = Math.round( hp ) + "HP";
 		lifeText.x = Std.int(-lifeText.textWidth * 0.5);
-		
-		lockTimer -= tmod;
 		
 		if ( dot != null ) {
 			dot.fr -= tmod;
@@ -404,6 +421,9 @@ class Char extends h2d.Sprite {
 	
 	public function lock() {
 		lockTimer = lockTimerCap;
+		if ( isShaking && curShake != null){
+			curShake.kill();
+		}
 	}
 	
 	public function isLocked() {
@@ -411,20 +431,29 @@ class Char extends h2d.Sprite {
 	}
 	
 	public function execute(pendingSpell) { 
+		#if debug
+		if ( isDead ) 
+			throw "assert";
+		#end
 		var tgt = getTarget();
 		var c : Float = critRatio();
 		if( tgt != null ) tgt.lock();
 		switch(pendingSpell) {
 			case Nop, DotSideFx:
 			case Swap:				{
-				var targets = getNeighBours();
-				volute.ArrEx.scramble( targets );
-				for ( c in targets ) {
-					if( c != null && !c.isLocked() ){
-						CenterScreen.me.oppSwap(getMyIndex(), c.getMyIndex());
-						break;
-					}
+				var a = [];
+				var i = 0;
+				var myIndex = getMyIndex();
+				for ( n in this.c.nmy) {
+					if ( i == myIndex || n == this) continue;
+					if ( n ==null || !n.isLocked() )
+						a.push( i );
+					i++;
 				}
+				
+				var oIndex :Null<Int>= a.random();
+				if( oIndex != null && oIndex >= 0)
+					CenterScreen.me.oppSwap(myIndex, oIndex );
 			}
 			
 			case Atk: 				
@@ -448,7 +477,7 @@ class Char extends h2d.Sprite {
 						var targets = getNeighBoursAndMe();
 						function effect() {
 							for ( n in targets)
-								n.heal( atkMag * c );
+								n.heal( 0.8 * atkMag * c );
 						}
 						
 						D.sfx.heal().play();
@@ -796,17 +825,20 @@ class Char extends h2d.Sprite {
 	}
 	
 	public function onStrike() {
-		var d = 10;
-		if ( !isGood ) d *= -1;
-		y -= d;
-		
 		sp.a.play( attack());
-		sp.a.play( idle(), true );
+		sp.a.play( idle(),999, true );
 		
-		haxe.Timer.delay( function() y += d, 250 );
+		if ( !isShaking ) {
+			isShaking = true;
+			var d = 10;
+			if ( !isGood ) d *= -1;
+			y -= d;
+			haxe.Timer.delay( function() { y += d; isShaking = false; } , 250 );
+		}
 	}
 	
 	public function setToFront() {
+		//toFront();
 		scaleX = 1.0;
 		scaleY = 1.0;
 		x -= 16;  
@@ -821,8 +853,7 @@ class Char extends h2d.Sprite {
 		switch(s) {
 			case Atk:"sword";
 			case Def:"shield";
-			case Swap:
-				"pixel_transparent";
+			case Swap:"swap";
 			case WhiteSpell(_, fx): Std.string(fx).toLowerCase();
 			case BlackSpell(_, fx):	Std.string(fx).toLowerCase();
 			case DotSideFx,Nop:"pixel_transparent";
@@ -835,25 +866,26 @@ class Char extends h2d.Sprite {
 		var xofs = 8;
 		var yofs = 10;
 		
-		pendingArrow = d.char.h_get("gaugeLeft",this);
+		atb = new Sprite(this);
+		pendingArrow = d.char.h_get("gaugeLeft",atb);
 		pendingArrow.y += uiLineY;
 		pendingArrow.x += 30;
 		pendingArrow.visible = isGood;
 		
-		gaugeLeft = d.char.h_get("gaugeLeft", this);
+		gaugeLeft = d.char.h_get("gaugeLeft", atb);
 		gaugeLeft.setCenter( 0, 0.5);
 		gaugeLeft.y = uiLineY + yofs;
 		gaugeLeft.x -= 70; 
 		gaugeLeft.x += xofs;
 		
-		gaugeBg = d.char.h_get("gaugeBg", this);
+		gaugeBg = d.char.h_get("gaugeBg", atb);
 		gaugeBg.setCenter( 0, 0.5);
 		gaugeBg.y = uiLineY + yofs;
 		gaugeBg.x -= 70; 
 		gaugeBg.x += xofs;
 		gaugeBg.scaleX = 35;
 		
-		gaugeFg = d.char.h_get("gaugeShield", this);
+		gaugeFg = d.char.h_get("gaugeShield", atb);
 		gaugeFg.setCenter( 0, 0.5);
 		gaugeFg.y = uiLineY + yofs;
 		gaugeFg.x -= 50; 
@@ -911,7 +943,7 @@ class Char extends h2d.Sprite {
 			pendingAction.remove();
 		
 		var s = spells[idx].s;
-		pendingAction = d.char.h_get( spellToTile(s),this );
+		pendingAction = d.char.h_get( spellToTile(s),atb );
 		pendingAction.setCenter( 0.5, 0.5);
 		pendingAction.y += uiLineY + 10;
 		pendingAction.x += 10;
@@ -937,7 +969,7 @@ class Char extends h2d.Sprite {
 			}
 			
 			var s = spells[idx].s;
-			nextAction = d.char.h_get( spellToTile(s),this );
+			nextAction = d.char.h_get( spellToTile(s),atb );
 			nextAction.setCenter( 0.5, 0.5);
 			nextAction.x += 66;
 			nextAction.y += uiLineY + 10;
@@ -948,25 +980,44 @@ class Char extends h2d.Sprite {
 	}
 	
 	public function onDeath() {
-		if( ! isGood)
+		if( ! isGood ) {
 			g.colGeneration[getMyIndex()]++;
+			D.sfx.monster_death().play();
+		}
+		else 
+		{
+			if ( cl == Whitemage )
+				D.sfx.hero_female_death().play();
+			else 
+				D.sfx.hero_male_death().play();
+		}
 			
 		hp = 0;
 		isDead = true;
 		shake();
 		
+		c.onDeath();
+		
 		if ( isGood )
 			setTile("char" + c.getLetter(cl) + "Dead");
-		else 
-			new mt.heaps.fx.Vanish( this );
-		
-		c.onDeath();
+		else {
+			var v = new mt.heaps.fx.Vanish( this );
+			v.onFinish = function() {
+				var idx = getMyIndex();
+				if( idx >= 0 )
+					if ( c.nmy[idx] == this )
+						c.nmy[idx] = null;
+			}
+		}
 	}
 	
 	var isShaking = false;
 	var isBlinking = false;
 	
 	public function onHit(?s:Spell) {
+		if ( isDead )
+			return;
+			
 		if ( s == Atk ){
 			var s = d.char.h_getAndPlay("slash", 1, true);
 			s.setCenter( 0.5, 0.5 );
@@ -974,29 +1025,32 @@ class Char extends h2d.Sprite {
 			addChild(s);
 		}
 		sp.a.play( hitFrame() );
-		sp.a.play( idle(), true );
+		sp.a.play( idle(),999, true );
 		if( s!= DotSideFx )	shake();
 	}
 	
+	/*
 	public function blink() {
 		if( !isBlinking ) {
 			isBlinking = true;
 			var fx = new mt.heaps.fx.Blink( this );
 			fx.onFinish = function() isBlinking = false;
 		}
-	}
+	}*/
 	
+	public var curShake :mt.heaps.fx.Shake;
 	public function shake() {
 		if ( !isShaking ) {
 			isShaking = true;
-			var fx = new mt.heaps.fx.Shake( this, 6,6 );
-			fx.onFinish = function() isShaking = false;
+			var fx = new mt.heaps.fx.Shake( this, 6, 6 );
+			curShake = fx;
+			fx.onFinish = function() {
+				curShake = null;
+				isShaking = false;
+			}
 		}
 	}
-	
-	/**
-	 * @return
-	 */
+
 	public function critRatio() : Float {
 		return Math.pow( kOf(pendingSpell) , critLevel() );
 	}

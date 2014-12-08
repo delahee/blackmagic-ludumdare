@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>3.5.3</string>
         <key>fileName</key>
-        <string>C:/projets/ludumDare/ld31/gfx/assets.tps</string>
+        <string>D:/ludum dare/ld31MT/gfx/assets.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -38,7 +38,7 @@
         <key>dataFormat</key>
         <string>sparrow</string>
         <key>textureFileName</key>
-        <filename>../asset/assets.png</filename>
+        <filename>../assets/assets.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -145,7 +145,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../asset/assets.xml</filename>
+                <filename>../assets/assets.xml</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -189,6 +189,14 @@
         <key>fileList</key>
         <array>
             <filename>export</filename>
+            <filename>src/charCAttack.swf</filename>
+            <filename>src/mobAAttack.swf</filename>
+            <filename>src/mobBAttack.swf</filename>
+            <filename>src/mobCAttack.swf</filename>
+            <filename>src/roots.swf</filename>
+            <filename>src/slash.swf</filename>
+            <filename>src/charAAttack.swf</filename>
+            <filename>src/charBAttack.swf</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
