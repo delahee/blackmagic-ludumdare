@@ -1,16 +1,15 @@
-body{font-family:"Segoe UI","Trebuchet MS",Arial;background-color:#1c1c1c;color:white;font-size:11px;margin:0px;padding:0px;}
-a{color:black;font-weight:bold;cursor:pointer;text-decoration:none;transition:all 200ms ease-out;}
-a:hover{color:white;transition:all 200ms ease-out;}
-h1,h2,h3{font-family:'Alegreya Sans SC',sans-serif;color:black;font-size:25px;font-weight:bolder;margin-bottom:-15px;margin-top:-5px;text-align:center;}
-#content{width:90%;margin:auto;margin-top:10px;}
+body{font-family:"Segoe UI","Trebuchet MS",Arial;background:linear-gradient(#02020A,#0F1620) no-repeat;background-color:#0F1620;color:#4E6976;font-size:1em;margin:0px;padding:0px;}
+a{font-family:'Dosis',sans-serif;color:#720712;font-weight:bold;cursor:pointer;text-decoration:none;font-size:1.2em;transition:all 200ms ease-out;}
+a:hover{color:#ff2d48;transition:all 200ms ease-out;}
+h1,h2,h3{color:#0B5A86;font-size:2em;font-weight:bolder;margin-bottom:-15px;margin-top:-5px;text-align:center;}
+#content{margin:auto;margin-top:10px;margin:20px;}
 .center{margin:auto;text-align:center;margin-top:20px;margin-bottom:10px;}
-a.rate{height:50px;font-family:'Alegreya Sans SC',sans-serif;text-transform:capitalize;font-size:20pt;text-align:center;color:white;padding:8px;padding-top:5px;vertical-align:bottom;text-shadow:0px 1px 1px black,0px -1px 1px black,1px 0px 1px black,-1px 0px 1px black,1px 1px 1px black,-1px -1px 1px black,-1px 1px 1px black,1px -1px 1px black;}
-a.rate:hover{height:46px;text-align:center;color:white;margin-top:4px;text-shadow:none;}
+a.rate{color:#ff2d48;height:50px;height:50px;text-transform:capitalize;font-size:20pt;text-align:center;padding:8px;padding-top:5px;text-transform:uppercase;vertical-align:bottom;}
+a.rate:hover{text-shadow:0px 2px 4px #156275,2px 0px 4px #156275,2px 2px 4px #156275,-2px -2px 4px #156275;text-align:center;color:white;}
 .rules{margin-bottom:5px;margin-top:10px;text-align:center;}
-.HowtoPlay{color:#aca67b;font-weight:bold;}
+.float{float:right;margin-right:40px;}
+.HowtoPlay{font-size:1.1em;}
 .inline-block{display:inline-block;}
 .block{display:block;}
-strong{color:#a09e8b;font-size:110%;}
-span{color:#7b7a6a;font-size:11px;}
 .cr{text-align:center;width:600px;margin:auto;}
 .right{float:right;position:relative;}

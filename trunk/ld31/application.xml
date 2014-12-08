@@ -3,7 +3,7 @@
 	<!-- NMML reference: https://gist.github.com/1763850 -->
 	
 	<!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
-	<meta title="app" package="h2d.samples.empty" version="1.0.0" company="blackmagicTeam"  />
+	<meta title="app" package="mt.ld.md31" version="1.0.0" company="blackmagicTeam"  />
 	
 	<!-- output -->
 	<app main="App" file="app" path="bin" swf-version="11.6" />
@@ -21,5 +21,17 @@
 	
 	<assets path="assets" rename="assets" />
 	<haxedef name="resourcesPath" value="assets" />
-	<haxeflag name="-dce" value="no" />
+	<haxeflag name="-dce" value="std" />
+
+	<!--
+	<haxedef name="godMode" />
+	-->
+	<!--
+	<haxedef name="doubleSpeed" />
+	-->
+	
+	
+	<section unless="debug">
+		<haxeflag name="--no-traces" />
+	</section>
 </project>
