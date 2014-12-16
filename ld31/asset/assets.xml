@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:a30fcd97df3e313f42b4f49dc919ab3d:e50d9d872e6677dd9c56e367a7538380:57ef0b4f36012e2dacefebfa7d58e2d4$ -->
+<TextureAtlas imagePath="assets.png">
+    <SubTexture name="bg" x="2" y="2" width="240" height="300"/>
+    <SubTexture name="chara" x="2" y="406" width="28" height="29"/>
+    <SubTexture name="iconShield" x="30" y="437" width="14" height="20"/>
+    <SubTexture name="iconStaff" x="32" y="406" width="14" height="20"/>
+    <SubTexture name="iconSword" x="30" y="459" width="14" height="20"/>
+    <SubTexture name="iconWand" x="37" y="481" width="14" height="20"/>
+    <SubTexture name="mob1" x="2" y="437" width="26" height="25"/>
+    <SubTexture name="mob2" x="2" y="464" width="26" height="25"/>
+    <SubTexture name="pha" x="2" y="304" width="32" height="32"/>
+    <SubTexture name="phb" x="2" y="338" width="32" height="32"/>
+    <SubTexture name="phc" x="2" y="372" width="32" height="32"/>
+    <SubTexture name="shadow" x="2" y="491" width="33" height="12"/>
+</TextureAtlas>
