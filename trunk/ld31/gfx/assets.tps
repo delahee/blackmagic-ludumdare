@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>3.5.3</string>
         <key>fileName</key>
-        <string>D:/ludum dare/ld31MT/gfx/assets.tps</string>
+        <string>C:/projets/ludumDare/ld31/gfx/assets.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -38,7 +38,7 @@
         <key>dataFormat</key>
         <string>sparrow</string>
         <key>textureFileName</key>
-        <filename>../assets/assets.png</filename>
+        <filename>../../../ld31/assets/assets.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -145,7 +145,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../assets/assets.xml</filename>
+                <filename>../../../ld31/assets/assets.xml</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -170,9 +170,9 @@
         <key>globalSpriteSettings</key>
         <struct type="SpriteSettings">
             <key>scale</key>
-            <double>1</double>
+            <double>2</double>
             <key>scaleMode</key>
-            <enum type="ScaleMode">Smooth</enum>
+            <enum type="ScaleMode">Fast</enum>
             <key>innerPadding</key>
             <uint>0</uint>
             <key>extrude</key>
@@ -188,15 +188,15 @@
         </struct>
         <key>fileList</key>
         <array>
-            <filename>export</filename>
-            <filename>src/charCAttack.swf</filename>
-            <filename>src/mobAAttack.swf</filename>
-            <filename>src/mobBAttack.swf</filename>
-            <filename>src/mobCAttack.swf</filename>
-            <filename>src/roots.swf</filename>
-            <filename>src/slash.swf</filename>
-            <filename>src/charAAttack.swf</filename>
-            <filename>src/charBAttack.swf</filename>
+            <filename>../../../ld31/gfx/export</filename>
+            <filename>../../../ld31/gfx/src/roots.swf</filename>
+            <filename>../../../ld31/gfx/src/slash.swf</filename>
+            <filename>../../../ld31/gfx/src/charAAttack.swf</filename>
+            <filename>../../../ld31/gfx/src/charBAttack.swf</filename>
+            <filename>../../../ld31/gfx/src/charCAttack.swf</filename>
+            <filename>../../../ld31/gfx/src/mobAAttack.swf</filename>
+            <filename>../../../ld31/gfx/src/mobBAttack.swf</filename>
+            <filename>../../../ld31/gfx/src/mobCAttack.swf</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
