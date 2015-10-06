@@ -110,7 +110,7 @@ class Char extends h2d.Sprite {
 		else 
 			sp.a.playAndLoop( str );
 		sp.setFrame( Dice.roll(0,sp.totalFrames()-1 ));
-		sp.setCenter(0.5, 1.0);
+		sp.setCenterRatio(0.5, 1.0);
 	}
 	
 	public function makeGfx() {
@@ -372,7 +372,7 @@ class Char extends h2d.Sprite {
 			
 			if ( r >= 0.7 && !gaugeShown) {
 				gaugeGlow.set(getGaugeGlowTime());
-				gaugeGlow.setCenter(0.5, 0.5);
+				gaugeGlow.setCenterRatio(0.5, 0.5);
 				gaugeGlow.alpha = 0.8;
 				gaugeGlow.y = uiLineY + 10;
 				gaugeShown = true;
@@ -485,7 +485,7 @@ class Char extends h2d.Sprite {
 							for ( i in 0...12 ) {
 								haxe.Timer.delay( function(){
 									var bolt = d.char.h_get("fxHeal_blend",parent); //getSphereAdd(parent);
-									bolt.setCenter(0.5, 0.5);
+									bolt.setCenterRatio();
 									bolt.blendMode = Add;
 									bolt.color = h3d.Vector.fromColor(0xFF00FF29);
 									
@@ -585,7 +585,7 @@ class Char extends h2d.Sprite {
 								tgt.hit( atkMag * c,pendingSpell );
 						
 						var bolt : HSprite = d.getSphereAdd(parent);
-						bolt.setCenter( 0.5, 0.5 );
+						bolt.setCenterRatio( 0.5, 0.5 );
 						bolt.blendMode = Add;
 						bolt.scaleX = bolt.scaleY = 4.0;
 						bolt.color = h3d.Vector.fromColor(0xFFFFB900);
@@ -651,7 +651,7 @@ class Char extends h2d.Sprite {
 									D.sfx.spell_fire_impact().play();
 									for ( i in 0...50) {
 										var bolt : mt.deepnight.slb.HSprite = d.getSphereAdd(sp);
-										bolt.setCenter(0.5, 0.5);
+										bolt.setCenterRatio(0.5, 0.5);
 										bolt.blendMode = Add;
 										var a = Dice.randAngle();
 										var d = Dice.rollF( 5, 15);
@@ -721,9 +721,9 @@ class Char extends h2d.Sprite {
 						for ( i in 0...5) {
 							haxe.Timer.delay( function(){
 								var bolt : HSprite = d.char.h_get("fxSpike_blend",parent);
-								bolt.setCenter( 0.5, 0.5);
+								bolt.setCenterRatio( 0.5, 0.5);
 								var b: HSprite = d.char.h_get("fxSpike_add", bolt);
-								b.setCenter( 0.5, 0.5);
+								b.setCenterRatio( 0.5, 0.5);
 								b.blendMode = Add;
 								bolt.x = x ;
 								if ( !isGood ) 
@@ -750,7 +750,7 @@ class Char extends h2d.Sprite {
 					case Root:
 						if( tgt!=null){
 							var bolt : HSprite = d.char.h_getAndPlay("roots",1,true);
-							bolt.setCenter( 0.5, 0.5);
+							bolt.setCenterRatio();
 							parent.addChild(bolt);
 							bolt.x = tgt.x;
 							bolt.y = tgt.y - 40;
@@ -873,27 +873,27 @@ class Char extends h2d.Sprite {
 		pendingArrow.visible = isGood;
 		
 		gaugeLeft = d.char.h_get("gaugeLeft", atb);
-		gaugeLeft.setCenter( 0, 0.5);
+		gaugeLeft.setCenterRatio( 0, 0.5);
 		gaugeLeft.y = uiLineY + yofs;
 		gaugeLeft.x -= 70; 
 		gaugeLeft.x += xofs;
 		
 		gaugeBg = d.char.h_get("gaugeBg", atb);
-		gaugeBg.setCenter( 0, 0.5);
+		gaugeBg.setCenterRatio( 0, 0.5);
 		gaugeBg.y = uiLineY + yofs;
 		gaugeBg.x -= 70; 
 		gaugeBg.x += xofs;
 		gaugeBg.scaleX = 35;
 		
 		gaugeFg = d.char.h_get("gaugeShield", atb);
-		gaugeFg.setCenter( 0, 0.5);
+		gaugeFg.setCenterRatio( 0, 0.5);
 		gaugeFg.y = uiLineY + yofs;
 		gaugeFg.x -= 50; 
 		gaugeBg.x += xofs;
 		gaugeFg.scaleX = 0;
 		
 		var s = d.char.h_get( "shadow", this);
-		s.setCenter(0.5, 1.0);
+		s.setCenterRatio(0.5, 1.0);
 		s.toBack();
 		switch(cl) {
 			default:
@@ -909,7 +909,7 @@ class Char extends h2d.Sprite {
 		pendingSpell = nextSpell();
 		
 		var gg = gaugeGlow = d.char.h_get("glowSword", this);
-		gg.setCenter(0.5, 0.5);
+		gg.setCenterRatio(0.5, 0.5);
 		gg.y = uiLineY + yofs;
 		gg.blendMode = Add;
 		gg.visible = false;
@@ -930,7 +930,7 @@ class Char extends h2d.Sprite {
 					if( isSpellElemBoost() )	gaugeFg.set( "gauge" + Std.string(e));
 					else 						gaugeFg.set( "gaugeWand" );
 			}
-			gaugeFg.setCenter(0, 0.5);
+			gaugeFg.setCenterRatio(0, 0.5);
 		}
 	}
 	
@@ -944,7 +944,7 @@ class Char extends h2d.Sprite {
 		
 		var s = spells[idx].s;
 		pendingAction = d.char.h_get( spellToTile(s),atb );
-		pendingAction.setCenter( 0.5, 0.5);
+		pendingAction.setCenterRatio( 0.5, 0.5);
 		pendingAction.y += uiLineY + 10;
 		pendingAction.x += 10;
 			
@@ -970,7 +970,7 @@ class Char extends h2d.Sprite {
 			
 			var s = spells[idx].s;
 			nextAction = d.char.h_get( spellToTile(s),atb );
-			nextAction.setCenter( 0.5, 0.5);
+			nextAction.setCenterRatio( 0.5, 0.5);
 			nextAction.x += 66;
 			nextAction.y += uiLineY + 10;
 			new mt.heaps.fx.Spawn(nextAction, 0.1, false, true);
@@ -1020,7 +1020,7 @@ class Char extends h2d.Sprite {
 			
 		if ( s == Atk ){
 			var s = d.char.h_getAndPlay("slash", 1, true);
-			s.setCenter( 0.5, 0.5 );
+			s.setCenterRatio( 0.5, 0.5 );
 			s.blendMode = Add;
 			addChild(s);
 		}

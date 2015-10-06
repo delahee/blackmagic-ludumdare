@@ -17,7 +17,7 @@ class D {
 	
 	public function getSphereAdd(p:h2d.Sprite) : mt.deepnight.slb.HSprite {
 		var d = char.h_get("sphere_add",p);
-		d.setCenter(0.5, 0.5);
+		d.setCenterRatio(0.5, 0.5);
 		return d;
 	}
 	

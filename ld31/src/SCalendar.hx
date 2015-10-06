@@ -50,7 +50,7 @@ class SCalendar extends S {
 			}
 		}
 		var t = d.char.h_get( tileName, h);
-		t.setCenter( 0.5, 0.5);
+		t.setCenterRatio();
 		
 		if ( pendulum != null ) {
 			pendulum.dispose();

@@ -12,13 +12,17 @@ class HSprite extends h2d.Drawable implements SpriteInterface {
 	public var group		: LibGroup;
 	public var frame		: Int;
 	public var frameData	: FrameData;
-	public var pivot		: SpritePivot;
+	var pivot				: SpritePivot;
 	public var destroyed	: Bool;
 
 	public var beforeRender	: Null<Void->Void>;
 	public var onFrameChange: Null<Void->Void>;
 
 	var mTile					: h2d.Tile;
+
+	/**
+	 * Writing or changing this tile will not not do anything.
+	 */
 	public var tile(get,null)	: h2d.Tile;
 
 
@@ -32,7 +36,7 @@ class HSprite extends h2d.Drawable implements SpriteInterface {
 		if( l!=null )
 			set(l, g, f);
 		else
-			mTile = tile = h2d.Tile.fromTexture( getEmptyTexture() );
+			setEmptyTexture();
 	}
 
 	public function toString() return "HSprite_"+groupName+"["+frame+"]";
@@ -55,14 +59,15 @@ class HSprite extends h2d.Drawable implements SpriteInterface {
 	}
 
 
-	public
-	function set( ?l:BLib, ?g:String, ?frame=0, ?stopAllAnims=false ) {
+	public function setEmptyTexture() {
+		mTile = tile = h2d.Tile.fromTexture( getEmptyTexture() );
+	}
+
+	public inline function set( ?l:BLib, ?g:String, ?frame=0, ?stopAllAnims=false ) {
 		if( l!=null ) {
 			// Update internal tile
 			if ( l.tile==null )
 				throw "sprite sheet has no backing texture, please generate one";
-
-			mTile = tile = l.tile.clone();
 
 			// Reset existing frame data
 			if( g==null ) {
@@ -77,13 +82,15 @@ class HSprite extends h2d.Drawable implements SpriteInterface {
 			lib = l;
 			lib.addChild(this);
 			if( pivot.isUndefined )
-				setCenter(lib.defaultCenterX, lib.defaultCenterY);
+				setCenterRatio(lib.defaultCenterX, lib.defaultCenterY);
 		}
 
 		if( g!=null && g!=groupName )
 			groupName = g;
 
 		if( isReady() ) {
+			mTile = tile = lib.tile.clone();
+
 			if( stopAllAnims )
 				a.stopWithoutStateAnims();
 
@@ -93,6 +100,8 @@ class HSprite extends h2d.Drawable implements SpriteInterface {
 				throw 'Unknown frame: $groupName($frame)';
 			setFrame(frame);
 		}
+		else
+			setEmptyTexture();
 	}
 
 
@@ -128,7 +137,7 @@ class HSprite extends h2d.Drawable implements SpriteInterface {
 	}
 
 	public inline function isReady() {
-		return !destroyed && groupName!=null;
+		return !destroyed && lib!=null && groupName!=null;
 	}
 
 	public function setFrame(f:Int) {
@@ -150,8 +159,8 @@ class HSprite extends h2d.Drawable implements SpriteInterface {
 		pivot.setCoord(x, y);
 	}
 
-	public inline function setCenter(xRatio:Float, yRatio:Float) {
-		pivot.setCenter(xRatio, yRatio);
+	public inline function setCenterRatio(?xRatio:Float=0.5, ?yRatio:Float=0.5) {
+		pivot.setCenterRatio(xRatio, yRatio);
 	}
 
 	public function totalFrames() {
@@ -159,30 +168,10 @@ class HSprite extends h2d.Drawable implements SpriteInterface {
 	}
 
 
-
-
-
-	//public inline function setRandom( ?l, g, rndFunc ) bs.setRandom(l, g, rndFunc);
-	//public inline function setRandomFrame(?rndFunc) bs.setRandomFrame(rndFunc);
-	//public inline function is(k,f) return bs.is(k,f);
-	//public inline function isGroup(k) return bs.isGroup(k);
-//
-	//public inline function getAnimDuration() return bs.getAnimDuration();
-	//public inline function totalFrames() return bs.totalFrames();
-//
-	//public inline function setCenter(xf:Float, yf:Float) bs.setCenter(xf, yf);
-	//public inline function setPivotCoord(xf:Float, yf:Float) bs.setPivotCoord(xf, yf);
-	//public inline function setFrame(f) bs.setFrame(f);
-	//public inline function isReady() return bs!=null && bs.isReady();
-
-
-
 	static inline function getEmptyTexture() {
 		return h2d.Tools.getCoreObjects().getEmptyTexture();
 	}
 
-
-	public inline function destroy() dispose();
 	override function dispose() {
 		super.dispose();
 
@@ -206,12 +195,13 @@ class HSprite extends h2d.Drawable implements SpriteInterface {
 		}
 	}
 
-
-	public function clone() : HSprite {
-		var s = new HSprite(lib, groupName, frame);
-		s.pivot = pivot.clone();
-		return s;
+	public override function clone<T>(?s:T) : T {
+		var hs : HSprite = (s == null) ?new HSprite(lib, groupName, frame,parent) : cast s;
+		hs = super.clone(hs);
+		hs.pivot = pivot.clone();
+		return cast hs;
 	}
+
 
 	override function getBoundsRec( relativeTo, out ) {
 		super.getBoundsRec(relativeTo, out);

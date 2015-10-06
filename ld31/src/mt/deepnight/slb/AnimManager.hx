@@ -13,7 +13,6 @@ typedef AnimInstance = {
 	var killAfterPlay	: Bool;
 	var speed			: Float;
 	var onEnd			: Null< Void->Void >;
-	var onLoop			: Null< Void->Void >;
 }
 
 class AnimManager {
@@ -64,7 +63,7 @@ class AnimManager {
 	}
 
 	inline function hasAnim() {
-		return animStack.length>0;
+		return !destroyed && animStack.length>0;
 	}
 
 	public inline function isPlayingAnim(?group:String) {
@@ -74,6 +73,14 @@ class AnimManager {
 
 	public inline function getAnimCursor() {
 		return hasAnim() ? getCurrentAnim().animCursor : 0;
+	}
+
+	public inline function isAnimFirstFrame() {
+		return hasAnim() ? getCurrentAnim().animCursor==0 : false;
+	}
+
+	public inline function isAnimLastFrame() {
+		return hasAnim() ? getCurrentAnim().animCursor>=getCurrentAnim().frames.length-1 : false;
 	}
 
 	public function chain(id:String) {
@@ -125,7 +132,6 @@ class AnimManager {
 			isStateAnim	: false,
 			killAfterPlay: false,
 			onEnd		: null,
-			onLoop		: null,
 			speed		: 1.0,
 		}
 		isPlaying = true;
@@ -179,10 +185,7 @@ class AnimManager {
 		return this;
 	}
 
-	public function onEachLoop(cb:Void->Void) {
-		if( hasAnim() )
-			getLastAnim().onLoop = cb;
-		return this;
+	public dynamic function onEachLoop() {
 	}
 
 	public function pause() {
@@ -223,6 +226,7 @@ class AnimManager {
 	}
 
 
+	public inline function getGeneralSpeed() return genSpeed;
 	public function setGeneralSpeed(s:Float) {
 		genSpeed = s;
 		return this;
@@ -235,7 +239,7 @@ class AnimManager {
 
 	function nextAnim() {
 		if( getCurrentAnim().killAfterPlay ) {
-			spr.destroy();
+			spr.dispose();
 			return;
 		}
 
@@ -295,7 +299,7 @@ class AnimManager {
 				if( hasAnim() && getCurrentAnim().group==sa.group )
 					break;
 
-				play(sa.group);
+				playAndLoop(sa.group);
 				if( hasAnim() )
 					getLastAnim().isStateAnim = true;
 				break;
@@ -354,11 +358,14 @@ class AnimManager {
 						}
 						if( hasAnim() )
 							nextAnim();
+						
+						if( !hasAnim() )
+							break;
 					}
 					else {
 						// Loop
-						if( a.onLoop!=null )
-							a.onLoop();
+						if( onEachLoop!=null )
+							onEachLoop();
 						if( spr.frame!=a.frames[a.animCursor] )
 							spr.setFrame( a.frames[a.animCursor] );
 					}

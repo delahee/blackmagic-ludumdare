@@ -9,7 +9,7 @@ interface SpriteInterface {
 	public var group				: Null<LibGroup>;
 	public var groupName			: Null<String>;
 	public var frame				: Int;
-	public var pivot				: SpritePivot;
+	private var pivot				: SpritePivot;
 	public var a					: AnimManager;
 	private var frameData			: FrameData;
 
@@ -17,10 +17,9 @@ interface SpriteInterface {
 	public var beforeRender			: Null<Void->Void>;
 	public var onFrameChange		: Null<Void->Void>;
 
-
-	public function clone() : SpriteInterface;
+	public function clone<T>(?t:T) : T;
 	public function toString() : String;
-	public function destroy() : Void;
+	public function dispose() : Void;
 	public function isReady() : Bool;
 
 	public function set(?l:BLib, ?g:String, ?frame:Int, ?stopAllAnims:Bool) : Void;
@@ -31,9 +30,12 @@ interface SpriteInterface {
 	public function isGroup(k:String) : Bool;
 	public function is(k:String, f:Int) : Bool;
 
-	public function setPos(x:Float, y:Float) : Void;
+	public function scale(#if h2d v:hxd.Float32 #else v:Float #end) : Void;
+	public function setScale(#if h2d v:hxd.Float32 #else v:Float #end) : Void;
+	public function setPos(x: #if h2d hxd.Float32 #else Float #end, y: #if h2d hxd.Float32 #else Float #end) : Void;
+	public function setSize(w:Float, h:Float) : Void;
 	public function setPivotCoord(x:Float, y:Float) : Void;
-	public function setCenter(x:Float, y:Float) : Void;
+	public function setCenterRatio(?xr:Float=0.5, ?yr:Float=0.5) : Void;
 
 	public function getAnimDuration() : Int;
 	public function totalFrames() : Int;

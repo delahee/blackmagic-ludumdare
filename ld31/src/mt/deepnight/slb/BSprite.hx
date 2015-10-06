@@ -16,8 +16,9 @@ class BSprite extends flash.display.Sprite implements SpriteInterface {
 	public var group		: LibGroup;
 	public var frame		: Int;
 	public var frameData	: FrameData;
-	public var pivot		: SpritePivot;
+	var pivot				: SpritePivot;
 	public var destroyed	: Bool;
+	public var filter(get,set): Bool;
 
 	public var beforeRender	: Null<Void->Void>;
 	public var onFrameChange: Null<Void->Void>;
@@ -44,22 +45,39 @@ class BSprite extends flash.display.Sprite implements SpriteInterface {
 		pt0 = new flash.geom.Point();
 		bmp = new Bitmap(flash.display.PixelSnapping.NEVER, false);
 		addChild(bmp);
+		filter = false;
 
 		if( l!=null )
 			set(l, g, frame);
 	}
 
 
-	public function clone() : BSprite {
+
+	inline function get_filter() return bmp.smoothing;
+	inline function set_filter(v) return bmp.smoothing = v;
+
+
+	public function scale(v:Float) {
+		scaleX*=v;
+		scaleY*=v;
+	}
+	public function setScale(v) scaleX = scaleY = v;
+
+	public function clone<T>(?s:T) : T {
 		var s = new BSprite(lib, groupName, frame);
 		s.pivot = pivot.clone();
 		s.applyPivot();
-		return s;
+		return cast s;
 	}
 
 	public inline function setPos(x:Float,y:Float) {
 		this.x = x;
 		this.y = y;
+	}
+
+	public inline function setSize(w:Float,h:Float) {
+		this.width = w;
+		this.height = h;
 	}
 
 
@@ -81,7 +99,7 @@ class BSprite extends flash.display.Sprite implements SpriteInterface {
 			}
 
 			if( pivot.isUndefined )
-				setCenter(lib.defaultCenterX, lib.defaultCenterY);
+				setCenterRatio(lib.defaultCenterX, lib.defaultCenterY);
 		}
 
 		if( g!=null && g!=groupName )
@@ -147,6 +165,7 @@ class BSprite extends flash.display.Sprite implements SpriteInterface {
 				throw 'Unknown frame: $groupName($frame)';
 
 			bmp.bitmapData = lib.getCachedBitmapData(groupName, frame);
+			bmp.smoothing = true;
 			applyPivot();
 
 			if( onFrameChange!=null )
@@ -159,8 +178,8 @@ class BSprite extends flash.display.Sprite implements SpriteInterface {
 		applyPivot();
 	}
 
-	public inline function setCenter(xRatio:Float, yRatio:Float) {
-		pivot.setCenter(xRatio, yRatio);
+	public inline function setCenterRatio(?xRatio:Float=0.5, ?yRatio:Float=0.5) {
+		pivot.setCenterRatio(xRatio, yRatio);
 		applyPivot();
 	}
 
@@ -170,8 +189,8 @@ class BSprite extends flash.display.Sprite implements SpriteInterface {
 			return;
 
 		if( pivot.isUsingCoord() ) {
-			bmp.x = mt.MLib.round(-pivot.coordX - frameData.realFrame.x);
-			bmp.y = mt.MLib.round(-pivot.coordY - frameData.realFrame.y);
+			bmp.x = Math.round(-pivot.coordX - frameData.realFrame.x);
+			bmp.y = Math.round(-pivot.coordY - frameData.realFrame.y);
 		}
 		else if( pivot.isUsingFactor() ) {
 			bmp.x = Std.int(-frameData.realFrame.realWid*pivot.centerFactorX - frameData.realFrame.x);
@@ -250,7 +269,20 @@ class BSprite extends flash.display.Sprite implements SpriteInterface {
 	}
 	#end
 
-	public function destroy() {
+	override function removeChildren(f=0, t=2147483647) {
+		var i = 0;
+		while( i<numChildren ) {
+			var e = getChildAt(i);
+			if( Std.is(e, SpriteInterface) )
+				cast(e,SpriteInterface).dispose();
+			else
+				i++;
+		}
+
+		super.removeChildren(f,t);
+	}
+
+	public function dispose() {
 		if( !destroyed ) {
 			destroyed = true;
 
@@ -263,6 +295,8 @@ class BSprite extends flash.display.Sprite implements SpriteInterface {
 			bmp.parent.removeChild(bmp);
 			bmp.bitmapData = null; // do not dispose!
 			bmp = null;
+
+			removeChildren();
 
 			destroyed = true;
 			a.destroy();

@@ -13,7 +13,7 @@ class HSpriteBE extends BatchElement implements SpriteInterface {
 	public var group		: LibGroup;
 	public var frame		: Int;
 	public var frameData	: FrameData;
-	public var pivot		: SpritePivot;
+	var pivot				: SpritePivot;
 	public var destroyed	: Bool;
 
 	public var beforeRender	: Null<Void->Void>;
@@ -30,9 +30,7 @@ class HSpriteBE extends BatchElement implements SpriteInterface {
 		set(l,g,f);
 	}
 
-
 	public function toString() return "HSpriteBE_"+groupName+"["+frame+"]";
-
 
 	public inline function set( ?l:BLib, ?g:String, ?frame=0, ?stopAllAnims=false ) {
 		if( l!=null ) {
@@ -49,7 +47,7 @@ class HSpriteBE extends BatchElement implements SpriteInterface {
 			lib = l;
 			lib.addChild(this);
 			if( pivot.isUndefined )
-				setCenter(lib.defaultCenterX, lib.defaultCenterY);
+				setCenterRatio(lib.defaultCenterX, lib.defaultCenterY);
 		}
 
 		if( g!=null && g!=groupName )
@@ -103,6 +101,13 @@ class HSpriteBE extends BatchElement implements SpriteInterface {
 		return !destroyed && groupName!=null;
 	}
 
+	public function constraintSize(w:Float, ?h:Null<Float>, ?useFrameDataRealSize=false) {
+		if( useFrameDataRealSize )
+			setScale( Math.min( w/frameData.realFrame.realWid, (h==null?w:h)/frameData.realFrame.realHei ) );
+		else
+			setScale( Math.min( w/tile.width, (h==null?w:h)/tile.height ) );
+	}
+
 	public function setFrame(f:Int) {
 		var old = frame;
 		frame = f;
@@ -125,8 +130,8 @@ class HSpriteBE extends BatchElement implements SpriteInterface {
 		updateTile();
 	}
 
-	public inline function setCenter(xRatio:Float, yRatio:Float) {
-		pivot.setCenter(xRatio, yRatio);
+	public inline function setCenterRatio(?xRatio:Float=0.5, ?yRatio:Float=0.5) {
+		pivot.setCenterRatio(xRatio, yRatio);
 		updateTile();
 	}
 
@@ -134,18 +139,13 @@ class HSpriteBE extends BatchElement implements SpriteInterface {
 		return group.frames.length;
 	}
 
-	public inline function setPos(x:Float,y:Float) {
-		this.x = x;
-		this.y = y;
+	public function colorize(col:UInt, ?alpha=1.0, ?scale=1.0) {
+		color = h3d.Vector.fromColor( mt.deepnight.Color.addAlphaF(col, alpha), scale );
 	}
 
-
-
-
-
-	public function clone() : HSpriteBE {
+	public function clone<T>(?s:T) : T {
 		throw "not implemented yet"; // HACK
-		return this;
+		return cast this;
 	}
 
 	function updateTile() {
@@ -157,8 +157,8 @@ class HSpriteBE extends BatchElement implements SpriteInterface {
 		tile.setSize(fd.wid, fd.hei);
 
 		if ( pivot.isUsingCoord() ) {
-			tile.dx = mt.MLib.round(-pivot.coordX - fd.realFrame.x);
-			tile.dy = mt.MLib.round(-pivot.coordY - fd.realFrame.y);
+			tile.dx = Math.round(-pivot.coordX - fd.realFrame.x);
+			tile.dy = Math.round(-pivot.coordY - fd.realFrame.y);
 		}
 
 		if ( pivot.isUsingFactor() ){
@@ -167,7 +167,7 @@ class HSpriteBE extends BatchElement implements SpriteInterface {
 		}
 	}
 
-	public inline function destroy() remove();
+	public inline function dispose() remove();
 	override function remove() {
 		super.remove();
 
@@ -176,8 +176,10 @@ class HSpriteBE extends BatchElement implements SpriteInterface {
 				lib.removeChild(this);
 
 			destroyed = true;
+
 			a.destroy();
 			a = null;
+
 			lib = null;
 			frameData = null;
 			group = null;

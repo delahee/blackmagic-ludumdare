@@ -23,7 +23,7 @@ class SpritePivot {
 	public inline function isUsingFactor() return !isUndefined && usingFactor;
 	public inline function isUsingCoord() return !isUndefined && !usingFactor;
 
-	public inline function setCenter(xr,yr) {
+	public inline function setCenterRatio(xr,yr) {
 		centerFactorX = xr;
 		centerFactorY = yr;
 		usingFactor = true;
@@ -48,7 +48,7 @@ class SpritePivot {
 			p.setCoord(coordX, coordY);
 
 		if( isUsingFactor() )
-			p.setCenter(centerFactorX, centerFactorY);
+			p.setCenterRatio(centerFactorX, centerFactorY);
 
 		return p;
 	}

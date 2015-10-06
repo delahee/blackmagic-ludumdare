@@ -22,7 +22,6 @@ class HParticle extends BatchElement {
 	public var dsx				: Float; // scaleX
 	public var dsy				: Float; // scaleY
 	public var dr				: Float;
-	public var scale(never,set)	: Float;
 	public var frict(never,set)	: Float;
 	public var frictX			: Float;
 	public var frictY			: Float;
@@ -165,11 +164,6 @@ class HParticle extends BatchElement {
 
 	public inline function getMoveAng() {
 		return Math.atan2(dy,dx);
-	}
-
-	public inline function setPos(x,y) {
-		rx = this.x = x;
-		ry = this.y = y;
 	}
 
 	public static function clearAll() {

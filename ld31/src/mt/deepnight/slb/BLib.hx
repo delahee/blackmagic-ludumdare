@@ -61,6 +61,15 @@ enum SLBError {
 class BLib {
 	#if !macro
 	public var source			: BitmapData;
+	/* TODO PERF
+	 * use something like
+	 * typedef StringMap<T> = #if flash
+		haxe.ds.UnsafeStringMap<T>
+		#else
+		haxe.ds.StringMap<T>
+		#end
+	it will avoid many allocs
+	 */
 	var groups					: Map<String, LibGroup>;
 	var currentGroup			: Null<LibGroup>;
 	var frameRandDraw			: Map<String, Array<Int>>;
@@ -80,7 +89,7 @@ class BLib {
 	var id = 0;
 	#end
 
-	public function new(bd:BitmapData) {
+	public function new(bd:BitmapData #if h3d, ?tile:h2d.Tile #end) {
 		source = bd;
 		groups = new Map();
 		bdGroups = new Map();
@@ -92,11 +101,15 @@ class BLib {
 
 		#if h3d
 		id =++GUID;
-		genTex();
+		if( tile == null)
+			genTex();
+		else {
+			this.tile = tile;
+			texture = tile.getTexture();
+		}
 		hxd.System.trace2("Blib:creating texture:" + id);
 		#end
 	}
-
 
 	public function initBdGroups() {
 		for( frames in bdGroups )
@@ -111,7 +124,6 @@ class BLib {
 			bdGroups.set(g.id, []);
 			for(f in 0...g.frames.length) {
 				var frameData = getFrameData(g.id, f);
-				//trace(g.maxWid + " " + g.maxHei + " " + g.id);
 				var bd = new BitmapData(g.maxWid, g.maxHei, true, 0x0);
 				bd.copyPixels( source, frameData.rect, pt0,null,null, false );
 				bdGroups.get(g.id).push(bd);
@@ -129,53 +141,111 @@ class BLib {
 	#if h3d
 	function genTex() {
 		if ( h3d.Engine.getCurrent() != null ) {
+			hxd.Profiler.begin("genTex");
+			hxd.Profiler.begin("genTex.loadCpu");
+
 			var bmd = hxd.BitmapData.fromNative(source);
+			hxd.Profiler.end("genTex.loadCpu");
+			hxd.Profiler.begin("genTex.loadGpu");
 			tile = h2d.Tile.fromBitmap( bmd );
-			var tex = texture=tile.getTexture();
+			hxd.Profiler.end("genTex.loadGpu");
+			var tex = texture = tile.getTexture();
 			#if flash
-			tex.flags.set( AlphaPremultiplied );
+			bmd.alphaPremultiplied=true;
+			tex.flags.set( h3d.mat.Data.TextureFlags.AlphaPremultiplied );
 			#end
-			tex.realloc = function() {
-				tex.uploadBitmap( bmd );
-				hxd.System.trace1("realloc: resending texture :" + id);
-			}
 			tex.name = 'slb.Blib #$id';
+
+			hxd.Profiler.end("genTex");
 		}
 	}
 
-	public function addBatchElement(sb:SpriteBatch, k:String, frame:Int, ?x=0.0, ?y=0.0) : Null<h2d.SpriteBatch.BatchElement> {
+	public function addBatchElement(sb:SpriteBatch, ?priority:Int=0, k:String, frame:Int, ?xr=0.0, ?yr=0.0) : Null<h2d.SpriteBatch.BatchElement> {
 		if (sb.tile.getTexture() != tile.getTexture())
 			throw SLBError.NotSameSLBFromBatch;
 
-		var be = sb.alloc(tile);
+		var be = sb.alloc(tile, priority);
 		var fd = getFrameData(k, frame);
 		if( fd==null )
-			return null;
+			throw 'Unknown group $k#$frame!';
 
 		be.tile.setPos(fd.x, fd.y);
 		be.tile.setSize(fd.wid, fd.hei);
-		be.tile = be.tile.center(fd.realFrame.x, fd.realFrame.y);
 
-		be.x = x;
-		be.y = y;
+		#if fixCenter
+		be.tile = be.tile.center(
+			Std.int(fd.realFrame.x + fd.realFrame.realWid*xr),
+			Std.int(fd.realFrame.y + fd.realFrame.realHei*yr)
+		);
+		#else
+		be.tile = be.tile.center(fd.realFrame.x, fd.realFrame.y);
+		be.tile.setCenterRatio(xr,yr);
+		#end
 
 		return be;
 	}
 
-	public inline function addBatchElementRandom(sb:SpriteBatch, k:String, ?x=0.0, ?y=0.0, ?rndFunc:Int->Int) : Null<h2d.SpriteBatch.BatchElement> {
-		return addBatchElement(sb, k, getRandomFrame(k, rndFunc), x,y);
+	public function addColoredBatchElement(sb:SpriteBatch, ?priority=0, k:String, col:UInt, ?alpha=1.0) {
+		var e = addBatchElement(sb, priority, k, 0);
+		e.color = h3d.Vector.fromColor( Color.addAlphaF(col, alpha), 1 );
+		return e;
 	}
+
+	public function addBatchElementRandom(sb:SpriteBatch, k:String, ?xr=0.0, ?yr=0.0, ?rndFunc:Int->Int) : Null<h2d.SpriteBatch.BatchElement> {
+		return addBatchElement(sb, k, getRandomFrame(k, rndFunc), xr,yr);
+	}
+
+	/**
+	 * Experimental
+	 * @param	factor of growth of the flash.display.BitmapData
+	 */
+	#if false
+	public function scale(factor:Float) {
+		if ( factor > 1.0 )
+			hxd.System.trace1("WARNING : upscale not uspported because we have to process if bitmap will exceeed max engine size");
+
+		texture.dispose();
+
+		var oldSource = source;
+		var newSource = mt.gx.Scaler.resize( source, Math.round(source.width * factor), Math.round(source.height * factor ));
+		for ( g in getGroups()) {
+			//g.id
+			for (fd in g.frames ) {
+				fd.x = Math.round( fd.x * factor );
+				fd.y = Math.round( fd.y * factor );
+
+				fd.wid = Math.round( fd.wid * factor );
+				fd.hei = Math.round( fd.hei * factor );
+
+				fd.realFrame.x = Math.round( fd.realFrame.x * factor );
+				fd.realFrame.y = Math.round( fd.realFrame.y * factor );
+
+				fd.realFrame.realWid = Math.round( fd.realFrame.realWid * factor );
+				fd.realFrame.realHei = Math.round( fd.realFrame.realHei * factor );
+			}
+			g.maxWid = Math.round( g.maxWid * factor);
+			g.maxHei = Math.round( g.maxHei * factor);
+		}
+
+		#if flash
+		texture.flags.set( AlphaPremultiplied );
+		#end
+		texture.uploadBitmap(hxd.BitmapData.fromNative(newSource));
+		oldSource.dispose();
+	}
+	#end
 	#end
 
 
 	public function destroy() {
-		source.dispose();
+		if( source!=null)
+			source.dispose();
 		source = null;
 
 		attachPoints = null;
 
 		while( children.length>0 )
-			children[0].destroy();
+			children[0].dispose();
 
 		for(frames in bdGroups)
 			for(bd in frames)
@@ -184,30 +254,56 @@ class BLib {
 	}
 
 
-	public inline function get(k:String, ?frame=0, ?p:flash.display.DisplayObjectContainer) : BSprite {
+	public inline function get(k:String, ?frame=0, ?xr=0.0, ?yr=0.0, ?p:flash.display.DisplayObjectContainer) : BSprite {
 		var s = new BSprite(this, k, frame);
+		s.setCenterRatio(xr,yr);
 		if( p!=null )
 			p.addChild(s);
 		return s;
 	}
 
 	#if h3d
-	public inline function h_get(k:String, ?frame=0, ?p:h2d.Sprite) : HSprite {
+	public inline function h_get(k:String, ?frame=0, ?xr=0., ?yr=0., ?filter:Null<Bool>, ?p:h2d.Sprite) : HSprite {
 		var s = new HSprite(this, k, frame);
 		if( p!=null )
 			p.addChild(s);
+		s.setCenterRatio(xr,yr);
+		if( filter!=null )
+			s.filter = filter;
 		return s;
 	}
 
-	public inline function hbe_get(sb:SpriteBatch, k:String, ?frame=0) : HSpriteBE {
-		return new HSpriteBE(sb, this, k, frame);
+	public inline function hbe_get(sb:SpriteBatch, k:String, ?frame=0, ?xr=0., ?yr=0.) : HSpriteBE {
+		var e = new HSpriteBE(sb, this, k, frame);
+		e.setCenterRatio(xr,yr);
+		return e;
 	}
 
-	public inline function getH2dBitmap(k:String, ?frame=0, ?xr=0.0, ?yr=0.0, ?parent:h2d.Sprite) : h2d.Bitmap {
-		var b = new h2d.Bitmap( getTile(k,frame) );
+	public inline function getColoredH2dBitmap(k:String, col:UInt, ?alpha=1.0, ?filter:Null<Bool>, ?parent:h2d.Sprite) {
+		var e = getH2dBitmap(k, filter, parent);
+		e.color = h3d.Vector.fromColor(mt.deepnight.Color.addAlphaF(col, alpha),1);
+		return e;
+	}
+
+	public inline function getH2dBitmap(k:String, ?frame=0, ?xr=0.0, ?yr=0.0, ?filter:Null<Bool>, ?parent:h2d.Sprite, ?sh:h2d.Drawable.DrawableShader) : h2d.Bitmap {
+		if( !exists(k,frame) )
+			throw "Unknown group "+k+"#"+frame;
+		var b = new h2d.Bitmap( getTile(k,frame), sh );
 		if( parent!=null )
 			parent.addChild(b);
+
+		var fd = getFrameData(k,frame);
+		#if fixCenter
+		b.tile = b.tile.center(
+			Std.int(fd.realFrame.x + fd.realFrame.realWid*xr),
+			Std.int(fd.realFrame.y + fd.realFrame.realHei*yr)
+		);
+		#else
 		b.tile.setCenterRatio(xr,yr);
+		#end
+
+		if( filter!=null )
+			b.filter = filter;
 		return b;
 	}
 	#end
@@ -222,8 +318,8 @@ class BLib {
 	}
 
 	#if h3d
-	public inline function h_getAndPlay(k:String, ?plays=99999, ?killAfterPlay=false) : HSprite {
-		var s = h_get(k);
+	public inline function h_getAndPlay(k:String, ?plays=99999, ?killAfterPlay=false, ?p:h2d.Sprite) : HSprite {
+		var s = h_get(k, p);
 		s.a.play(k, plays);
 		if( killAfterPlay )
 			s.a.killAfterPlay();
@@ -246,8 +342,8 @@ class BLib {
 	}
 
 	#if h3d
-	public inline function h_getRandom(k, ?rndFunc) : HSprite {
-		return h_get(k, getRandomFrame(k, rndFunc));
+	public inline function h_getRandom(k, ?rndFunc, ?p:h2d.Sprite) : HSprite {
+		return h_get(k, getRandomFrame(k, rndFunc), p);
 	}
 	public inline function hbe_getRandom(sb:SpriteBatch, k, ?rndFunc) : HSpriteBE {
 		return hbe_get(sb, k, getRandomFrame(k, rndFunc));
@@ -258,11 +354,15 @@ class BLib {
 
 	#if h3d
 	#if !debug inline #end
-	public  function getTile(g:String, ?frame=0, ?px:Float=0.0,?py:Float=0.0) : h2d.Tile {
+	public function getTileRandom(g:String, ?px:Float=0.0,?py:Float=0.0, ?rndFunc) : h2d.Tile {
+		return getTile(g, getRandomFrame(g,rndFunc), px, py);
+	}
+
+	public function getTile(g:String, ?frame=0, ?px:Float=0.0,?py:Float=0.0) : h2d.Tile {
 		var fd = getFrameData(g, frame);
 		#if debug
 		if ( fd == null)
-			throw 'no such tile $g#$frame!';
+			throw 'Unknown group $g#$frame!';
 		#end
 		var t = tile.clone();
 		t.setPos(fd.x, fd.y);
@@ -280,7 +380,7 @@ class BLib {
 
 		#if debug
 		if ( fd == null)
-			throw 'no such tile $g#$frame!';
+			throw 'Unknown group $g#$frame!';
 		#end
 		var t = tile.clone();
 		t.setPos(fd.x, fd.y);
@@ -331,7 +431,7 @@ class BLib {
 		return getAnim(k).length;
 	}
 
-	function createGroup(k:String) {
+	public function createGroup(k:String) {
 		if( groups.exists(k) )
 			throw SLBError.GroupAlreadyExists(k);
 		groups.set(k, {
@@ -374,7 +474,7 @@ class BLib {
 		return groups.exists(k) && groups.get(k).frames.length>frame;
 	}
 
-	public inline function getRandomFrame(k:String, ?rndFunc:Int->Int) {
+	public function getRandomFrame(k:String, ?rndFunc:Int->Int) {
 		if(rndFunc==null)
 			rndFunc = Std.random;
 
@@ -409,7 +509,7 @@ class BLib {
 		g.endFill();
 	}
 
-	public inline function drawIntoBitmap(bd:flash.display.BitmapData, x:Float,y:Float, k:String, ?frame=0, ?centerX, ?centerY) {
+	public function drawIntoBitmap(bd:flash.display.BitmapData, x:Float,y:Float, k:String, ?frame=0, ?centerX, ?centerY) {
 		if(centerX==null)	centerX = defaultCenterX;
 		if(centerY==null)	centerY = defaultCenterY;
 
@@ -425,7 +525,18 @@ class BLib {
 		drawIntoBitmap(bd, x,y,k, getRandomFrame(k, rndFunc), centerX, centerY);
 	}
 
+	#if !h3d
 	public function getBitmapData(k:String, ?frame=0, ?padding=0) {
+		var fdata = getFrameData(k, frame);
+		var bd = new BitmapData(Std.int(fdata.realFrame.realWid+padding*2), Std.int(fdata.realFrame.realHei+padding*2), true, 0x0);
+		drawIntoBitmap(bd, padding,padding, k,frame, 0,0);
+		return bd;
+	}
+
+	public function getBitmapDataRandom(k:String, ?padding=0, ?rndFunc:Int->Int) {
+		if( rndFunc==null )
+			rndFunc = Std.random;
+		var frame = getRandomFrame(k, rndFunc);
 		var fdata = getFrameData(k, frame);
 		var bd = new BitmapData(Std.int(fdata.realFrame.realWid+padding*2), Std.int(fdata.realFrame.realHei+padding*2), true, 0x0);
 		drawIntoBitmap(bd, padding,padding, k,frame, 0,0);
@@ -438,6 +549,7 @@ class BLib {
 			all.push( getBitmapData(k, i, padding) );
 		return all;
 	}
+	#end
 
 
 
@@ -568,8 +680,7 @@ class BLib {
 			}
 		}
 
-		dots.destroy();
-
+		dots.dispose();
 		//for( k in attachPoints.keys() )
 			//for( f in attachPoints.get(k).keys() )
 				//for( col in attachPoints.get(k).get(f).keys() ) {
@@ -595,7 +706,7 @@ class BLib {
 	}
 
 
-	public function addChild(s:SpriteInterface) { // HACK TODO : gérer HSprite
+	public function addChild(s:SpriteInterface) {
 		children.push(s);
 	}
 
