@@ -1,0 +1,15 @@
+-lib openfl
+-lib format
+-lib h3d
+-lib hxsl
+-cp src
+-cp bin/flash/haxe
+-D tools=1.4.0
+-D resourcesPath=assets
+-D display
+-D web
+-main ApplicationMain
+--no-output
+-dce std
+--no-traces
+-swf-version 11.6
