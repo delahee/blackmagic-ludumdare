@@ -47,8 +47,10 @@ class App extends flash.display.Sprite {
 		var tm = hxd.Timer.tmod;
 		var ttm = hxd.Timer.deltaT * C.FPS;
 		
-		tm = hxd.Math.EPSILON;
-		ttm = hxd.Math.EPSILON;
+		if( paused ){
+			tm = hxd.Math.EPSILON;
+			ttm = hxd.Math.EPSILON;
+		}
 		
 		g.update();
 		tweenie.update(ttm);

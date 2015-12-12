@@ -1,4 +1,6 @@
+import mt.gx.Dice;
 
+@:publicFields
 class Zombie extends mt.deepnight.slb.HSpriteBE {
 	var d(get, null) : D; function get_d() return App.me.d;
 	var g(get, null) : G; function get_g() return App.me.g;
@@ -14,7 +16,8 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 	public var onCar : Bool;
 	
 	public function new(a,lib,c,?f=0) {
-		super(a, lib, c,f);
+		super(a, lib, c, f);
+		setCenterRatio(0.5, 1.0);
 	}
 	
 	public function update(dt) {
@@ -30,6 +33,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 				ofsCarX = x - c.cacheBounds.x;
 				ofsCarY = y - c.cacheBounds.y;
 			}
+			
 		}
 		else {
 			dx = 0;
@@ -42,9 +46,10 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 	
 	var ofsCarX = 0.;
 	var ofsCarY = 0.;
+	var ofsHookX = 0.;
 	
 	public inline function isOnCar() {
-		return x >= c.cacheBounds.x;
+		return x >= c.cacheBounds.x + ofsHookX;
 	}
 }
 
@@ -93,12 +98,12 @@ class Zombies {
 			z.update(dTime);
 		}
 		
-		var start = Std.int( elapsedTime );
-		var end = Std.int( elapsedTime + dTime );
+		var start = Std.int( elapsedTime ) * 20;
+		var end = Std.int( elapsedTime + dTime ) * 20;
 		for ( n in start...end ) {
 			switch(level) {
 				case 1:
-					if ( mt.gx.Dice.percent(rand,10)) {
+					if ( mt.gx.Dice.percent(rand,5)) {
 						spawnZombie();
 					}
 			}
@@ -108,12 +113,20 @@ class Zombies {
 	}
 	
 	public function spawnZombie() {
-		var z = new Zombie(sb,d.char,"zombie00");
+		var z = new Zombie(sb, d.char, "zombie00");
 		
-		z.ry = mt.gx.Dice.rollF( c.by - 15, c.by + 15);
-		z.rx = -10;
 		
-		z.dx = 2;
+		z.ry = Dice.rollF( c.by + 20, c.by + c.cacheBounds.height - 10) + z.height * 0.8;
+		z.rx = -30 + Dice.rollF( 0, 25);
+		
+		z.x = z.rx;
+		z.y = z.ry;
+		
+		z.changePriority( -Math.round(z.y) );
+		
+		z.dx = 2 + Dice.rollF( 0, 0.5);
+		z.scale( Dice.rollF(0.95, 1.0) );
+		z.ofsHookX = Dice.rollF( 0.0, 8.0 );
 		
 		zombies.add(z);
 	}
