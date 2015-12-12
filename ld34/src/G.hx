@@ -46,6 +46,7 @@ class G {
 	public var curBpm = 0;
 	
 	public var partition : Partition;
+	
 	//public var firstBeat = false;
 	
 	public function new()  {
@@ -258,6 +259,14 @@ class G {
 			for( i in 0...3)
 				zombies.spawnZombieLow();
 		}
+		
+		if ( mt.flash.Key.isToggled(hxd.Key.U)) {
+			car.hit();
+		}
+		
+		if ( mt.flash.Key.isToggled(hxd.Key.I)) {
+			car.heal();
+		}
 	}
 	
 	public function postUpdateGame() {
@@ -276,5 +285,9 @@ class G {
 			Scroller.GLB_SPEED += u;
 	}
 
+	
+	public function loose() {
+		zombies.setLevel(0);
+	}
 	
 }

@@ -114,7 +114,7 @@ class Zombies {
 	}
 	
 	public function spawnZombieBase() {
-		var z = new Zombie(sb, d.char, "zombie" + "ABC".charAt(Std.random(2)) );
+		var z = new Zombie(sb, d.char, "zombie" + "ABC".charAt(Std.random(3)) );
 		
 		z.ry = Dice.rollF( c.by + 20, c.by + c.cacheBounds.height - 10) + z.height * 0.8;
 		z.rx = -30 + Dice.rollF( -20, 25);
