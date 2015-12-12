@@ -24,7 +24,6 @@
 -D fdb
 -D web
 -dce no
---no-traces
 -cp bin/flash/obj/
 -swf-lib assets.swf
 -swf-version 12

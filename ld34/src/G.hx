@@ -22,6 +22,9 @@ class G {
 	public var curSpeed : Float = 1.0;
 	public var curPos : Float = 0.0;
 	
+	public var road : Scroller;
+	public var bg : Scroller;
+	
 	public function new()  {
 		me = this;
 		masterScene = new h2d.Scene();
@@ -74,27 +77,32 @@ class G {
 	var rockLen = 100;
 	
 	public function initBg() {
-		for ( i in 0...8 ) {
-			var r = getRock();
-			r.x = i * rockLen;
-			rocks.push(r);
-		}
+		bg = new Scroller(200, 8, d.char.tile, 
+			[	d.char.getTile("bg01"),
+				d.char.getTile("bg02"),
+				d.char.getTile("bg03") 	],
+			gameRoot);
+		bg.speed = 0.5;
+		bg.init();
+		
+		road = new Scroller(200, 8, d.char.tile, 
+			[	d.char.getTile("road01"),
+				d.char.getTile("road02"),
+				d.char.getTile("road03") 	],
+			gameRoot);
+		road.speed = 1;
+		road.originY += C.H >> 1;
+		road.init();
 	}
 	
-	public function getRock() {
-		return mt.gx.h2d.Proto.rect(0,0,rockLen,C.H,0xFF00FF,gameRoot);
+	public function getRock(i) {
+		return mt.gx.h2d.Proto.rect(0,0,rockLen,C.H / 2,(i%2==0) ? 0xFF00FF : 0xffff00,0.5,gameRoot);
 	}
 	
 	public function preUpdateGame() {
 		curPos += curSpeed;
-		
-		var i = 0;
-		for ( r in rocks ) {
-			if ( r.x <= - rockLen )
-				r.x = rockLen * 7;
-			r.x--;
-			i++;
-		}
+		road.update();
+		bg.update();
 	}
 	
 	public function postUpdateGame() {
