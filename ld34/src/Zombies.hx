@@ -22,7 +22,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 	
 	public function update(dt) {
 		if ( !onCar) {
-			rx += dx;
+			rx += dx / Scroller.GLB_SPEED;
 			ry += dy;
 			
 			x = Math.round( rx );
@@ -33,7 +33,6 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 				ofsCarX = x - c.cacheBounds.x;
 				ofsCarY = y - c.cacheBounds.y;
 			}
-			
 		}
 		else {
 			dx = 0;
@@ -63,12 +62,16 @@ class Zombies {
 	var elapsedTime = 0.0;
 	var level : Int = 0;
 	
-	var zombies : List<Zombie> = new List();
+	var zombies : Array<Zombie> = [];
 	
 	public function new(p)  {
 		sb =  new h2d.SpriteBatch(d.char.tile, p);
 		rand = new mt.Rand(0);
 		setLevel(0);
+	}
+	
+	public inline function countCarZombies() {
+		return Lambda.count( zombies );
 	}
 	
 	public function setLevel(level:Int) {
@@ -84,7 +87,7 @@ class Zombies {
 		this.level = level;
 		
 		sb.removeAllElements();
-		zombies = new List();
+		zombies = [];
 		elapsedTime = 0.0;
 	}
 	
@@ -94,9 +97,7 @@ class Zombies {
 			return;
 		}
 			
-		for ( z in zombies) {
-			z.update(dTime);
-		}
+		for ( z in zombies) z.update(dTime);
 		
 		var start = Std.int( elapsedTime ) * 20;
 		var end = Std.int( elapsedTime + dTime ) * 20;
@@ -104,7 +105,7 @@ class Zombies {
 			switch(level) {
 				case 1:
 					if ( mt.gx.Dice.percent(rand,5)) {
-						spawnZombie();
+						spawnZombieBase();
 					}
 			}
 		}
@@ -112,23 +113,41 @@ class Zombies {
 		elapsedTime += dTime;
 	}
 	
-	public function spawnZombie() {
-		var z = new Zombie(sb, d.char, "zombie00");
-		
+	public function spawnZombieBase() {
+		var z = new Zombie(sb, d.char, "zombie" + "ABC".charAt(Std.random(2)) );
 		
 		z.ry = Dice.rollF( c.by + 20, c.by + c.cacheBounds.height - 10) + z.height * 0.8;
-		z.rx = -30 + Dice.rollF( 0, 25);
+		z.rx = -30 + Dice.rollF( -20, 25);
 		
 		z.x = z.rx;
 		z.y = z.ry;
 		
 		z.changePriority( -Math.round(z.y) );
 		
-		z.dx = 2 + Dice.rollF( 0, 0.5);
+		z.dx = 2 + Dice.rollF( 0, 0.25);
 		z.scale( Dice.rollF(0.95, 1.0) );
 		z.ofsHookX = Dice.rollF( 0.0, 8.0 );
 		
-		zombies.add(z);
+		zombies.push(z);
+		return z;
+	}
+	
+	public function spawnZombieHigh() {
+		var z = spawnZombieBase();
+		z.ry = Dice.rollF( c.by + 20, c.by + c.cacheBounds.height - 30) + z.height * 0.4;
+		z.rx = -30 + Dice.rollF( -20, 25);
+		z.x = z.rx;
+		z.y = z.ry;
+		z.changePriority( -Math.round(z.y) );
+	}
+	
+	public function spawnZombieLow() {
+		var z = spawnZombieBase();
+		z.ry = Dice.rollF( c.by + 30, c.by + c.cacheBounds.height - 20) + z.height * 0.4 + 40;
+		z.rx = -30 + Dice.rollF( -20, 25);
+		z.x = z.rx;
+		z.y = z.ry;
+		z.changePriority( -Math.round(z.y) );
 	}
 	
 }

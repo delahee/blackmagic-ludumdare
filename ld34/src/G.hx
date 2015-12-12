@@ -24,7 +24,13 @@ class G {
 	public var curPos : Float = 0.0;
 	
 	public var road : Scroller;
+	
+	
 	public var bg : Scroller;
+	public var bgRocks : Scroller;
+	public var bgSand : Scroller;
+	public var sky : h2d.Bitmap;
+	
 	public var car : Car;
 	public var zombies : Zombies;
 	
@@ -113,20 +119,28 @@ class G {
 	}
 	
 	public function initBg() {
-		bg = new Scroller(200, 8, d.char.tile, 
-			[	d.char.getTile("bgA"),
-				d.char.getTile("bgB"),
-				d.char.getTile("bgC"),
-				d.char.getTile("bgD")],
-			gameRoot);
+		sky = new h2d.Bitmap(d.char.getTile("sky"), gameRoot);
+		
+		bg = new Scroller(600, 8, d.char.getTile("bg"), [], gameRoot);
 		bg.speed = 0.5;
+		bg.originY += 40;
 		bg.init();
+		
+		bgRocks = new Scroller(600, 8, d.char.getTile("bgRocks"), [], gameRoot);
+		bgRocks.speed = 2.0;
+		bgRocks.originY += 65;
+		bgRocks.init();
+		
+		bgSand = new Scroller(600, 8, d.char.getTile("bgSand"), [], gameRoot);
+		bgSand.speed = 6.0;
+		bgSand.originY += 100;
+		bgSand.init();
 		
 		road = new Scroller(200, 8, d.char.tile, 
 			[	d.char.getTile("roadA"),
 				d.char.getTile("roadB"),
-				d.char.getTile("roadC") 	,
-				d.char.getTile("roadD") 	],
+				d.char.getTile("roadC"),
+				d.char.getTile("roadD")],
 			gameRoot);
 		road.speed = 6.0;
 		road.originY += C.H >> 1;
@@ -139,7 +153,7 @@ class G {
 	
 	public function start() {
 		started = true;
-		startTime  = hxd.Timer.oldTime;
+		startTime = hxd.Timer.oldTime;
 		nowTime = 0;
 		zombies.setLevel(1);
 	}
@@ -148,21 +162,7 @@ class G {
 		car.onPause(onOff);
 	}
 	
-	public function preUpdateGame() {
-		if ( started ) 
-			updateTempo();
-		else 
-			dTime = 1.0 / C.FPS;
-			
-		curPos += curSpeed * dTime;
-			
-		road.update(dTime);
-		bg.update(dTime);
-		
-		car.update( dTime );
-		
-		zombies.update( dTime );
-	}
+	
 	
 	function updateTempo() {
 		prevTime = nowTime;//in sec
@@ -225,7 +225,56 @@ class G {
 		partition.launchNote(l);
 	}
 	
-	public function postUpdateGame() {
+	public function preUpdateGame() {
+		if ( started ) 
+			updateTempo();
+		else 
+			dTime = 1.0 / C.FPS;
+			
+		curPos += curSpeed * dTime;
+			
+		road.update(dTime);
+		bg.update(dTime);
+		bgRocks.update(dTime);
+		bgSand.update(dTime);
+		car.update( dTime );
+		zombies.update( dTime );
+		
+		if ( mt.flash.Key.isToggled(hxd.Key.Z)) {
+			zombies.spawnZombieBase();
+		}
+		
+		if ( mt.flash.Key.isToggled(hxd.Key.E)) {
+			for( i in 0...6)
+				zombies.spawnZombieBase();
+		}
+		
+		if ( mt.flash.Key.isToggled(hxd.Key.R)) {
+			for( i in 0...3)
+				zombies.spawnZombieHigh();
+		}
+		
+		if ( mt.flash.Key.isToggled(hxd.Key.T)) {
+			for( i in 0...3)
+				zombies.spawnZombieLow();
+		}
 	}
+	
+	public function postUpdateGame() {
+		var n = zombies.countCarZombies();
+		
+		if ( n > 10 )
+			n = 10;
+			
+		var u = 0.02;
+		var handicap = u * n;
+		
+		if ( Scroller.GLB_SPEED > 1.0 - handicap )
+			Scroller.GLB_SPEED -= u;
+			
+		if ( Scroller.GLB_SPEED < 1.0 - handicap )
+			Scroller.GLB_SPEED += u;
+	}
+
 	
 }

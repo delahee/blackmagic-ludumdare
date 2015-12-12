@@ -13,17 +13,24 @@ class Scroller {
 	public var tiles : Array<h2d.Tile> = [];
 	public var deck : Array<h2d.Tile>=[];
 	
+	var master : h2d.Tile;
+	
 	public function new(size,nb,masterTile,tiles,p){
 		sb = new h2d.SpriteBatch(masterTile, p);
 		this.size = size;
 		this.nb = nb;
 		this.tiles = tiles;
+		master = masterTile;
 		init();
 	}
 	
 	function getTile() {
-		if ( deck.length == 0)
-			deck = tiles.copy();
+		if ( deck.length == 0 )
+			if( tiles.length > 0 )
+				deck = tiles.copy();
+			else 
+				return master;
+			
 		var r = Std.random(deck.length);
 		var e = deck[r];
 		deck.remove( e );
