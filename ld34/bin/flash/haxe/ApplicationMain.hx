@@ -93,21 +93,21 @@ class ApplicationMain {
 			background: Std.int (0),
 			borderless: false,
 			depthBuffer: true,
-			fps: Std.int (30),
+			fps: Std.int (61),
 			fullscreen: false,
-			height: Std.int (800),
+			height: Std.int (750),
 			orientation: "",
 			resizable: true,
 			stencilBuffer: true,
 			title: "app",
 			vsync: false,
-			width: Std.int (800),
+			width: Std.int (1770),
 			
 		}
 		
 		#if js
 		#if (munit || utest)
-		flash.Lib.embed (null, 800, 800, "000000");
+		flash.Lib.embed (null, 1770, 750, "000000");
 		#end
 		#else
 		__appMainCreate ();

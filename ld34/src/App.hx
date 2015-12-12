@@ -35,10 +35,9 @@ class App extends flash.display.Sprite {
 		mt.flash.Key.update();
 		hxd.Timer.update();
 		var tm = hxd.Timer.tmod;
-		g.update(tm);
-		tweenie.update(tm);
-		for( i in 0...Math.round( hxd.Timer.tmod ))
-			fxMan.update();
+		g.update();
+		tweenie.update();
+		fxMan.update();
 		Part.updateAll(tm);
 	}
 	

@@ -3,6 +3,8 @@
 -D openfl=2.2.4
 -cp C:/Workspace/motionTools/haxe3/lib/lime/git
 -D lime=2.0.6
+-cp C:/Workspace/motionTools/haxe3/lib/hxmidilib/1,0,1
+-D hxmidilib=1.0.1
 -swf-version 11.6
 -cp C:/Workspace/motionTools/haxe3/lib/h3d/git
 -D h3d=0.0.1
@@ -21,10 +23,11 @@
 -D lime-curl
 -D fdb
 -D web
--dce std
+-dce no
+--no-traces
 -cp bin/flash/obj/
 -swf-lib assets.swf
 -swf-version 12
 -swf bin/flash/bin/app.swf
--swf-header 800:800:30:000000
+-swf-header 1770:750:61:000000
 -cp bin/flash/haxe
