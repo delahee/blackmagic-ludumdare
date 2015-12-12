@@ -3,7 +3,7 @@ import h2d.SpriteBatch;
 @:enum abstract ENote(Int){
 	var Left = 0;
 	var Right = 1;
-	var Both = 2;
+	//var Both = 2;
 }
 
 class Partition {
@@ -12,7 +12,7 @@ class Partition {
 	var g(get, null) : G; function get_g() return App.me.g;
 	
 	public var grid : h2d.SpriteBatch;
-	public var notes : Array<h2d.Sprite>;
+	//public var notes : Array<h2d.SpriteBatch.BatchElement>;
 	
 	var baseline = 200;
 	var fretW = 120;
@@ -53,7 +53,27 @@ class Partition {
 		e.y = baseline;
 	}
 	
+	public function launchQuarter()	{
+		var sp = grid.alloc( d.char.getTile("pixel").centerRatio() );
+		sp.x = fretPositions[5];
+		sp.y = baseline;
+		
+		var t = App.me.tweenie.create( sp, "x", fretPositions[0] + fretW, TLinear, 6 / C.BPS * 1000 );
+		t.onUpdate = function() {
+			sp.x = Math.round( sp.x );
+		}
+	}
+	
 	public function launchNote( note : ENote ) {
+		var sp = grid.alloc( d.char.getTile("left").centerRatio() );
+		sp.x = fretPositions[5];
+		sp.y = baseline;
+		
+		var t = App.me.tweenie.create( sp, "x", fretPositions[0] + fretW, TLinear, 6 / C.BPS * 1000 );
+		t.onUpdate = function() {
+			sp.x = Math.round( sp.x );
+		}
+		/*
 		var sp = new h2d.Sprite( g.gameRoot );
 		sp.x = fretPositions[5];
 		sp.y = baseline;
@@ -93,6 +113,7 @@ class Partition {
 				}
 			}
 		}
+		*/
 	}
 	
 }

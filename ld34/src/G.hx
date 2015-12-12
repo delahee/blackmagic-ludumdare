@@ -33,7 +33,7 @@ class G {
 	public var dTime : Float = 0;
 	public var curMidi : com.newgonzo.midi.file.MIDIFile;
 	public var partition : Partition;
-	public var firstBeat = false;
+	//public var firstBeat = false;
 	
 	public function new()  {
 		me = this;
@@ -128,7 +128,7 @@ class G {
 	public function start() {
 		started = true;
 		nowTime = hxd.Timer.oldTime;
-		firstBeat = true;
+		//firstBeat = true;
 	}
 	
 	public function preUpdateGame() {
@@ -150,6 +150,9 @@ class G {
 		var prevBeat = prevTime * C.BPS + C.LookAhead;
 		var nowBeat = nowTime * C.BPS + C.LookAhead;
 		
+		var prevQuarter = prevBeat * 4.0;
+		var nowQuarter = nowBeat * 4.0;
+		
 		//tick per beat
 		var prevTick = prevBeat * curMidi.division;  // in midi frames
 		var lastTick = nowBeat * curMidi.division;  // in midi frames
@@ -161,21 +164,23 @@ class G {
 		//var nBeat = Math.floor(nowBeat);
 		
 		//trace( "pre:" + s + " e:" + e);
-		//trace( "pre b:" + pBeat + " e b:" + nBeat);
+		trace( "pre b:" + prevBeat + " e b:" + nowBeat);
+		var pq = Std.int( prevQuarter );
+		var nq = Std.int( nowQuarter );
 		
-		var pb = Math.round( prevBeat );
-		var nb = Math.round( nowBeat );
+		var pb = Std.int( prevBeat );
+		var nb = Std.int( nowBeat );
 		if ( pb != nb ) {
-			//trace( pb + " <> " + nb);
 			onBeat();
-			firstBeat = false;
 		}
-		/*
-		d.getMessageRange( s,e,
-		function(ti:Int,i:Int,e:TE) :Void{
-			trace("#" +i+" t:"+e.time+" msg:"+ e.message);
-		});
-		*/
+		else if ( pq != nq ) {
+			onQuarter();
+		}
+		
+	}
+	
+	function onQuarter() {
+		partition.launchQuarter();
 	}
 	
 	function onBeat() {

@@ -5,6 +5,6 @@ class C {
 	public static inline var W = 590;
 	
 	public static var BPM = 120; //might want to adjust to "current tempo"
-	public static var BPS = 120 / 60;
+	public static var BPS = BPM / 60;
 	public static var LookAhead = 6;
 }
