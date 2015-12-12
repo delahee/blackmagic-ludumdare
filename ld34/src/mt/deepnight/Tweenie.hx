@@ -41,6 +41,7 @@ typedef Tween = {
 
 class Tweenie {
 	static var DEFAULT_DURATION = DateTools.seconds(1);
+	public var fps = 30.0;
 
 	var tlist			: List<Tween>;
 	var errorHandler	: String->Void;
@@ -62,44 +63,10 @@ class Tweenie {
 		errorHandler = cb;
 	}
 	
-	//@:macro public static function getMethods( e : Expr ) {
-		//switch( e.expr ) {
-		//case EField(o,f):
-			//var getset = haxe.macro.Context.parse("{ get : function() return tmp."+f+", set : function(v) tmp."+f+"=v }", e.pos);
-			//return {
-				//expr : EBlock([ { expr : EVars([ { name : "tmp", e : o } ]), pos : o.pos }, getset ]),
-				//pos : e.pos,
-			//};
-		//default: haxe.macro.Context.error("Should be <e>.field",e.pos);
-		//}
-	//}
-	//
-	//getMethods(o.blabla)
-	//
-	//--->
-	//
-	//create({ var tmp = o; { get : function() return tmp.blabla, set : function() .... } },to, .....)
-	//
-	//
-	//function create<T>( o : T, getSet : { function get(o:T) : Float; function set(o:T,v:Float) : Void } )
-
 	public inline function create(parent:Dynamic, varName:String, to:Float, ?tp:TType, ?duration_ms:Float) {
 		return create_(parent, varName, to, tp, duration_ms);
 	}
 	
-	/**
-	 * créé un cycle infini entre deux tweens ( clignotements, oscillations...etc )
-	 */
-	/*public function cycle(parent:Dynamic, varName:String, to:Float, ?tp:TType, ?duration_ms:Float,delay:Int, parent2:Dynamic, varName2:String, to2:Float, ?tp2:TType, ?duration_ms2:Float,delay2:Int) {
-		
-		haxe.Timer.delay(function(){
-			var tween1 = create(parent, varName, to, tp, duration_ms);
-			tween1.onEnd = callback(cycle, parent2, varName2, to2, tp2, duration_ms2, delay2, parent, varName, to, tp, duration_ms, delay);
-		}
-		,delay);
-		
-	}*/
-		
 	public function exists(p:Dynamic, v:String) {
 		for (t in tlist)
 			if (t.parent == p && t.vname == v)
@@ -133,7 +100,7 @@ class Tweenie {
 			vname		: v,
 			n			: 0.0,
 			ln			: 0.0,
-			speed		: 1 / ( duration_ms*30/1000 ), // une seconde
+			speed		: 1 / ( duration_ms*fps/1000 ), // une seconde
 			from		: cast Reflect.getProperty(p,v),
 			to			: to,
 			type		: tp,

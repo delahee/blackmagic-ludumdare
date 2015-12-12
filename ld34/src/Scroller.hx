@@ -1,5 +1,8 @@
 
 class Scroller {
+	var g(get, null) : G; function get_g() return App.me.g;
+	var d(get, null) : D; function get_d() return App.me.d;
+	
 	var sb : h2d.SpriteBatch;
 	public var size : Int;
 	
@@ -36,9 +39,10 @@ class Scroller {
 		}
 	}
 	
-	public function update() {
+	public function update(dTime:Float) {
+		var fr = dTime * C.FPS;
 		for ( e in sb.getElements()) {
-			e.x -= speed * GLB_SPEED;
+			e.x -= speed * GLB_SPEED * fr;
 			if ( e.x <= -size )
 				e.x += size * nb;
 		}
