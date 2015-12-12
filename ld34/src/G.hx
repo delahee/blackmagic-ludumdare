@@ -25,6 +25,7 @@ class G {
 	
 	public var road : Scroller;
 	public var bg : Scroller;
+	public var car : Car;
 	
 	public var started = false;
 	public var firstTime : Float = 0;
@@ -61,7 +62,7 @@ class G {
 		mt.gx.h2d.Proto.rect( 0, 100, 50, 50, 0xff0055, 1.0, postScene);
 		
 		initBg();
-		
+		initCar();
 		partition = new Partition( gameRoot );
 		
 		curMidi = d.midiFile2;
@@ -109,8 +110,6 @@ class G {
 		credits.dropShadow = { dx:2, dy:2, color:0xFF000000, alpha:1.0 };
 	}
 	
-	var rockLen = 100;
-	
 	public function initBg() {
 		bg = new Scroller(200, 8, d.char.tile, 
 			[	d.char.getTile("bgA"),
@@ -132,6 +131,10 @@ class G {
 		road.init();
 	}
 	
+	public function initCar() {
+		car = new Car( gameRoot );
+	}
+	
 	public function start() {
 		started = true;
 		startTime  = hxd.Timer.oldTime;
@@ -149,6 +152,8 @@ class G {
 			
 		road.update(dTime);
 		bg.update(dTime);
+		
+		car.update( dTime );
 	}
 	
 	function updateTempo() {
