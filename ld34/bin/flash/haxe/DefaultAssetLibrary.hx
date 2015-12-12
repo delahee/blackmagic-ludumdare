@@ -48,6 +48,8 @@ class DefaultAssetLibrary extends AssetLibrary {
 		type.set (id, AssetType.IMAGE);
 		id = "assets/assets.xml"; className.set (id, __ASSET__assets_assets_xml);
 		type.set (id, AssetType.TEXT);
+		id = "assets/snd/midi/midi.mid"; className.set (id, __ASSET__assets_snd_midi_midi_mid);
+		type.set (id, AssetType.BINARY);
 		id = "assets/snd/SFX/heal.mp3"; className.set (id, __ASSET__assets_snd_sfx_heal_mp3);
 		type.set (id, AssetType.MUSIC);
 		id = "assets/wendy_0.ttf"; className.set (id, __ASSET__assets_wendy_0_ttf);
@@ -65,6 +67,10 @@ class DefaultAssetLibrary extends AssetLibrary {
 		path.set (id, id);
 		
 		type.set (id, AssetType.TEXT);
+		id = "assets/snd/midi/midi.mid";
+		path.set (id, id);
+		
+		type.set (id, AssetType.BINARY);
 		id = "assets/snd/SFX/heal.mp3";
 		path.set (id, id);
 		
@@ -82,6 +88,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		
 		
+		
 		openfl.text.Font.registerFont (__ASSET__assets_wendy_0_ttf);
 		
 		#end
@@ -95,6 +102,9 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		className.set ("assets/assets.xml", __ASSET__assets_assets_xml);
 		type.set ("assets/assets.xml", AssetType.TEXT);
+		
+		className.set ("assets/snd/midi/midi.mid", __ASSET__assets_snd_midi_midi_mid);
+		type.set ("assets/snd/midi/midi.mid", AssetType.BINARY);
 		
 		className.set ("assets/snd/SFX/heal.mp3", __ASSET__assets_snd_sfx_heal_mp3);
 		type.set ("assets/snd/SFX/heal.mp3", AssetType.MUSIC);
@@ -674,6 +684,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 @:keep @:bind #if display private #end class __ASSET__assets_assets_png extends flash.display.BitmapData { public function new () { super (0, 0, true, 0); } }
 @:keep @:bind #if display private #end class __ASSET__assets_assets_xml extends flash.utils.ByteArray { }
+@:keep @:bind #if display private #end class __ASSET__assets_snd_midi_midi_mid extends flash.utils.ByteArray { }
 @:keep @:bind #if display private #end class __ASSET__assets_snd_sfx_heal_mp3 extends flash.media.Sound { }
 @:keep @:bind #if display private #end class __ASSET__assets_wendy_0_ttf extends flash.text.Font { }
 
@@ -681,6 +692,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 #elseif html5
 
 #if openfl
+
 
 
 
@@ -692,6 +704,8 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 #if openfl
 
+	
+		
 	
 		
 	
@@ -715,6 +729,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 @:bitmap("assets/assets.png") class __ASSET__assets_assets_png extends lime.graphics.Image {}
 @:file("assets/assets.xml") class __ASSET__assets_assets_xml extends lime.utils.ByteArray {}
+@:file("assets/snd/midi/midi.mid") class __ASSET__assets_snd_midi_midi_mid extends lime.utils.ByteArray {}
 @:sound("assets/snd/SFX/heal.mp3") class __ASSET__assets_snd_sfx_heal_mp3 extends lime.audio.AudioSource {}
 @:font("assets/wendy_0.ttf") class __ASSET__assets_wendy_0_ttf extends lime.graphics.Font {}
 

@@ -25,6 +25,10 @@ class G {
 	public var road : Scroller;
 	public var bg : Scroller;
 	
+	public var started = false;
+	public var firstTime : Float = 0;
+	public var nowTime : Float = 0;
+	
 	public function new()  {
 		me = this;
 		masterScene = new h2d.Scene();
@@ -99,14 +103,23 @@ class G {
 		return mt.gx.h2d.Proto.rect(0,0,rockLen,C.H / 2,(i%2==0) ? 0xFF00FF : 0xffff00,0.5,gameRoot);
 	}
 	
+	public function start() {
+		started = true;
+		firstTime = haxe.Timer.stamp();
+		nowTime = firstTime;
+	}
+	
 	public function preUpdateGame() {
 		curPos += curSpeed;
 		road.update();
 		bg.update();
+		
+		if( started ){
+			nowTime = haxe.Timer.stamp() - firstTime; 
+		}
 	}
 	
 	public function postUpdateGame() {
-		
 	}
 	
 }
