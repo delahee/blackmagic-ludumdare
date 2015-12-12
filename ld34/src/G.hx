@@ -28,10 +28,15 @@ class G {
 	
 	public var started = false;
 	public var firstTime : Float = 0;
+	public var startTime : Float = 0;
 	public var nowTime : Float = 0;
 	public var prevTime : Float = 0;
 	public var dTime : Float = 0;
+	
 	public var curMidi : com.newgonzo.midi.file.MIDIFile;
+	public var curMusicSignature = 4;
+	public var curBpm = 120;
+	
 	public var partition : Partition;
 	//public var firstBeat = false;
 	
@@ -46,6 +51,8 @@ class G {
 		gameRoot.scaleY = 3;
 	}
 	
+	public inline function bps() return curBpm / 60;
+	
 	public function init() {
 		masterScene.addPass( preScene, true );
 		masterScene.addPass( gameRoot );
@@ -58,6 +65,10 @@ class G {
 		partition = new Partition( gameRoot );
 		
 		curMidi = d.midiFile;
+		curMusicSignature = 6;
+		curBpm = 120;
+		
+		partition.resetForSignature(curMusicSignature,gameRoot );
 		
 		var b =mt.gx.h2d.Proto.bt( 100, 50, "start",
 		start, postScene);
@@ -121,13 +132,10 @@ class G {
 		road.init();
 	}
 	
-	public function getRock(i) {
-		return mt.gx.h2d.Proto.rect(0,0,rockLen,C.H / 2,(i%2==0) ? 0xFF00FF : 0xffff00,0.5,gameRoot);
-	}
-	
 	public function start() {
 		started = true;
-		nowTime = hxd.Timer.oldTime;
+		startTime  = hxd.Timer.oldTime;
+		nowTime = 0;
 		//firstBeat = true;
 	}
 	
@@ -145,33 +153,45 @@ class G {
 	
 	function updateTempo() {
 		prevTime = nowTime;//in sec
-		nowTime = hxd.Timer.oldTime; //in sec
+		nowTime = (hxd.Timer.oldTime - startTime); //in sec
+		trace( prevTime +" -> " + nowTime ); 
 		
-		var prevBeat = prevTime * C.BPS + C.LookAhead;
-		var nowBeat = nowTime * C.BPS + C.LookAhead;
+		var prevBeat = prevTime * bps() + C.LookAhead;
+		var nowBeat = nowTime * bps() + C.LookAhead;
 		
-		var prevQuarter = prevBeat * 4.0;
-		var nowQuarter = nowBeat * 4.0;
+		var pb = Std.int( prevBeat );
+		var nb = Std.int( nowBeat );
+		trace("b " + pb + " -> " + nb);
+		
+		var prevQuarter = prevBeat * curMusicSignature;
+		var nowQuarter = nowBeat * curMusicSignature;
+		
+		var pq = Std.int( prevQuarter );
+		var nq = Std.int( nowQuarter );
+		trace("q " + pq + " -> " + nq);
 		
 		//tick per beat
 		var prevTick = prevBeat * curMidi.division;  // in midi frames
 		var lastTick = nowBeat * curMidi.division;  // in midi frames
 		
-		var s = Math.ceil(prevTick);
-		var e = Math.floor(lastTick);
+		var s = Std.int(prevTick);
+		var e = Std.int(lastTick) + 1;
 		
-		//var pBeat = Math.ceil(prevBeat);
-		//var nBeat = Math.floor(nowBeat);
+		var n = null;
+		function seekNote(ti, i, m) {
+			trace("msg "+Std.string(m));
+			n = m;
+		}
+		trace("scanning " + s + " -> " + e);
 		
-		//trace( "pre:" + s + " e:" + e);
-		trace( "pre b:" + prevBeat + " e b:" + nowBeat);
-		var pq = Std.int( prevQuarter );
-		var nq = Std.int( nowQuarter );
 		
-		var pb = Std.int( prevBeat );
-		var nb = Std.int( nowBeat );
+		d.getMessageRange(s, e, seekNote);
+		
 		if ( pb != nb ) {
-			onBeat();
+			if ( n != null) 
+				onNote(Left);
+			else 
+				onBeat();
 		}
 		else if ( pq != nq ) {
 			onQuarter();
@@ -184,7 +204,11 @@ class G {
 	}
 	
 	function onBeat() {
-		partition.launchNote(Left);
+		partition.launchStrong();
+	}
+	
+	function onNote(l) {
+		partition.launchNote(l);
 	}
 	
 	public function postUpdateGame() {

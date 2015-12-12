@@ -19,14 +19,19 @@ class Partition {
 	var fretPositions : Array<Float>=[];
 	
 	public function new(p) {
+		resetForSignature(4,p);
+	}
+	
+	public function resetForSignature( sig : Int , p) {
+		if (grid != null) { grid.dispose(); grid = null; }
+			
 		grid = new h2d.SpriteBatch( d.char.getTile("pixel").centerRatio(),p );
-		
 		var startX = (C.W - 50);
 		for ( i in 0...6 ) {
-			
 			fretPositions[i] = startX - i * fretW;
 			
-			if( i < 1){
+			if ( i < 1)
+			{
 				var e = grid.alloc();
 				e.setColor( 0xff0000 );
 				e.setSize(2, 12);
@@ -35,13 +40,13 @@ class Partition {
 			}
 			
 			if( i <= 0 )
-			for ( j in 0...3 ) {
+			for ( j in 0...sig-1 ) {
 				var e = grid.alloc();	
 				
 				e.setColor( 0xff007f);
 				e.setSize(1, 8);
 				
-				e.x = startX - i * fretW - (j+1) * fretW/4;
+				e.x = startX - i * fretW - (j+1) * fretW/sig;
 				e.y = baseline;
 			}
 		}
@@ -49,7 +54,7 @@ class Partition {
 		var e = grid.alloc();	
 		e.setColor( 0xff007f );
 		e.setSize(1, 8);
-		e.x = startX + fretW/4;
+		e.x = startX + fretW/sig;
 		e.y = baseline;
 	}
 	
@@ -58,7 +63,21 @@ class Partition {
 		sp.x = fretPositions[5];
 		sp.y = baseline;
 		
-		var t = App.me.tweenie.create( sp, "x", fretPositions[0] + fretW, TLinear, 6 / C.BPS * 1000 );
+		var t = App.me.tweenie.create( sp, "x", fretPositions[0] + fretW, TLinear, C.LookAhead / g.bps() * 1000 );
+		t.onUpdate = function() {
+			sp.x = Math.round( sp.x );
+		}
+	}
+	
+	public function launchStrong()	{
+		var sp = grid.alloc( d.char.getTile("pixel").centerRatio() );
+		sp.scale(2);
+		sp.rotation = Math.PI * 0.25;
+		sp.x = fretPositions[5];
+		sp.y = baseline;
+		sp.setColor( 0xFAF150 );
+		
+		var t = App.me.tweenie.create( sp, "x", fretPositions[0] + fretW, TLinear, C.LookAhead / g.bps() * 1000 );
 		t.onUpdate = function() {
 			sp.x = Math.round( sp.x );
 		}
@@ -69,7 +88,7 @@ class Partition {
 		sp.x = fretPositions[5];
 		sp.y = baseline;
 		
-		var t = App.me.tweenie.create( sp, "x", fretPositions[0] + fretW, TLinear, 6 / C.BPS * 1000 );
+		var t = App.me.tweenie.create( sp, "x", fretPositions[0] + fretW, TLinear, C.LookAhead / g.bps() * 1000 );
 		t.onUpdate = function() {
 			sp.x = Math.round( sp.x );
 		}
