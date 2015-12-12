@@ -33,6 +33,7 @@ class G {
 	public var dTime : Float = 0;
 	public var curMidi : com.newgonzo.midi.file.MIDIFile;
 	public var partition : Partition;
+	public var firstBeat = false;
 	
 	public function new()  {
 		me = this;
@@ -126,8 +127,8 @@ class G {
 	
 	public function start() {
 		started = true;
-		firstTime = haxe.Timer.stamp();
-		nowTime = firstTime;
+		nowTime = hxd.Timer.oldTime;
+		firstBeat = true;
 	}
 	
 	public function preUpdateGame() {
@@ -144,7 +145,7 @@ class G {
 	
 	function updateTempo() {
 		prevTime = nowTime;//in sec
-		nowTime = haxe.Timer.stamp() - firstTime; //in sec
+		nowTime = hxd.Timer.oldTime; //in sec
 		
 		var prevBeat = prevTime * C.BPS + C.LookAhead;
 		var nowBeat = nowTime * C.BPS + C.LookAhead;
@@ -156,12 +157,29 @@ class G {
 		var s = Math.ceil(prevTick);
 		var e = Math.floor(lastTick);
 		
+		//var pBeat = Math.ceil(prevBeat);
+		//var nBeat = Math.floor(nowBeat);
+		
+		//trace( "pre:" + s + " e:" + e);
+		//trace( "pre b:" + pBeat + " e b:" + nBeat);
+		
+		var pb = Math.round( prevBeat );
+		var nb = Math.round( nowBeat );
+		if ( pb != nb ) {
+			//trace( pb + " <> " + nb);
+			onBeat();
+			firstBeat = false;
+		}
 		/*
 		d.getMessageRange( s,e,
 		function(ti:Int,i:Int,e:TE) :Void{
 			trace("#" +i+" t:"+e.time+" msg:"+ e.message);
 		});
 		*/
+	}
+	
+	function onBeat() {
+		partition.launchNote(Left);
 	}
 	
 	public function postUpdateGame() {
