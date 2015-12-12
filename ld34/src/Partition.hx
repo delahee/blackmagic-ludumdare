@@ -67,6 +67,8 @@ class Partition {
 		t.onUpdate = function() {
 			sp.x = Math.round( sp.x );
 		}
+		
+		t.onEnd = sp.remove;
 	}
 	
 	public function launchStrong()	{
@@ -81,6 +83,8 @@ class Partition {
 		t.onUpdate = function() {
 			sp.x = Math.round( sp.x );
 		}
+		
+		t.onEnd = sp.remove;
 	}
 	
 	public function launchNote( note : ENote ) {
@@ -92,6 +96,8 @@ class Partition {
 		t.onUpdate = function() {
 			sp.x = Math.round( sp.x );
 		}
+		
+		t.onEnd = sp.remove;
 	}
 	
 }

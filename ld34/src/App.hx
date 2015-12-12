@@ -10,6 +10,7 @@ class App extends flash.display.Sprite {
 	public var d : D;
 	public var tweenie : mt.deepnight.Tweenie;
 	public var fxMan : mt.fx.Manager;
+	public var paused : Bool=false;
 	public static var me : App;
 	
 	function new() {
@@ -24,6 +25,7 @@ class App extends flash.display.Sprite {
 	}
 	
 	function init() {
+		trace("GO");
 		d = new D();
 		g = new G();
 		g.init();
@@ -35,9 +37,19 @@ class App extends flash.display.Sprite {
 	function update() {
 		mt.flash.Key.update();
 		hxd.Timer.update();
+		
+		if ( mt.flash.Key.isToggled( hxd.Key.P )) {
+			paused = ! paused;
+			trace( "pause:" + paused );
+			
+			g.onPause( paused );
+		}
 		var tm = hxd.Timer.tmod;
 		var ttm = hxd.Timer.deltaT * C.FPS;
-		//ttm /= 2.0;
+		
+		tm = hxd.Math.EPSILON;
+		ttm = hxd.Math.EPSILON;
+		
 		g.update();
 		tweenie.update(ttm);
 		fxMan.update();

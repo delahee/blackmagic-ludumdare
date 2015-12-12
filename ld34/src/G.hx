@@ -26,6 +26,7 @@ class G {
 	public var road : Scroller;
 	public var bg : Scroller;
 	public var car : Car;
+	public var zombies : Zombies;
 	
 	public var started = false;
 	public var firstTime : Float = 0;
@@ -63,6 +64,7 @@ class G {
 		
 		initBg();
 		initCar();
+		zombies = new Zombies(gameRoot);
 		partition = new Partition( gameRoot );
 		
 		curMidi = d.midiFile2;
@@ -94,11 +96,11 @@ class G {
 		postScene.checkEvents();
 		preScene.checkEvents();
 	
-		preUpdateGame();
-		
-		d.update();
-		
-		postUpdateGame();
+		if( ! App.me.paused ) {
+			preUpdateGame();
+			d.update();
+			postUpdateGame();
+		}
 	}
 	
 	public function makeCredits(sp){
@@ -139,7 +141,11 @@ class G {
 		started = true;
 		startTime  = hxd.Timer.oldTime;
 		nowTime = 0;
-		//firstBeat = true;
+		zombies.setLevel(1);
+	}
+	
+	public function onPause(onOff) {
+		car.onPause(onOff);
 	}
 	
 	public function preUpdateGame() {
@@ -154,6 +160,8 @@ class G {
 		bg.update(dTime);
 		
 		car.update( dTime );
+		
+		zombies.update( dTime );
 	}
 	
 	function updateTempo() {
