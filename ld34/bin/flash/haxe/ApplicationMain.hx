@@ -35,6 +35,10 @@ class ApplicationMain {
 		types.push (AssetType.TEXT);
 		
 		
+		urls.push ("assets/snd/midi/midi.mid");
+		types.push (AssetType.BINARY);
+		
+		
 		urls.push ("assets/snd/SFX/heal.mp3");
 		types.push (AssetType.MUSIC);
 		
