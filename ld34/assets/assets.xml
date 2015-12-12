@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:b6ce2a65522f504f174cd5a442bd19fe:f5013c1e5f12bcecd405a208e999a8f7:57ef0b4f36012e2dacefebfa7d58e2d4$ -->
+<!-- $TexturePacker:SmartUpdate:de34a57b27001f1a6dc142a22d91d686:96ccfae8928a8c519585e37cc666f654:57ef0b4f36012e2dacefebfa7d58e2d4$ -->
 <TextureAtlas imagePath="assets.png" width="1024" height="1024">
+    <SubTexture name="bg00" x="3" y="3" width="200" height="250"/>
     <SubTexture name="bg01" x="3" y="3" width="200" height="250"/>
     <SubTexture name="bg02" x="3" y="257" width="200" height="250"/>
     <SubTexture name="bg03" x="3" y="511" width="200" height="250"/>
@@ -9,8 +10,11 @@
     <SubTexture name="car" x="411" y="3" width="161" height="60" frameX="-79" frameY="-19" frameWidth="245" frameHeight="94"/>
     <SubTexture name="fret" x="576" y="3" width="35" height="50"/>
     <SubTexture name="left" x="615" y="3" width="23" height="53"/>
+    <SubTexture name="pixel" x="51" y="984" width="1" height="1"/>
     <SubTexture name="right" x="576" y="57" width="23" height="53"/>
+    <SubTexture name="road00" x="207" y="3" width="200" height="103" frameX="0" frameY="-8" frameWidth="200" frameHeight="117"/>
     <SubTexture name="road01" x="207" y="3" width="200" height="103" frameX="0" frameY="-8" frameWidth="200" frameHeight="117"/>
     <SubTexture name="road02" x="3" y="765" width="200" height="107" frameX="0" frameY="-7" frameWidth="200" frameHeight="117"/>
     <SubTexture name="road03" x="3" y="876" width="200" height="104" frameX="0" frameY="-8" frameWidth="200" frameHeight="117"/>
+    <SubTexture name="zombie00" x="3" y="984" width="44" height="35" frameX="-3" frameY="-7" frameWidth="52" frameHeight="42"/>
 </TextureAtlas>
