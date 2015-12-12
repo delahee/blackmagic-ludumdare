@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:9d4e834eb2b77bda232ed94d0cf51247:e6bee966359e2cfa5dedbe1e367a81c4:57ef0b4f36012e2dacefebfa7d58e2d4$ -->
-<TextureAtlas imagePath="assets.png" width="512" height="512">
-    <SubTexture name="bg01" x="3" y="3" width="200" height="115"/>
-    <SubTexture name="bg02" x="207" y="3" width="200" height="115"/>
-    <SubTexture name="bg03" x="3" y="122" width="200" height="115"/>
-    <SubTexture name="car" x="3" y="348" width="161" height="60" frameX="-79" frameY="-19" frameWidth="245" frameHeight="94"/>
-    <SubTexture name="road01" x="3" y="241" width="200" height="103" frameX="0" frameY="-8" frameWidth="200" frameHeight="117"/>
-    <SubTexture name="road02" x="207" y="122" width="200" height="107" frameX="0" frameY="-7" frameWidth="200" frameHeight="117"/>
-    <SubTexture name="road03" x="207" y="233" width="200" height="104" frameX="0" frameY="-8" frameWidth="200" frameHeight="117"/>
+<!-- $TexturePacker:SmartUpdate:b6ce2a65522f504f174cd5a442bd19fe:f5013c1e5f12bcecd405a208e999a8f7:57ef0b4f36012e2dacefebfa7d58e2d4$ -->
+<TextureAtlas imagePath="assets.png" width="1024" height="1024">
+    <SubTexture name="bg01" x="3" y="3" width="200" height="250"/>
+    <SubTexture name="bg02" x="3" y="257" width="200" height="250"/>
+    <SubTexture name="bg03" x="3" y="511" width="200" height="250"/>
+    <SubTexture name="bgUi" x="411" y="67" width="10" height="50"/>
+    <SubTexture name="car" x="411" y="3" width="161" height="60" frameX="-79" frameY="-19" frameWidth="245" frameHeight="94"/>
+    <SubTexture name="fret" x="576" y="3" width="35" height="50"/>
+    <SubTexture name="left" x="615" y="3" width="23" height="53"/>
+    <SubTexture name="right" x="576" y="57" width="23" height="53"/>
+    <SubTexture name="road01" x="207" y="3" width="200" height="103" frameX="0" frameY="-8" frameWidth="200" frameHeight="117"/>
+    <SubTexture name="road02" x="3" y="765" width="200" height="107" frameX="0" frameY="-7" frameWidth="200" frameHeight="117"/>
+    <SubTexture name="road03" x="3" y="876" width="200" height="104" frameX="0" frameY="-8" frameWidth="200" frameHeight="117"/>
 </TextureAtlas>
