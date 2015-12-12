@@ -49,6 +49,7 @@ class D {
 		
 		var file:MIDIFile = decoder.decodeFile(openfl.Assets.getBytes("assets/snd/midi/midi.mid"));
 		//clock.position = 0;
+		/*
 		trace( file.division );//ticks per beat
 		for ( t in file.tracks) {
 			var i = 0;
@@ -57,16 +58,19 @@ class D {
 				i++;
 			}
 		}
+		*/
 		midiFile = file;
 		
+		/*
 		getMessageRange(0, 1920,
 		function(ti:Int,i:Int,e:TE) :Void{
 			trace("#" +i+" t:"+e.time+" msg:"+ e.message);
 		});
+		*/
 	}
 	
 	//in midi frames
-	//end is exclusive
+	//start and end are inclusive
 	public function getMessageRange( start:UInt, end:UInt, f: Int->Int->TE->Void) {
 		var ti = 0;
 		for ( t in midiFile.tracks) {

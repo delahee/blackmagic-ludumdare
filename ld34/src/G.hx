@@ -1,5 +1,6 @@
 import h3d.Matrix;
 import h2d.Tile;
+import D;
 using T;
 
 class G {
@@ -28,6 +29,9 @@ class G {
 	public var started = false;
 	public var firstTime : Float = 0;
 	public var nowTime : Float = 0;
+	public var prevTime : Float = 0;
+	public var dTime : Float = 0;
+	public var curMidi : com.newgonzo.midi.file.MIDIFile;
 	
 	public function new()  {
 		me = this;
@@ -48,6 +52,12 @@ class G {
 		mt.gx.h2d.Proto.rect( 0, 100, 50, 50, 0xff0055, 1.0, postScene);
 		
 		initBg();
+		new Partition( gameRoot );
+		
+		curMidi = d.midiFile;
+		
+		mt.gx.h2d.Proto.bt( 50, 50, "start",
+		start,postScene);
 		return this;
 	}
 	
@@ -82,17 +92,19 @@ class G {
 	
 	public function initBg() {
 		bg = new Scroller(200, 8, d.char.tile, 
-			[	d.char.getTile("bg01"),
-				d.char.getTile("bg02"),
-				d.char.getTile("bg03") 	],
+			[	d.char.getTile("bgA"),
+				d.char.getTile("bgB"),
+				d.char.getTile("bgC"),
+				d.char.getTile("bgD")],
 			gameRoot);
 		bg.speed = 0.5;
 		bg.init();
 		
 		road = new Scroller(200, 8, d.char.tile, 
-			[	d.char.getTile("road01"),
-				d.char.getTile("road02"),
-				d.char.getTile("road03") 	],
+			[	d.char.getTile("roadA"),
+				d.char.getTile("roadB"),
+				d.char.getTile("roadC") 	,
+				d.char.getTile("roadD") 	],
 			gameRoot);
 		road.speed = 1;
 		road.originY += C.H >> 1;
@@ -110,13 +122,40 @@ class G {
 	}
 	
 	public function preUpdateGame() {
-		curPos += curSpeed;
-		road.update();
-		bg.update();
+		if ( started ) 
+			updateTempo();
+		else 
+			dTime = 1.0 / C.FPS;
+			
+		curPos += curSpeed * dTime;
+			
+		road.update(dTime);
+		bg.update(dTime);
+	}
+	
+	function updateTempo() {
+		var BPM = 120; //might want to adjust to "current tempo"
+		var BPS = 120 / 60;
 		
-		if( started ){
-			nowTime = haxe.Timer.stamp() - firstTime; 
-		}
+		prevTime = nowTime;//in sec
+		nowTime = haxe.Timer.stamp() - firstTime; //in sec
+		
+		var prevBeat = prevTime * BPS + 4;
+		var nowBeat = nowTime * BPS + 4;
+		
+		//tick per beat
+		var prevTick = prevBeat * curMidi.division;  // in midi frames
+		var lastTick = nowBeat * curMidi.division;  // in midi frames
+		
+		var s = Math.ceil(prevTick);
+		var e = Math.floor(lastTick);
+		
+		/*
+		d.getMessageRange( s,e,
+		function(ti:Int,i:Int,e:TE) :Void{
+			trace("#" +i+" t:"+e.time+" msg:"+ e.message);
+		});
+		*/
 	}
 	
 	public function postUpdateGame() {

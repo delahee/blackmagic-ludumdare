@@ -36,9 +36,10 @@ class Scroller {
 		}
 	}
 	
-	public function update() {
+	public function update(dTime:Float) {
+		var fr = dTime * C.FPS;
 		for ( e in sb.getElements()) {
-			e.x -= speed * GLB_SPEED;
+			e.x -= speed * GLB_SPEED * fr;
 			if ( e.x <= -size )
 				e.x += size * nb;
 		}
