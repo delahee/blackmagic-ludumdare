@@ -89,6 +89,8 @@ class G {
 		}, postScene);
 		b.x += 110;
 		
+		
+		haxe.Timer.delay( start , 800 );
 		return this;
 	}
 	
@@ -157,6 +159,7 @@ class G {
 		startTime = hxd.Timer.oldTime;
 		nowTime = 0;
 		zombies.setLevel(1);
+		car.reset();
 	}
 	
 	public function onPause(onOff) {
@@ -168,21 +171,21 @@ class G {
 	function updateTempo() {
 		prevTime = nowTime;//in sec
 		nowTime = (hxd.Timer.oldTime - startTime); //in sec
-		trace( prevTime +" -> " + nowTime ); 
+		//trace( prevTime +" -> " + nowTime ); 
 		
 		var prevBeat = prevTime * bps() + C.LookAhead;
 		var nowBeat = nowTime * bps() + C.LookAhead;
 		
 		var pb = Std.int( prevBeat );
 		var nb = Std.int( nowBeat );
-		trace("b " + pb + " -> " + nb);
+		//trace("b " + pb + " -> " + nb);
 		
 		var prevQuarter = prevBeat * curMusicSignature;
 		var nowQuarter = nowBeat * curMusicSignature;
 		
 		var pq = Std.int( prevQuarter );
 		var nq = Std.int( nowQuarter );
-		trace("q " + pq + " -> " + nq);
+		//trace("q " + pq + " -> " + nq);
 		
 		//tick per beat
 		var prevTick = prevBeat * curMidi.division;  // in midi frames
@@ -193,16 +196,15 @@ class G {
 		
 		var n = null;
 		function seekNote(ti, i, m : TE ) {
-			if ( m.message.status == cast com.newgonzo.midi.messages.MessageStatus.NOTE_ON ){
+			if ( m.message.status == cast com.newgonzo.midi.messages.MessageStatus.NOTE_ON )
 				n = m;
-			}
 		}
 		
 		d.getMessageRange(curMidi,s, e, seekNote);
 		
 		if ( pb != nb ) {
 			if ( n != null) {
-				trace( n );
+				//trace( n );
 				onNote(Left);
 			}
 			else 
@@ -266,6 +268,14 @@ class G {
 		
 		if ( mt.flash.Key.isToggled(hxd.Key.I)) {
 			car.heal();
+		}
+		
+		if ( mt.flash.Key.isToggled(hxd.Key.L)) {
+			car.shootLeft();
+		}
+		
+		if ( mt.flash.Key.isToggled(hxd.Key.M)) {
+			car.shootRight();
 		}
 	}
 	

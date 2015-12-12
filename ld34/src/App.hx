@@ -56,6 +56,7 @@ class App extends flash.display.Sprite {
 		tweenie.update(ttm);
 		fxMan.update();
 		Part.updateAll(tm);
+		PartBE.updateAll(tm);
 	}
 	
 	static function main() {
