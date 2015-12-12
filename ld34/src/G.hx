@@ -34,8 +34,8 @@ class G {
 	public var dTime : Float = 0;
 	
 	public var curMidi : com.newgonzo.midi.file.MIDIFile;
-	public var curMusicSignature = 4;
-	public var curBpm = 120;
+	public var curMusicSignature = 0;
+	public var curBpm = 0;
 	
 	public var partition : Partition;
 	//public var firstBeat = false;
@@ -64,8 +64,8 @@ class G {
 		
 		partition = new Partition( gameRoot );
 		
-		curMidi = d.midiFile;
-		curMusicSignature = 6;
+		curMidi = d.midiFile2;
+		curMusicSignature = 4;
 		curBpm = 120;
 		
 		partition.resetForSignature(curMusicSignature,gameRoot );
@@ -178,18 +178,19 @@ class G {
 		var e = Std.int(lastTick) + 1;
 		
 		var n = null;
-		function seekNote(ti, i, m) {
-			trace("msg "+Std.string(m));
-			n = m;
+		function seekNote(ti, i, m : TE ) {
+			if ( m.message.status == cast com.newgonzo.midi.messages.MessageStatus.NOTE_ON ){
+				n = m;
+			}
 		}
-		trace("scanning " + s + " -> " + e);
 		
-		
-		d.getMessageRange(s, e, seekNote);
+		d.getMessageRange(curMidi,s, e, seekNote);
 		
 		if ( pb != nb ) {
-			if ( n != null) 
+			if ( n != null) {
+				trace( n );
 				onNote(Left);
+			}
 			else 
 				onBeat();
 		}
