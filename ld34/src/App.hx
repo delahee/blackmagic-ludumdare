@@ -28,6 +28,7 @@ class App extends flash.display.Sprite {
 		g = new G();
 		g.init();
 		tweenie = new mt.deepnight.Tweenie();
+		tweenie.fps = C.FPS;
 		hxd.System.setLoop(update);
 	}
 	
@@ -35,8 +36,10 @@ class App extends flash.display.Sprite {
 		mt.flash.Key.update();
 		hxd.Timer.update();
 		var tm = hxd.Timer.tmod;
+		var ttm = hxd.Timer.deltaT * C.FPS;
+		//ttm /= 2.0;
 		g.update();
-		tweenie.update();
+		tweenie.update(ttm);
 		fxMan.update();
 		Part.updateAll(tm);
 	}

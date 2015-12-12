@@ -32,6 +32,7 @@ class G {
 	public var prevTime : Float = 0;
 	public var dTime : Float = 0;
 	public var curMidi : com.newgonzo.midi.file.MIDIFile;
+	public var partition : Partition;
 	
 	public function new()  {
 		me = this;
@@ -52,12 +53,20 @@ class G {
 		mt.gx.h2d.Proto.rect( 0, 100, 50, 50, 0xff0055, 1.0, postScene);
 		
 		initBg();
-		new Partition( gameRoot );
+		
+		partition = new Partition( gameRoot );
 		
 		curMidi = d.midiFile;
 		
-		mt.gx.h2d.Proto.bt( 50, 50, "start",
-		start,postScene);
+		var b =mt.gx.h2d.Proto.bt( 100, 50, "start",
+		start, postScene);
+		
+		var b =mt.gx.h2d.Proto.bt( 100, 50, "launch",
+		function() {
+			partition.launchNote(Left);
+		}, postScene);
+		b.x += 110;
+		
 		return this;
 	}
 	
@@ -106,7 +115,7 @@ class G {
 				d.char.getTile("roadC") 	,
 				d.char.getTile("roadD") 	],
 			gameRoot);
-		road.speed = 1;
+		road.speed = 6.0;
 		road.originY += C.H >> 1;
 		road.init();
 	}
@@ -134,14 +143,11 @@ class G {
 	}
 	
 	function updateTempo() {
-		var BPM = 120; //might want to adjust to "current tempo"
-		var BPS = 120 / 60;
-		
 		prevTime = nowTime;//in sec
 		nowTime = haxe.Timer.stamp() - firstTime; //in sec
 		
-		var prevBeat = prevTime * BPS + 4;
-		var nowBeat = nowTime * BPS + 4;
+		var prevBeat = prevTime * C.BPS + C.LookAhead;
+		var nowBeat = nowTime * C.BPS + C.LookAhead;
 		
 		//tick per beat
 		var prevTick = prevBeat * curMidi.division;  // in midi frames

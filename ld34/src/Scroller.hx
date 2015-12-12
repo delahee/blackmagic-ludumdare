@@ -1,5 +1,8 @@
 
 class Scroller {
+	var g(get, null) : G; function get_g() return App.me.g;
+	var d(get, null) : D; function get_d() return App.me.d;
+	
 	var sb : h2d.SpriteBatch;
 	public var size : Int;
 	
