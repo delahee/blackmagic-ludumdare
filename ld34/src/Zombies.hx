@@ -72,9 +72,9 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 			case 3: D.sfx.IMPACT4();
 		}).play();
 		
-		for ( i in 0...Dice.roll( 8 , 16 ) * 3) {
+		for ( i in 0...Dice.roll( 8 , 16 ) * 4) {
 			var e = new mt.deepnight.HParticle(man.tilePixel);
-			var s = Dice.rollF(0.5, 3);
+			var s = Dice.rollF(0.8, 3.2);
 			e.setSize(s, s);
 			var c = bol.random();
 			e.setColor(c);
@@ -82,8 +82,17 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 			var oy = Std.random( 3 ) -  6;
 			e.y = y - 20 + oy;
 			e.groundY = y + oy;
-			e.dx -= g.speed() * Dice.rollF(3,6);
-			e.dy = Dice.rollF( -1, 1);
+			e.dx -= g.speed() * Dice.rollF(3,6) * 1.2;
+			e.dy = Dice.rollF( -1, 1) * 0.8;
+			
+			if ( Dice.percent( 20 ))
+				e.dy -= Dice.rollF( 0.8, 1.2);
+				
+			if ( Dice.percent( 20 )) {
+				e.dx *= 0.5;
+				e.dy = - Dice.rollF( 2, 3);
+			}
+				
 			e.life = Dice.rollF(22, 45);
 			e.bounceMul = Dice.rollF(0.2, 0.6);
 			if( c != 0xd6c2b2 )
@@ -98,7 +107,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 					e.life = 100;
 				}
 			}
-			e.gy = Dice.rollF(0.05,0.1);
+			e.gy = Dice.rollF(0.04,0.06);
 			addPart(e);
 		}
 	}

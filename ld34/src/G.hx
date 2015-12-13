@@ -201,7 +201,12 @@ class G {
 		car.onPause(onOff);
 	}
 	
+	public var isBeat 	: Bool;
+	public var isNote 	: Bool;
+	public var isQuarter : Bool;
+	
 	function updateTempo() {
+		isNote = isQuarter = isBeat = false;
 		prevTime = nowTime;//in sec
 		nowTime = (hxd.Timer.oldTime - startTime); //in sec
 		//trace( prevTime +" -> " + nowTime ); 
@@ -240,16 +245,22 @@ class G {
 		if ( pb != nb ) {
 			if ( n != null) {
 				onNote();
+				isNote = true;
 			}
-			else 
+			else{ 
 				onBeat();
+				isBeat = true;
+			}
 		}
 		else if ( pq != nq ) {
 			if ( n != null) {
 				onNote();
+				isNote = true;
 			}
-			else
+			else{
 				onQuarter();
+				isQuarter = true;
+			}
 		}
 		
 	}
@@ -332,9 +343,8 @@ class G {
 		
 		if ( mt.flash.Key.isToggled(hxd.Key.M)) {
 			car.shootRight();
-		}*/
+		}
 		
-		/*
 		if ( mt.flash.Key.isToggled(hxd.Key.LEFT)) {
 			car.tryShootLeft();
 		}
@@ -343,6 +353,7 @@ class G {
 			car.tryShootRight();
 		}
 		*/
+		
 		if (  mt.flash.Key.isDown(hxd.Key.LEFT)) 
 			leftIsDown++;
 		else leftIsDown = 0;
@@ -355,7 +366,7 @@ class G {
 			car.tryShootLeft();
 			
 		if ( rightIsDown == 1 )
-			car.tryShootLeft();
+			car.tryShootRight();
 	}
 	
 	///la  8
@@ -374,6 +385,8 @@ class G {
 			
 		if ( Scroller.GLB_SPEED < 1.0 - handicap )
 			Scroller.GLB_SPEED += u;
+			
+		partition.update();
 	}
 
 	

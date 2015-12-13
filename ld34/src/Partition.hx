@@ -38,6 +38,7 @@ class Partition {
 	var parent : h2d.Sprite;
 	
 	var flameTile : h2d.Tile;
+	var pulseSprite : mt.deepnight.slb.HSpriteBE;
 	
 	public function new(parent) {
 		baseline = C.H - 37;
@@ -91,6 +92,12 @@ class Partition {
 				g.toFront();
 			}
 		}
+		
+		if ( pulseSprite != null ) pulseSprite.remove();
+		pulseSprite = new mt.deepnight.slb.HSpriteBE( fx,d.char,"fxPulse");
+		pulseSprite.setCenterRatio( 0.5, 0);
+		pulseSprite.x = fretPositions[0];
+		pulseSprite.y = baseline;
 	}
 	
 	inline function quarter() return fretW / curSig;
@@ -116,12 +123,10 @@ class Partition {
 	}
 	
 	public function launchStrong()	{
-		var sp = grid.alloc( d.char.getTile("noteHelper").centerRatio(0.5,0) );
-		sp.scale(2);
-		sp.rotation = Math.PI * 0.25;
+		var sp = grid.alloc( d.char.getTile("strong").centerRatio(0.5,0) );
 		sp.x = getX();
-		sp.y = baseline + 16;
-		sp.alpha = 1.2;
+		sp.y = baseline + 15;
+		sp.alpha = 0.8;
 		
 		var t =  getT(sp);
 		t.onUpdate = function() sp.x = Math.round( sp.x );
@@ -228,13 +233,15 @@ class Partition {
 	
 	var guides = [];
 	function initGuides() {
-		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0] - 1, baseline, 2, 10), 		parent));
-		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0]+fretW - 1, baseline, 2, 10), 	parent));
-		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[1] - 1, baseline, 2, 10), 		parent));	
-		
-		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[1] + fretW * 0.25 - 1, baseline, 2, 10), parent,0x00ff00));
-		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0] - fretW * 0.25 - 1, baseline, 2, 10), parent,0x00ff00));
-		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0] + fretW * 0.25 - 1, baseline, 2, 10), parent,0x00ffff));
+		if ( false ) {
+			guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0] - 1, baseline, 2, 10), 		parent));
+			guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0]+fretW - 1, baseline, 2, 10), 	parent));
+			guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[1] - 1, baseline, 2, 10), 		parent));	
+			
+			guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[1] + fretW * 0.25 - 1, baseline, 2, 10), parent,0x00ff00));
+			guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0] - fretW * 0.25 - 1, baseline, 2, 10), parent,0x00ff00));
+			guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0] + fretW * 0.25 - 1, baseline, 2, 10), parent, 0x00ffff));
+		}
 	}
 	
 	inline function lowVal() return fretPositions[1] + fretW * 0.25;
@@ -284,5 +291,12 @@ class Partition {
 	public function onOk() {
 		g.streak++;
 		g.mutiplier = Math.round(Math.log( g.streak ) / Math.log( 2 ));
+	}
+	
+	public function update() {
+		if (  g.isBeat )
+			pulseSprite.alpha = 0.7;
+		else 
+			pulseSprite.alpha = hxd.Math.lerp( pulseSprite.alpha , 0 , 0.1 );
 	}
 }
