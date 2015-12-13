@@ -139,12 +139,14 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 			case Dead:
 			case Incoming:
 				dx = baseDx * 0.12;
-				a.setCurrentAnimSpeed( 0.25 );
+				if( a.hasAnim())
+					a.setCurrentAnimSpeed( 0.25 );
 			case Rushing:
 			case Crowding:
 				dx = baseDx * 0.075;
-				a.setCurrentAnimSpeed( 0.2 );
-				//setColor( 0x00ff00 );
+				
+				if( a.hasAnim())
+					a.setCurrentAnimSpeed( 0.2 );
 			case Nope,StuckToCar:
 		}
 		state = st;
@@ -270,9 +272,6 @@ class Zombies {
 		parts = new hxd.Stack<mt.deepnight.HParticle>();
 	}
 	
-	public inline function countCarZombies() {
-		return Lambda.count( zombies );
-	}
 	
 	public function addDeathZone(c:h2d.col.Bounds,?srcPart,?nb=1) {
 		deathZone.push({bnd:c,nb:nb,srcPart:srcPart});
@@ -396,11 +395,10 @@ class Zombies {
 	}
 	
 	public function spawnZombieBase() {
-		var name = "zombie" + "A".charAt(Std.random(1));
-		
+		var name = "zombie" + "ABC".charAt(Std.random(3)) + "_run";
 		var z = new Zombie(this, sb, d.char, name );
 		
-		z.a.playAndLoop(name+"_run");
+		z.a.playAndLoop(name);
 		if ( z.a.hasAnim())
 			z.a.setCurrentAnimSpeed( 0.4 );
 		

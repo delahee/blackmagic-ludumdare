@@ -219,8 +219,12 @@ class G {
 		car.car.a.playAndLoop("carStop");
 		
 		var endScreen = new h2d.Sprite( gameRoot );
-		var b = new h2d.Bitmap( h2d.Tile.fromColor( 0xcd000000 ), endScreen );
-		b.setSize( C.W, C.H );
+		var b = new h2d.Bitmap( h2d.Tile.fromColor( 0xcd000000 ).centerRatio(0.5, 0.5), endScreen );
+		b.x = C.W * 0.5;
+		b.y = 150;
+		b.setSize( C.W, 10 );
+		tw.create(b, "y", 95, 400);
+		tw.create(b, "height", 130, 300);
 		
 		var localRoot = new h2d.Sprite( endScreen );
 		var t = new h2d.Text( d.eightMedium,localRoot );
@@ -230,6 +234,9 @@ class G {
 		t.letterSpacing = -1;
 		t.textColor = 0xff9358;
 		t.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+		
+		localRoot.x -= C.W;
+		tw.create(localRoot, "x", 0, TBurnOut,300);
 		
 		var localRoot2 = new h2d.Sprite( endScreen );
 		var n = new h2d.Number(d.eightMedium,localRoot2 );
@@ -247,17 +254,23 @@ class G {
 		t.textColor = 0xffe6b0;
 		t.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
 		
+		localRoot2.x -= C.W;
+		haxe.Timer.delay(function() tw.create(localRoot2, "x", 0, TBurnOut,300),100);
+		
 		n.nb = 0;
 		tw.create(n, "nb", score, 1200);
 		haxe.Timer.delay( function() {
 			var tt = tw.create( localRoot, "x", C.W * 1.5, TBurnOut, 300 );
-			tt.onEnd = function() {
-				var tt = tw.create( localRoot2, "x", C.W * 1.5, TBurnOut, 300 );
-				tt.onEnd = function() {
-					endScreen.dispose();
-					nextLevel();
+			haxe.Timer.delay(function(){
+				var ttt = tw.create( localRoot2, "x", C.W * 1.5, TBurnOut, 300 );
+				ttt.onEnd = function() {
+					var tttt = tw.create(b, "scaleY", 0, TBurnIn, 200);
+					tttt.onEnd = function(){
+						endScreen.dispose();
+						nextLevel();
+					};
 				}
-			}
+			},100);
 		},1200);
 	}
 	
@@ -415,7 +428,7 @@ class G {
 			if ( m.time != 0 && Std.is( m.message, com.newgonzo.midi.file.messages.EndTrackMessage) ) {
 				var mm : com.newgonzo.midi.file.messages.EndTrackMessage = cast m.message;
 				if ( mm.type == cast com.newgonzo.midi.file.messages.MetaEventMessageType.END_OF_TRACK) {
-					haxe.Timer.delay( end, 4000 );
+					haxe.Timer.delay( end, 6000 );
 				}
 			}
 		}
@@ -551,12 +564,17 @@ class G {
 			endGame();
 		}
 		
-		if (  mt.flash.Key.isDown(hxd.Key.LEFT)) 
+		if (  (	mt.flash.Key.isDown(hxd.Key.LEFT)
+		||		mt.flash.Key.isDown(hxd.Key.Q)
+		||		mt.flash.Key.isDown(hxd.Key.A))) {
 			leftIsDown++;
+		}
 		else leftIsDown = 0;
 		
-		if (  mt.flash.Key.isDown(hxd.Key.RIGHT)) 
+		if (  	mt.flash.Key.isDown(hxd.Key.RIGHT)
+		||		mt.flash.Key.isDown(hxd.Key.D)) {
 			rightIsDown++;
+		}
 		else rightIsDown = 0;
 		
 		if ( leftIsDown == 1 )
@@ -566,26 +584,9 @@ class G {
 			car.tryShootRight();
 	}
 	
-	///la  8
-	
 	public function postUpdateGame() {
-		var n = zombies.countCarZombies();
-		
-		if ( n > 10 )
-			n = 10;
-			
-		var u = 0.02;
-		var handicap = u * n;
-		
-		if ( Scroller.GLB_SPEED > 1.0 - handicap )
-			Scroller.GLB_SPEED -= u;
-			
-		if ( Scroller.GLB_SPEED < 1.0 - handicap )
-			Scroller.GLB_SPEED += u;
-			
 		partition.update();
 	}
-
 	
 	public function loose() {
 		zombies.setLevel(0);
