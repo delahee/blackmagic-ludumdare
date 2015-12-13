@@ -33,8 +33,8 @@ class Car {
 		fx = new h2d.SpriteBatch(d.char.tile, p);
 		fx.blendMode = Add;
 		lifeUi = new h2d.SpriteBatch(d.char.tile, p);
-		car = new mt.deepnight.slb.HSpriteBE( sb, d.char, "car");
-		car.a.playAndLoop("car");
+		car = new mt.deepnight.slb.HSpriteBE( sb, d.char,"carPlay");
+		car.a.playAndLoop( "carPlay" );
 		car.a.setCurrentAnimSpeed( 0.33 );
 		cacheBounds = new h2d.col.Bounds();
 		syncLife();
@@ -129,9 +129,9 @@ class Car {
 		return 
 		switch(Std.random(3)) {
 			default:null;
-			case 0:D.sfx.KICK11();
-			case 1:D.sfx.KICK12();
-			case 2:D.sfx.KICK13();
+			case 0:d.sfxKick11.play();
+			case 1:d.sfxKick12.play();
+			case 2:d.sfxKick13.play();
 		}
 	}
 	
@@ -183,7 +183,6 @@ class Car {
 		var l = p.noteList.last();
 		if ( l == null ) return;
 		
-		trace( l.t );
 		if ( !p.isValidable(l) ) return;
 		
 		if ( p.tryValidate(l)) {
@@ -198,11 +197,7 @@ class Car {
 		var p = g.partition;
 		var l = p.noteList.last();
 		
-		trace( p.noteList.map(function(e) return e.t).join(" "));
 		if ( l == null ) return;
-		trace( l.t );
-		
-		
 		if ( !p.isValidable(l) ) return;
 		
 		if ( p.tryValidate(l)) {

@@ -86,7 +86,7 @@ class G {
 		curMusicSignature = 4;
 		curBpm = 120;
 		
-		partition.resetForSignature(curMusicSignature,gameRoot );
+		partition.resetForSignature(curMusicSignature );
 		
 		var b =mt.gx.h2d.Proto.bt( 100, 50, "start",
 		start, postScene);
@@ -97,7 +97,6 @@ class G {
 		}, postScene);
 		b.x += 110;
 		
-		
 		haxe.Timer.delay( start , 800 );
 		return this;
 	}
@@ -107,9 +106,6 @@ class G {
 	public function update() {
 		var engine : h3d.Engine = h3d.Engine.getCurrent();
 		
-		engine.render(masterScene);
-		engine.restoreOpenfl();
-		
 		postScene.checkEvents();
 		preScene.checkEvents();
 	
@@ -118,6 +114,9 @@ class G {
 			d.update();
 			postUpdateGame();
 		}
+		engine.render(masterScene);
+		engine.restoreOpenfl();
+		
 	}
 	
 	public function makeCredits(sp){
@@ -176,6 +175,7 @@ class G {
 	
 	public function start() {
 		started = true;
+		d.sndPlayMusic1Bip();
 		startTime = hxd.Timer.oldTime;
 		nowTime = 0;
 		car.reset();
@@ -189,10 +189,7 @@ class G {
 		curMidi = d.music1Midi;
 		curMusicSignature = 4;
 		curBpm = 125;
-		
-		partition.resetForSignature(curMusicSignature, gameRoot );
-		
-		d.sndPlayMusic1Bip();
+		partition.resetForSignature(curMusicSignature );
 	}
 	
 	public function onPause(onOff) {
@@ -360,7 +357,7 @@ class G {
 	}
 	
 	public function onMiss() {
-		D.sfx.KICK00().play();
+		d.sfxKick00.play();
 	}
 	
 	public function onSuccess() {

@@ -26,6 +26,10 @@ class D {
 	public static var sfx = mt.flash.Sfx.importDirectory("assets/snd/SFX");
 	public static var music = mt.flash.Sfx.importDirectory("assets/snd/music");
 	
+	public var eightSmall : h2d.Font;
+	public var eightMedium : h2d.Font;
+	public var eightBig : h2d.Font;
+	public var eightVeryBig : h2d.Font;
 	
 	public function new() {
 		char = mt.deepnight.slb.assets.TexturePacker.importXml("assets/assets.xml",true);
@@ -33,13 +37,15 @@ class D {
 		
 		var fnt = openfl.Assets.getFont( "assets/wendy_0.ttf" );
 		wendyBig = hxd.res.FontBuilder.getFont(fnt.fontName, 40);
-		wendyBig.tile.getTexture().filter = Nearest;
-		
 		wendyUber = hxd.res.FontBuilder.getFont(fnt.fontName, 80);
-		wendyUber.tile.getTexture().filter = Nearest;
-		
 		wendySmall = hxd.res.FontBuilder.getFont(fnt.fontName, 20);
-		wendySmall.tile.getTexture().filter = Nearest;
+		
+		var fnt = openfl.Assets.getFont( "assets/8-BIT WONDER.TTF" );
+		var opt : hxd.res.FontBuilder.FontBuildOptions= { antiAliasing:false};
+		eightSmall = hxd.res.FontBuilder.getFont(fnt.fontName, 12,opt);
+		eightMedium = hxd.res.FontBuilder.getFont(fnt.fontName, 24,opt);
+		eightBig = hxd.res.FontBuilder.getFont(fnt.fontName, 40,opt);
+		eightVeryBig = hxd.res.FontBuilder.getFont(fnt.fontName, 60,opt);
 		
 		arial = hxd.res.FontBuilder.getFont("arial", 14);
 		
@@ -57,7 +63,6 @@ class D {
 		music1Midi= l("assets/snd/midi/music1.mid");
 		music2Midi = l("assets/snd/midi/music2.mid");
 		
-		
 		var file = music1Midi;
 		var ti = 0;
 		for ( t in file.tracks) {
@@ -68,12 +73,21 @@ class D {
 			}
 			ti++;
 		}
+		
+		sfxKick00 = sfx.KICK00();
+		sfxKick11 = sfx.KICK11();
+		sfxKick12 = sfx.KICK12();
+		sfxKick13 = sfx.KICK13();
 	}
 	
 	public var music1:mt.flash.Sfx;
 	public var music2:mt.flash.Sfx;
-	
 	public var music1Bip:mt.flash.Sfx;
+	
+	public var sfxKick00:mt.flash.Sfx;
+	public var sfxKick11:mt.flash.Sfx;
+	public var sfxKick12:mt.flash.Sfx;
+	public var sfxKick13:mt.flash.Sfx;
 	
 	public function sndPrepareMusic1() {
 		if ( music1 == null ) music1 = music.MUSIC1();

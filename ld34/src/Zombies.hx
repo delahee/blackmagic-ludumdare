@@ -360,7 +360,7 @@ class Zombies {
 		z.y = z.ry = Dice.rollF( cb.y + cb.height * 0.25, cb.y + cb.height * 0.6 + 10);
 		
 		z.baseDx = z.dx = 2 + Dice.rollF( 0, 0.25);
-		var s = Dice.rollF(0.75, 1.0);
+		var s = Dice.rollF(1.0, 1.2);
 		z.scale( s );
 		z.rushingZombie = Dice.percent(33);
 		z.ofsHookX = Dice.rollF( 0.0, 8.0 );
