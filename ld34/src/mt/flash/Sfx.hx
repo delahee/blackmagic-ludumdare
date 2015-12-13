@@ -141,6 +141,7 @@ class Sfx {
 
 		PLAYING.push(this);
 		curPlay = sound.play( startOffset, loops, st);
+		if ( curPlay == null) return;
 		curPlay.addEventListener(flash.events.Event.SOUND_COMPLETE, onComplete);
 	}
 

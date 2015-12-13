@@ -3,7 +3,7 @@ class Scroller {
 	var g(get, null) : G; function get_g() return App.me.g;
 	var d(get, null) : D; function get_d() return App.me.d;
 	
-	var sb : h2d.SpriteBatch;
+	public var sb : h2d.SpriteBatch;
 	public var size : Int;
 	
 	public static var GLB_SPEED = 1.0;
@@ -13,20 +13,29 @@ class Scroller {
 	public var tiles : Array<h2d.Tile> = [];
 	public var deck : Array<h2d.Tile>=[];
 	
+	public var randomHide = false;
+	var master : h2d.Tile;
+	
 	public function new(size,nb,masterTile,tiles,p){
 		sb = new h2d.SpriteBatch(masterTile, p);
 		this.size = size;
 		this.nb = nb;
 		this.tiles = tiles;
+		master = masterTile;
 		init();
 	}
 	
 	function getTile() {
-		if ( deck.length == 0)
-			deck = tiles.copy();
+		if ( deck.length == 0 )
+			if( tiles.length > 0 )
+				deck = tiles.copy();
+			else 
+				return master;
+			
 		var r = Std.random(deck.length);
 		var e = deck[r];
 		deck.remove( e );
+		//trace( deck);
 		return e;
 	}
 	
@@ -36,6 +45,8 @@ class Scroller {
 			var r = sb.alloc( getTile() );
 			r.x = i * size;
 			r.y = originY;
+			if( randomHide )
+				r.visible = mt.gx.Dice.percent( 33 );
 		}
 	}
 	
@@ -43,8 +54,11 @@ class Scroller {
 		var fr = dTime * C.FPS;
 		for ( e in sb.getElements()) {
 			e.x -= speed * GLB_SPEED * fr;
-			if ( e.x <= -size )
+			if ( e.x <= -size ){
 				e.x += size * nb;
+				if( randomHide )
+					e.visible = mt.gx.Dice.percent( 33 );
+			}
 		}
 	}
 }

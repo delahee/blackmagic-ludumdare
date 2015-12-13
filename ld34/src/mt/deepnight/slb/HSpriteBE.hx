@@ -193,4 +193,18 @@ class HSpriteBE extends BatchElement implements SpriteInterface {
 			onFrameChange = null;
 		}
 	}
+	
+	public inline function pos() : h2d.col.Point {
+		return new h2d.col.Point( x, y);
+	}
+	
+	public inline function translate(p) {
+		this.x += p.x;
+		this.y += p.y;
+	}
+	
+	public inline function translate2(x,y) {
+		this.x += x;
+		this.y += y;
+	}
 }
