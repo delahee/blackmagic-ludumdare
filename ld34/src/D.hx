@@ -20,6 +20,9 @@ class D {
 	public var midiFile : MIDIFile;
 	public var midiFile2 : MIDIFile;
 	
+	public var music1Midi : MIDIFile;
+	public var music2Midi : MIDIFile;
+	
 	public static var sfx = mt.flash.Sfx.importDirectory("assets/snd/SFX");
 	public static var music = mt.flash.Sfx.importDirectory("assets/snd/music");
 	
@@ -45,8 +48,33 @@ class D {
 	
 	public function initMidi() {
 		var decoder:MIDIDecoder = new MIDIDecoder();
-		midiFile = decoder.decodeFile(openfl.Assets.getBytes("assets/snd/midi/midi.mid"));
-		midiFile2 = decoder.decodeFile(openfl.Assets.getBytes("assets/snd/midi/midi2.mid"));
+		
+		inline function l(str) return decoder.decodeFile(openfl.Assets.getBytes(str));
+		
+		midiFile = l("assets/snd/midi/midi.mid");
+		midiFile2 = l("assets/snd/midi/midi2.mid");
+		
+		music1Midi= l("assets/snd/midi/music1.mid");
+		music2Midi = l("assets/snd/midi/music2.mid");
+	}
+	
+	public var music1:mt.flash.Sfx;
+	public var music2:mt.flash.Sfx;
+	
+	public function sndPrepareMusic1() {
+		if ( music1 == null ) music1 = music.MUSIC1();
+	}
+	
+	public function sndPrepareMusic2() {
+		if ( music2 == null ) music2 = music.MUSIC1();
+	}
+	
+	public function sndPlayMusic1() {
+		music1.play().tweenVolume(1.0, 100);
+	}
+	
+	public function sndPlayMusic2(){
+		music2.play().tweenVolume(1.0, 100);
 	}
 	
 	//in midi frames

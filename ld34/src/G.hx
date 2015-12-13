@@ -78,9 +78,10 @@ class G {
 		zombies = new Zombies(gameRoot);
 		partition = new Partition( gameRoot );
 		
-		curMidi = d.midiFile2;
-		curMusicSignature = 4;
-		curBpm = 120;
+		d.sndPrepareMusic1();
+		d.sndPrepareMusic2();
+		
+		
 		
 		partition.resetForSignature(curMusicSignature,gameRoot );
 		
@@ -174,15 +175,24 @@ class G {
 		started = true;
 		startTime = hxd.Timer.oldTime;
 		nowTime = 0;
-		zombies.setLevel(1);
 		car.reset();
+		
+		zombies.setLevel(1);
+		/*
+		curMidi = d.midiFile;
+		curMusicSignature = 4;
+		curBpm = 120;
+		*/
+		curMidi = d.music1Midi;
+		curMusicSignature = 4;
+		curBpm = 125;
+		
+		d.sndPlayMusic1();
 	}
 	
 	public function onPause(onOff) {
 		car.onPause(onOff);
 	}
-	
-	
 	
 	function updateTempo() {
 		prevTime = nowTime;//in sec

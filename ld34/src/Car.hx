@@ -120,6 +120,17 @@ class Car {
 		}
 	}
 	
+	//var kickMiss;
+	
+	inline function kickShoot1() :mt.flash.Sfx{
+		return 
+		switch(Std.random(3)) {
+			default:null;
+			case 0:D.sfx.KICK11();
+			case 1:D.sfx.KICK12();
+			case 2:D.sfx.KICK13();
+		}
+	}
 	
 	public function shootRight() {
 		var y = cacheBounds.y + 7;
@@ -133,14 +144,13 @@ class Car {
 		p.add( function() {
 			var b = h2d.col.Bounds.fromValues(e.x, e.y, e.width, e.height);
 			z.addDeathZone( b, p, 1);
-			//var g = h2d.Graphics.fromBounds( b , sb.parent);
-			//new mt.heaps.fx.Vanish( g );
 		});
 		light.alpha = 1.2;
 		var f = fireLeft;
 		f.x = p.x - f.width * 0.5 + 2;
 		f.y = y - f.height * 0.5 + 9;
 		f.alpha = 1.2;
+		kickShoot1().play();
 	}
 	
 	public function shootLeft() {
@@ -155,17 +165,14 @@ class Car {
 		p.add( function() {
 			var b = h2d.col.Bounds.fromValues(e.x, e.y, e.width, e.height);
 			z.addDeathZone( b, p, 1);
-			//var g = h2d.Graphics.fromBounds( b , sb.parent);
-			//new mt.heaps.fx.Vanish( g );
 		});
-		p.onKill = function() {
-			
-		};
 		light.alpha = 1.2;
 		var f = fireLeft;
 		f.x = p.x - f.width * 0.5 + 2;
 		f.y = y - f.height * 0.5 + 9;
 		f.alpha = 1.2;
+		
+		kickShoot1().play();
 	}
 	
 	public function shootBoth() {
