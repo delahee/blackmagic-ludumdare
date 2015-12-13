@@ -1,5 +1,7 @@
 import mt.gx.Dice;
 
+using mt.gx.Ex;
+
 @:publicFields
 class Zombie extends mt.deepnight.slb.HSpriteBE {
 	var d(get, null) : D; function get_d() return App.me.d;
@@ -28,8 +30,56 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 		return hp <= 0;
 	}
 	
+	
+	var r = ["partA", "partB", "partC", "partN"];
+	
+	
+	public function addPart(e:mt.deepnight.HParticle) {
+		man.sb.add(e);
+		man.parts.push(e);
+	}
+	
+	var bol = [	0xbd1a24 , 0xbd1a24 ,
+				0xbd1a24 , 0xbd1a24 ,
+				0xbd1a24 , 0xbd1a24 ,
+				
+				0xd6c2b2,
+				0xd4434c,
+				0x83a69a,
+				0xbb64a6 ];
+				
+	public function onHit() {
+		for ( i in 0...Dice.roll( 8 , 16 ) * 3) {
+			var e = new mt.deepnight.HParticle(man.tilePixel);
+			var s = Dice.rollF(0.5, 3);
+			e.setSize(s, s);
+			var c = bol.random();
+			e.setColor(c);
+			e.x = x + Std.random( 10 ) - 5;
+			var oy = Std.random( 3 ) -  6;
+			e.y = y - 20 + oy;
+			e.groundY = y + oy;
+			e.dx -= g.speed() * Dice.rollF(3,6);
+			e.dy = Dice.rollF( -1, 1);
+			e.life = Dice.rollF(22, 45);
+			e.bounceMul = Dice.rollF(0.2, 0.6);
+			if( c != 0xd6c2b2 )
+			e.onBounce = function(e) {
+				if ( Dice.percent( 80 )) {
+					e.scaleY = 0.75;
+					e.scaleX = Dice.rollF(2,4);
+					e.dy = 0;
+					e.dx = -g.speed() * 6;
+					e.groundY = null;
+					e.gy = 0;
+					e.life = 100;
+				}
+			}
+			e.gy = Dice.rollF(0.05,0.1);
+			addPart(e);
+		}
+	}
 	public function onDeath() {
-		//setColor(0x0);
 		
 		if( a.hasAnim()){
 			a.playAndLoop( groupName.split("_")[0] + "_dead");
@@ -47,6 +97,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 	
 	public function hit(?v=10) {
 		hp -= v;
+		onHit();
 		if ( hp <= 0) 
 			onDeath();
 	}
@@ -141,10 +192,21 @@ class Zombies {
 	var zombies : Array<Zombie> = [];
 	public var deathZone : List<DeathZone> = new List();
 	
+	public var tilePixel : h2d.Tile;
+	public var tilePart : Array<h2d.Tile>;
+	
+	public var parts : hxd.Stack<mt.deepnight.HParticle>;
+	
 	public function new(p)  {
 		sb =  new h2d.SpriteBatch(d.char.tile, p);
 		rand = new mt.Rand(0);
 		setLevel(0);
+		tilePixel = d.char.getTile("pixel").centerRatio();
+		tilePart = ["partA", "partB", "partC", "partN"].map( function(str) {
+			return d.char.getTile(str).centerRatio();
+		} );
+		
+		parts = new hxd.Stack<mt.deepnight.HParticle>();
 	}
 	
 	public inline function countCarZombies() {
@@ -171,6 +233,7 @@ class Zombies {
 		zombies = [];
 		elapsedTime = 0.0;
 	}
+	
 	
 	public function update(dTime:Float) {
 		if ( level == 0) {
@@ -203,6 +266,15 @@ class Zombies {
 		
 		if( deathZone.length>0)
 			deathZone = new List();
+			
+		var p = parts.length - 1;
+		while( p >= 0) {
+			var pp = parts.unsafeGet(p);
+			pp.update(true);
+			if ( pp.killed )
+				parts.remove( pp );
+			p--;
+		}
 	}
 	
 	public function spawnZombieBase() {

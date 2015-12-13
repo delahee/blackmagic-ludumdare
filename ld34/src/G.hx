@@ -64,6 +64,7 @@ class G {
 	}
 	
 	public inline function bps() return curBpm / 60;
+	public inline function speed() return Scroller.GLB_SPEED;
 	
 	public function init() {
 		masterScene.addPass( preScene, true );
