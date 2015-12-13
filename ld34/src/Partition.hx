@@ -39,6 +39,8 @@ class Partition {
 	var flameTile : h2d.Tile;
 	var pulseSprite : mt.deepnight.slb.HSpriteBE;
 	
+	public var enablePulse = false;
+	
 	public function new(parent) {
 		baseline = C.H - 37;
 		this.parent = parent;
@@ -97,17 +99,28 @@ class Partition {
 		pulseSprite.setCenterRatio( 0.5, 0);
 		pulseSprite.x = fretPositions[0];
 		pulseSprite.y = baseline;
+		pulseSprite.alpha = 0;
+		
+		noteList = new List();
 	}
 	
 	inline function quarter() return fretW / curSig;
 	
 	function getT(sp) {
-		return App.me.tweenie.create( sp, "x", fretPositions[0]+fretW + quarter(), TLinear, (C.LookAhead+1) / g.bps() * 1000 );
+		if( curSig == 4 )
+			return App.me.tweenie.create( sp, "x", fretPositions[0] + fretW //+ quarter()
+			, TLinear, (C.LookAhead + 1) / g.bps() * 1000 );
+		else 
+			return App.me.tweenie.create( sp, "x", fretPositions[0] + fretW - quarter(), TLinear, (C.LookAhead + 1) / g.bps() * 1000 );
 	}
 	
 	function getX() {
 		//return fretPositions.last() - (fretW * curSig);
-		return fretPositions.last() - (fretW * curSig) + quarter();
+		if( curSig == 4 )
+			return fretPositions.last() - (fretW * curSig) //+ quarter()
+			;
+		else 
+			return fretPositions.last() - (fretW * curSig) - quarter();
 	}
 	
 	public function launchQuarter()	{
@@ -144,6 +157,7 @@ class Partition {
 		
 		var tw =  getT(sp);
 		tw.onUpdateT = function(t) {
+			if ( sp.destroyed ) return;
 			sp.x = Math.round( sp.x );
 			sp.t = t;
 			if ( sp.x > highVal() && !sp.missed && !sp.ok){
@@ -152,7 +166,7 @@ class Partition {
 				triggerMiss(sp.x + 30, sp.y);
 				sp.missed = true;
 				g.streak = 0;
-				g.mutiplier = 0;
+				g.multiplier = 1;
 			}
 		};
 		
@@ -232,7 +246,8 @@ class Partition {
 	
 	var guides = [];
 	function initGuides() {
-		if ( false ) {
+		//if ( false ) 
+		{
 			guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0] - 1, baseline, 2, 10), 		parent));
 			guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0]+fretW - 1, baseline, 2, 10), 	parent));
 			guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[1] - 1, baseline, 2, 10), 		parent));	
@@ -271,10 +286,14 @@ class Partition {
 				f.remove();
 				sp.dispose();
 			}
-			if ( sp.x >= mid && sp.x < high) 
-				triggerPerfect(sp.x+ofsX,sp.y+ofsY);
-			else 
+			if ( sp.x >= mid && sp.x < high) {
+				g.scorePerfect();
+				triggerPerfect(sp.x + ofsX, sp.y + ofsY);
+			}
+			else {
+				g.scoreGood();
 				triggerGood(sp.x + ofsX, sp.y + ofsY);
+			}
 			onOk();
 			
 			sp.ok = true;
@@ -289,11 +308,11 @@ class Partition {
 	
 	public function onOk() {
 		g.streak++;
-		g.mutiplier = Math.round(Math.log( g.streak ) / Math.log( 2 ));
+		g.multiplier = 1 + Math.round(Math.log( g.streak ) / Math.log( 2 ));
 	}
 	
 	public function update() {
-		if (  g.isBeat )
+		if (  g.isBeat && enablePulse)
 			pulseSprite.alpha = 0.7;
 		else 
 			pulseSprite.alpha = hxd.Math.lerp( pulseSprite.alpha , 0 , 0.1 );

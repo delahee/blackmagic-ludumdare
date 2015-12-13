@@ -12,6 +12,7 @@ class G {
 	public var stopped = false;
 	
 	var d(get, null) : D; function get_d() return App.me.d;
+	var tw(get, null) : mt.deepnight.Tweenie; inline function get_tw() return App.me.tweenie;
 	var tip : Tip;
 	
 	public var sbCity : h2d.SpriteBatch;
@@ -44,17 +45,23 @@ class G {
 	public var prevTime : Float = 0;
 	public var dTime : Float = 0;
 	
-	public var curMidi : com.newgonzo.midi.file.MIDIFile;
-	public var curMusicSignature = 0;
-	public var curBpm = 0;
+	public var curMidi : MidiStruct;
 	
 	public var partition : Partition;
 	
 	//public var firstBeat = false;
-	public var score : Int;
-	public var streak : Int = 0;
-	public var mutiplier : Int = 1;
+	public var score : Int = 0;
+	public var progress : Float = 0;
 	
+	public var score1 : Int = 0;
+	public var score2 : Int = 0;
+	public var score3 : Int = 0;
+	public var score4 : Int = 0;
+	
+	public var streak : Int = 0;
+	public var multiplier : Int = 1;
+	public var curLevel = 1;
+	public var progressCounter:h2d.Number;
 	public function new()  {
 		me = this;
 		masterScene = new h2d.Scene();
@@ -66,7 +73,7 @@ class G {
 		gameRoot.scaleY = 3;
 	}
 	
-	public inline function bps() return curBpm / 60;
+	public inline function bps() return curMidi.bpm / 60;
 	public inline function speed() return Scroller.GLB_SPEED;
 	
 	public function init() {
@@ -82,25 +89,48 @@ class G {
 		partition = new Partition( gameRoot );
 		
 		d.sndPrepareMusic1();
-		d.sndPrepareMusic1Bip();
 		d.sndPrepareMusic2();
+		d.sndPrepareMusic3();
+		d.sndPrepareMusic4();
 		
-		curMidi = d.music1Midi;
-		curMusicSignature = 4;
-		curBpm = 120;
+		curMidi = d.music1Desc;
 		
-		partition.resetForSignature(curMusicSignature );
+		partition.resetForSignature(curMidi.sig );
 		
-		var b =mt.gx.h2d.Proto.bt( 100, 50, "start",
+		var b = mt.gx.h2d.Proto.bt( 100, 50, "start",
 		start, postScene);
 		
-		var b =mt.gx.h2d.Proto.bt( 100, 50, "launch",
+		var b = mt.gx.h2d.Proto.bt( 100, 50, "launch",
 		function() {
 			partition.launchNote();
 		}, postScene);
 		b.x += 110;
 		
+		var b = mt.gx.h2d.Proto.bt( 80, 50, "level 2",
+		function() {
+			level2();
+		}, postScene);
+		b.x += 200;
+		
+		var b = mt.gx.h2d.Proto.bt( 80, 50, "level 3",
+		function() {
+			level3();
+		}, postScene);
+		b.x += 300;
+		
+		var b = mt.gx.h2d.Proto.bt( 80, 50, "level 4",
+		function() {
+			level4();
+		}, postScene);
+		b.x += 400;
+		
 		haxe.Timer.delay( start , 800 );
+		
+		var pc = progressCounter = new h2d.Number(d.eightSmall,gameRoot);
+		pc.x = C.W - 50;
+		pc.y = 50;
+		pc.trailingPercent = true;
+		
 		return this;
 	}
 	
@@ -120,6 +150,7 @@ class G {
 		engine.render(masterScene);
 		engine.restoreOpenfl();
 		
+		progressCounter.nb = Std.int(progress * 100);
 	}
 	
 	public function makeCredits(sp){
@@ -176,25 +207,169 @@ class G {
 		car = new Car( gameRoot );
 	}
 	
-	public function start() {
+	public function bandeNoirIn() {
+		
+	}
+	
+	public function end() {
+		stopZombies();
+		
+		partition.enablePulse = false;
+		
+		car.car.a.playAndLoop("carStop");
+		
+		var endScreen = new h2d.Sprite( gameRoot );
+		var b = new h2d.Bitmap( h2d.Tile.fromColor( 0xcd000000 ), endScreen );
+		b.setSize( C.W, C.H );
+		
+		var localRoot = new h2d.Sprite( endScreen );
+		var t = new h2d.Text( d.eightMedium,localRoot );
+		t.text = "LEVEL " + curLevel + " COMPLETE";
+		t.x = C.W * 0.5 - t.textWidth * 0.5;
+		t.y = C.H * 0.2;
+		t.letterSpacing = -1;
+		t.textColor = 0xff9358;
+		t.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+		
+		var localRoot2 = new h2d.Sprite( endScreen );
+		var n = new h2d.Number(d.eightMedium,localRoot2 );
+		n.x = C.W * 0.25;
+		n.y = C.H * 0.45 - n.textHeight * 0.5;
+		n.letterSpacing = -1;
+		n.textColor = 0xffe6b0;
+		n.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+		
+		var t = new h2d.Text( d.eightMedium,localRoot2 );
+		t.text = "POINTS";
+		t.x = n.x + C.W * 0.25;
+		t.y = C.H * 0.45 - t.textHeight * 0.5;
+		t.letterSpacing = -1;
+		t.textColor = 0xffe6b0;
+		t.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+		
+		n.nb = 0;
+		tw.create(n, "nb", score, 1200);
+		haxe.Timer.delay( function() {
+			var tt = tw.create( localRoot, "x", C.W * 1.5, TBurnOut, 300 );
+			tt.onEnd = function() {
+				var tt = tw.create( localRoot2, "x", C.W * 1.5, TBurnOut, 300 );
+				tt.onEnd = function() {
+					endScreen.dispose();
+					nextLevel();
+				}
+			}
+		},1200);
+	}
+	
+	public function nextLevel() {
+		switch( curLevel) {
+			case 1: level2();
+			case 2: level3();
+			case 3: level4();
+			case 4: endGame();
+		}
+	}
+	
+	public function stopZombies() {
+		started = false;
+		zombies.clear();
+		partition.enablePulse = false;
+	}
+	
+	public function endGame() {
+		var endGameScreen = new h2d.Sprite( gameRoot );
+		var b = new h2d.Bitmap( h2d.Tile.fromColor( 0xcd000000 ), endGameScreen );
+		b.setSize(C.W, 0);
+		b.y = 50;
+		b.setSize(C.W, 200);
+		var tt = tw.create( b, "y", 40, 200 );
+		
+		var t = new h2d.Text( d.eightVeryBig );
+		t.text = "GAME OVER";
+		t.x = C.W * 0.5 - t.textWidth * 0.5;
+		t.y = 150;
+		
+		t.visible = false;
+		tt.onEnd = function() {
+			t.visible = true;
+		}
+	}
+	
+	public function onStart() {
+		d.stopAllMusic();
 		started = true;
-		d.sndPlayMusic1Bip();
-		startTime = hxd.Timer.oldTime;
 		nowTime = 0;
+		startTime = hxd.Timer.oldTime;
 		car.reset();
-		
-		zombies.setLevel(1);
-		/*
-		curMidi = d.midiFile;
-		curMusicSignature = 4;
-		curBpm = 120;
-		*/
-		curMidi = d.music1Midi;
-		curMusicSignature = 4;
-		curBpm = 125;
-		partition.resetForSignature(curMusicSignature );
-		
+		progress = 0;
 		score = 0;
+	}
+	
+	public function start() {
+		onStart();
+		
+		d.sndPlayMusic1();
+		zombies.setLevel(1);
+		
+		curMidi = d.music1Desc;
+		partition.resetForSignature(curMidi.sig );
+		
+		haxe.Timer.delay( function() {
+			partition.enablePulse = true;
+			car.car.a.playAndLoop( "carPlay" );
+		},1500);
+		score = 0;
+	}
+	
+	public function level2() {
+		onStart();
+		
+		d.sndPlayMusic2();
+		zombies.setLevel(2);
+		
+		curMidi = d.music2Desc;
+		partition.resetForSignature(curMidi.sig );
+		
+		haxe.Timer.delay( function() {
+			partition.enablePulse = true;
+			car.car.a.playAndLoop( "carPlay" );
+		},1500);
+		curLevel++;
+		trace("LEVEL 2");
+	}
+	
+	public function level3() {
+		onStart();
+		
+		d.sndPlayMusic3();
+		zombies.setLevel(3);
+		
+		curMidi = d.music3Desc;
+		partition.resetForSignature( curMidi.sig );
+		
+		haxe.Timer.delay( function() {
+			partition.enablePulse = true;
+			car.car.a.playAndLoop( "carPlay" );
+		},1500);
+		curLevel++;
+		trace("LEVEL 3");
+	}
+	
+	public function level4() {
+		onStart();
+		
+		d.sndPlayMusic4();
+		zombies.setLevel(4);
+		
+		curMidi = d.music4Desc;
+		partition.resetForSignature( curMidi.sig );
+		
+		haxe.Timer.delay( function() {
+			partition.enablePulse = true;
+			car.car.a.playAndLoop( "carPlay" );
+		},1500);
+		curLevel++;
+		trace("LEVEL 4");
 	}
 	
 	public function onPause(onOff) {
@@ -218,30 +393,42 @@ class G {
 		var nb = Std.int( nowBeat );
 		//trace("b " + pb + " -> " + nb);
 		
-		var prevQuarter = prevBeat * curMusicSignature;
-		var nowQuarter = nowBeat * curMusicSignature;
+		var prevQuarter = prevBeat * curMidi.sig;
+		var nowQuarter = nowBeat * curMidi.sig;
 		
 		var pq = Std.int( prevQuarter );
 		var nq = Std.int( nowQuarter );
 		//trace("q " + pq + " -> " + nq);
 		
 		//tick per beat
-		var prevTick = prevBeat * curMidi.division;  // in midi frames
-		var lastTick = nowBeat * curMidi.division;  // in midi frames
+		var prevTick = prevBeat * curMidi.midi.division;  // in midi frames
+		var lastTick = nowBeat * curMidi.midi.division;  // in midi frames
 		
 		var s = Std.int(prevTick);
 		var e = Std.int(lastTick) + 1;
 		
 		var n = null;
 		function seekNote(ti, i, m : TE ) {
-			if ( m.message.status == cast com.newgonzo.midi.messages.MessageStatus.NOTE_ON ){
+			if ( m.message.status == cast com.newgonzo.midi.messages.MessageStatus.NOTE_ON )
 				n = m;
-				//trace("launching"+m);
+			
+			if ( m.time != 0 && Std.is( m.message, com.newgonzo.midi.file.messages.EndTrackMessage) ) {
+				var mm : com.newgonzo.midi.file.messages.EndTrackMessage = cast m.message;
+				if ( mm.type == cast com.newgonzo.midi.file.messages.MetaEventMessageType.END_OF_TRACK) {
+					haxe.Timer.delay( end, 4000 );
+				}
 			}
 		}
 		
-		d.getMessageRange(curMidi,s, e, seekNote);
+		d.getMessageRange(curMidi.midi,s, e, seekNote);
 		
+		if( n != null){
+			//time should play ? 
+			var o_tb =  n.time / curMidi.midi.division;
+			var o_ts = (o_tb-C.LookAhead) / bps();
+			//trace(prevTime+" " + o_ts + " " + nowTime );
+		}
+			
 		if ( pb != nb ) {
 			if ( n != null) {
 				onNote();
@@ -251,6 +438,7 @@ class G {
 				onBeat();
 			}
 			isBeat = true;
+			progress = lastTick / curMidi.durTick;
 		}
 		else if ( pq != nq ) {
 			if ( n != null) {
@@ -262,6 +450,7 @@ class G {
 			}
 			isQuarter = true;
 		}
+		
 		
 	}
 	
@@ -354,6 +543,14 @@ class G {
 		}
 		*/
 		
+		if ( mt.flash.Key.isToggled(hxd.Key.V)) {
+			end();
+		}
+		
+		if ( mt.flash.Key.isToggled(hxd.Key.E)) {
+			endGame();
+		}
+		
 		if (  mt.flash.Key.isDown(hxd.Key.LEFT)) 
 			leftIsDown++;
 		else leftIsDown = 0;
@@ -400,6 +597,20 @@ class G {
 	
 	public function onSuccess() {
 		
+	}
+	
+	public function scoreZombi() {
+		score += 5 * multiplier;
+	}
+	
+	public function scorePerfect() 
+	{
+		score += 5 * multiplier;
+	}
+	
+	public function scoreGood() 
+	{
+		score += 3 * multiplier;
 	}
 	
 }

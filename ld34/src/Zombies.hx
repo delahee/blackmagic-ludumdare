@@ -123,6 +123,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 			dy = 0;
 		}
 		cs( Dead );
+		g.scoreZombi();
 		haxe.Timer.delay( dispose, 200 );
 	}
 	
@@ -285,6 +286,7 @@ class Zombies {
 			case 1: 0x17deadf0;
 			case 2: 0x3ded3ded;
 			case 3: 0x3ded0015;
+			case 4: 0x3ded0015;
 		};
 		rand.initSeed( seed );
 		this.level = level;
@@ -334,6 +336,45 @@ class Zombies {
 					}
 					
 					if ( mt.gx.Dice.percentF(rand,1)) {
+						spawnZombieBase();
+					}
+					
+				case 2:
+					if ( mt.gx.Dice.percentF(rand,6)) {
+						spawnZombieBase();
+					}
+					
+					if ( mt.gx.Dice.percentF(rand,2)) {
+						spawnZombieBase();
+					}
+					
+					if ( mt.gx.Dice.percentF(rand,2)) {
+						spawnZombieBase();
+					}
+					
+				case 3:
+					if ( mt.gx.Dice.percentF(rand,9)) {
+						spawnZombieBase();
+					}
+					
+					if ( mt.gx.Dice.percentF(rand,3)) {
+						spawnZombieBase();
+					}
+					
+					if ( mt.gx.Dice.percentF(rand,3)) {
+						spawnZombieBase();
+					}
+					
+				case 4:
+					if ( mt.gx.Dice.percentF(rand,12)) {
+						spawnZombieBase();
+					}
+					
+					if ( mt.gx.Dice.percentF(rand,4)) {
+						spawnZombieBase();
+					}
+					
+					if ( mt.gx.Dice.percentF(rand,4)) {
 						spawnZombieBase();
 					}
 			}

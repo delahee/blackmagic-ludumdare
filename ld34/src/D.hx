@@ -6,6 +6,14 @@ import com.newgonzo.midi.MIDIDecoder;
 import com.newgonzo.midi.file.*;
 import com.newgonzo.midi.events.MessageEvent;
 
+typedef MidiStruct = {
+	midi:MIDIFile,
+	durBeat:Int,
+	durTick:Int,
+	bpm:Int,
+	sig:Int,
+}
+
 typedef TE = com.newgonzo.midi.file.MIDITrackEvent;
 class D {
 	public static var me : D = null;
@@ -20,8 +28,11 @@ class D {
 	public var midiFile : MIDIFile;
 	public var midiFile2 : MIDIFile;
 	
-	public var music1Midi : MIDIFile;
-	public var music2Midi : MIDIFile;
+	public var music1Desc : MidiStruct;
+	public var music2Desc : MidiStruct;
+	public var music3Desc : MidiStruct;
+	public var music4Desc : MidiStruct;
+	public var musics : Array<MidiStruct>;
 	
 	public static var sfx = mt.flash.Sfx.importDirectory("assets/snd/SFX");
 	public static var music = mt.flash.Sfx.importDirectory("assets/snd/music");
@@ -52,66 +63,74 @@ class D {
 		initMidi();
 	}
 	
+	public function stopAllMusic() {
+		for ( a in [music1, music2, music3, music4])
+			a.stop();
+	}
+	
 	public function initMidi() {
 		var decoder:MIDIDecoder = new MIDIDecoder();
 		
 		inline function l(str) return decoder.decodeFile(openfl.Assets.getBytes(str));
-		
-		midiFile = l("assets/snd/midi/midi.mid");
-		midiFile2 = l("assets/snd/midi/midi2.mid");
-		
-		music1Midi= l("assets/snd/midi/music1.mid");
-		music2Midi = l("assets/snd/midi/music2.mid");
-		
-		var file = music1Midi;
-		var ti = 0;
-		for ( t in file.tracks) {
-			var i = 0;
-			for ( e in t.events ) {
-				trace( e );
-				i++;
-			}
-			ti++;
-		}
-		
 		sfxKick00 = sfx.KICK00();
 		sfxKick11 = sfx.KICK11();
 		sfxKick12 = sfx.KICK12();
 		sfxKick13 = sfx.KICK13();
+		
+		function parseMidi(str,bpm,sig) :MidiStruct {
+			var midi = l(str);
+			var durTick = seekEnd(midi);
+			var durBeat = Std.int(durTick / midi.division);
+			return { midi:midi, durBeat:durBeat, durTick:durTick,sig:sig,bpm:bpm };
+		}
+		music1Desc	= parseMidi("assets/snd/midi/music1.mid",125,4);
+		music2Desc 	= parseMidi("assets/snd/midi/music2.mid",140,3);
+		music3Desc 	= parseMidi("assets/snd/midi/music3.mid",135,4);
+		music4Desc 	= parseMidi("assets/snd/midi/music4.mid",115,4);
+		musics = [music1Desc, music2Desc, music3Desc, music4Desc];
+		
+		trace( musics );
+	}
+	
+	function seekEndBeat(file:MIDIFile) {
+		var d = seekEnd(file);
+		return midiTickToBeats( file, d);
+	}
+	
+	function seekEnd(file:MIDIFile) {
+		for ( t in file.tracks) {
+			for ( e in t.events ) {
+				if ( e.time != 0 && Std.is( e.message , com.newgonzo.midi.file.messages.EndTrackMessage) ) {
+					return e.time;
+				}
+			}
+		}
+		return -1;
+	}
+	
+	function midiTickToBeats(file,nb) {
+		return Std.int(nb / file.division);
 	}
 	
 	public var music1:mt.flash.Sfx;
 	public var music2:mt.flash.Sfx;
-	public var music1Bip:mt.flash.Sfx;
+	public var music3:mt.flash.Sfx;
+	public var music4:mt.flash.Sfx;
 	
 	public var sfxKick00:mt.flash.Sfx;
 	public var sfxKick11:mt.flash.Sfx;
 	public var sfxKick12:mt.flash.Sfx;
 	public var sfxKick13:mt.flash.Sfx;
 	
-	public function sndPrepareMusic1() {
-		if ( music1 == null ) music1 = music.MUSIC1();
-	}
+	public function sndPrepareMusic1() 	if ( music1 == null ) music1 = music.MUSIC1();
+	public function sndPrepareMusic2() 	if ( music2 == null ) music2 = music.MUSIC2();
+	public function sndPrepareMusic3() 	if ( music3 == null ) music3 = music.MUSIC3();
+	public function sndPrepareMusic4() 	if ( music4 == null ) music4 = music.MUSIC4();
 	
-	public function sndPrepareMusic1Bip() {
-		if ( music1Bip == null ) music1Bip = music.MUSIC1_BIP();
-	}
-	
-	public function sndPrepareMusic2() {
-		if ( music2 == null ) music2 = music.MUSIC1();
-	}
-	
-	public function sndPlayMusic1() {
-		music1.play().tweenVolume(1.0, 100);
-	}
-	
-	public function sndPlayMusic1Bip() {
-		music1Bip.play().tweenVolume(1.0, 100);
-	}
-	
-	public function sndPlayMusic2(){
-		music2.play().tweenVolume(1.0, 100);
-	}
+	public function sndPlayMusic1()  	music1.play().tweenVolume(1.0, 100);
+	public function sndPlayMusic2()		music2.play().tweenVolume(1.0, 100);
+	public function sndPlayMusic3()		music3.play().tweenVolume(1.0, 100);
+	public function sndPlayMusic4()		music4.play().tweenVolume(1.0, 100);
 	
 	//in midi frames
 	//start and end are inclusive

@@ -34,8 +34,8 @@ class Car {
 		fx.blendMode = Add;
 		lifeUi = new h2d.SpriteBatch(d.char.tile, p);
 		car = new mt.deepnight.slb.HSpriteBE( sb, d.char,"carPlay");
-		car.a.playAndLoop( "carPlay" );
-		car.a.setCurrentAnimSpeed( 0.33 );
+		car.a.playAndLoop( "carStop" );
+		car.a.setGeneralSpeed( 0.33 );
 		cacheBounds = new h2d.col.Bounds();
 		syncLife();
 		light = new mt.deepnight.slb.HSpriteBE( fx, d.char, "fxCarLight");
