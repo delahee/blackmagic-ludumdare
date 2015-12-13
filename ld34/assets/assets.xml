@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:8277a9a78301a900311ed7dbff981a01:c31d543a759400eedf1fa1358dd38fa1:57ef0b4f36012e2dacefebfa7d58e2d4$ -->
+<!-- $TexturePacker:SmartUpdate:233129854df943522db72610ebcaf058:5d3b0856b2fec00db4f73e4123927174:57ef0b4f36012e2dacefebfa7d58e2d4$ -->
 <TextureAtlas imagePath="assets.png" width="1024" height="1024">
     <SubTexture name="bg" x="3" y="295" width="600" height="99" frameX="0" frameY="-26" frameWidth="600" frameHeight="250"/>
     <SubTexture name="bgRocks" x="3" y="398" width="600" height="63" frameX="0" frameY="-53" frameWidth="600" frameHeight="250"/>
@@ -38,6 +38,7 @@
     <SubTexture name="sky" x="3" y="182" width="600" height="109" frameX="0" frameY="0" frameWidth="600" frameHeight="250"/>
     <SubTexture name="speedLine" x="3" y="465" width="430" height="1"/>
     <SubTexture name="starPower" x="1011" y="131" width="10" height="8" frameX="0" frameY="-2" frameWidth="10" frameHeight="13"/>
+    <SubTexture name="zombieA" x="695" y="480" width="41" height="36" frameX="-5" frameY="-3" frameWidth="52" frameHeight="42"/>
     <SubTexture name="zombieA_dead" x="955" y="532" width="19" height="26" frameX="-14" frameY="-12" frameWidth="52" frameHeight="40"/>
     <SubTexture name="zombieA_grab01" x="974" y="463" width="47" height="26" frameX="-3" frameY="-8" frameWidth="52" frameHeight="40"/>
     <SubTexture name="zombieA_grab02" x="647" y="480" width="44" height="26" frameX="-5" frameY="-7" frameWidth="52" frameHeight="40"/>
