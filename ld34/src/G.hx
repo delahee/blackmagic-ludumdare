@@ -266,6 +266,9 @@ class G {
 		partition.launchNote();
 	}
 	
+	var leftIsDown = 0;
+	var rightIsDown = 0;
+	
 	public function preUpdateGame() {
 		if ( started ) 
 			updateTempo();
@@ -282,6 +285,7 @@ class G {
 		car.update( dTime );
 		zombies.update( dTime );
 		
+		/*
 		if ( mt.flash.Key.isToggled(hxd.Key.C)) {
 			zombies.clear();
 		}
@@ -312,7 +316,8 @@ class G {
 				zz.x += 100;
 			}
 		}
-		
+		*/
+		/*
 		if ( mt.flash.Key.isToggled(hxd.Key.U)) {
 			car.hit();
 		}
@@ -327,8 +332,9 @@ class G {
 		
 		if ( mt.flash.Key.isToggled(hxd.Key.M)) {
 			car.shootRight();
-		}
+		}*/
 		
+		/*
 		if ( mt.flash.Key.isToggled(hxd.Key.LEFT)) {
 			car.tryShootLeft();
 		}
@@ -336,6 +342,20 @@ class G {
 		if ( mt.flash.Key.isToggled(hxd.Key.RIGHT)) {
 			car.tryShootRight();
 		}
+		*/
+		if (  mt.flash.Key.isDown(hxd.Key.LEFT)) 
+			leftIsDown++;
+		else leftIsDown = 0;
+		
+		if (  mt.flash.Key.isDown(hxd.Key.RIGHT)) 
+			rightIsDown++;
+		else rightIsDown = 0;
+		
+		if ( leftIsDown == 1 )
+			car.tryShootLeft();
+			
+		if ( rightIsDown == 1 )
+			car.tryShootLeft();
 	}
 	
 	///la  8

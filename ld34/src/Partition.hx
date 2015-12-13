@@ -93,12 +93,15 @@ class Partition {
 		}
 	}
 	
+	inline function quarter() return fretW / curSig;
+	
 	function getT(sp) {
-		return App.me.tweenie.create( sp, "x", fretPositions[0]+fretW, TLinear, (C.LookAhead+1) / g.bps() * 1000 );
+		return App.me.tweenie.create( sp, "x", fretPositions[0]+fretW + quarter(), TLinear, (C.LookAhead+1) / g.bps() * 1000 );
 	}
 	
 	function getX() {
-		return fretPositions.last() - (fretW * curSig);
+		//return fretPositions.last() - (fretW * curSig);
+		return fretPositions.last() - (fretW * curSig) + quarter();
 	}
 	
 	public function launchQuarter()	{
@@ -185,7 +188,7 @@ class Partition {
 		//good.x = 100;
 		//good.y = 100;
 		
-		//initGuides();
+		initGuides();
 		good.toFront();
 		perfect.toFront();
 		miss.toFront();
@@ -225,13 +228,13 @@ class Partition {
 	
 	var guides = [];
 	function initGuides() {
-		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0] - 1, baseline, 2, 10), grid));
-		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0]+fretW - 1, baseline, 2, 10), grid));
-		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[1] - 1, baseline, 2, 10), grid));	
+		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0] - 1, baseline, 2, 10), 		parent));
+		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0]+fretW - 1, baseline, 2, 10), 	parent));
+		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[1] - 1, baseline, 2, 10), 		parent));	
 		
-		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[1] + fretW * 0.25 - 1, baseline, 2, 10), grid,0x00ff00));
-		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0] - fretW * 0.25 - 1, baseline, 2, 10), grid,0x00ff00));
-		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0] + fretW * 0.25 - 1, baseline, 2, 10), grid,0x00ffff));
+		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[1] + fretW * 0.25 - 1, baseline, 2, 10), parent,0x00ff00));
+		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0] - fretW * 0.25 - 1, baseline, 2, 10), parent,0x00ff00));
+		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0] + fretW * 0.25 - 1, baseline, 2, 10), parent,0x00ffff));
 	}
 	
 	inline function lowVal() return fretPositions[1] + fretW * 0.25;
@@ -258,7 +261,6 @@ class Partition {
 				f.scaleY = 1.0 + 2 * t;
 			}
 			tw.forceTerminateTween(  sp.tween );
-			
 			t.onEnd = function() {
 				f.remove();
 				sp.dispose();
