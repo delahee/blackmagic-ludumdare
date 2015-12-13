@@ -27,6 +27,7 @@ class Partition {
 	var tw(get, null) : mt.deepnight.Tweenie; inline function get_tw() return App.me.tweenie;
 	
 	public var grid : h2d.SpriteBatch;
+	public var fx : h2d.SpriteBatch;
 	//public var notes : Array<h2d.SpriteBatch.BatchElement>;
 	
 	var baseline = 200;
@@ -35,17 +36,23 @@ class Partition {
 	var curSig = 0;
 	
 	var parent : h2d.Sprite;
+	
+	var flameTile : h2d.Tile;
+	
 	public function new(parent) {
 		baseline = C.H - 37;
 		this.parent = parent;
 		resetForSignature(4);
 		initTexts();
+		flameTile = d.char.getTile("fxFlame").centerRatio(0.5, 1.0);
 	}
 	
 	public function resetForSignature( sig : Int ) {
 		if (grid != null) { grid.dispose(); grid = null; }
+		if (fx != null) { fx.dispose(); fx = null; }
 			
 		grid = new h2d.SpriteBatch( d.char.getTile("pixel").centerRatio(), parent );
+		fx = new h2d.SpriteBatch( d.char.getTile("pixel").centerRatio(), parent ); fx.blendMode = Add;
 		var e = grid.alloc(d.char.getTile("bgUi").centerRatio(0,0));
 		e.y = baseline;
 		e.width = C.W;
@@ -137,6 +144,8 @@ class Partition {
 				sp.a.play("hitMiss");
 				triggerMiss(sp.x + 30, sp.y);
 				sp.missed = true;
+				g.streak = 0;
+				g.mutiplier = 0;
 			}
 		};
 		
@@ -169,7 +178,9 @@ class Partition {
 		miss = new h2d.Text( d.eightSmall, parent );
 		miss.text = "MISS";
 		miss.textColor = 0xB00000;
-		miss.dropShadow = { dx:1,dy:1, color:0x550000, alpha:1.0 };
+		miss.dropShadow = { dx:1, dy:1, color:0x550000, alpha:1.0 };
+		
+		perfect.alpha = good.alpha = miss.alpha = 0;
 		
 		//good.x = 100;
 		//good.y = 100;
@@ -238,13 +249,25 @@ class Partition {
 		var ofsX = 0;
 		var ofsY = -10;
 		if ( sp.x >= low && sp.x <= high) {
+			var f = fx.alloc( flameTile );
+			f.x = sp.x;
+			f.y = sp.y + 20;
+			var t = tw.create( f, "alpha", 0.3, TBurnIn, 150);
+			t.onUpdateT = function(t) {
+				f.scaleX = 1.0 - t;
+				f.scaleY = 1.0 + 2 * t;
+			}
+			tw.forceTerminateTween(  sp.tween );
 			
-			if ( sp.x >= mid && sp.x < high) {
+			t.onEnd = function() {
+				f.remove();
+				sp.dispose();
+			}
+			if ( sp.x >= mid && sp.x < high) 
 				triggerPerfect(sp.x+ofsX,sp.y+ofsY);
-			}
-			else {
-				triggerGood(sp.x+ofsX,sp.y+ofsY);
-			}
+			else 
+				triggerGood(sp.x + ofsX, sp.y + ofsY);
+			onOk();
 			
 			sp.ok = true;
 			noteList.remove(sp);
@@ -254,5 +277,10 @@ class Partition {
 			return false;
 		}
 		
+	}
+	
+	public function onOk() {
+		g.streak++;
+		g.mutiplier = Math.round(Math.log( g.streak ) / Math.log( 2 ));
 	}
 }

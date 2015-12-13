@@ -136,6 +136,8 @@ class Car {
 	}
 	
 	public function shootRight() {
+		
+		kickShoot1().play();
 		var y = cacheBounds.y + 7;
 		var e = fx.alloc( d.char.getTile("fxBullet").centerRatio(0,0.5) );
 		var p = new PartBE( e );
@@ -153,10 +155,12 @@ class Car {
 		f.x = p.x - f.width * 0.5 ;
 		f.y = y - f.height * 0.5 + 3;
 		f.alpha = 1.2;
-		kickShoot1().play();
+		
 	}
 	
 	public function shootLeft() {
+		
+		kickShoot1().play();
 		var y = cacheBounds.y + 30;
 		var e = fx.alloc( d.char.getTile("fxBullet").centerRatio(0,0.5) );
 		var p = new PartBE( e );
@@ -175,7 +179,7 @@ class Car {
 		f.y = y - f.height * 0.5 + 3;
 		f.alpha = 1.2;
 		
-		kickShoot1().play();
+		
 	}
 	
 	public function tryShootLeft() {

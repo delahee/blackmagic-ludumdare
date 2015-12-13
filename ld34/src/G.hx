@@ -51,6 +51,9 @@ class G {
 	public var partition : Partition;
 	
 	//public var firstBeat = false;
+	public var score : Int;
+	public var streak : Int = 0;
+	public var mutiplier : Int = 1;
 	
 	public function new()  {
 		me = this;
@@ -190,6 +193,8 @@ class G {
 		curMusicSignature = 4;
 		curBpm = 125;
 		partition.resetForSignature(curMusicSignature );
+		
+		score = 0;
 	}
 	
 	public function onPause(onOff) {
