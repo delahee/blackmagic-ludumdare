@@ -45,6 +45,10 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 		return hp <= 0;
 	}
 	
+	public inline function prio() {
+		changePriority( - Math.round((( ry * 1000) + rx)) );
+	}
+	
 	var r = ["partA", "partB", "partC", "partN"];
 	
 	public function addPart(e:mt.deepnight.HParticle) {
@@ -188,6 +192,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 				if ( rushingZombie && Dice.percentF( 0.4 )){
 					dx *= Dice.rollF(5,8);
 					//setColor( 0x005e3d );
+					prio();
 				}
 				dx = hxd.Math.lerp( dx , baseDx * 0.035, 0.11);
 			case Nope:
@@ -354,14 +359,13 @@ class Zombies {
 		z.x = z.rx = -60 + Dice.rollF( -20, 30);
 		z.y = z.ry = Dice.rollF( cb.y + cb.height * 0.25, cb.y + cb.height * 0.6 + 10);
 		
-		z.changePriority( -Math.round(z.ry * 100.0 ) );
-		
 		z.baseDx = z.dx = 2 + Dice.rollF( 0, 0.25);
 		var s = Dice.rollF(0.75, 1.0);
 		z.scale( s );
 		z.rushingZombie = Dice.percent(33);
 		z.ofsHookX = Dice.rollF( 0.0, 8.0 );
 		
+		z.prio();
 		z.cs(Incoming);
 		
 		zombies.push(z);
@@ -373,7 +377,7 @@ class Zombies {
 		var cb = c.cacheBounds;
 		z.x = z.ry = Dice.rollF( c.by + 20, c.by + cb.height - 30) + z.height * 0.4;
 		z.y = z.rx = -30 + Dice.rollF( -20, 25);
-		z.changePriority( -Math.round(z.y*100) );
+		z.prio();
 	}
 	
 	public function spawnZombieLow() {
@@ -381,7 +385,7 @@ class Zombies {
 		var cb = c.cacheBounds;
 		z.x = z.ry = Dice.rollF( cb.y + cb.height * 0.25, cb.y + cb.height * 0.75);
 		z.y = z.rx = -30 + Dice.rollF( -20, 25);
-		z.changePriority( -Math.round(z.y*100) );
+		z.prio();
 	}
 	
 	public function spawnZombiePack() {

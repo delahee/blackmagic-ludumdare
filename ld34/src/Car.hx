@@ -1,4 +1,5 @@
 
+using mt.gx.Ex;
 class Car {
 	var d(get, null) : D; inline function get_d() return App.me.d;
 	var g(get, null) : G; inline function get_g() return App.me.g;
@@ -33,6 +34,8 @@ class Car {
 		fx.blendMode = Add;
 		lifeUi = new h2d.SpriteBatch(d.char.tile, p);
 		car = new mt.deepnight.slb.HSpriteBE( sb, d.char, "car");
+		car.a.playAndLoop("car");
+		car.a.setCurrentAnimSpeed( 0.33 );
 		cacheBounds = new h2d.col.Bounds();
 		syncLife();
 		light = new mt.deepnight.slb.HSpriteBE( fx, d.char, "fxCarLight");
@@ -147,8 +150,8 @@ class Car {
 		});
 		light.alpha = 1.2;
 		var f = fireLeft;
-		f.x = p.x - f.width * 0.5 + 2;
-		f.y = y - f.height * 0.5 + 9;
+		f.x = p.x - f.width * 0.5 ;
+		f.y = y - f.height * 0.5 + 3;
 		f.alpha = 1.2;
 		kickShoot1().play();
 	}
@@ -168,14 +171,45 @@ class Car {
 		});
 		light.alpha = 1.2;
 		var f = fireLeft;
-		f.x = p.x - f.width * 0.5 + 2;
-		f.y = y - f.height * 0.5 + 9;
+		f.x = p.x - f.width * 0.5 ;
+		f.y = y - f.height * 0.5 + 3;
 		f.alpha = 1.2;
 		
 		kickShoot1().play();
 	}
 	
-	public function shootBoth() {
+	public function tryShootLeft() {
+		var p = g.partition;
+		var l = p.noteList.last();
+		if ( l == null ) return;
 		
+		trace( l.t );
+		if ( !p.isValidable(l) ) return;
+		
+		if ( p.tryValidate(l)) {
+			shootLeft();
+			g.onSuccess();
+		}
+		else 
+			g.onMiss();
+	}
+	
+	public function tryShootRight() {
+		var p = g.partition;
+		var l = p.noteList.last();
+		
+		trace( p.noteList.map(function(e) return e.t).join(" "));
+		if ( l == null ) return;
+		trace( l.t );
+		
+		
+		if ( !p.isValidable(l) ) return;
+		
+		if ( p.tryValidate(l)) {
+			shootRight();
+			g.onSuccess();
+		}
+		else 
+			g.onMiss();
 	}
 }

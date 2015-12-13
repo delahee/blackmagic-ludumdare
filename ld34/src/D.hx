@@ -56,13 +56,31 @@ class D {
 		
 		music1Midi= l("assets/snd/midi/music1.mid");
 		music2Midi = l("assets/snd/midi/music2.mid");
+		
+		
+		var file = music1Midi;
+		var ti = 0;
+		for ( t in file.tracks) {
+			var i = 0;
+			for ( e in t.events ) {
+				trace( e );
+				i++;
+			}
+			ti++;
+		}
 	}
 	
 	public var music1:mt.flash.Sfx;
 	public var music2:mt.flash.Sfx;
 	
+	public var music1Bip:mt.flash.Sfx;
+	
 	public function sndPrepareMusic1() {
 		if ( music1 == null ) music1 = music.MUSIC1();
+	}
+	
+	public function sndPrepareMusic1Bip() {
+		if ( music1Bip == null ) music1Bip = music.MUSIC1_BIP();
 	}
 	
 	public function sndPrepareMusic2() {
@@ -71,6 +89,10 @@ class D {
 	
 	public function sndPlayMusic1() {
 		music1.play().tweenVolume(1.0, 100);
+	}
+	
+	public function sndPlayMusic1Bip() {
+		music1Bip.play().tweenVolume(1.0, 100);
 	}
 	
 	public function sndPlayMusic2(){
