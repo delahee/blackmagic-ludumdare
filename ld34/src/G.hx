@@ -249,8 +249,8 @@ class G {
 			}
 			else{ 
 				onBeat();
-				isBeat = true;
 			}
+			isBeat = true;
 		}
 		else if ( pq != nq ) {
 			if ( n != null) {
@@ -259,8 +259,8 @@ class G {
 			}
 			else{
 				onQuarter();
-				isQuarter = true;
 			}
+			isQuarter = true;
 		}
 		
 	}

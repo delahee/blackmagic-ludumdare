@@ -28,7 +28,6 @@ class Partition {
 	
 	public var grid : h2d.SpriteBatch;
 	public var fx : h2d.SpriteBatch;
-	//public var notes : Array<h2d.SpriteBatch.BatchElement>;
 	
 	var baseline = 200;
 	var fretW = 120;
