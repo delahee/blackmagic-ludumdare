@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<application xmlns="http://ns.adobe.com/air/application/14.0">
+	
+	<id>com.blackmagic-home.DoubleKickHeroes</id> 
+	<versionNumber>0.0.1</versionNumber> 
+	<filename>DoubleKickHeroes</filename> 
+	
+	<name>Double Kick Heroes</name> 
+	<description></description> 
+	<copyright>blackmagic</copyright> 
+	
+	<initialWindow> 
+		<title>Double Kick Heroes</title> 
+		<content>DoubleKickHeroes.swf</content> 
+		<transparent>false</transparent> 
+		<visible>true</visible> 
+		<minimizable>true</minimizable> 
+		<maximizable>true</maximizable> 
+		<resizable>true</resizable> 
+		<renderMode>direct</renderMode> 
+		
+		<autoOrients>false</autoOrients>
+		<aspectRatio>landscape</aspectRatio>
+		<fullScreen>true</fullScreen>
+		<depthAndStencil>true</depthAndStencil>
+	</initialWindow> 
+	
+	<icon> 
+	</icon>
+</application>

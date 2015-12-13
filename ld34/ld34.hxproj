@@ -32,7 +32,7 @@
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />
     <option enabledebug="True" />
-    <option additional="-swf-version 11.6&#xA;-dce no&#xA;-swf-version 12&#xA;-debug " />
+    <option additional="-swf-version 11.6&#xA;-dce no&#xA;--no-traces &#xA;-swf-version 12" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>

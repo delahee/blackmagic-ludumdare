@@ -27,7 +27,7 @@ class Partition {
 	var tw(get, null) : mt.deepnight.Tweenie; inline function get_tw() return App.me.tweenie;
 	
 	public var grid : h2d.SpriteBatch;
-	//public var notes : Array<h2d.SpriteBatch.BatchElement>;
+	public var fx : h2d.SpriteBatch;
 	
 	var baseline = 200;
 	var fretW = 120;
@@ -35,17 +35,24 @@ class Partition {
 	var curSig = 0;
 	
 	var parent : h2d.Sprite;
+	
+	var flameTile : h2d.Tile;
+	var pulseSprite : mt.deepnight.slb.HSpriteBE;
+	
 	public function new(parent) {
 		baseline = C.H - 37;
 		this.parent = parent;
 		resetForSignature(4);
 		initTexts();
+		flameTile = d.char.getTile("fxFlame").centerRatio(0.5, 1.0);
 	}
 	
 	public function resetForSignature( sig : Int ) {
 		if (grid != null) { grid.dispose(); grid = null; }
+		if (fx != null) { fx.dispose(); fx = null; }
 			
 		grid = new h2d.SpriteBatch( d.char.getTile("pixel").centerRatio(), parent );
+		fx = new h2d.SpriteBatch( d.char.getTile("pixel").centerRatio(), parent ); fx.blendMode = Add;
 		var e = grid.alloc(d.char.getTile("bgUi").centerRatio(0,0));
 		e.y = baseline;
 		e.width = C.W;
@@ -84,14 +91,23 @@ class Partition {
 				g.toFront();
 			}
 		}
+		
+		if ( pulseSprite != null ) pulseSprite.remove();
+		pulseSprite = new mt.deepnight.slb.HSpriteBE( fx,d.char,"fxPulse");
+		pulseSprite.setCenterRatio( 0.5, 0);
+		pulseSprite.x = fretPositions[0];
+		pulseSprite.y = baseline;
 	}
 	
+	inline function quarter() return fretW / curSig;
+	
 	function getT(sp) {
-		return App.me.tweenie.create( sp, "x", fretPositions[0]+fretW, TLinear, (C.LookAhead+1) / g.bps() * 1000 );
+		return App.me.tweenie.create( sp, "x", fretPositions[0]+fretW + quarter(), TLinear, (C.LookAhead+1) / g.bps() * 1000 );
 	}
 	
 	function getX() {
-		return fretPositions.last() - (fretW * curSig);
+		//return fretPositions.last() - (fretW * curSig);
+		return fretPositions.last() - (fretW * curSig) + quarter();
 	}
 	
 	public function launchQuarter()	{
@@ -106,12 +122,10 @@ class Partition {
 	}
 	
 	public function launchStrong()	{
-		var sp = grid.alloc( d.char.getTile("noteHelper").centerRatio(0.5,0) );
-		sp.scale(2);
-		sp.rotation = Math.PI * 0.25;
+		var sp = grid.alloc( d.char.getTile("strong").centerRatio(0.5,0) );
 		sp.x = getX();
-		sp.y = baseline + 16;
-		sp.alpha = 1.2;
+		sp.y = baseline + 15;
+		sp.alpha = 0.8;
 		
 		var t =  getT(sp);
 		t.onUpdate = function() sp.x = Math.round( sp.x );
@@ -137,6 +151,8 @@ class Partition {
 				sp.a.play("hitMiss");
 				triggerMiss(sp.x + 30, sp.y);
 				sp.missed = true;
+				g.streak = 0;
+				g.mutiplier = 0;
 			}
 		};
 		
@@ -169,12 +185,14 @@ class Partition {
 		miss = new h2d.Text( d.eightSmall, parent );
 		miss.text = "MISS";
 		miss.textColor = 0xB00000;
-		miss.dropShadow = { dx:1,dy:1, color:0x550000, alpha:1.0 };
+		miss.dropShadow = { dx:1, dy:1, color:0x550000, alpha:1.0 };
+		
+		perfect.alpha = good.alpha = miss.alpha = 0;
 		
 		//good.x = 100;
 		//good.y = 100;
 		
-		//initGuides();
+		initGuides();
 		good.toFront();
 		perfect.toFront();
 		miss.toFront();
@@ -214,13 +232,15 @@ class Partition {
 	
 	var guides = [];
 	function initGuides() {
-		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0] - 1, baseline, 2, 10), grid));
-		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0]+fretW - 1, baseline, 2, 10), grid));
-		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[1] - 1, baseline, 2, 10), grid));	
-		
-		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[1] + fretW * 0.25 - 1, baseline, 2, 10), grid,0x00ff00));
-		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0] - fretW * 0.25 - 1, baseline, 2, 10), grid,0x00ff00));
-		guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0] + fretW * 0.25 - 1, baseline, 2, 10), grid,0x00ffff));
+		if ( false ) {
+			guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0] - 1, baseline, 2, 10), 		parent));
+			guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0]+fretW - 1, baseline, 2, 10), 	parent));
+			guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[1] - 1, baseline, 2, 10), 		parent));	
+			
+			guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[1] + fretW * 0.25 - 1, baseline, 2, 10), parent,0x00ff00));
+			guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0] - fretW * 0.25 - 1, baseline, 2, 10), parent,0x00ff00));
+			guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0] + fretW * 0.25 - 1, baseline, 2, 10), parent, 0x00ffff));
+		}
 	}
 	
 	inline function lowVal() return fretPositions[1] + fretW * 0.25;
@@ -238,13 +258,24 @@ class Partition {
 		var ofsX = 0;
 		var ofsY = -10;
 		if ( sp.x >= low && sp.x <= high) {
-			
-			if ( sp.x >= mid && sp.x < high) {
+			var f = fx.alloc( flameTile );
+			f.x = sp.x;
+			f.y = sp.y + 20;
+			var t = tw.create( f, "alpha", 0.3, TBurnIn, 150);
+			t.onUpdateT = function(t) {
+				f.scaleX = 1.0 - t;
+				f.scaleY = 1.0 + 2 * t;
+			}
+			tw.forceTerminateTween(  sp.tween );
+			t.onEnd = function() {
+				f.remove();
+				sp.dispose();
+			}
+			if ( sp.x >= mid && sp.x < high) 
 				triggerPerfect(sp.x+ofsX,sp.y+ofsY);
-			}
-			else {
-				triggerGood(sp.x+ofsX,sp.y+ofsY);
-			}
+			else 
+				triggerGood(sp.x + ofsX, sp.y + ofsY);
+			onOk();
 			
 			sp.ok = true;
 			noteList.remove(sp);
@@ -254,5 +285,17 @@ class Partition {
 			return false;
 		}
 		
+	}
+	
+	public function onOk() {
+		g.streak++;
+		g.mutiplier = Math.round(Math.log( g.streak ) / Math.log( 2 ));
+	}
+	
+	public function update() {
+		if (  g.isBeat )
+			pulseSprite.alpha = 0.7;
+		else 
+			pulseSprite.alpha = hxd.Math.lerp( pulseSprite.alpha , 0 , 0.1 );
 	}
 }

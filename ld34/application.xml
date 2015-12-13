@@ -6,7 +6,7 @@
 	<meta title="app" package="mt.ld.md31" version="1.0.0" company="blackmagicTeam"  />
 	
 	<!-- output -->
-	<app main="App" file="app" path="bin" swf-version="11.9" />
+	<app main="App" file="DoubleKickHeroes" path="bin" swf-version="11.9" />
 	
 	<window background="#000000" fps="61" />
 	
@@ -31,4 +31,6 @@
 	<section unless="debug">
 		<haxeflag name="--no-traces" />
 	</section>
+	
+	<postBuild></postBuild>
 </project>

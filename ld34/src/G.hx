@@ -51,6 +51,9 @@ class G {
 	public var partition : Partition;
 	
 	//public var firstBeat = false;
+	public var score : Int;
+	public var streak : Int = 0;
+	public var mutiplier : Int = 1;
 	
 	public function new()  {
 		me = this;
@@ -190,13 +193,20 @@ class G {
 		curMusicSignature = 4;
 		curBpm = 125;
 		partition.resetForSignature(curMusicSignature );
+		
+		score = 0;
 	}
 	
 	public function onPause(onOff) {
 		car.onPause(onOff);
 	}
 	
+	public var isBeat 	: Bool;
+	public var isNote 	: Bool;
+	public var isQuarter : Bool;
+	
 	function updateTempo() {
+		isNote = isQuarter = isBeat = false;
 		prevTime = nowTime;//in sec
 		nowTime = (hxd.Timer.oldTime - startTime); //in sec
 		//trace( prevTime +" -> " + nowTime ); 
@@ -235,16 +245,22 @@ class G {
 		if ( pb != nb ) {
 			if ( n != null) {
 				onNote();
+				isNote = true;
 			}
-			else 
+			else{ 
 				onBeat();
+			}
+			isBeat = true;
 		}
 		else if ( pq != nq ) {
 			if ( n != null) {
 				onNote();
+				isNote = true;
 			}
-			else
+			else{
 				onQuarter();
+			}
+			isQuarter = true;
 		}
 		
 	}
@@ -260,6 +276,9 @@ class G {
 	function onNote() {
 		partition.launchNote();
 	}
+	
+	var leftIsDown = 0;
+	var rightIsDown = 0;
 	
 	public function preUpdateGame() {
 		if ( started ) 
@@ -277,6 +296,7 @@ class G {
 		car.update( dTime );
 		zombies.update( dTime );
 		
+		/*
 		if ( mt.flash.Key.isToggled(hxd.Key.C)) {
 			zombies.clear();
 		}
@@ -307,7 +327,8 @@ class G {
 				zz.x += 100;
 			}
 		}
-		
+		*/
+		/*
 		if ( mt.flash.Key.isToggled(hxd.Key.U)) {
 			car.hit();
 		}
@@ -331,6 +352,21 @@ class G {
 		if ( mt.flash.Key.isToggled(hxd.Key.RIGHT)) {
 			car.tryShootRight();
 		}
+		*/
+		
+		if (  mt.flash.Key.isDown(hxd.Key.LEFT)) 
+			leftIsDown++;
+		else leftIsDown = 0;
+		
+		if (  mt.flash.Key.isDown(hxd.Key.RIGHT)) 
+			rightIsDown++;
+		else rightIsDown = 0;
+		
+		if ( leftIsDown == 1 )
+			car.tryShootLeft();
+			
+		if ( rightIsDown == 1 )
+			car.tryShootRight();
 	}
 	
 	///la  8
@@ -349,6 +385,8 @@ class G {
 			
 		if ( Scroller.GLB_SPEED < 1.0 - handicap )
 			Scroller.GLB_SPEED += u;
+			
+		partition.update();
 	}
 
 	
