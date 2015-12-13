@@ -223,8 +223,8 @@ class G {
 		b.x = C.W * 0.5;
 		b.y = 150;
 		b.setSize( C.W, 10 );
-		tw.create(b, "y", 95, 400);
-		tw.create(b, "height", 130, 300);
+		tw.create(b, "y", 		85, 400);
+		tw.create(b, "height", 	110, 300);
 		
 		var localRoot = new h2d.Sprite( endScreen );
 		var t = new h2d.Text( d.eightMedium,localRoot );
@@ -239,17 +239,17 @@ class G {
 		tw.create(localRoot, "x", 0, TBurnOut,300);
 		
 		var localRoot2 = new h2d.Sprite( endScreen );
-		var n = new h2d.Number(d.eightMedium,localRoot2 );
+		var n = new h2d.Number(d.eightMediumPlus,localRoot2 );
 		n.x = C.W * 0.25;
-		n.y = C.H * 0.45 - n.textHeight * 0.5;
+		n.y = C.H * 0.40 - n.textHeight * 0.5;
 		n.letterSpacing = -1;
 		n.textColor = 0xffe6b0;
 		n.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
 		
-		var t = new h2d.Text( d.eightMedium,localRoot2 );
+		var t = new h2d.Text( d.eightMediumPlus,localRoot2 );
 		t.text = "POINTS";
 		t.x = n.x + C.W * 0.25;
-		t.y = C.H * 0.45 - t.textHeight * 0.5;
+		t.y = C.H * 0.40 - t.textHeight * 0.5;
 		t.letterSpacing = -1;
 		t.textColor = 0xffe6b0;
 		t.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
@@ -318,6 +318,55 @@ class G {
 		score = 0;
 	}
 	
+	public function afterStart() {
+		var startScreen = new h2d.Sprite( gameRoot );
+		var b = new h2d.Bitmap( h2d.Tile.fromColor( 0xcd000000 ).centerRatio(0.5, 0.5), startScreen );
+		b.x = C.W * 0.5;
+		b.y = 150;
+		b.setSize( C.W, 10 );
+		tw.create(b, "y", 		85, 400);
+		tw.create(b, "height", 	110, 300);
+		
+		var localRoot = new h2d.Sprite( startScreen );
+		var t = new h2d.Text( d.eightMedium,localRoot );
+		t.text = "LEVEL " + curLevel;
+		t.x = C.W * 0.5 - t.textWidth * 0.5;
+		t.y = C.H * 0.2;
+		t.letterSpacing = -1;
+		t.textColor = 0xff9358;
+		t.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+		
+		localRoot.x -= C.W;
+		tw.create(localRoot, "x", 0, TBurnOut,300);
+		
+		var localRoot2 = new h2d.Sprite( startScreen );
+		var t = new h2d.Text( d.eightMediumPlus,localRoot2 );
+		t.text = switch(curLevel) {
+			default:"ERROR";
+			case 1: "LUSTY CARESS";
+			case 2: "PLANET ERROR";
+			case 3: "C3POPOCALYSPE";
+			case 4: "BOB ZOMBI";
+		};
+		t.x = C.W * 0.5 - t.textWidth * 0.5;
+		t.y = C.H * 0.40 - t.textHeight * 0.5;
+		t.letterSpacing = -1;
+		t.textColor = 0xffe6b0;
+		t.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+		
+		localRoot2.x -= C.W;
+		haxe.Timer.delay(function() tw.create(localRoot2, "x", 0, TBurnOut,300),100);
+		haxe.Timer.delay( function() {
+			var tt = tw.create( localRoot, "x", C.W * 1.5, TBurnOut, 300 );
+			haxe.Timer.delay(function(){
+				var ttt = tw.create( localRoot2, "x", C.W * 1.5, TBurnOut, 300 );
+				ttt.onEnd = function() {
+					var tttt = tw.create(b, "scaleY", 0, TBurnIn, 200);
+				}
+			},100);
+		},1500);
+	}
+	
 	public function start() {
 		onStart();
 		
@@ -332,6 +381,8 @@ class G {
 			car.car.a.playAndLoop( "carPlay" );
 		},1500);
 		score = 0;
+		
+		afterStart();
 	}
 	
 	public function level2() {
@@ -348,7 +399,8 @@ class G {
 			car.car.a.playAndLoop( "carPlay" );
 		},1500);
 		curLevel++;
-		trace("LEVEL 2");
+		
+		afterStart();
 	}
 	
 	public function level3() {
@@ -365,7 +417,7 @@ class G {
 			car.car.a.playAndLoop( "carPlay" );
 		},1500);
 		curLevel++;
-		trace("LEVEL 3");
+		afterStart();
 	}
 	
 	public function level4() {
@@ -382,7 +434,7 @@ class G {
 			car.car.a.playAndLoop( "carPlay" );
 		},1500);
 		curLevel++;
-		trace("LEVEL 4");
+		afterStart();
 	}
 	
 	public function onPause(onOff) {

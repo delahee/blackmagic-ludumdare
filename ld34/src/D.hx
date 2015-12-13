@@ -39,6 +39,7 @@ class D {
 	
 	public var eightSmall : h2d.Font;
 	public var eightMedium : h2d.Font;
+	public var eightMediumPlus : h2d.Font;
 	public var eightBig : h2d.Font;
 	public var eightVeryBig : h2d.Font;
 	
@@ -54,7 +55,8 @@ class D {
 		var fnt = openfl.Assets.getFont( "assets/8-BIT WONDER.TTF" );
 		var opt : hxd.res.FontBuilder.FontBuildOptions= { antiAliasing:false};
 		eightSmall = hxd.res.FontBuilder.getFont(fnt.fontName, 12,opt);
-		eightMedium = hxd.res.FontBuilder.getFont(fnt.fontName, 24,opt);
+		eightMedium = hxd.res.FontBuilder.getFont(fnt.fontName, 22,opt);
+		eightMediumPlus = hxd.res.FontBuilder.getFont(fnt.fontName, 28,opt);
 		eightBig = hxd.res.FontBuilder.getFont(fnt.fontName, 40,opt);
 		eightVeryBig = hxd.res.FontBuilder.getFont(fnt.fontName, 60,opt);
 		

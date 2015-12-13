@@ -11,6 +11,14 @@ using mt.gx.Ex;
 	var StuckToCar = 4;
 }
 
+@:enum abstract ZType(Int) {
+	var Noob	= 0;
+	var Girl	= 1;
+	var Bold	= 2;
+	var Armor	= 3;
+	var Boss	= 4;
+}
+
 @:publicFields
 class Zombie extends mt.deepnight.slb.HSpriteBE {
 	var d(get, null) : D; function get_d() return App.me.d;
@@ -27,6 +35,8 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 	
 	public var baseDx = 0.0;
 	public var incomingZone:Float;
+	
+	var type : ZType;
 	
 	public var onCar : Bool;
 	public var rushingZombie = false;
@@ -193,6 +203,12 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 			y = Math.round( ry );
 		}
 		
+		switch(man.level) {
+			default:
+				if ( g.progress > 0.75 && !rushingZombie )
+					rushingZombie = true;
+		}
+		
 		switch( state ) {
 			case Dead:
 			case Incoming:
@@ -250,7 +266,7 @@ class Zombies {
 	public var sb : h2d.SpriteBatch;
 	var rand : mt.Rand;
 	var elapsedTime = 0.0;
-	var level : Int = 0;
+	public var level : Int = 0;
 	
 	var zombies : hxd.Stack<Zombie> = new hxd.Stack<Zombie>();
 	public var deathZone : List<DeathZone> = new List();
@@ -323,59 +339,40 @@ class Zombies {
 		
 		var start = Std.int( elapsedTime ) * 20;
 		var end = Std.int( elapsedTime + dTime ) * 20;
+		
+		var shouldSpawn = false;
+		
+		switch(level) {
+			case 1: shouldSpawn = g.progress <= 0.75;
+			case 2: shouldSpawn = g.progress <= 0.75;
+			case 3: shouldSpawn = g.progress <= 0.75;
+			case 4: shouldSpawn = g.progress <= 0.75;
+		}
+		
 		for ( n in start...end ) {
 			switch(level) {
 				case 1:
-					if ( mt.gx.Dice.percentF(rand,3)) {
-						spawnZombieBase();
-					}
-					
-					if ( mt.gx.Dice.percentF(rand,1)) {
-						spawnZombieBase();
-					}
-					
-					if ( mt.gx.Dice.percentF(rand,1)) {
-						spawnZombieBase();
-					}
+					if ( mt.gx.Dice.percentF(rand,3)) spawnZombieBase();
+					if ( mt.gx.Dice.percentF(rand,1)) spawnZombieLow();
+					if ( mt.gx.Dice.percentF(rand,1)) spawnZombieBase();
 					
 				case 2:
-					if ( mt.gx.Dice.percentF(rand,6)) {
-						spawnZombieBase();
-					}
-					
-					if ( mt.gx.Dice.percentF(rand,2)) {
-						spawnZombieBase();
-					}
-					
-					if ( mt.gx.Dice.percentF(rand,2)) {
-						spawnZombieBase();
-					}
+					if ( mt.gx.Dice.percentF(rand,6)) spawnZombieBase();
+					if ( mt.gx.Dice.percentF(rand,2)) spawnZombieLow();
+					if ( mt.gx.Dice.percentF(rand,2)) spawnZombieBase();
+					if ( mt.gx.Dice.percentF(rand,2)) spawnZombiePack();
 					
 				case 3:
-					if ( mt.gx.Dice.percentF(rand,9)) {
-						spawnZombieBase();
-					}
-					
-					if ( mt.gx.Dice.percentF(rand,3)) {
-						spawnZombieBase();
-					}
-					
-					if ( mt.gx.Dice.percentF(rand,3)) {
-						spawnZombieBase();
-					}
+					if ( mt.gx.Dice.percentF(rand,9)) spawnZombieBase();
+					if ( mt.gx.Dice.percentF(rand,3)) spawnZombieLow();
+					if ( mt.gx.Dice.percentF(rand,3)) spawnZombieBase();
+					if ( mt.gx.Dice.percentF(rand,3)) spawnZombiePack();
 					
 				case 4:
-					if ( mt.gx.Dice.percentF(rand,12)) {
-						spawnZombieBase();
-					}
-					
-					if ( mt.gx.Dice.percentF(rand,4)) {
-						spawnZombieBase();
-					}
-					
-					if ( mt.gx.Dice.percentF(rand,4)) {
-						spawnZombieBase();
-					}
+					if ( mt.gx.Dice.percentF(rand,12)) spawnZombieBase();
+					if ( mt.gx.Dice.percentF(rand,4)) spawnZombieLow();
+					if ( mt.gx.Dice.percentF(rand,4)) spawnZombieBase();
+					if ( mt.gx.Dice.percentF(rand,4)) spawnZombiePack();
 			}
 		}
 		
@@ -394,9 +391,27 @@ class Zombies {
 		}
 	}
 	
-	public function spawnZombieBase() {
-		var name = "zombie" + "ABC".charAt(Std.random(3)) + "_run";
+	public function spawnZombieBase(?inletter) {
+		var letter=inletter!=null?inletter:
+		switch(level) {
+			default:"A";
+			case 2:"AB".charAt(Std.random(2));
+			case 3:"ABC".charAt(Std.random(3));
+			case 4:"ABCD".charAt(Std.random(4));
+		};
+		
+		var name = "zombie" + letter + "_run";
 		var z = new Zombie(this, sb, d.char, name );
+
+		z.type = cast name.charCodeAt(0) - "A".code;
+		
+		switch( z.type) {
+			case Girl: 	z.hp += 10;
+			case Bold: 	z.hp += 20;
+			case Armor: z.hp += 40;
+			case Boss : z.hp += 100;
+			default:
+		}
 		
 		z.a.playAndLoop(name);
 		if ( z.a.hasAnim())
@@ -426,6 +441,7 @@ class Zombies {
 		z.x = z.ry = Dice.rollF( c.by + 20, c.by + cb.height - 30) + z.height * 0.4;
 		z.y = z.rx = -30 + Dice.rollF( -20, 25);
 		z.prio();
+		return z;
 	}
 	
 	public function spawnZombieLow() {
@@ -434,6 +450,7 @@ class Zombies {
 		z.x = z.ry = Dice.rollF( cb.y + cb.height * 0.25, cb.y + cb.height * 0.75);
 		z.y = z.rx = -30 + Dice.rollF( -20, 25);
 		z.prio();
+		return z;
 	}
 	
 	public function spawnZombiePack() {
@@ -457,6 +474,40 @@ class Zombies {
 		for ( zz in z )
 			zz.changePriority( -Math.round(zz.y * 100) );
 			
+		return z;
+	}
+	
+	function splatter(z:Array<Zombie>) {
+		for ( i in 0...z.length) {
+			for ( j in 0...z.length ) {
+				if ( i == j) continue;
+				var pi = z[i].pos();
+				var pj = z[j].pos();
+				var pij = pj.sub(pi);
+				if ( pi.distance( pj ) < 4.0 ) {
+					z[i].translate( pij.mulScalar( 0.5 ) );
+					z[j].translate( pij.mulScalar( -0.5 ) );
+				}
+			}
+		}
+		return z;
+	}
+	
+	public function spawnZombiePackLow() {
+		var z = [];
+		for ( i in 0...Dice.roll( 4, 6)) 
+			z.push( spawnZombieLow() );
+		splatter(z);
+		for ( zz in z ) zz.prio();
+		return z;
+	}
+	
+	public function spawnZombiePackHigh() {
+		var z = [];
+		for ( i in 0...Dice.roll( 4, 6)) 
+			z.push( spawnZombieHigh() );
+		splatter(z);
+		for ( zz in z ) zz.prio();
 		return z;
 	}
 }
