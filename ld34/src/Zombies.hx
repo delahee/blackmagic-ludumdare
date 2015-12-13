@@ -2,6 +2,15 @@ import mt.gx.Dice;
 
 using mt.gx.Ex;
 
+@:enum abstract ZState(Int) {
+	var Nope = -1;
+	var Incoming = 0;
+	var Crowding = 1;
+	var Rushing = 2;
+	var Dead = 3;
+	var StuckToCar = 4;
+}
+
 @:publicFields
 class Zombie extends mt.deepnight.slb.HSpriteBE {
 	var d(get, null) : D; function get_d() return App.me.d;
@@ -16,7 +25,12 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 	public var dx = 0.0;
 	public var dy = 0.0;
 	
+	public var baseDx = 0.0;
+	public var incomingZone:Float;
+	
 	public var onCar : Bool;
+	public var rushingZombie = false;
+	var state : ZState = Nope;
 	var bounds : h2d.col.Bounds;
 	
 	public function new(man,a,lib,c,?f=0) {
@@ -24,15 +38,14 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 		setCenterRatio(0.5, 1.0);
 		this.man = man;
 		bounds = new h2d.col.Bounds();
+		incomingZone = C.W * Dice.rollF(0.1, 0.2);
 	}
 	
 	public inline function isDead() {
 		return hp <= 0;
 	}
 	
-	
 	var r = ["partA", "partB", "partC", "partN"];
-	
 	
 	public function addPart(e:mt.deepnight.HParticle) {
 		man.sb.add(e);
@@ -80,7 +93,6 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 		}
 	}
 	public function onDeath() {
-		
 		if( a.hasAnim()){
 			a.playAndLoop( groupName.split("_")[0] + "_dead");
 			dx = -4;
@@ -91,7 +103,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 			dx = -4;
 			dy = 0;
 		}
-		
+		cs( Dead );
 		haxe.Timer.delay( dispose, 200 );
 	}
 	
@@ -102,6 +114,22 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 			onDeath();
 	}
 	
+	public function cs(st:ZState) {
+		switch( st ) {
+			case Dead:
+			case Incoming:
+				dx = baseDx * 0.12;
+				a.setCurrentAnimSpeed( 0.25 );
+			case Rushing:
+			case Crowding:
+				dx = baseDx * 0.075;
+				a.setCurrentAnimSpeed( 0.2 );
+				//setColor( 0x00ff00 );
+			case Nope,StuckToCar:
+		}
+		state = st;
+	}
+	
 	//var gfx : h2d.Graphics;
 	public function update(dt) {
 		if ( batch == null ) return;
@@ -109,10 +137,8 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 		if ( isDead()) {
 			rx += dx;
 			ry += dy;
-			
 			x = Math.round( rx );
 			y = Math.round( ry );
-			
 			return;
 		}
 		
@@ -137,30 +163,37 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 		
 		if ( isDead()) return;
 		
-		if ( !onCar) {
-			rx += dx / Scroller.GLB_SPEED;
-			ry += dy;
-			
-			x = Math.round( rx );
-			y = Math.round( ry );
-			
-			if ( !onCar && isOnCar() ) {
-				if( false ){
-					onCar = true;
-					ofsCarX = x - c.cacheBounds.x;
-					ofsCarY = y - c.cacheBounds.y;
-				}
-				
-				c.hit();
-				dispose();
-			}
-		}
-		else {
-			dx = 0;
-			dy = 0;
+		rx += dx / Scroller.GLB_SPEED;
+		ry += dy;
 		
-			rx = x = c.cacheBounds.x + ofsCarX;
-			ry = y = c.cacheBounds.y + ofsCarY;
+		x = Math.round( rx );
+		y = Math.round( ry );
+		
+		switch( state ) {
+			case Dead:
+			case Incoming:
+				if ( x >= incomingZone && Dice.percentF( 0.5 ) ){
+					cs( Crowding );
+				}
+			case Rushing:
+			case Crowding:
+				if ( rushingZombie && Dice.percentF( 0.4 )){
+					dx *= Dice.rollF(5,8);
+					//setColor( 0x005e3d );
+				}
+				dx = hxd.Math.lerp( dx , baseDx * 0.035, 0.11);
+			case Nope:
+			case StuckToCar:
+				dx = 0;
+				dy = 0;
+			
+				rx = x = c.cacheBounds.x + ofsCarX;
+				ry = y = c.cacheBounds.y + ofsCarY;
+		}
+		
+		if ( !onCar && isNearCar() ) {
+			c.hit();
+			dispose();
 		}
 	}
 	
@@ -168,7 +201,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 	var ofsCarY = 0.;
 	var ofsHookX = 0.;
 	
-	public inline function isOnCar() {
+	public inline function isNearCar() {
 		return x >= c.cacheBounds.x - 12 + ofsHookX;
 	}
 }
@@ -189,7 +222,7 @@ class Zombies {
 	var elapsedTime = 0.0;
 	var level : Int = 0;
 	
-	var zombies : Array<Zombie> = [];
+	var zombies : hxd.Stack<Zombie> = new hxd.Stack<Zombie>();
 	public var deathZone : List<DeathZone> = new List();
 	
 	public var tilePixel : h2d.Tile;
@@ -230,7 +263,10 @@ class Zombies {
 		this.level = level;
 		
 		sb.removeAllElements();
-		zombies = [];
+		
+		for ( z in zombies )
+			z.remove();
+		zombies = new hxd.Stack<Zombie>();
 		elapsedTime = 0.0;
 	}
 	
@@ -240,15 +276,16 @@ class Zombies {
 			elapsedTime = 0;
 			return;
 		}
-			
-		var i = 0;
-		for ( z in zombies) {
-			if( z != null){
-				z.update(dTime);
-				if ( z.destroyed )
-					zombies[i] = null;
-			}
-			i++;
+		
+		var z = zombies.length - 1;
+		while( z >= 0) {
+			var zz = zombies.unsafeGet(z);
+			if ( zz == null)
+				break;
+			zz.update(true);
+			if ( zz.destroyed )
+				zombies.remove( zz );
+			z--;
 		}
 		
 		var start = Std.int( elapsedTime ) * 20;
@@ -256,7 +293,7 @@ class Zombies {
 		for ( n in start...end ) {
 			switch(level) {
 				case 1:
-					if ( mt.gx.Dice.percent(rand,5)) {
+					if ( mt.gx.Dice.percent(rand,6)) {
 						spawnZombieBase();
 					}
 			}
@@ -278,7 +315,8 @@ class Zombies {
 	}
 	
 	public function spawnZombieBase() {
-		var name = "zombie" + "ABC".charAt(Std.random(3));
+		//var name = "zombie" + "ABC".charAt(Std.random(3));
+		var name = "zombie" + "A".charAt(Std.random(1));
 		
 		var z = new Zombie(this, sb, d.char, name );
 		
@@ -294,11 +332,15 @@ class Zombies {
 		z.x = z.rx;
 		z.y = z.ry;
 		
-		z.changePriority( -Math.round(z.y) );
+		z.changePriority( -Math.round(z.ry * 100.0 ) );
 		
-		z.dx = 2 + Dice.rollF( 0, 0.25);
-		z.scale( Dice.rollF(0.75, 1.0) );
+		z.baseDx = z.dx = 2 + Dice.rollF( 0, 0.25);
+		var s = Dice.rollF(0.75, 1.0);
+		z.scale( s );
+		z.rushingZombie = Dice.percent(33);
 		z.ofsHookX = Dice.rollF( 0.0, 8.0 );
+		
+		z.cs(Incoming);
 		
 		zombies.push(z);
 		return z;
@@ -306,23 +348,17 @@ class Zombies {
 	
 	public function spawnZombieHigh() {
 		var z = spawnZombieBase();
-		z.ry = Dice.rollF( c.by + 20, c.by + c.cacheBounds.height - 30) + z.height * 0.4;
-		z.rx = -30 + Dice.rollF( -20, 25);
-		z.x = z.rx;
-		z.y = z.ry;
+		var cb = c.cacheBounds;
+		z.x = z.ry = Dice.rollF( c.by + 20, c.by + cb.height - 30) + z.height * 0.4;
+		z.y = z.rx = -30 + Dice.rollF( -20, 25);
 		z.changePriority( -Math.round(z.y) );
 	}
 	
 	public function spawnZombieLow() {
 		var z = spawnZombieBase();
-		
 		var cb = c.cacheBounds;
-		z.ry = Dice.rollF( cb.y + cb.height * 0.25, cb.y + cb.height * 0.75);
-		var g = h2d.Graphics.fromRect( 20, cb.y + cb.height * 0.25, 100, cb.height * 0.5,sb.parent);
-		haxe.Timer.delay( g.dispose, 200);
-		z.rx = -30 + Dice.rollF( -20, 25);
-		z.x = z.rx;
-		z.y = z.ry;
+		z.x = z.ry = Dice.rollF( cb.y + cb.height * 0.25, cb.y + cb.height * 0.75);
+		z.y = z.rx = -30 + Dice.rollF( -20, 25);
 		z.changePriority( -Math.round(z.y) );
 	}
 	

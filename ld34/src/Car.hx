@@ -13,7 +13,7 @@ class Car {
 	public var fx : h2d.SpriteBatch;
 	
 	public var bx = 324;
-	public var by = 112;
+	public var by = 120;
 	
 	public static var me : Car = null;
 	
@@ -48,7 +48,7 @@ class Car {
 	public function update(dt) {
 		if( !isShaking ){
 			car.x = bx + Math.sin( hxd.Math.angle( hxd.Timer.oldTime) ) * 6;
-			car.y = by + Math.sin( hxd.Math.angle( hxd.Timer.oldTime) ) * 2;
+			car.y = by + Math.sin( hxd.Math.angle( hxd.Timer.oldTime) ) * 4;
 			if ( mt.gx.Dice.percent( 4 ))
 				car.y++;
 			if ( mt.gx.Dice.percent( 4 ))
