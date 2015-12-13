@@ -89,7 +89,7 @@ class D {
 		music4Desc 	= parseMidi("assets/snd/midi/music4.mid",115,4);
 		musics = [music1Desc, music2Desc, music3Desc, music4Desc];
 		
-		trace( musics );
+		//trace( musics );
 	}
 	
 	function seekEndBeat(file:MIDIFile) {
