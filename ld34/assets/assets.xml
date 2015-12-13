@@ -1,109 +1,131 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:ee85cd44f7f363ff8c423190879997e2:b3ee58b54335bb35ce20f74b4906b481:57ef0b4f36012e2dacefebfa7d58e2d4$ -->
+<!-- $TexturePacker:SmartUpdate:1abc370de4382978d96b9b0b1e5a5433:c11d250a3b73069c3e48448d5cf59c62:57ef0b4f36012e2dacefebfa7d58e2d4$ -->
 <TextureAtlas imagePath="assets.png" width="1024" height="1024">
     <SubTexture name="bg" x="3" y="295" width="600" height="99" frameX="0" frameY="-26" frameWidth="600" frameHeight="250"/>
     <SubTexture name="bgRocks" x="3" y="398" width="600" height="63" frameX="0" frameY="-53" frameWidth="600" frameHeight="250"/>
     <SubTexture name="bgSand" x="3" y="3" width="600" height="175" frameX="0" frameY="-75" frameWidth="600" frameHeight="250"/>
-    <SubTexture name="bgStarPower" x="823" y="261" width="10" height="13"/>
+    <SubTexture name="bgStarPower" x="391" y="617" width="10" height="13"/>
     <SubTexture name="bgUi" x="1011" y="115" width="10" height="37"/>
-    <SubTexture name="buildingA" x="437" y="465" width="143" height="54" frameX="-1" frameY="-44" frameWidth="146" frameHeight="250"/>
-    <SubTexture name="buildingB" x="425" y="622" width="103" height="46" frameX="-14" frameY="-55" frameWidth="146" frameHeight="250"/>
-    <SubTexture name="buildingC" x="427" y="911" width="53" height="25" frameX="-20" frameY="-70" frameWidth="146" frameHeight="250"/>
-    <SubTexture name="buildingD" x="274" y="807" width="65" height="24" frameX="-21" frameY="-76" frameWidth="146" frameHeight="250"/>
+    <SubTexture name="buildingA" x="849" y="299" width="143" height="54" frameX="-1" frameY="-44" frameWidth="146" frameHeight="250"/>
+    <SubTexture name="buildingB" x="150" y="803" width="103" height="46" frameX="-14" frameY="-55" frameWidth="146" frameHeight="250"/>
+    <SubTexture name="buildingC" x="550" y="465" width="53" height="25" frameX="-20" frameY="-70" frameWidth="146" frameHeight="250"/>
+    <SubTexture name="buildingD" x="260" y="780" width="65" height="24" frameX="-21" frameY="-76" frameWidth="146" frameHeight="250"/>
     <SubTexture name="buildingE" x="1015" y="69" width="3" height="3" frameX="0" frameY="0" frameWidth="146" frameHeight="250"/>
-    <SubTexture name="carPlay1" x="3" y="737" width="190" height="78" frameX="-51" frameY="-7" frameWidth="245" frameHeight="94"/>
-    <SubTexture name="carPlay2" x="207" y="470" width="190" height="81" frameX="-51" frameY="-4" frameWidth="245" frameHeight="94"/>
-    <SubTexture name="carPlay3" x="823" y="292" width="190" height="82" frameX="-51" frameY="-3" frameWidth="245" frameHeight="94"/>
-    <SubTexture name="carPlay4" x="207" y="555" width="190" height="81" frameX="-51" frameY="-4" frameWidth="245" frameHeight="94"/>
-    <SubTexture name="carPlay5" x="3" y="654" width="190" height="79" frameX="-51" frameY="-6" frameWidth="245" frameHeight="94"/>
-    <SubTexture name="carStop1" x="574" y="664" width="190" height="78" frameX="-51" frameY="-7" frameWidth="245" frameHeight="94"/>
-    <SubTexture name="carStop2" x="574" y="581" width="190" height="79" frameX="-51" frameY="-6" frameWidth="245" frameHeight="94"/>
-    <SubTexture name="carStop3" x="3" y="570" width="190" height="80" frameX="-51" frameY="-5" frameWidth="245" frameHeight="94"/>
-    <SubTexture name="carStop4" x="197" y="640" width="190" height="80" frameX="-51" frameY="-5" frameWidth="245" frameHeight="94"/>
-    <SubTexture name="carStop5" x="197" y="724" width="190" height="79" frameX="-51" frameY="-6" frameWidth="245" frameHeight="94"/>
+    <SubTexture name="carPlay1" x="585" y="665" width="190" height="78" frameX="-51" frameY="-7" frameWidth="245" frameHeight="94"/>
+    <SubTexture name="carPlay2" x="3" y="570" width="190" height="81" frameX="-51" frameY="-4" frameWidth="245" frameHeight="94"/>
+    <SubTexture name="carPlay3" x="411" y="494" width="190" height="82" frameX="-51" frameY="-3" frameWidth="245" frameHeight="94"/>
+    <SubTexture name="carPlay4" x="197" y="570" width="190" height="81" frameX="-51" frameY="-4" frameWidth="245" frameHeight="94"/>
+    <SubTexture name="carPlay5" x="3" y="655" width="190" height="79" frameX="-51" frameY="-6" frameWidth="245" frameHeight="94"/>
+    <SubTexture name="carStop1" x="803" y="675" width="190" height="78" frameX="-51" frameY="-7" frameWidth="245" frameHeight="94"/>
+    <SubTexture name="carStop2" x="197" y="655" width="190" height="79" frameX="-51" frameY="-6" frameWidth="245" frameHeight="94"/>
+    <SubTexture name="carStop3" x="411" y="580" width="190" height="80" frameX="-51" frameY="-5" frameWidth="245" frameHeight="94"/>
+    <SubTexture name="carStop4" x="605" y="581" width="190" height="80" frameX="-51" frameY="-5" frameWidth="245" frameHeight="94"/>
+    <SubTexture name="carStop5" x="391" y="664" width="190" height="79" frameX="-51" frameY="-6" frameWidth="245" frameHeight="94"/>
     <SubTexture name="comboA" x="937" y="3" width="78" height="35"/>
-    <SubTexture name="comboB" x="843" y="237" width="178" height="38"/>
+    <SubTexture name="comboB" x="150" y="738" width="178" height="38"/>
     <SubTexture name="comboC" x="607" y="251" width="212" height="40"/>
     <SubTexture name="comboD" x="607" y="338" width="201" height="38"/>
     <SubTexture name="comboE" x="607" y="295" width="212" height="39"/>
-    <SubTexture name="comboF" x="436" y="523" width="134" height="72"/>
-    <SubTexture name="cursor" x="883" y="216" width="19" height="9"/>
-    <SubTexture name="fret" x="401" y="550" width="30" height="37"/>
-    <SubTexture name="fxBullet" x="837" y="279" width="172" height="1"/>
+    <SubTexture name="comboF" x="847" y="357" width="134" height="72"/>
+    <SubTexture name="cursor" x="811" y="461" width="19" height="9"/>
+    <SubTexture name="fret" x="263" y="968" width="30" height="37"/>
+    <SubTexture name="fxBullet" x="849" y="294" width="172" height="1"/>
     <SubTexture name="fxCarLight" x="607" y="112" width="245" height="94"/>
-    <SubTexture name="fxDirt1" x="415" y="672" width="101" height="19" frameX="-19" frameY="0" frameWidth="120" frameHeight="19"/>
-    <SubTexture name="fxDirt2" x="425" y="599" width="106" height="19" frameX="-14" frameY="0" frameWidth="120" frameHeight="19"/>
-    <SubTexture name="fxDirt3" x="907" y="214" width="109" height="19" frameX="-11" frameY="0" frameWidth="120" frameHeight="19"/>
-    <SubTexture name="fxDirt4" x="907" y="189" width="96" height="19" frameX="-24" frameY="0" frameWidth="120" frameHeight="19"/>
-    <SubTexture name="fxExplosion1" x="3" y="863" width="58" height="74"/>
-    <SubTexture name="fxExplosion2" x="3" y="941" width="58" height="74"/>
-    <SubTexture name="fxExplosion3" x="65" y="863" width="58" height="74"/>
-    <SubTexture name="fxExplosion4" x="65" y="941" width="58" height="74"/>
-    <SubTexture name="fxExplosion5" x="127" y="863" width="58" height="74"/>
-    <SubTexture name="fxExplosion6" x="127" y="941" width="58" height="74"/>
-    <SubTexture name="fxFire" x="461" y="769" width="37" height="48"/>
+    <SubTexture name="fxDirt1" x="513" y="923" width="101" height="19" frameX="-19" frameY="0" frameWidth="120" frameHeight="19"/>
+    <SubTexture name="fxDirt2" x="150" y="780" width="106" height="19" frameX="-14" frameY="0" frameWidth="120" frameHeight="19"/>
+    <SubTexture name="fxDirt3" x="437" y="465" width="109" height="19" frameX="-11" frameY="0" frameWidth="120" frameHeight="19"/>
+    <SubTexture name="fxDirt4" x="925" y="271" width="96" height="19" frameX="-24" frameY="0" frameWidth="120" frameHeight="19"/>
+    <SubTexture name="fxExplosion1" x="3" y="835" width="58" height="74"/>
+    <SubTexture name="fxExplosion2" x="3" y="913" width="58" height="74"/>
+    <SubTexture name="fxExplosion3" x="65" y="835" width="58" height="74"/>
+    <SubTexture name="fxExplosion4" x="72" y="757" width="58" height="74"/>
+    <SubTexture name="fxExplosion5" x="65" y="913" width="58" height="74"/>
+    <SubTexture name="fxExplosion6" x="127" y="853" width="58" height="74"/>
+    <SubTexture name="fxFire" x="178" y="931" width="37" height="48"/>
     <SubTexture name="fxFire1" x="856" y="112" width="47" height="48"/>
     <SubTexture name="fxFire2" x="856" y="164" width="47" height="48"/>
-    <SubTexture name="fxFire3" x="520" y="693" width="47" height="48"/>
-    <SubTexture name="fxFire4" x="223" y="807" width="47" height="48"/>
-    <SubTexture name="fxFlame1" x="992" y="607" width="20" height="74"/>
-    <SubTexture name="fxFlame2" x="401" y="591" width="20" height="74"/>
-    <SubTexture name="fxFlame3" x="391" y="669" width="20" height="74"/>
-    <SubTexture name="fxHit" x="337" y="898" width="41" height="57"/>
-    <SubTexture name="fxHit1" x="255" y="959" width="41" height="57"/>
-    <SubTexture name="fxHit2" x="300" y="959" width="41" height="57"/>
-    <SubTexture name="fxHit3" x="345" y="959" width="41" height="57"/>
-    <SubTexture name="fxHit4" x="390" y="951" width="41" height="57"/>
-    <SubTexture name="fxHit5" x="435" y="940" width="41" height="57"/>
+    <SubTexture name="fxFire3" x="332" y="738" width="47" height="48"/>
+    <SubTexture name="fxFire4" x="127" y="931" width="47" height="48"/>
+    <SubTexture name="fxFlame1" x="996" y="299" width="20" height="74"/>
+    <SubTexture name="fxFlame2" x="823" y="302" width="20" height="74"/>
+    <SubTexture name="fxFlame3" x="779" y="665" width="20" height="74"/>
+    <SubTexture name="fxHit" x="346" y="963" width="41" height="57"/>
+    <SubTexture name="fxHit1" x="391" y="962" width="41" height="57"/>
+    <SubTexture name="fxHit2" x="436" y="962" width="41" height="57"/>
+    <SubTexture name="fxHit3" x="481" y="962" width="41" height="57"/>
+    <SubTexture name="fxHit4" x="447" y="825" width="41" height="57"/>
+    <SubTexture name="fxHit5" x="492" y="825" width="41" height="57"/>
     <SubTexture name="fxPulse" x="607" y="210" width="232" height="37"/>
     <SubTexture name="goal" x="607" y="95" width="300" height="13"/>
     <SubTexture name="hit" x="911" y="95" width="22" height="24" frameX="-1" frameY="-5" frameWidth="24" frameHeight="37"/>
-    <SubTexture name="hitMiss" x="992" y="579" width="22" height="24" frameX="-1" frameY="-5" frameWidth="24" frameHeight="37"/>
-    <SubTexture name="impact" x="388" y="847" width="59" height="60"/>
-    <SubTexture name="life" x="907" y="154" width="24" height="19"/>
+    <SubTexture name="hitMiss" x="823" y="274" width="22" height="24" frameX="-1" frameY="-5" frameWidth="24" frameHeight="37"/>
+    <SubTexture name="impact" x="384" y="830" width="59" height="60"/>
+    <SubTexture name="life" x="823" y="251" width="24" height="19"/>
     <SubTexture name="logo" x="607" y="3" width="326" height="88" frameX="0" frameY="0" frameWidth="351" frameHeight="88"/>
     <SubTexture name="noteHelper" x="1015" y="56" width="4" height="9" frameX="0" frameY="-16" frameWidth="4" frameHeight="37"/>
-    <SubTexture name="partA" x="1007" y="197" width="12" height="13" frameX="0" frameY="-1" frameWidth="14" frameHeight="15"/>
-    <SubTexture name="partB" x="823" y="251" width="11" height="6" frameX="-1" frameY="-5" frameWidth="14" frameHeight="15"/>
-    <SubTexture name="partC" x="921" y="177" width="8" height="8" frameX="-2" frameY="-4" frameWidth="14" frameHeight="15"/>
-    <SubTexture name="partGlow" x="843" y="216" width="16" height="16"/>
-    <SubTexture name="partN" x="823" y="278" width="10" height="10" frameX="-2" frameY="-2" frameWidth="14" frameHeight="15"/>
-    <SubTexture name="partSphere" x="863" y="216" width="16" height="16"/>
+    <SubTexture name="partA" x="391" y="590" width="12" height="13" frameX="0" frameY="-1" frameWidth="14" frameHeight="15"/>
+    <SubTexture name="partB" x="391" y="607" width="11" height="6" frameX="-1" frameY="-5" frameWidth="14" frameHeight="15"/>
+    <SubTexture name="partC" x="843" y="210" width="8" height="8" frameX="-2" frameY="-4" frameWidth="14" frameHeight="15"/>
+    <SubTexture name="partGlow" x="411" y="470" width="16" height="16"/>
+    <SubTexture name="partN" x="391" y="634" width="10" height="10" frameX="-2" frameY="-2" frameWidth="14" frameHeight="15"/>
+    <SubTexture name="partSphere" x="391" y="570" width="16" height="16"/>
     <SubTexture name="pixel" x="1019" y="3" width="1" height="1"/>
     <SubTexture name="quarter" x="1011" y="156" width="10" height="37"/>
-    <SubTexture name="roadA" x="811" y="479" width="200" height="96" frameX="0" frameY="-99" frameWidth="200" frameHeight="250"/>
-    <SubTexture name="roadB" x="812" y="378" width="200" height="97" frameX="0" frameY="-99" frameWidth="200" frameHeight="250"/>
-    <SubTexture name="roadC" x="584" y="481" width="200" height="96" frameX="0" frameY="-100" frameWidth="200" frameHeight="250"/>
-    <SubTexture name="roadD" x="788" y="579" width="200" height="96" frameX="0" frameY="-100" frameWidth="200" frameHeight="250"/>
-    <SubTexture name="roadE" x="3" y="470" width="200" height="96" frameX="0" frameY="-99" frameWidth="200" frameHeight="250"/>
-    <SubTexture name="roadF" x="607" y="380" width="200" height="97" frameX="0" frameY="-99" frameWidth="200" frameHeight="250"/>
+    <SubTexture name="roadA" x="607" y="481" width="200" height="96" frameX="0" frameY="-99" frameWidth="200" frameHeight="250"/>
+    <SubTexture name="roadB" x="607" y="380" width="200" height="97" frameX="0" frameY="-99" frameWidth="200" frameHeight="250"/>
+    <SubTexture name="roadC" x="811" y="575" width="200" height="96" frameX="0" frameY="-100" frameWidth="200" frameHeight="250"/>
+    <SubTexture name="roadD" x="3" y="470" width="200" height="96" frameX="0" frameY="-100" frameWidth="200" frameHeight="250"/>
+    <SubTexture name="roadE" x="207" y="470" width="200" height="96" frameX="0" frameY="-99" frameWidth="200" frameHeight="250"/>
+    <SubTexture name="roadF" x="811" y="474" width="200" height="97" frameX="0" frameY="-99" frameWidth="200" frameHeight="250"/>
     <SubTexture name="sky" x="3" y="182" width="600" height="109" frameX="0" frameY="0" frameWidth="600" frameHeight="250"/>
     <SubTexture name="speedLine" x="3" y="465" width="430" height="1"/>
-    <SubTexture name="starPower" x="907" y="177" width="10" height="8" frameX="0" frameY="-2" frameWidth="10" frameHeight="13"/>
+    <SubTexture name="starPower" x="391" y="648" width="10" height="8" frameX="0" frameY="-2" frameWidth="10" frameHeight="13"/>
     <SubTexture name="strong" x="1015" y="42" width="6" height="10" frameX="0" frameY="-15" frameWidth="6" frameHeight="37"/>
-    <SubTexture name="zombieA" x="382" y="911" width="41" height="36" frameX="-5" frameY="-3" frameWidth="52" frameHeight="42"/>
     <SubTexture name="zombieA_dead" x="907" y="123" width="24" height="27" frameX="-10" frameY="-12" frameWidth="52" frameHeight="40"/>
-    <SubTexture name="zombieA_grab01" x="337" y="838" width="47" height="26" frameX="-3" frameY="-8" frameWidth="52" frameHeight="40"/>
-    <SubTexture name="zombieA_grab02" x="337" y="868" width="44" height="26" frameX="-5" frameY="-7" frameWidth="52" frameHeight="40"/>
-    <SubTexture name="zombieA_grab03" x="343" y="807" width="44" height="27" frameX="-5" frameY="-6" frameWidth="52" frameHeight="40"/>
-    <SubTexture name="zombieA_run01" x="126" y="819" width="45" height="36" frameX="-4" frameY="-3" frameWidth="52" frameHeight="40"/>
-    <SubTexture name="zombieA_run02" x="461" y="821" width="34" height="38" frameX="-13" frameY="-2" frameWidth="52" frameHeight="40"/>
-    <SubTexture name="zombieA_run03" x="401" y="470" width="32" height="36" frameX="-16" frameY="-4" frameWidth="52" frameHeight="40"/>
-    <SubTexture name="zombieA_run04" x="88" y="819" width="34" height="37" frameX="-12" frameY="-3" frameWidth="52" frameHeight="40"/>
-    <SubTexture name="zombieA_run05" x="40" y="819" width="44" height="37" frameX="-4" frameY="-2" frameWidth="52" frameHeight="40"/>
-    <SubTexture name="zombieA_run06" x="3" y="819" width="33" height="38" frameX="-13" frameY="-2" frameWidth="52" frameHeight="40"/>
-    <SubTexture name="zombieA_run07" x="401" y="510" width="31" height="36" frameX="-16" frameY="-4" frameWidth="52" frameHeight="40"/>
-    <SubTexture name="zombieA_run08" x="532" y="653" width="38" height="36" frameX="-12" frameY="-4" frameWidth="52" frameHeight="40"/>
-    <SubTexture name="zombieB" x="382" y="911" width="41" height="36" frameX="-5" frameY="-3" frameWidth="52" frameHeight="42"/>
-    <SubTexture name="zombieC" x="175" y="819" width="44" height="36" frameX="-4" frameY="-3" frameWidth="52" frameHeight="42"/>
+    <SubTexture name="zombieA_grab01" x="418" y="757" width="47" height="26" frameX="-3" frameY="-8" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieA_grab02" x="469" y="757" width="44" height="26" frameX="-5" frameY="-7" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieA_grab03" x="102" y="991" width="44" height="27" frameX="-5" frameY="-6" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieA_run01" x="291" y="927" width="45" height="36" frameX="-4" frameY="-3" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieA_run02" x="150" y="983" width="34" height="38" frameX="-13" frameY="-2" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieA_run03" x="811" y="421" width="32" height="36" frameX="-16" frameY="-4" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieA_run04" x="944" y="433" width="34" height="37" frameX="-12" frameY="-3" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieA_run05" x="896" y="433" width="44" height="37" frameX="-4" frameY="-2" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieA_run06" x="188" y="983" width="33" height="38" frameX="-13" frameY="-2" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieA_run07" x="383" y="747" width="31" height="36" frameX="-16" frameY="-4" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieA_run08" x="347" y="790" width="38" height="36" frameX="-12" frameY="-4" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieB_dead" x="907" y="154" width="24" height="27" frameX="-10" frameY="-12" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieB_grab01" x="3" y="991" width="47" height="30" frameX="-3" frameY="-4" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieB_grab02" x="389" y="787" width="44" height="34" frameX="-5" frameY="0" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieB_grab03" x="54" y="991" width="44" height="30" frameX="-5" frameY="-3" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieB_run01" x="340" y="923" width="41" height="36" frameX="-5" frameY="-3" frameWidth="52" frameHeight="42"/>
+    <SubTexture name="zombieB_run02" x="847" y="433" width="45" height="37" frameX="-4" frameY="-2" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieB_run03" x="985" y="431" width="34" height="39" frameX="-13" frameY="-1" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieB_run04" x="811" y="380" width="32" height="37" frameX="-16" frameY="-3" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieB_run05" x="225" y="971" width="34" height="37" frameX="-12" frameY="-3" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieB_run06" x="257" y="808" width="44" height="37" frameX="-4" frameY="-2" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieB_run07" x="219" y="928" width="33" height="39" frameX="-13" frameY="-1" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieB_run08" x="256" y="927" width="31" height="37" frameX="-16" frameY="-3" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieB_run09" x="305" y="808" width="38" height="37" frameX="-12" frameY="-3" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieC_dead" x="907" y="185" width="24" height="27" frameX="-10" frameY="-12" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieC_grab01" x="384" y="894" width="47" height="25" frameX="-3" frameY="-9" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieC_grab02" x="435" y="894" width="44" height="25" frameX="-5" frameY="-8" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieC_grab03" x="517" y="757" width="44" height="25" frameX="-5" frameY="-8" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieC_run01" x="297" y="967" width="45" height="36" frameX="-4" frameY="-3" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieC_run02" x="437" y="787" width="34" height="34" frameX="-13" frameY="-6" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieC_run03" x="483" y="886" width="32" height="33" frameX="-16" frameY="-7" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieC_run04" x="475" y="923" width="34" height="35" frameX="-12" frameY="-5" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieC_run05" x="385" y="923" width="44" height="35" frameX="-4" frameY="-4" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieC_run06" x="475" y="787" width="33" height="34" frameX="-13" frameY="-6" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieC_run07" x="512" y="787" width="31" height="33" frameX="-16" frameY="-7" frameWidth="52" frameHeight="40"/>
+    <SubTexture name="zombieC_run08" x="433" y="923" width="38" height="35" frameX="-12" frameY="-5" frameWidth="52" frameHeight="40"/>
     <SubTexture name="zombieD1" x="937" y="42" width="74" height="69" frameX="-11" frameY="-10" frameWidth="104" frameHeight="80"/>
-    <SubTexture name="zombieD2" x="391" y="769" width="66" height="74" frameX="-27" frameY="-6" frameWidth="104" frameHeight="80"/>
-    <SubTexture name="zombieD3" x="189" y="938" width="62" height="70" frameX="-34" frameY="-10" frameWidth="104" frameHeight="80"/>
-    <SubTexture name="zombieD4" x="189" y="863" width="62" height="71" frameX="-30" frameY="-9" frameWidth="104" frameHeight="80"/>
-    <SubTexture name="zombieD5" x="415" y="695" width="86" height="70" frameX="-10" frameY="-6" frameWidth="104" frameHeight="80"/>
-    <SubTexture name="zombieD6" x="505" y="745" width="65" height="74" frameX="-27" frameY="-6" frameWidth="104" frameHeight="80"/>
-    <SubTexture name="zombieD7" x="274" y="835" width="59" height="70" frameX="-34" frameY="-10" frameWidth="104" frameHeight="80"/>
+    <SubTexture name="zombieD2" x="855" y="216" width="66" height="74" frameX="-27" frameY="-6" frameWidth="104" frameHeight="80"/>
+    <SubTexture name="zombieD3" x="255" y="853" width="62" height="70" frameX="-34" frameY="-10" frameWidth="104" frameHeight="80"/>
+    <SubTexture name="zombieD4" x="189" y="853" width="62" height="71" frameX="-30" frameY="-9" frameWidth="104" frameHeight="80"/>
+    <SubTexture name="zombieD5" x="935" y="197" width="86" height="70" frameX="-10" frameY="-6" frameWidth="104" frameHeight="80"/>
+    <SubTexture name="zombieD6" x="3" y="757" width="65" height="74" frameX="-27" frameY="-6" frameWidth="104" frameHeight="80"/>
+    <SubTexture name="zombieD7" x="321" y="849" width="59" height="70" frameX="-34" frameY="-10" frameWidth="104" frameHeight="80"/>
     <SubTexture name="zombieD8" x="937" y="115" width="70" height="70" frameX="-30" frameY="-10" frameWidth="104" frameHeight="80"/>
-    <SubTexture name="zombieD9" x="535" y="599" width="35" height="50" frameX="-30" frameY="-26" frameWidth="104" frameHeight="80"/>
+    <SubTexture name="zombieD9" x="985" y="377" width="35" height="50" frameX="-30" frameY="-26" frameWidth="104" frameHeight="80"/>
 </TextureAtlas>
