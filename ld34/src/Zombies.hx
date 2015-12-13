@@ -55,13 +55,19 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 	var bol = [	0xbd1a24 , 0xbd1a24 ,
 				0xbd1a24 , 0xbd1a24 ,
 				0xbd1a24 , 0xbd1a24 ,
-				
 				0xd6c2b2,
 				0xd4434c,
 				0x83a69a,
 				0xbb64a6 ];
 				
 	public function onHit() {
+		(switch( Std.random(4) ) {
+			default: D.sfx.IMPACT1();
+			case 1: D.sfx.IMPACT2();
+			case 2: D.sfx.IMPACT3();
+			case 3: D.sfx.IMPACT4();
+		}).play();
+		
 		for ( i in 0...Dice.roll( 8 , 16 ) * 3) {
 			var e = new mt.deepnight.HParticle(man.tilePixel);
 			var s = Dice.rollF(0.5, 3);
@@ -163,11 +169,13 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 		
 		if ( isDead()) return;
 		
-		rx += dx / Scroller.GLB_SPEED;
-		ry += dy;
-		
-		x = Math.round( rx );
-		y = Math.round( ry );
+		if( state != Nope ){
+			rx += dx / Scroller.GLB_SPEED;
+			ry += dy;
+			
+			x = Math.round( rx );
+			y = Math.round( ry );
+		}
 		
 		switch( state ) {
 			case Dead:
@@ -183,6 +191,11 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 				}
 				dx = hxd.Math.lerp( dx , baseDx * 0.035, 0.11);
 			case Nope:
+				dx = 0;
+				dy = 0;
+				x = Math.round( rx );
+				y = Math.round( ry );
+				
 			case StuckToCar:
 				dx = 0;
 				dy = 0;
@@ -270,6 +283,11 @@ class Zombies {
 		elapsedTime = 0.0;
 	}
 	
+	public function clear() {
+		for ( z in zombies)
+			z.remove();
+		zombies = new hxd.Stack<Zombie>();
+	}
 	
 	public function update(dTime:Float) {
 		if ( level == 0) {
@@ -293,7 +311,15 @@ class Zombies {
 		for ( n in start...end ) {
 			switch(level) {
 				case 1:
-					if ( mt.gx.Dice.percent(rand,6)) {
+					if ( mt.gx.Dice.percentF(rand,3)) {
+						spawnZombieBase();
+					}
+					
+					if ( mt.gx.Dice.percentF(rand,1)) {
+						spawnZombieBase();
+					}
+					
+					if ( mt.gx.Dice.percentF(rand,1)) {
 						spawnZombieBase();
 					}
 			}
@@ -315,7 +341,6 @@ class Zombies {
 	}
 	
 	public function spawnZombieBase() {
-		//var name = "zombie" + "ABC".charAt(Std.random(3));
 		var name = "zombie" + "A".charAt(Std.random(1));
 		
 		var z = new Zombie(this, sb, d.char, name );
@@ -326,11 +351,8 @@ class Zombies {
 		
 		var cb = c.cacheBounds;
 		
-		z.ry = Dice.rollF( cb.y + cb.height * 0.25, cb.y + cb.height * 0.6);
-		z.rx = -30 + Dice.rollF( -20, 25);
-		
-		z.x = z.rx;
-		z.y = z.ry;
+		z.x = z.rx = -60 + Dice.rollF( -20, 30);
+		z.y = z.ry = Dice.rollF( cb.y + cb.height * 0.25, cb.y + cb.height * 0.6 + 10);
 		
 		z.changePriority( -Math.round(z.ry * 100.0 ) );
 		
@@ -351,7 +373,7 @@ class Zombies {
 		var cb = c.cacheBounds;
 		z.x = z.ry = Dice.rollF( c.by + 20, c.by + cb.height - 30) + z.height * 0.4;
 		z.y = z.rx = -30 + Dice.rollF( -20, 25);
-		z.changePriority( -Math.round(z.y) );
+		z.changePriority( -Math.round(z.y*100) );
 	}
 	
 	public function spawnZombieLow() {
@@ -359,7 +381,30 @@ class Zombies {
 		var cb = c.cacheBounds;
 		z.x = z.ry = Dice.rollF( cb.y + cb.height * 0.25, cb.y + cb.height * 0.75);
 		z.y = z.rx = -30 + Dice.rollF( -20, 25);
-		z.changePriority( -Math.round(z.y) );
+		z.changePriority( -Math.round(z.y*100) );
 	}
 	
+	public function spawnZombiePack() {
+		var z = [];
+		for ( i in 0...Dice.roll( 4, 6)) 
+			z.push( spawnZombieBase() );
+		
+		for ( i in 0...z.length) {
+			for ( j in 0...z.length ) {
+				if ( i == j) continue;
+				var pi = z[i].pos();
+				var pj = z[j].pos();
+				var pij = pj.sub(pi);
+				if ( pi.distance( pj ) < 4.0 ) {
+					z[i].translate( pij.mulScalar( 0.5 ) );
+					z[j].translate( pij.mulScalar( -0.5 ) );
+				}
+			}
+		}
+		
+		for ( zz in z )
+			zz.changePriority( -Math.round(zz.y * 100) );
+			
+		return z;
+	}
 }

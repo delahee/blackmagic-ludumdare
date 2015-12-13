@@ -187,6 +187,8 @@ class G {
 		curMusicSignature = 4;
 		curBpm = 125;
 		
+		partition.resetForSignature(curMusicSignature, gameRoot );
+		
 		d.sndPlayMusic1();
 	}
 	
@@ -270,6 +272,10 @@ class G {
 		car.update( dTime );
 		zombies.update( dTime );
 		
+		if ( mt.flash.Key.isToggled(hxd.Key.C)) {
+			zombies.clear();
+		}
+		
 		if ( mt.flash.Key.isToggled(hxd.Key.Z)) {
 			zombies.spawnZombieBase();
 		}
@@ -287,6 +293,14 @@ class G {
 		if ( mt.flash.Key.isToggled(hxd.Key.T)) {
 			for( i in 0...3)
 				zombies.spawnZombieLow();
+		}
+		
+		if ( mt.flash.Key.isToggled(hxd.Key.G)) {
+			var z = zombies.spawnZombiePack();
+			for( zz in z ) {
+				zz.cs(Nope);
+				zz.x += 100;
+			}
 		}
 		
 		if ( mt.flash.Key.isToggled(hxd.Key.U)) {
