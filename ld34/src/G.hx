@@ -81,7 +81,9 @@ class G {
 		d.sndPrepareMusic1();
 		d.sndPrepareMusic2();
 		
-		
+		curMidi = d.music1Midi;
+		curMusicSignature = 4;
+		curBpm = 120;
 		
 		partition.resetForSignature(curMusicSignature,gameRoot );
 		
@@ -90,7 +92,7 @@ class G {
 		
 		var b =mt.gx.h2d.Proto.bt( 100, 50, "launch",
 		function() {
-			partition.launchNote(Left);
+			partition.launchNote();
 		}, postScene);
 		b.x += 110;
 		
@@ -224,22 +226,27 @@ class G {
 		
 		var n = null;
 		function seekNote(ti, i, m : TE ) {
-			if ( m.message.status == cast com.newgonzo.midi.messages.MessageStatus.NOTE_ON )
+			if ( m.message.status == cast com.newgonzo.midi.messages.MessageStatus.NOTE_ON ){
 				n = m;
+				//trace("launching"+m);
+			}
 		}
 		
 		d.getMessageRange(curMidi,s, e, seekNote);
 		
 		if ( pb != nb ) {
 			if ( n != null) {
-				//trace( n );
-				onNote(Left);
+				onNote();
 			}
 			else 
 				onBeat();
 		}
 		else if ( pq != nq ) {
-			onQuarter();
+			if ( n != null) {
+				onNote();
+			}
+			else
+				onQuarter();
 		}
 		
 	}
@@ -252,8 +259,8 @@ class G {
 		partition.launchStrong();
 	}
 	
-	function onNote(l) {
-		partition.launchNote(l);
+	function onNote() {
+		partition.launchNote();
 	}
 	
 	public function preUpdateGame() {
@@ -318,7 +325,17 @@ class G {
 		if ( mt.flash.Key.isToggled(hxd.Key.M)) {
 			car.shootRight();
 		}
+		
+		if ( mt.flash.Key.isToggled(hxd.Key.LEFT)) {
+			car.tryShootLeft();
+		}
+		
+		if ( mt.flash.Key.isToggled(hxd.Key.RIGHT)) {
+			car.tryShootRight();
+		}
 	}
+	
+	///la  8
 	
 	public function postUpdateGame() {
 		var n = zombies.countCarZombies();
@@ -339,6 +356,14 @@ class G {
 	
 	public function loose() {
 		zombies.setLevel(0);
+	}
+	
+	public function onMiss() {
+		D.sfx.KICK00().play();
+	}
+	
+	public function onSuccess() {
+		
 	}
 	
 }

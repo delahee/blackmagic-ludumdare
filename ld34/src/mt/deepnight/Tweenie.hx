@@ -155,6 +155,10 @@ class Tweenie {
 				terminateTween(t);
 	}
 	
+	public function forceTerminateTween(t:Tween) {
+		tlist.remove(t);
+	}
+	
 	public function terminateTween(t:Tween, ?fl_allowLoop=false) {
 		var v = t.from+(t.to-t.from)*t.interpolate(1);
 		if (t.fl_pixel)

@@ -56,6 +56,18 @@ class D {
 		
 		music1Midi= l("assets/snd/midi/music1.mid");
 		music2Midi = l("assets/snd/midi/music2.mid");
+		
+		
+		var file = music1Midi;
+		var ti = 0;
+		for ( t in file.tracks) {
+			var i = 0;
+			for ( e in t.events ) {
+				trace( e );
+				i++;
+			}
+			ti++;
+		}
 	}
 	
 	public var music1:mt.flash.Sfx;
