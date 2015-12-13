@@ -29,8 +29,20 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 	}
 	
 	public function onDeath() {
-		setColor(0x0);
-		haxe.Timer.delay( dispose, 16 );
+		//setColor(0x0);
+		
+		if( a.hasAnim()){
+			a.playAndLoop( groupName.split("_")[0] + "_dead");
+			dx = -4;
+			dy = 0;
+		}
+		else {
+			setColor(0x0);
+			dx = -4;
+			dy = 0;
+		}
+		
+		haxe.Timer.delay( dispose, 200 );
 	}
 	
 	public function hit(?v=10) {
@@ -41,26 +53,34 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 	
 	//var gfx : h2d.Graphics;
 	public function update(dt) {
-		if ( isDead() || batch == null ) return;
+		if ( batch == null ) return;
 		
-		bounds.empty();
-		bounds.add4(x - width * 0.5, y - height, width, height);
+		if ( isDead()) {
+			rx += dx;
+			ry += dy;
+			
+			x = Math.round( rx );
+			y = Math.round( ry );
+			
+			return;
+		}
 		
-		//if ( gfx != null) gfx.dispose();
-		//gfx = h2d.Graphics.fromBounds( bounds, batch );
-		
-		if (man.deathZone.length > 0) {
-			var i = 0;
-			for ( dz in man.deathZone ) {
-				if ( dz.bnd.collides(bounds) ) {
-					hit();
-					dz.nb--;
-					if ( dz.nb <= 0) {
-						if (dz.srcPart != null) dz.srcPart.kill();	
-						man.deathZone.remove(dz);
+		if( !isDead()){
+			bounds.empty();
+			bounds.add4(x - width * 0.5, y - height, width, height);
+			if (man.deathZone.length > 0) {
+				var i = 0;
+				for ( dz in man.deathZone ) {
+					if ( dz.bnd.collides(bounds) ) {
+						hit();
+						dz.nb--;
+						if ( dz.nb <= 0) {
+							if (dz.srcPart != null) dz.srcPart.kill();	
+							man.deathZone.remove(dz);
+						}
 					}
+					i++;
 				}
-				i++;
 			}
 		}
 		
@@ -186,7 +206,13 @@ class Zombies {
 	}
 	
 	public function spawnZombieBase() {
-		var z = new Zombie(this,sb, d.char, "zombie" + "ABC".charAt(Std.random(3)) );
+		var name = "zombie" + "ABC".charAt(Std.random(3));
+		
+		var z = new Zombie(this, sb, d.char, name );
+		
+		z.a.playAndLoop(name+"_run");
+		if ( z.a.hasAnim())
+			z.a.setCurrentAnimSpeed( 0.4 );
 		
 		var cb = c.cacheBounds;
 		
@@ -199,7 +225,7 @@ class Zombies {
 		z.changePriority( -Math.round(z.y) );
 		
 		z.dx = 2 + Dice.rollF( 0, 0.25);
-		z.scale( Dice.rollF(0.85, 1.0) );
+		z.scale( Dice.rollF(0.75, 1.0) );
 		z.ofsHookX = Dice.rollF( 0.0, 8.0 );
 		
 		zombies.push(z);

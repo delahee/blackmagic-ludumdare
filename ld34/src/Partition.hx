@@ -88,7 +88,7 @@ class Partition {
 	}
 	
 	public function launchNote( note : ENote ) {
-		var sp = grid.alloc( d.char.getTile("left").centerRatio() );
+		var sp = grid.alloc( d.char.getTile("hit").centerRatio() );
 		sp.x = fretPositions[5];
 		sp.y = baseline;
 		

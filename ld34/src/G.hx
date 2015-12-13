@@ -29,6 +29,9 @@ class G {
 	public var bg : Scroller;
 	public var bgRocks : Scroller;
 	public var bgSand : Scroller;
+	
+	public var bgBuildings : Scroller;
+	
 	public var sky : h2d.Bitmap;
 	
 	public var car : Car;
@@ -139,6 +142,18 @@ class G {
 		bgSand.originY += 100;
 		bgSand.init();
 		
+		bgBuildings = new Scroller(146, 8, d.char.getTile("buildingA"), 
+		["buildingA",
+		"buildingB",
+		"buildingC",
+		"buildingD",
+		"buildingE",
+		].map( function(str) return d.char.getTile(str).centerRatio(0.5,1.0) ), gameRoot);
+		bgBuildings.speed = 6.0;
+		bgBuildings.originY += 120;
+		bgBuildings.randomHide = true;
+		bgBuildings.init();
+		
 		road = new Scroller(200, 8, d.char.tile, 
 			[	d.char.getTile("roadA"),
 				d.char.getTile("roadB"),
@@ -240,6 +255,7 @@ class G {
 		bg.update(dTime);
 		bgRocks.update(dTime);
 		bgSand.update(dTime);
+		bgBuildings.update(dTime);
 		car.update( dTime );
 		zombies.update( dTime );
 		
