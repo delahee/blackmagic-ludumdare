@@ -31,7 +31,10 @@ class Partition {
 	
 	public function new(p) {
 		baseline = C.H - 37;
-		resetForSignature(4,p);
+		resetForSignature(4, p);
+		
+		//grid.scaleX = -1;
+		//grix.x -= 
 	}
 	
 	public function resetForSignature( sig : Int , p) {
@@ -45,8 +48,8 @@ class Partition {
 		
 		var fretTile = d.char.getTile("fret").centerRatio(0.5,0);
 		var quarter = d.char.getTile("quarter").centerRatio(0.5,0);
-		var startX = (C.W - 50);
-		for ( i in 0...8 ) {
+		var startX = (C.W - 150);
+		for ( i in 0...C.LookAhead ) {
 			fretPositions[i] = startX - i * fretW;
 			
 			if ( i < 1) {
@@ -70,7 +73,7 @@ class Partition {
 	
 	public function launchQuarter()	{
 		var sp = grid.alloc( d.char.getTile("noteHelper").centerRatio(0.5,0) );
-		sp.x = fretPositions[5];
+		sp.x = fretPositions.last();
 		sp.y = baseline + 16;
 		
 		var t = App.me.tweenie.create( sp, "x", fretPositions[0] + fretW, TLinear, C.LookAhead / g.bps() * 1000 );
@@ -83,7 +86,7 @@ class Partition {
 		var sp = grid.alloc( d.char.getTile("noteHelper").centerRatio(0.5,0) );
 		sp.scale(2);
 		sp.rotation = Math.PI * 0.25;
-		sp.x = fretPositions[5];
+		sp.x = fretPositions.last();
 		sp.y = baseline + 16;
 		sp.alpha = 1.2;
 		
@@ -99,7 +102,7 @@ class Partition {
 		//var sp = grid.alloc( d.char.getTile("hit").centerRatio(0,0) );
 		var sp : NoteSprite = new NoteSprite(grid, d.char, "hit");
 		sp.setCenterRatio(0.5, 0);
-		sp.x = fretPositions[5];
+		sp.x = fretPositions.last();
 		sp.y = baseline;
 		
 		var tw = App.me.tweenie.create( sp, "x", fretPositions[0] + fretW, TLinear, C.LookAhead / g.bps() * 1000 );
@@ -133,28 +136,14 @@ class Partition {
 		
 		noteList.remove(sp);
 		
-		var low = fretPositions[1];
+		var low = fretPositions[1] + fretW * 0.5;
 		var high = fretPositions[0] + fretW * 0.5;
-		if ( sp.x >= fretPositions[1] && sp.x <= high) {
+		if ( sp.x >= low && sp.x <= high) {
 			
-			var acc = (sp.x - fretPositions[1]) / ( high - low );
-			
-			if ( t <= fretPositions[0] ) {
-				var ot = sp.tween.onUpdateT;
-				sp.tween.onUpdateT = function(r) {
-					if ( hxd.Math.isNear( t, 5.0 / la, 0.2)) {
-						sp.a.play("fret_win");
-					}
-					ot(r);
-				}
-			}
-			else if ( t <= high ) {
-				App.me.tweenie.create( sp, "alpha", 0.3, TBurnIn, 100 );
-			}
 			return true;
 		}
 		else {
-			sp.a.
+			sp.a.playAndLoop("hitMiss");
 			//col = 0xff0000;
 			return false;
 		}

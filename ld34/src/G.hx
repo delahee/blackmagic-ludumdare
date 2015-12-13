@@ -79,6 +79,7 @@ class G {
 		partition = new Partition( gameRoot );
 		
 		d.sndPrepareMusic1();
+		d.sndPrepareMusic1Bip();
 		d.sndPrepareMusic2();
 		
 		curMidi = d.music1Midi;
@@ -191,7 +192,7 @@ class G {
 		
 		partition.resetForSignature(curMusicSignature, gameRoot );
 		
-		d.sndPlayMusic1();
+		d.sndPlayMusic1Bip();
 	}
 	
 	public function onPause(onOff) {
