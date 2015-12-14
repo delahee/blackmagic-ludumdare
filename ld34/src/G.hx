@@ -339,6 +339,7 @@ class G {
 	}
 	
 	public function onStart() {
+		car.by = Car.BASE_BY;
 		car.bx = - C.W;
 		car.car.a.playAndLoop("carStop");
 		var tt = tw.create(car, "bx", Car.BASE_BX, 600);
@@ -464,6 +465,7 @@ class G {
 	}
 	
 	public function level4() {
+		curLevel=4;
 		onStart();
 		
 		d.sndPlayMusic4();
@@ -706,9 +708,12 @@ class G {
 			partition.update();
 	}
 	
+	var isLoosing = false;
 	public function loose() {
 		//zombies.setLevel(0);
 		//updateZombies();
+		if ( isLoosing ) return;
+		isLoosing = true;
 		
 		zombies.speed = -2;
 		
@@ -761,19 +766,29 @@ class G {
 			n.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
 			n.x = C.W * 0.5 - n.textWidth*0.5;
 			
-			var goMask = new h2d.Interactive( C.W, C.H, postScene);
+			var goMask = new h2d.Interactive( mt.Metrics.w(), mt.Metrics.h(), postScene);
 			goMask.onClick = function(e) {
-				goScreen.dispose();
-				haxe.Timer.delay( restart.bind(curLevel),1 );
+				function f() {
+					goScreen.dispose();
+					goMask.dispose();
+					isLoosing = false;
+				}
+				haxe.Timer.delay( function() {
+					f();
+					restart(curLevel);
+				},1 );
 			};
+			
 			goMask.onSync = function() {
-				var a = 0;
-				if ( mt.flash.Key.isToggled(hxd.Key.F1)) level1();
-				if ( mt.flash.Key.isToggled(hxd.Key.F2)) level2();
-				if ( mt.flash.Key.isToggled(hxd.Key.F3)) level3();
-				if ( mt.flash.Key.isToggled(hxd.Key.F4)) level4();
-					
-				
+				function f() {
+					goScreen.dispose();
+					goMask.dispose();
+					isLoosing = false;
+				}
+				if ( mt.flash.Key.isToggled(hxd.Key.F1)) { f(); level1();  }
+				if ( mt.flash.Key.isToggled(hxd.Key.F2)) { f(); level2();  }
+				if ( mt.flash.Key.isToggled(hxd.Key.F3)) { f(); level3();  }
+				if ( mt.flash.Key.isToggled(hxd.Key.F4)) { f(); level4();  }
 			}
 		},1300);
 	}

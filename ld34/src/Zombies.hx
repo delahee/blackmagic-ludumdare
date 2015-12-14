@@ -449,16 +449,21 @@ class Zombies {
 					else if ( mt.gx.Dice.percentF(rand,1)) spawnZombiePackLow();
 					
 				case 3:
-					if ( mt.gx.Dice.percentF(rand,9)) spawnZombieBase();
-					else if ( mt.gx.Dice.percentF(rand,3)) spawnZombieLow();
-					else if ( mt.gx.Dice.percentF(rand,3)) spawnZombieBase();
-					else if ( mt.gx.Dice.percentF(rand,3)) spawnZombiePack();
+					if( g.progress < 0.35){
+						if ( mt.gx.Dice.percentF(rand,3)) spawnZombieBase();
+						else if ( mt.gx.Dice.percentF(rand,1)) spawnZombieLow();
+						else if ( mt.gx.Dice.percentF(rand,1)) spawnZombieBase();
+					}
+					else {
+						if ( mt.gx.Dice.percentF(rand,2)) spawnZombieBase();
+						else if ( mt.gx.Dice.percentF(rand,1.5)) spawnZombiePackHigh();
+						else if ( mt.gx.Dice.percentF(rand,1.5)) spawnZombiePackLow();
+					}
 					
 				case 4:
-					if ( mt.gx.Dice.percentF(rand,12)) spawnZombieBase();
-					else if ( mt.gx.Dice.percentF(rand,4)) spawnZombieLow();
-					else if ( mt.gx.Dice.percentF(rand,4)) spawnZombieBase();
-					else if ( mt.gx.Dice.percentF(rand,4)) spawnZombiePack();
+					if ( mt.gx.Dice.percentF(rand,2)) spawnZombieBase();
+					else if ( mt.gx.Dice.percentF(rand,1)) spawnZombiePackHigh();
+					else if ( mt.gx.Dice.percentF(rand,1)) spawnZombiePackLow();
 			}
 		}
 		
@@ -514,9 +519,9 @@ class Zombies {
 		
 		switch( z.type) {
 			//case Girl: 	z.hp += 10;
-			case Girl: 	z.baseDx *= 2; z.hp += 10;
-			case Bold: 	z.hp += 20;
-			case Armor: z.hp += 40;
+			case Girl: 	z.baseDx *= 2; 		z.hp += 10;
+			case Bold: 	z.baseDx *= 1.5; 	z.hp += 12;
+			case Armor: z.baseDx *= 1.8; 	z.hp += 15;
 			case Boss : z.hp += 100;
 			default:
 		}

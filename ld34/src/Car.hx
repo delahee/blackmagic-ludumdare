@@ -68,6 +68,7 @@ class Car {
 		car = new mt.deepnight.slb.HSpriteBE( sb, d.char,"carStop");
 		car.a.setGeneralSpeed( 0.33 );
 		bx = - C.W;
+		by = BASE_BY;
 		cacheBounds = new h2d.col.Bounds();
 		syncLife();
 		light = new mt.deepnight.slb.HSpriteBE( fx, d.char, "fxCarLight");

@@ -55,7 +55,7 @@ class Partition {
 		
 		curMultiplier = new h2d.Number(d.eightVerySmall,parent);
 		curMultiplier.y = C.H - 20;
-		curMultiplier.x = C.W - 30;
+		curMultiplier.x = C.W - 40;
 		curMultiplier.headingMul = true;
 		curMultiplier.nb = 1;
 		g.ivory(curMultiplier);
@@ -344,7 +344,7 @@ class Partition {
 	
 	
 	var limit1 = 5;
-	var limit2 = 10;
+	var limit2 = 8;
 	public function maxMultiplier(){
 		var limit = 3;
 		switch(g.curLevel) {
