@@ -152,9 +152,9 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 				if( a.hasAnim())
 					a.setCurrentAnimSpeed( 0.25 );
 			case Rushing:
+				dx = baseDx * Dice.rollF(0.55,0.9);
 			case Crowding:
-				dx = baseDx * 0.075;
-				
+				dx = baseDx * 0.1;
 				if( a.hasAnim())
 					a.setCurrentAnimSpeed( 0.2 );
 			case Nope,StuckToCar:
@@ -186,6 +186,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 						if ( dz.nb <= 0) {
 							if (dz.srcPart != null) dz.srcPart.kill();	
 							man.deathZone.remove(dz);
+							break;
 						}
 					}
 					i++;
@@ -203,6 +204,15 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 			y = Math.round( ry );
 		}
 		
+		//if ( type == Girl ) {
+		if ( state == Crowding) {
+			//trace( "st:"+state+" "+dx+" t:"+type);
+		}
+		
+		if ( state == Rushing) {
+			//trace( "st:"+state+" "+dx+" t:"+type);
+		}
+
 		switch(man.level) {
 			default:
 				if ( g.progress > 0.75 && !rushingZombie )
@@ -212,17 +222,26 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 		switch( state ) {
 			case Dead:
 			case Incoming:
-				if ( x >= incomingZone && Dice.percentF( 0.5 ) ){
+				if ( x >= incomingZone && Dice.percentF( 1.5 ) ){
 					cs( Crowding );
 				}
 			case Rushing:
-			case Crowding:
-				if ( rushingZombie && Dice.percentF( 0.4 )){
-					dx *= Dice.rollF(5,8);
-					//setColor( 0x005e3d );
-					prio();
+				#if debug
+				setColor( 0xff00ff );
+				#end
+				if ( Dice.percentF( 2 ) ) {
+					cs(Crowding);
 				}
-				dx = hxd.Math.lerp( dx , baseDx * 0.035, 0.11);
+				dx = hxd.Math.lerp( dx , baseDx * 0.15, 0.08);
+			case Crowding:
+				#if debug
+				setColor( 0xff0000 );
+				#end
+				if ( rushingZombie && Dice.percentF( 1.3 )){
+					prio();
+					cs(Rushing);
+				}
+				dx = hxd.Math.lerp( dx , baseDx * 0.065, 0.11);
 			case Nope:
 				dx = 0;
 				dy = 0;
@@ -344,7 +363,7 @@ class Zombies {
 		
 		switch(level) {
 			case 1: shouldSpawn = g.progress <= 0.75;
-			case 2: shouldSpawn = g.progress <= 0.75;
+			case 2: shouldSpawn = g.progress <= 0.60;
 			case 3: shouldSpawn = g.progress <= 0.75;
 			case 4: shouldSpawn = g.progress <= 0.75;
 		}
@@ -353,26 +372,25 @@ class Zombies {
 			switch(level) {
 				case 1:
 					if ( mt.gx.Dice.percentF(rand,3)) spawnZombieBase();
-					if ( mt.gx.Dice.percentF(rand,1)) spawnZombieLow();
-					if ( mt.gx.Dice.percentF(rand,1)) spawnZombieBase();
+					else if ( mt.gx.Dice.percentF(rand,1)) spawnZombieLow();
+					else if ( mt.gx.Dice.percentF(rand,1)) spawnZombieBase();
 					
 				case 2:
-					if ( mt.gx.Dice.percentF(rand,6)) spawnZombieBase();
-					if ( mt.gx.Dice.percentF(rand,2)) spawnZombieLow();
 					if ( mt.gx.Dice.percentF(rand,2)) spawnZombieBase();
-					if ( mt.gx.Dice.percentF(rand,2)) spawnZombiePack();
+					else if ( mt.gx.Dice.percentF(rand,1)) spawnZombiePackHigh();
+					else if ( mt.gx.Dice.percentF(rand,1)) spawnZombiePackLow();
 					
 				case 3:
 					if ( mt.gx.Dice.percentF(rand,9)) spawnZombieBase();
-					if ( mt.gx.Dice.percentF(rand,3)) spawnZombieLow();
-					if ( mt.gx.Dice.percentF(rand,3)) spawnZombieBase();
-					if ( mt.gx.Dice.percentF(rand,3)) spawnZombiePack();
+					else if ( mt.gx.Dice.percentF(rand,3)) spawnZombieLow();
+					else if ( mt.gx.Dice.percentF(rand,3)) spawnZombieBase();
+					else if ( mt.gx.Dice.percentF(rand,3)) spawnZombiePack();
 					
 				case 4:
 					if ( mt.gx.Dice.percentF(rand,12)) spawnZombieBase();
-					if ( mt.gx.Dice.percentF(rand,4)) spawnZombieLow();
-					if ( mt.gx.Dice.percentF(rand,4)) spawnZombieBase();
-					if ( mt.gx.Dice.percentF(rand,4)) spawnZombiePack();
+					else if ( mt.gx.Dice.percentF(rand,4)) spawnZombieLow();
+					else if ( mt.gx.Dice.percentF(rand,4)) spawnZombieBase();
+					else if ( mt.gx.Dice.percentF(rand,4)) spawnZombiePack();
 			}
 		}
 		
@@ -392,26 +410,22 @@ class Zombies {
 	}
 	
 	public function spawnZombieBase(?inletter) {
+		
+		inline function x(str:String) {
+			return str.charAt(Std.random(str.length));
+		}
 		var letter=inletter!=null?inletter:
 		switch(level) {
-			default:"A";
-			case 2:"AB".charAt(Std.random(2));
-			case 3:"ABC".charAt(Std.random(3));
-			case 4:"ABCD".charAt(Std.random(4));
+			default: 	x("A");
+			case 2: 	x("AAB");
+			case 3:		x("AABBC");
+			case 4:		x("AABBCCD");
 		};
 		
 		var name = "zombie" + letter + "_run";
 		var z = new Zombie(this, sb, d.char, name );
 
-		z.type = cast name.charCodeAt(0) - "A".code;
-		
-		switch( z.type) {
-			case Girl: 	z.hp += 10;
-			case Bold: 	z.hp += 20;
-			case Armor: z.hp += 40;
-			case Boss : z.hp += 100;
-			default:
-		}
+		z.type = cast letter.charCodeAt(0) - "A".code;
 		
 		z.a.playAndLoop(name);
 		if ( z.a.hasAnim())
@@ -422,12 +436,22 @@ class Zombies {
 		z.x = z.rx = -60 + Dice.rollF( -20, 30);
 		z.y = z.ry = Dice.rollF( cb.y + cb.height * 0.25, cb.y + cb.height * 0.6 + 10);
 		
-		z.baseDx = z.dx = 2 + Dice.rollF( 0, 0.25);
+		z.baseDx = z.dx = 1.75 + Dice.rollF( 0, 0.5);
 		var s = Dice.rollF(1.0, 1.2);
 		z.scale( s );
-		z.rushingZombie = Dice.percent(33);
+		z.rushingZombie = Dice.percent(z.type == Girl ? 80 : 33);
 		z.ofsHookX = Dice.rollF( 0.0, 8.0 );
 		
+		switch( z.type) {
+			//case Girl: 	z.hp += 10;
+			case Girl: 	z.baseDx *= 2; z.hp += 10;
+			case Bold: 	z.hp += 20;
+			case Armor: z.hp += 40;
+			case Boss : z.hp += 100;
+			default:
+		}
+		
+		z.dx = z.baseDx;
 		z.prio();
 		z.cs(Incoming);
 		

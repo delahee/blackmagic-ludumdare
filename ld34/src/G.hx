@@ -61,7 +61,11 @@ class G {
 	public var streak : Int = 0;
 	public var multiplier : Int = 1;
 	public var curLevel = 1;
+	
 	public var progressCounter:h2d.Number;
+	public var scoreText : h2d.Text;
+	public var scoreCounter:h2d.Number;
+	
 	public function new()  {
 		me = this;
 		masterScene = new h2d.Scene();
@@ -97,32 +101,35 @@ class G {
 		
 		partition.resetForSignature(curMidi.sig );
 		
+		var bs = [];
 		var b = mt.gx.h2d.Proto.bt( 100, 50, "start",
-		start, postScene);
+		start, postScene); bs.push(b);
 		
 		var b = mt.gx.h2d.Proto.bt( 100, 50, "launch",
 		function() {
 			partition.launchNote();
-		}, postScene);
+		}, postScene); bs.push(b);
 		b.x += 110;
 		
 		var b = mt.gx.h2d.Proto.bt( 80, 50, "level 2",
 		function() {
 			level2();
 		}, postScene);
-		b.x += 200;
+		b.x += 200; bs.push(b);
 		
 		var b = mt.gx.h2d.Proto.bt( 80, 50, "level 3",
 		function() {
 			level3();
 		}, postScene);
-		b.x += 300;
+		b.x += 300; bs.push(b);
 		
 		var b = mt.gx.h2d.Proto.bt( 80, 50, "level 4",
 		function() {
 			level4();
 		}, postScene);
-		b.x += 400;
+		b.x += 400; bs.push(b);
+		
+		for ( b in bs ) b.y += 150;
 		
 		haxe.Timer.delay( start , 800 );
 		
@@ -131,7 +138,29 @@ class G {
 		pc.y = 50;
 		pc.trailingPercent = true;
 		
+		scoreText = new h2d.Text( d.eightSmall, gameRoot);
+		scoreText.text = "SCORE";
+		scoreText.x = 16;
+		scoreText.textColor = 0x0;
+		scoreText.dropShadow = { dx:1, dy:1, color:0x4A4A4A, alpha:1.0 };
+		
+		scoreCounter = new h2d.Number( d.eightSmall, gameRoot );
+		scoreCounter.x = scoreText.x +scoreText.width + 4;
+		scoreCounter.y = scoreText.y = 8;
+		scoreCounter.nb = 0;
+		ivory( scoreCounter );
+		
 		return this;
+	}
+	
+	inline function orange(txt:h2d.Text) {
+		txt.textColor = 0xff9358;
+		txt.dropShadow = { dx:2, dy:2, color:0xd804a2d, alpha:1.0 };
+	}
+	
+	inline function ivory(txt:h2d.Text) {
+		txt.textColor = 0xffe6b0;
+		txt.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
 	}
 	
 	var m = new Matrix();
@@ -151,6 +180,7 @@ class G {
 		engine.restoreOpenfl();
 		
 		progressCounter.nb = Std.int(progress * 100);
+		scoreCounter.nb = score;
 	}
 	
 	public function makeCredits(sp){
@@ -368,6 +398,10 @@ class G {
 	}
 	
 	public function start() {
+		
+		level2();
+		return;
+		
 		onStart();
 		
 		d.sndPlayMusic1();
@@ -534,6 +568,8 @@ class G {
 	var leftIsDown = 0;
 	var rightIsDown = 0;
 	
+	var updateZombies = true;
+	
 	public function preUpdateGame() {
 		if ( started ) 
 			updateTempo();
@@ -548,7 +584,9 @@ class G {
 		bgSand.update(dTime);
 		bgBuildings.update(dTime);
 		car.update( dTime );
-		zombies.update( dTime );
+		
+		if( updateZombies )
+			zombies.update( dTime );
 		
 		/*
 		if ( mt.flash.Key.isToggled(hxd.Key.C)) {

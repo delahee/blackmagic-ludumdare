@@ -110,16 +110,17 @@ class Car {
 		syncLife();
 	}
 	
+	var lifeTile:h2d.Tile;
 	function syncLife() {
+		if ( lifeTile == null) lifeTile = d.char.getTile( "life").centerRatio();
 		lifeUi.removeAllElements();
 		var nm = Math.ceil( maxLife );
 		var n = Math.ceil( life );
-		for ( i in 0...nm) {
-			var e = lifeUi.alloc( d.char.getTile( "pixel").centerRatio() );
-			e.setSize( 12, 12 );
-			e.x = 30 + i * (30 + 4);
-			e.y = 30;
-			e.setColor( i < n ? 0xffffff : 0x0);
+		for ( i in 0...n-1) {
+			var e = lifeUi.alloc( lifeTile,-i );
+			e.x = (C.W - 48) + i * 10;
+			e.y = 14;
+			//e.setColor( i < n ? 0xffffff : 0x0);
 		}
 	}
 	
