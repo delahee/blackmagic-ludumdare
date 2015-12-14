@@ -92,26 +92,48 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 				0x83a69a,
 				0xbb64a6 ];
 				
+				
 	public function onHit() {
-		(switch( Std.random(4) ) {
+		var s : mt.flash.Sfx = (switch( Std.random(11) ) {
 			default: D.sfx.IMPACT1();
 			case 1: D.sfx.IMPACT2();
 			case 2: D.sfx.IMPACT3();
 			case 3: D.sfx.IMPACT4();
-		}).play();
+			case 4: D.sfx.IMPACT4();
+			case 5: D.sfx.IMPACT5();
+			case 6: D.sfx.IMPACT6();
+			case 7: D.sfx.IMPACT7();
+			case 8: D.sfx.IMPACT8();
+			case 9: D.sfx.IMPACT9();
+			case 10: D.sfx.IMPACT10();
+		});
+		s.play(0.333);
 		
 		for ( i in 0...Dice.roll( 8 , 16 ) * 4) {
 			var e = new mt.deepnight.HParticle(man.tilePixel);
-			var s = Dice.rollF(0.8, 3.2);
-			e.setSize(s, s);
-			var c = bol.random();
-			e.setColor(c);
+			var isLimb = false;
+			var c = 0;
+			if ( Dice.percent(15)){
+				e.tile = man.tilePart.random();
+				isLimb = true;
+			}
+			else {
+				var s = Dice.rollF(0.8, 3.2);
+				e.setSize(s, s);
+				c = bol.random();
+				e.setColor(c);
+			}
+			
 			e.x = x + Std.random( 10 ) - 5;
 			var oy = Std.random( 3 ) -  6;
 			e.y = y - 20 + oy;
 			e.groundY = y + oy;
-			e.dx -= g.speed() * Dice.rollF(3,6) * 1.2;
+			e.dx -= g.speed() * Dice.rollF(3,7) * 1.3;
 			e.dy = Dice.rollF( -1, 1) * 0.8;
+			
+			if ( Dice.percentF( 3 )) {
+				e.dx *= -0.33;
+			}
 			
 			if ( Dice.percent( 20 ))
 				e.dy -= Dice.rollF( 0.8, 1.2);
@@ -121,13 +143,17 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 				e.dy = - Dice.rollF( 2, 3);
 			}
 				
+			e.rotation = Dice.angle();
+			e.dr = Dice.either( Dice.rollF(0.01, 0.1));
 			e.life = Dice.rollF(22, 45);
 			e.bounceMul = Dice.rollF(0.2, 0.6);
-			if( c != 0xd6c2b2 )
+			if( c != 0xd6c2b2 || isLimb )
 			e.onBounce = function(e) {
 				if ( Dice.percent( 80 )) {
-					e.scaleY = 0.75;
-					e.scaleX = Dice.rollF(2,4);
+					if( ! isLimb ){
+						e.scaleY = 0.75;
+						e.scaleX = Dice.rollF(2, 4);
+					}
 					e.dy = 0;
 					e.dx = -g.speed() * 6;
 					e.groundY = null;
@@ -135,7 +161,8 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 					e.life = 100;
 				}
 			}
-			e.gy = Dice.rollF(0.04,0.06);
+			e.gy = Dice.rollF(0.05, 0.07);
+			e.gx = - 0.01;
 			addPart(e);
 		}
 		
@@ -285,7 +312,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 				}
 			case Rushing:
 				#if debug
-				setColor( 0xff00ff );
+				//setColor( 0xff00ff );
 				#end
 				if ( Dice.percentF( 2 ) ) {
 					cs(Crowding);
@@ -293,7 +320,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 				dx = hxd.Math.lerp( dx , baseDx * 0.15, 0.08);
 			case Crowding:
 				#if debug
-				setColor( 0xff0000 );
+				//setColor( 0xff0000 );
 				#end
 				if ( rushingZombie && Dice.percentF( 1.3 )){
 					prio();
@@ -369,6 +396,7 @@ class Zombies {
 		tilePart = ["partA", "partB", "partC", "partN"].map( function(str) {
 			return d.char.getTile(str).centerRatio();
 		} );
+		tilePart.push( tilePixel);
 		tileFxHit = d.char.getTile("fxHit").centerRatio();
 		parts = new hxd.Stack<mt.deepnight.HParticle>();
 	}
@@ -464,18 +492,18 @@ class Zombies {
 						else if ( mt.gx.Dice.percentF(rand,1.5)) spawnZombiePackLow();
 					}
 					else if( g.progress < 0.6 ){
-						if ( mt.gx.Dice.percentF(rand,4)) spawnZombieBase();
-						else if ( mt.gx.Dice.percentF(rand,2.5)) spawnZombiePackHigh();
-						else if ( mt.gx.Dice.percentF(rand,2.5)) spawnZombiePackLow();
+						if ( mt.gx.Dice.percentF(rand,3)) spawnZombieBase();
+						else if ( mt.gx.Dice.percentF(rand,2.25)) spawnZombiePackHigh();
+						else if ( mt.gx.Dice.percentF(rand,2.25)) spawnZombiePackLow();
 					}
 					else {
 						if ( nbBoss == 0) {
 							spawnZombieBase("E");
 							nbBoss++;
 						}
-						if ( mt.gx.Dice.percentF(rand,4.5)) spawnZombieBase();
-						else if ( mt.gx.Dice.percentF(rand,3)) spawnZombiePackHigh();
-						else if ( mt.gx.Dice.percentF(rand,3)) spawnZombiePackLow();
+						if ( mt.gx.Dice.percentF(rand,3.5)) spawnZombieBase();
+						else if ( mt.gx.Dice.percentF(rand,2.5)) spawnZombiePackHigh();
+						else if ( mt.gx.Dice.percentF(rand,2.5)) spawnZombiePackLow();
 					}
 					
 				case 4:

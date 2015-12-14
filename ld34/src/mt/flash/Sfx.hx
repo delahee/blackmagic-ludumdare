@@ -48,10 +48,10 @@ class Sfx {
 	static var CHANNELS : Map<Int,ChannelInfos> = new Map();
 
 	var loadingBar			: flash.display.Sprite;
-	var sound				: Sound;
+	public var sound		: Sound;
 	var volume				: Float;
 	var panning				: Float;
-	var curPlay				: Null<SoundChannel>;
+	public var curPlay		: Null<SoundChannel>;
 	var channel				: Int;
 	var muted				: Bool;
 
