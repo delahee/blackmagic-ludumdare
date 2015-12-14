@@ -94,7 +94,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 				
 				
 	public function onHit() {
-		var s : mt.flash.Sfx = d.sfxPreload.get("IMPACT" + Dice.roll(1, 10)).play(0.66);
+		var s : mt.flash.Sfx = d.sfxPreload.get("IMPACT" + Dice.roll(1, 10)).play();
 		
 		for ( i in 0...Dice.roll( 8 , 16 ) * 4) {
 			var e = new mt.deepnight.HParticle(man.tilePixel);

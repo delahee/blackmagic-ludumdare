@@ -71,19 +71,22 @@ class G {
 	public var uiVisible = true;
 	public var tempoTw : mt.deepnight.Tweenie;
 	
-	public function new()  {
+	public var globalScale = 3;
+
+	public function new(?gs)  {
 		me = this;
 		masterScene = new h2d.Scene();
 		
+		if ( gs != null)
+			globalScale = gs;
 		tip = new Tip(postScene);
 		h2d.Drawable.DEFAULT_FILTER = false;
-		gameRoot = new h2d.OffscreenScene2D(590*3, 250*3);
-		gameRoot.scaleX = 3;
-		gameRoot.scaleY = 3;
+		gameRoot = new h2d.OffscreenScene2D(590*globalScale, 250*globalScale);
+		gameRoot.scaleX = gameRoot.scaleY = globalScale;
 		
-		gameRoot.overlay = h2d.Tile.fromAssets("assets/scanLines.png");
-		
-		scaledRoot.scaleX = scaledRoot.scaleY = 3;
+		if( globalScale == 3)
+			gameRoot.overlay = h2d.Tile.fromAssets("assets/scanLines.png");
+		scaledRoot.scaleX = scaledRoot.scaleY = globalScale;
 		
 		tempoTw = new mt.deepnight.Tweenie();
 		tempoTw.fps = C.FPS;
@@ -1063,7 +1066,7 @@ class G {
 		fx.a.setCurrentAnimSpeed( 0.33 );
 		fx.x = x + Dice.rollF( -10,10);
 		fx.y = y + Dice.rollF( -10,10);
-		d.sfxPreload.get("EXPLOSION").play(0.33);
+		d.sfxPreload.get("EXPLOSION").play();
 		fx.scale( Dice.rollF( 0.4, 0.6));
 	}
 	
