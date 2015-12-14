@@ -94,7 +94,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 				
 				
 	public function onHit() {
-		var s : mt.flash.Sfx = (switch( Std.random(4) ) {
+		var s : mt.flash.Sfx = (switch( Std.random(11) ) {
 			default: D.sfx.IMPACT1();
 			case 1: D.sfx.IMPACT2();
 			case 2: D.sfx.IMPACT3();
@@ -107,8 +107,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 			case 9: D.sfx.IMPACT9();
 			case 10: D.sfx.IMPACT10();
 		});
-		s.play();
-		s.setVolume( 0.7 );
+		s.play(0.333);
 		
 		for ( i in 0...Dice.roll( 8 , 16 ) * 4) {
 			var e = new mt.deepnight.HParticle(man.tilePixel);

@@ -38,11 +38,15 @@ class App extends flash.display.Sprite {
 		mt.flash.Key.update();
 		hxd.Timer.update();
 		
+		#if debug
 		if ( mt.flash.Key.isToggled( hxd.Key.P )) {
 			paused = ! paused;
 //			trace( "pause:" + paused );
 			g.onPause( paused );
 		}
+		#end
+		
+		
 		var tm = hxd.Timer.tmod;
 		var ttm = hxd.Timer.deltaT * C.FPS;
 		

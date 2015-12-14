@@ -25,7 +25,6 @@ class Partition {
 
 	var d(get, null) : D; inline function get_d() return App.me.d;
 	var g(get, null) : G; inline function get_g() return App.me.g;
-	var tw(get, null) : mt.deepnight.Tweenie; inline function get_tw() return App.me.tweenie;
 	
 	public var grid : h2d.SpriteBatch;
 	public var fx : h2d.SpriteBatch;
@@ -142,10 +141,10 @@ class Partition {
 	
 	function getT(sp) {
 		if( curSig == 4 )
-			return App.me.tweenie.create( sp, "x", fretPositions[0] + fretW //+ quarter()
+			return g.tempoTw.create( sp, "x", fretPositions[0] + fretW //+ quarter()
 			, TLinear, (C.LookAhead + 1) / g.bps() * 1000 );
 		else 
-			return App.me.tweenie.create( sp, "x", fretPositions[0] + fretW - quarter(), TLinear, (C.LookAhead + 1) / g.bps() * 1000 );
+			return g.tempoTw.create( sp, "x", fretPositions[0] + fretW - quarter(), TLinear, (C.LookAhead + 1) / g.bps() * 1000 );
 	}
 	
 	function getX() {
@@ -255,16 +254,16 @@ class Partition {
 		var txt = miss;
 		txt.alpha = 1.0;
 		center(miss, x, y);
-		var t = tw.create( miss, "alpha", 0.3, TBurnIn, 375);
+		var t = App.me.tweenie.create( miss, "alpha", 0.3, TBurnIn, 375);
 		t.onEnd = function() miss.alpha = 0.0;
-		var t = tw.create( miss, "x", txt.x + 40, 375);
+		var t = App.me.tweenie.create( miss, "x", txt.x + 40, 375);
 	}
 	
 	function triggerPerfect(x, y) {
 		var txt = perfect;
 		txt.alpha = 1.0;
 		center(perfect, x, y);
-		var t = tw.create( perfect, "y", y - 20,TBurnIn, 375);
+		var t = App.me.tweenie.create( perfect, "y", y - 20,TBurnIn, 375);
 		t.onUpdateT = function(t) txt.alpha = (1.0 - t);
 	}
 	
@@ -272,7 +271,7 @@ class Partition {
 		var txt = good;
 		txt.alpha = 1.0;
 		center(good, x, y);
-		var t = tw.create( good, "y", y - 20,TBurnIn, 375);
+		var t = App.me.tweenie.create( good, "y", y - 20,TBurnIn, 375);
 		t.onUpdateT = function(t) txt.alpha = (1.0 - t);
 	}
 	
@@ -313,12 +312,12 @@ class Partition {
 			var f = fx.alloc( flameTile );
 			f.x = sp.x;
 			f.y = sp.y + 20;
-			var t = tw.create( f, "alpha", 0.3, TBurnIn, 150);
+			var t = App.me.tweenie.create( f, "alpha", 0.3, TBurnIn, 150);
 			t.onUpdateT = function(t) {
 				f.scaleX = 1.0 - t;
 				f.scaleY = 1.0 + 2 * t;
 			}
-			tw.forceTerminateTween(  sp.tween );
+			g.tempoTw.forceTerminateTween( sp.tween );
 			t.onEnd = function() {
 				f.remove();
 				sp.dispose();
@@ -399,7 +398,7 @@ class Partition {
 	public function clear() {
 		for ( n in noteList ) {
 			n.dispose();
-			tw.killWithoutCallbacks( n );
+			g.tempoTw.killWithoutCallbacks( n );
 		}
 		noteList = new List();
 	}

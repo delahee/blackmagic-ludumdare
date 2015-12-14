@@ -68,6 +68,7 @@ class G {
 	public var scoreCounter:h2d.Number;
 	
 	public var uiVisible = true;
+	public var tempoTw : mt.deepnight.Tweenie;
 	
 	public function new()  {
 		me = this;
@@ -80,6 +81,9 @@ class G {
 		gameRoot.scaleY = 3;
 		
 		scaledRoot.scaleX = scaledRoot.scaleY = 3;
+		
+		tempoTw = new mt.deepnight.Tweenie();
+		tempoTw.fps = C.FPS;
 	}
 	
 	public inline function bps() return curMidi.bpm / 60;
@@ -110,10 +114,11 @@ class G {
 		partition.resetForSignature(curMidi.sig );
 		
 		var bs = [];
+		
+		#if debug
 		var b = mt.gx.h2d.Proto.bt( 100, 50, "start",
 		function() restart(curLevel), postScene); bs.push(b);
 		
-		#if debug
 		var b = mt.gx.h2d.Proto.bt( 100, 50, "launch",
 		function() {
 			partition.launchNote();
@@ -639,16 +644,30 @@ class G {
 	
 	public function level1() {
 		curLevel = 1;
-		onStart();
 		
-		d.sndPlayMusic1();
-		zombies.setLevel(1);
+		function doStart(){
+			onStart();
+			
+			d.sndPlayMusic1();
+			zombies.setLevel(1);
+			
+			curMidi = d.music1Desc;
+			partition.resetForSignature(curMidi.sig );
+			
+			startBeat();
+			afterStart();
+		}
 		
-		curMidi = d.music1Desc;
-		partition.resetForSignature(curMidi.sig );
-		
-		startBeat();
-		afterStart();
+		if ( showTuto ) {
+			curMidi = d.music1Desc;
+			partition.resetForSignature(curMidi.sig );
+			
+			onPause(true);
+			updateZombies = false;
+			doShowTuto(doStart);
+		}
+		else 
+			doStart();
 	}
 	
 	public function level2() {
@@ -844,6 +863,7 @@ class G {
 			}
 			#end
 			zombies.update( dTime );
+			tempoTw.update( Lib.dt2Frame( dTime ));
 		}
 		
 		/*
@@ -952,6 +972,55 @@ class G {
 		if( updateZombies )
 			partition.update();
 	}
+	
+	public function doShowTuto(f) {
+		var tutoScreen = new h2d.Sprite(gameRoot);
+			
+		var b = new h2d.Bitmap( h2d.Tile.fromColor( 0xcd000000 ).centerRatio(0.5, 0.5), tutoScreen );
+		b.x = C.W * 0.5;
+		b.y = 150;
+		b.setSize( C.W, 10 );
+		tw.create(b, "y", 		100, 400);
+		var o = tw.create(b, "height", 	130, 300);
+		
+		o.onEnd = function(){
+		var bb = new h2d.Bitmap( d.char.getTile("tuto").centerRatio(), tutoScreen);
+		bb.x = C.W * 0.5;
+		bb.y = 100;
+		new mt.heaps.fx.Spawn(bb,0.1, true);
+		};
+		
+		var i = new h2d.Interactive( 1, 1, b);
+		i.onSync = function() {
+			if ( 	mt.flash.Key.isToggled(hxd.Key.LEFT)
+			||		mt.flash.Key.isToggled(hxd.Key.RIGHT)
+			||		mt.flash.Key.isToggled(hxd.Key.Z)
+			||		mt.flash.Key.isToggled(hxd.Key.Q)
+			||		mt.flash.Key.isToggled(hxd.Key.S)
+			||		mt.flash.Key.isToggled(hxd.Key.D) ){
+				
+				var v = new mt.heaps.fx.Vanish( tutoScreen, true);
+				v.onFinish = tutoScreen.dispose;
+				car.shootLeft();
+				car.shootRight();
+				//leave tuto screen
+				
+				haxe.Timer.delay( function() {
+					onPause(false);
+					updateZombies = true;
+				},50);
+				
+				haxe.Timer.delay( function() {
+					D.sfx.ANNOUNCE_AWESOME().play();
+				},100);
+				
+				haxe.Timer.delay( function() {
+					f();
+				},150);
+			}
+		};
+	}
+	
 	
 	var isLoosing = false;
 	public function loose() {
