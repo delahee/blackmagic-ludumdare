@@ -22,8 +22,11 @@ class Car {
 	
 	public var fx : h2d.SpriteBatch;
 	
-	public var bx = 324;
-	public var by = 120;
+	public static inline var BASE_BX = 324;
+	public static inline var BASE_BY = 120;
+	
+	public var bx = BASE_BX;
+	public var by = BASE_BY;
 	
 	public static var me : Car = null;
 	
@@ -42,6 +45,9 @@ class Car {
 	
 	public var gunType(default, set):GunType = GTNone;
 	
+	public var showDirt : Bool = true;
+	public var dirts : Array<mt.deepnight.slb.HSpriteBE>=[];
+	
 	public function new( p ) {
 		me = this;
 		sb = new h2d.SpriteBatch(d.char.tile, p);
@@ -49,6 +55,15 @@ class Car {
 		fx = new h2d.SpriteBatch(d.char.tile, p);
 		fx.blendMode = Add;
 		lifeUi = new h2d.SpriteBatch(d.char.tile, p);
+		
+		for(i in 0...2){
+			var dirt = new mt.deepnight.slb.HSpriteBE( sb, d.char, "fxDirt");
+			dirt.setCenterRatio(0.2, 0.5);
+			dirt.a.playAndLoop("fxDirt");
+			dirt.a.setGeneralSpeed( 0.33 );
+			dirts.push(dirt);
+		}
+		
 		car = new mt.deepnight.slb.HSpriteBE( sb, d.char,"carPlay");
 		car.a.playAndLoop( "carStop" );
 		car.a.setGeneralSpeed( 0.33 );
@@ -73,6 +88,8 @@ class Car {
 		
 		gun = new mt.deepnight.slb.HSpriteBE( sb, d.char, "carGuns");
 		gun.a.playAndLoop("carGuns");
+		
+	
 	}
 	
 	var baseXProg = 150;
@@ -102,7 +119,15 @@ class Car {
 		
 		progCar.x = baseXProg + hxd.Math.clamp(g.progress, 0, 1) * 280.0;
 		
-		gun.setPos(car.x,car.y);
+		gun.setPos(car.x, car.y);
+		
+		var i = 0;
+		for(dirt in dirts){
+			dirt.x = car.x  - 24 + ((i == 0)?8:22);
+			dirt.y = car.y  + 42 + ((i == 0)?0:25);
+			dirt.visible = showDirt;
+			i++;
+		}
 	}
 	
 	function set_gunType(gt:GunType) {
@@ -134,7 +159,7 @@ class Car {
 			g.loose();
 			life = 0.0;
 		}
-		new mt.heaps.fx.Flash( sb, 0.075,0xff0072 );
+		//new mt.heaps.fx.Flash( sb, 0.075,0xff0072 );
 		isShaking = true;
 		var fx = new mt.heaps.fx.Shake( sb, 3, 3 );
 		fx.onFinish = function() isShaking = false;
@@ -152,7 +177,7 @@ class Car {
 			return;
 			
 		life += v;
-		new mt.heaps.fx.Flash( null,sb, 0.1 , 0x00ff72 );
+		//new mt.heaps.fx.Flash( null,sb, 0.1 , 0x00ff72 );
 		syncLife();
 	}
 	
