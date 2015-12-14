@@ -1,5 +1,6 @@
 import h3d.Matrix;
 import h2d.Tile;
+import mt.gx.Dice;
 import D;
 using T;
 
@@ -80,6 +81,8 @@ class G {
 		gameRoot.scaleX = 3;
 		gameRoot.scaleY = 3;
 		
+		gameRoot.overlay = h2d.Tile.fromAssets("assets/scanLines.png");
+		
 		scaledRoot.scaleX = scaledRoot.scaleY = 3;
 		
 		tempoTw = new mt.deepnight.Tweenie();
@@ -155,7 +158,7 @@ class G {
 		scoreText.text = "SCORE";
 		scoreText.x = 16;
 		scoreText.textColor = 0x0;
-		scoreText.dropShadow = { dx:1, dy:1, color:0x4A4A4A, alpha:1.0 };
+		scoreText.dropShadow = ds;
 		
 		scoreCounter = new h2d.Number( d.eightSmall, gameRoot );
 		scoreCounter.x = scoreText.x +scoreText.width + 4;
@@ -213,6 +216,8 @@ class G {
 		m.playLoop();
 		var launch = new h2d.Interactive( mt.Metrics.w(), mt.Metrics.h(), postScene);
 		function doStart(e) {
+			
+			D.sfx.UI_CLIC().play();
 			tw.create(gameRoot, "sat", 1.0, TZigZag, 400);
 			gameRoot.colorCorrection = false;
 			m.stop();
@@ -238,14 +243,15 @@ class G {
 		}
 	}
 	
+	var ds = { dx:2.0, dy:2.0, color:0xd804a2d, alpha:1.0 };
 	public inline function orange(txt:h2d.Text) {
 		txt.textColor = 0xff9358;
-		txt.dropShadow = { dx:2, dy:2, color:0xd804a2d, alpha:1.0 };
+		txt.dropShadow = ds;
 	}
 	
 	public inline function ivory(txt:h2d.Text) {
 		txt.textColor = 0xffe6b0;
-		txt.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+		txt.dropShadow = ds;
 	}
 	
 	var m = new Matrix();
@@ -276,7 +282,7 @@ class G {
 		credits.x = mt.Metrics.w() * 0.5 - credits.textWidth * 0.5;
 		credits.y = mt.Metrics.h()- credits.textHeight - 10;
 		credits.textColor = 0xFFff8330;
-		credits.dropShadow = { dx:2, dy:2, color:0xFF000000, alpha:1.0 };
+		credits.dropShadow = ds;
 	}
 	
 	public function initBg() {
@@ -358,6 +364,7 @@ class G {
 			b.x = C.W * 0.5;
 			b.y = 150;
 			b.setSize( C.W, 10 );
+			onSwooshIn();
 			tw.create(b, "y", 		85, 400);
 			tw.create(b, "height", 	110, 300);
 			
@@ -368,7 +375,7 @@ class G {
 			t.y = C.H * 0.2;
 			t.letterSpacing = -1;
 			t.textColor = 0xff9358;
-			t.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			t.dropShadow = ds;
 			
 			localRoot.x -= C.W;
 			tw.create(localRoot, "x", 0, TBurnOut,300);
@@ -379,7 +386,7 @@ class G {
 			n.y = C.H * 0.40 - n.textHeight * 0.5;
 			n.letterSpacing = -1;
 			n.textColor = 0xffe6b0;
-			n.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			n.dropShadow = ds;
 			
 			var t = new h2d.Text( d.eightMediumPlus,localRoot2 );
 			t.text = "POINTS";
@@ -387,7 +394,7 @@ class G {
 			t.y = C.H * 0.40 - t.textHeight * 0.5;
 			t.letterSpacing = -1;
 			t.textColor = 0xffe6b0;
-			t.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			t.dropShadow = ds;
 			
 			localRoot2.x -= C.W;
 			haxe.Timer.delay(function() tw.create(localRoot2, "x", 0, TBurnOut,300),100);
@@ -399,6 +406,7 @@ class G {
 				haxe.Timer.delay(function(){
 					var ttt = tw.create( localRoot2, "x", C.W * 1.5, TBurnOut, 300 );
 					ttt.onEnd = function() {
+						onSwooshOut();
 						var tttt = tw.create(b, "scaleY", 0, TBurnIn, 200);
 						tttt.onEnd = function(){
 							endScreen.dispose();
@@ -457,6 +465,7 @@ class G {
 			b.x = C.W * 0.5;
 			b.y = 150;
 			b.setSize( C.W, 10 );
+			onSwooshIn();
 			tw.create(b, "y", 		100, 400);
 			tw.create(b, "height", 	C.H * 1.5, 300);
 			
@@ -467,7 +476,7 @@ class G {
 			t.y = C.H * 0.2;
 			t.letterSpacing = -1;
 			t.textColor = 0xff9358;
-			t.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			t.dropShadow = ds;
 			
 			localRoot.x -= C.W;
 			tw.create(localRoot, "x", 0, TBurnOut, 300);
@@ -479,7 +488,7 @@ class G {
 			n.text = "SCORE "+score;
 			n.letterSpacing = -1;
 			n.textColor = 0xffe6b0;
-			n.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			n.dropShadow = ds;
 			n.x = C.W * 0.5 - n.textWidth*0.5;
 			
 			var n = new h2d.Text(d.eightSmall,localRoot2 );
@@ -487,7 +496,7 @@ class G {
 			n.text = "CLICK TO RESTART";
 			n.letterSpacing = -1;
 			n.textColor = 0xffe6b0;
-			n.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			n.dropShadow = ds;
 			n.x = C.W * 0.5 - n.textWidth*0.5;
 			
 			var n = new h2d.Text(d.eightSmall,localRoot2 );
@@ -496,14 +505,14 @@ class G {
 			n.text = "F1 / F2 / F3 / F4 to jump to level";
 			n.letterSpacing = -1;
 			n.textColor = 0xffe6b0;
-			n.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			n.dropShadow = ds;
 			n.x = C.W * 0.5 - n.textWidth * 0.5;
 			
 			var n = new h2d.Text(d.eightSmall,localRoot2 );
-			n.text = "THANKS FOR PLAYING !!!\nIF YOU LIKED DOUBLE TAP HEROES SEND US YOUR LOVE ON \nTWITTER: blackmagic & gyhyom & elmobo";
+			n.text = "THANKS FOR PLAYING !!!\nIF YOU LIKED DOUBLE KICK HEROES SEND US YOUR LOVE ON \nTWITTER: blackmagic & gyhyom & elmobo";
 			n.letterSpacing = -1;
 			n.textColor = 0x88BDFF;
-			n.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			n.dropShadow = ds;
 			
 			n.x = 30;
 			n.y = C.H * 0.7;
@@ -526,6 +535,7 @@ class G {
 				haxe.Timer.delay(function(){
 					var ttt = tw.create( localRoot2, "x", C.W * 1.5, TBurnOut, 300 );
 					ttt.onEnd = function() {
+						onSwooshOut();
 						var tttt = tw.create(b, "scaleY", 0, TBurnIn, 200);
 						tttt.onEnd = f;
 					}
@@ -580,6 +590,7 @@ class G {
 		b.x = C.W * 0.5;
 		b.y = 150;
 		b.setSize( C.W, 10 );
+		onSwooshIn();
 		tw.create(b, "y", 		85, 400);
 		tw.create(b, "height", 	110, 300);
 		
@@ -590,7 +601,7 @@ class G {
 		t.y = C.H * 0.2;
 		t.letterSpacing = -1;
 		t.textColor = 0xff9358;
-		t.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+		t.dropShadow = ds;
 		
 		localRoot.x -= C.W;
 		tw.create(localRoot, "x", 0, TBurnOut,300);
@@ -608,7 +619,7 @@ class G {
 		t.y = C.H * 0.40 - t.textHeight * 0.5;
 		t.letterSpacing = -1;
 		t.textColor = 0xffe6b0;
-		t.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+		t.dropShadow = ds;
 		
 		localRoot2.x -= C.W;
 		haxe.Timer.delay(function() tw.create(localRoot2, "x", 0, TBurnOut,300),100);
@@ -617,6 +628,7 @@ class G {
 			haxe.Timer.delay(function(){
 				var ttt = tw.create( localRoot2, "x", C.W * 1.5, TBurnOut, 300 );
 				ttt.onEnd = function() {
+					onSwooshOut();
 					var tttt = tw.create(b, "scaleY", 0, TBurnIn, 200);
 				}
 			},100);
@@ -784,7 +796,10 @@ class G {
 			if ( m.time != 0 && Std.is( m.message, com.newgonzo.midi.file.messages.EndTrackMessage) ) {
 				var mm : com.newgonzo.midi.file.messages.EndTrackMessage = cast m.message;
 				if ( mm.type == cast com.newgonzo.midi.file.messages.MetaEventMessageType.END_OF_TRACK) {
-					haxe.Timer.delay( end, 6000 );
+					haxe.Timer.delay( function() {
+						if ( car.life > 0)
+							end();
+					}, 6000 );
 				}
 			}
 		}
@@ -924,6 +939,7 @@ class G {
 		}
 		*/
 		
+		#if debug
 		if ( mt.flash.Key.isToggled(hxd.Key.NUMBER_0)) 	partition.onMultiplier( 3 );
 		if ( mt.flash.Key.isToggled(hxd.Key.NUMBER_1)) 	partition.onMultiplier( 4 );
 		if ( mt.flash.Key.isToggled(hxd.Key.NUMBER_2)) 	partition.onMultiplier( 5 );
@@ -931,15 +947,10 @@ class G {
 		if ( mt.flash.Key.isToggled(hxd.Key.NUMBER_4)) 	partition.onMultiplier( 8 );
 		if ( mt.flash.Key.isToggled(hxd.Key.NUMBER_5)) 	partition.onMultiplier( 10);
 		
-		#if debug
-		if ( mt.flash.Key.isToggled(hxd.Key.C)) 	car.gunType = GTCanon;
-		if ( mt.flash.Key.isToggled(hxd.Key.G)) 	car.gunType = GTGun;
-		if ( mt.flash.Key.isToggled(hxd.Key.S)) 	car.gunType = GTShotgun;
+		if ( mt.flash.Key.isToggled(hxd.Key.C)) 	{ car.gunType = GTCanon; car.forceGun = true;}
+		if ( mt.flash.Key.isToggled(hxd.Key.G)) 	{ car.gunType = GTGun; car.forceGun = true;}
+		if ( mt.flash.Key.isToggled(hxd.Key.S)) 	{ car.gunType = GTShotgun; car.forceGun = true; }
 		
-		if ( mt.flash.Key.isToggled(hxd.Key.M)) {
-			streak = 50;
-			multiplier = 50;
-		}
 		
 		if ( mt.flash.Key.isToggled(hxd.Key.V)) {
 			end();
@@ -953,6 +964,10 @@ class G {
 			endGame();
 		}
 		#end
+		
+		if ( mt.flash.Key.isToggled(hxd.Key.ESCAPE) && !car.invincible) {
+			restart(curLevel);
+		}
 		
 		if (  (	mt.flash.Key.isDown(hxd.Key.LEFT)
 		||		mt.flash.Key.isDown(hxd.Key.Q)
@@ -988,6 +1003,7 @@ class G {
 		b.x = C.W * 0.5;
 		b.y = 150;
 		b.setSize( C.W, 10 );
+		onSwooshIn();
 		tw.create(b, "y", 		100, 400);
 		var o = tw.create(b, "height", 	130, 300);
 		
@@ -1029,10 +1045,29 @@ class G {
 		};
 	}
 	
+	function onSwooshIn() {
+		d.sfxPreload.get("SWOOSH_IN").play();
+	}
+	function onSwooshOut() {
+		d.sfxPreload.get("SWOOSH_OUT").play();
+	}
+	
+	public function fxExplosion(x,y) {
+		var fx = new mt.deepnight.slb.HSpriteBE( car.sb, d.char, "fxExplosion");
+		fx.setCenterRatio();
+		fx.a.play("fxExplosion");
+		fx.a.killAfterPlay();
+		fx.a.setCurrentAnimSpeed( 0.33 );
+		fx.x = x + Dice.rollF( -10,10);
+		fx.y = y + Dice.rollF( -10,10);
+		d.sfxPreload.get("EXPLOSION").play(0.33);
+		fx.scale( Dice.rollF( 0.4, 0.6));
+	}
 	
 	var isLoosing = false;
 	public function loose() {
 		
+		onSwooshIn();
 		car.invincible = true;
 		//zombies.setLevel(0);
 		//updateZombies();
@@ -1044,7 +1079,19 @@ class G {
 		
 		zombies.speed = -2;
 		
-		var o = tw.create( car,"bx", - C.W, 1200 );
+		var o = tw.create( car, "bx", - C.W, 1200 );
+		o.onUpdate = function() {
+			if ( Dice.percent(50) ) {
+				var fx = new mt.deepnight.slb.HSpriteBE( car.sb, d.char, "fxExplosion");
+				fx.setCenterRatio(0.5,0.5);
+				fx.a.play("fxExplosion");
+				fx.a.killAfterPlay();
+				fx.a.setCurrentAnimSpeed( 0.33 );
+				fx.x = car.cacheBounds.randomX() + Dice.rollF( -5,5);
+				fx.y = car.cacheBounds.randomY()+ Dice.rollF( -5,5);
+				d.sfxPreload.get("EXPLOSION").play();
+			}
+		}
 		o.onEnd = function() {
 			updateZombies = false;
 		}
@@ -1054,12 +1101,15 @@ class G {
 		},400);
 		
 		haxe.Timer.delay( function() {
+			
+			onSwooshIn();
 			var goScreen = new h2d.Sprite(gameRoot);
 			
 			var b = new h2d.Bitmap( h2d.Tile.fromColor( 0xcd000000 ).centerRatio(0.5, 0.5), goScreen );
 			b.x = C.W * 0.5;
 			b.y = 150;
 			b.setSize( C.W, 10 );
+			onSwooshIn();
 			tw.create(b, "y", 		100, 400);
 			tw.create(b, "height", 	130, 300);
 			
@@ -1070,7 +1120,7 @@ class G {
 			t.y = C.H * 0.2;
 			t.letterSpacing = -1;
 			t.textColor = 0xff9358;
-			t.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			t.dropShadow = ds;
 			
 			localRoot.x -= C.W;
 			tw.create(localRoot, "x", 0, TBurnOut, 300);
@@ -1082,7 +1132,7 @@ class G {
 			n.text = "SCORE "+score;
 			n.letterSpacing = -1;
 			n.textColor = 0xffe6b0;
-			n.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			n.dropShadow = ds;
 			n.x = C.W * 0.5 - n.textWidth*0.5;
 			
 			var n = new h2d.Text(d.eightSmall,localRoot2 );
@@ -1090,7 +1140,7 @@ class G {
 			n.text = "CLICK TO RESTART";
 			n.letterSpacing = -1;
 			n.textColor = 0xffe6b0;
-			n.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			n.dropShadow = ds;
 			n.x = C.W * 0.5 - n.textWidth*0.5;
 			
 			var n = new h2d.Text(d.eightSmall,localRoot2 );
@@ -1099,7 +1149,7 @@ class G {
 			n.text = "F1 / F2 / F3 / F4 to jump to level";
 			n.letterSpacing = -1;
 			n.textColor = 0xffe6b0;
-			n.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			n.dropShadow = ds;
 			n.x = C.W * 0.5 - n.textWidth*0.5;
 			
 			var goMask = new h2d.Interactive( mt.Metrics.w(), mt.Metrics.h(), postScene);
@@ -1116,6 +1166,7 @@ class G {
 				haxe.Timer.delay(function(){
 					var ttt = tw.create( localRoot2, "x", C.W * 1.5, TBurnOut, 300 );
 					ttt.onEnd = function() {
+						onSwooshOut();
 						var tttt = tw.create(b, "scaleY", 0, TBurnIn, 200);
 						tttt.onEnd = function(){
 							f();

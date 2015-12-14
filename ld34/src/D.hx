@@ -37,7 +37,8 @@ class D {
 	public static var sfx = mt.flash.Sfx.importDirectory("assets/snd/SFX");
 	public static var music = mt.flash.Sfx.importDirectory("assets/snd/music");
 	
-	public var sfxPreload=new Map();
+	public var sfxPreload : haxe.ds.UnsafeStringMap<mt.flash.Sfx> = new haxe.ds.UnsafeStringMap();
+	public var musicPreload : haxe.ds.UnsafeStringMap<mt.flash.Sfx> = new haxe.ds.UnsafeStringMap();
 	
 	public var eightVerySmall : h2d.Font;
 	public var eightSmall : h2d.Font;
@@ -68,10 +69,9 @@ class D {
 		
 		initMidi();
 		
-		for ( sname in Reflect.fields(sfx) ) {
-			//sfxPreload.set(s.);
-			sfxPreload.set( sname, Reflect.field( sfx, sname )() );
-		}
+		//TODO optimize
+		for ( sname in Reflect.fields(sfx) ) sfxPreload.set( sname, Reflect.field( sfx, sname )() );
+		for ( sname in Reflect.fields(music) ) musicPreload.set( sname, Reflect.field( music, sname )() );
 	}
 	
 	public function stopAllMusic() {
@@ -83,10 +83,6 @@ class D {
 		var decoder:MIDIDecoder = new MIDIDecoder();
 		
 		inline function l(str) return decoder.decodeFile(openfl.Assets.getBytes(str));
-		sfxKick00 = sfx.KICK00();
-		sfxKick11 = sfx.KICK11();
-		sfxKick12 = sfx.KICK12();
-		sfxKick13 = sfx.KICK13();
 		
 		function parseMidi(str,bpm,sig) :MidiStruct {
 			var midi = l(str);
@@ -127,11 +123,6 @@ class D {
 	public var music2:mt.flash.Sfx;
 	public var music3:mt.flash.Sfx;
 	public var music4:mt.flash.Sfx;
-	
-	public var sfxKick00:mt.flash.Sfx;
-	public var sfxKick11:mt.flash.Sfx;
-	public var sfxKick12:mt.flash.Sfx;
-	public var sfxKick13:mt.flash.Sfx;
 	
 	public function sndPrepareMusic1() 	if ( music1 == null ) music1 = music.MUSIC1();
 	public function sndPrepareMusic2() 	if ( music2 == null ) music2 = music.MUSIC2();

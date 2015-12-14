@@ -49,6 +49,10 @@ class Car {
 	public var showDirt : Bool = true;
 	public var dirts : Array<mt.deepnight.slb.HSpriteBE> = [];
 	
+	#if debug
+	public var forceGun = false;
+	#end
+	
 	public var invincible = true;
 	
 	public var visible = true;
@@ -92,7 +96,6 @@ class Car {
 		progCar.y = 10;
 		
 		gun = new mt.deepnight.slb.HSpriteBE( sb, d.char, "carGuns");
-		gun.a.playAndLoop("carGuns");
 	}
 	
 	var baseXProg = 150;
@@ -145,6 +148,7 @@ class Car {
 			case GTShotgun: gun.a.playAndLoop("carShotgun");	g.partition.curWeapon.text = "SHOTGUN";
 		}
 		gunType = gt;
+		d.sfxPreload.get("CHANGE_GUN").play();
 		return gt;
 	}
 	
@@ -169,14 +173,20 @@ class Car {
 		sfx.onFinish = function() isShaking = false;
 		
 		for( i in 0...3){
-			var fx = new mt.deepnight.slb.HSpriteBE( fx, d.char, "fxExplosion");
+			var fx = new mt.deepnight.slb.HSpriteBE( sb, d.char, "fxExplosion");
+			fx.setCenterRatio();
 			fx.a.play("fxExplosion");
-			fx.setCenterRatio(0.5,1.0);
 			fx.a.killAfterPlay();
 			fx.a.setCurrentAnimSpeed( 0.33 );
-			fx.x = z.x;
-			fx.y = z.y;
-			fx.alpha = 0.7;
+			if( Dice.percent( 33 )){
+				fx.x = z.x + Dice.rollF( -5,5);
+				fx.y = z.y + Dice.rollF( -5, 5);
+			}
+			else {
+				fx.x = cacheBounds.randomX() + Dice.rollF( -5,5);
+				fx.y = cacheBounds.randomY()+ Dice.rollF( -5,5);
+			}
+			d.sfxPreload.get("EXPLOSION").play();
 		}
 		
 		syncLife();
@@ -217,15 +227,16 @@ class Car {
 	
 	//var kickMiss;
 	
+	/*
 	inline function kickShoot1() :mt.flash.Sfx{
 		return 
 		switch(Std.random(3)) {
 			default:null;
-			case 0:d.sfxKick11.play();
-			case 1:d.sfxKick12.play();
-			case 2:d.sfxKick13.play();
+			case 0:d.sfxPreload.get("GUN1").play();
+			case 1:d.sfxPreload.get("GUN2").play();
+			case 2:d.sfxPreload.get("GUN3").play();
 		}
-	}
+	}*/
 	
 	inline function setupBullet(e:h2d.SpriteBatch.BatchElement, p:PartBE) {
 		p.sample = 1;
@@ -234,13 +245,15 @@ class Car {
 			case GTCanon:
 				e.scaleY+=2;
 				e.scaleX -= 0.025;
+				e.setColor( 0xC83214, 2.0 );
 			case GTShotgun:
-				e.scaleY *= 0.25;
+				e.scaleY *= 0.5;
 				e.scaleX *= 0.33;
-				e.x -= Dice.rollF( 0, 20);
+				e.x -= Dice.rollF( 0, 15);
 				e.y += Dice.rollF( -10, 10);
+				e.setColor( 0x1E28C8, 2.0 );
 		}
-		p.data =  1;
+		p.data = 1;
 		switch(gunType) {
 				default: 		
 				case GTCanon:	
@@ -258,13 +271,24 @@ class Car {
 		});
 	}
 	
+	public inline function sndShoot() {
+		switch( gunType) {
+			default:
+			case GTGun: 	d.sfxPreload.get("GUN1").play();
+			case GTShotgun: d.sfxPreload.get("GUN2").play();
+			case GTCanon: 	d.sfxPreload.get("GUN3").play();
+		}
+	}
+	
 	public function shootRight() {
-		
-		kickShoot1().play();
+		sndShoot();
 		
 		var nb = 1;
-		if ( gunType == GTShotgun)
+		var sp = 15;
+		if ( gunType == GTShotgun){
 			nb += Dice.roll(1, 3);
+			sp = 10;
+		}
 		for ( i in 0...nb ) {
 			var y = cacheBounds.y + 7;
 			var e = fx.alloc( d.char.getTile("fxBullet").centerRatio(0,0.5) );
@@ -273,10 +297,12 @@ class Car {
 			e.scaleX = 0.25;
 			p.x = cacheBounds.x - 60;
 			p.y = y;
-			p.add( p.moveTo( -100, y, 20) );
+			p.add( p.moveTo( -100, y, sp) );
 			setupBullet(e, p );
+			
+			//if ( gunType == GTShotgun) e.color.setColor(0xAACDFF,1.5);
 		}
-		light.alpha = 1.2;
+		light.alpha = 1.4;
 		var f = fireLeft;
 		f.x = cacheBounds.x - 60 - f.width * 0.5 ;
 		f.y = cacheBounds.y + 7 - f.height * 0.5 + 3;
@@ -284,10 +310,14 @@ class Car {
 	}
 	
 	public function shootLeft() {
-		kickShoot1().play();
+		sndShoot();
+		
 		var nb = 1;
-		if ( gunType == GTShotgun)
+		var sp = 15;
+		if ( gunType == GTShotgun){
 			nb += Dice.roll(1, 2);
+			sp = 10;
+		}
 			
 		for( i in 0...nb ) {
 			var y = cacheBounds.y + 30;
@@ -297,11 +327,13 @@ class Car {
 			e.scaleX = 0.25;
 			p.x = cacheBounds.x - 50;
 			p.y = y;
-			p.add( p.moveTo( -100, y, 20) );
+			p.add( p.moveTo( -100, y, sp) );
 			setupBullet(e, p );
+			
+			//if ( gunType == GTShotgun) e.color.setColor(0xAACDFF,1.5);
 		}
 		
-		light.alpha = 1.2;
+		light.alpha = 1.4;
 		var f = fireLeft;
 		f.x = cacheBounds.x - 50 - f.width * 0.5 ;
 		f.y = cacheBounds.y + 30 - f.height * 0.5 + 3;

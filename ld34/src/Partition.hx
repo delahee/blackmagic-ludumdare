@@ -305,6 +305,7 @@ class Partition {
 		var ofsY = -10;
 		if ( sp.x < low) {
 			g.onMiss();
+			d.sfxPreload.get("GUN00").play();
 			return false;
 		}
 		
@@ -357,6 +358,10 @@ class Partition {
 	}
 	
 	public function syncGun() {
+		#if debug
+		if ( Car.me.forceGun) return;
+		#end
+		
 		if ( g.multiplier >= limit2 ) {
 			Car.me.gunType = GunType.GTCanon;
 		}
@@ -397,17 +402,18 @@ class Partition {
 		}
 		
 		if ( imgName == null) return;
-		haxe.Timer.delay( d.sfxPreload.get(sndName).play, 1);
+		haxe.Timer.delay( function() d.sfxPreload.get(sndName).play(), 1);
 		haxe.Timer.delay( function() {
 			var be = new mt.deepnight.slb.HSpriteBE( grid, d.char, imgName );
-			be.setCenterRatio();
-			be.x = C.W - 150;
+			be.setCenterRatio(1,0.5);
+			be.x = C.W - 10;
 			be.y = C.H * 0.75;
 			haxe.Timer.delay(function(){
-				App.me.tweenie.create( be, "x", C.W - 80, TBurnIn, 250); 
-				var o = App.me.tweenie.create( be, "alpha", 0.3, TBurnIn, 250); 
-				o.onEnd = be.dispose;
-			},100);
+				App.me.tweenie.create( be, "y", C.H * 0.65, TBurnIn, 300); 
+				var o = App.me.tweenie.create( be, "alpha", 0.3, TBurnIn, 300); 
+				//o.onEnd = be.dispose;
+				haxe.Timer.delay( be.dispose, 250 );
+			},160);
 		}, 20);
 	}
 	

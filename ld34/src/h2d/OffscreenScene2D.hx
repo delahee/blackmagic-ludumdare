@@ -23,7 +23,7 @@ class OffscreenScene2D extends h2d.Scene {
 	
 	var colorMatrix : h3d.Matrix = new h3d.Matrix();
 	public var colorCorrection = true;
-	
+	public var overlay : h2d.Tile;
 	public function new(w,h) {
 		super();
 		wantedWith = w;
@@ -67,6 +67,11 @@ class OffscreenScene2D extends h2d.Scene {
 			else {
 				if ( targetDisplay.colorMatrix != null)
 					targetDisplay.colorMatrix = null;
+			}
+			
+			if ( overlay != null){
+				targetDisplay.alphaMap = overlay;
+				targetDisplay.alphaMapAsOverlay = true;
 			}
 			s2d.render( engine );
 		}

@@ -94,20 +94,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 				
 				
 	public function onHit() {
-		var s : mt.flash.Sfx = (switch( Std.random(11) ) {
-			default: D.sfx.IMPACT1();
-			case 1: D.sfx.IMPACT2();
-			case 2: D.sfx.IMPACT3();
-			case 3: D.sfx.IMPACT4();
-			case 4: D.sfx.IMPACT4();
-			case 5: D.sfx.IMPACT5();
-			case 6: D.sfx.IMPACT6();
-			case 7: D.sfx.IMPACT7();
-			case 8: D.sfx.IMPACT8();
-			case 9: D.sfx.IMPACT9();
-			case 10: D.sfx.IMPACT10();
-		});
-		s.play(0.333);
+		var s : mt.flash.Sfx = d.sfxPreload.get("IMPACT" + Dice.roll(1, 10)).play(0.66);
 		
 		for ( i in 0...Dice.roll( 8 , 16 ) * 4) {
 			var e = new mt.deepnight.HParticle(man.tilePixel);
@@ -262,7 +249,10 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 							case GTNone:throw "acer";
 							case GTGun:10;
 							case GTShotgun:8;
-							case GTCanon:15;
+							case GTCanon: {
+								g.fxExplosion( bulletPosX, bulletPosY);
+								18;
+							}
 						}
 						hit( dmg );
 						dz.srcPart.data--;
@@ -303,6 +293,10 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 				if ( g.progress > 0.75 && !rushingZombie )
 					rushingZombie = true;
 		}
+		
+		if ( ! isDead() && type == Boss ) 
+			if ( Dice.percentF( 2 ))
+				d.sfxPreload.get("BOSS" + Dice.roll(1, 6)).play();
 		
 		switch( state ) {
 			case Dead:
@@ -501,9 +495,9 @@ class Zombies {
 							spawnZombieBase("E");
 							nbBoss++;
 						}
-						if ( mt.gx.Dice.percentF(rand,3.5)) spawnZombieBase();
-						else if ( mt.gx.Dice.percentF(rand,2.5)) spawnZombiePackHigh();
-						else if ( mt.gx.Dice.percentF(rand,2.5)) spawnZombiePackLow();
+						if ( mt.gx.Dice.percentF(rand,3)) spawnZombieBase();
+						else if ( mt.gx.Dice.percentF(rand,2)) spawnZombiePackHigh();
+						else if ( mt.gx.Dice.percentF(rand,2)) spawnZombiePackLow();
 					}
 					
 				case 4:
