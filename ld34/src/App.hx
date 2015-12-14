@@ -16,18 +16,36 @@ class App extends flash.display.Sprite {
 	function new() {
 		super();
 		
+		mt.deepnight.Lib.redirectTracesToConsole();
+		
 		fxMan = new mt.fx.Manager();
 		me = this;
 		engine = new h3d.Engine();
 		engine.onReady = init;
-		engine.backgroundColor = 0xFF000000;
+		engine.backgroundColor = 0xFFffffff;
+		
+		trace("init " + mt.Metrics.w() + " x " + mt.Metrics.h());
+		
 		engine.init();
+		
+		flash.Lib.current.stage.addEventListener( flash.events.Event.RESIZE, _onResize );
 	}
 	
+	function _onResize(_) {
+		trace("resized "+mt.Metrics.w()+" x "+mt.Metrics.h());
+	}
+	/*
+	function resize() {
+		trace("resized");
+	}
+	*/
+	
 	function init() {
-		trace("GO");
+		var gs = 3;
+		if ( mt.Metrics.h() < 1500)
+			gs = 2;
 		d = new D();
-		g = new G();
+		g = new G(gs);
 		g.init();
 		tweenie = new mt.deepnight.Tweenie();
 		tweenie.fps = C.FPS;
