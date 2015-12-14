@@ -370,11 +370,45 @@ class Partition {
 	public function onOk() {
 		g.streak++;
 		//trace(g.streak);
+		
+		var oldm = g.multiplier;
 		var m = 1 + Math.log( g.streak ) / Math.log( 1.75 );
 		//trace(m);
 		g.multiplier = Std.int(m);
 		if ( g.multiplier > maxMultiplier())
 			g.multiplier = maxMultiplier();
+			
+		if ( oldm != g.multiplier ) 
+			onMultiplier(g.multiplier);
+		
+	}
+	
+	public function onMultiplier(n) {
+		var imgName:String=null;
+		var sndName:String=null; 
+		switch( n ) {
+			default:
+			case 3:		imgName="comboA"; sndName="ANNOUNCE_NICE";
+			case 4:		imgName="comboB"; sndName="ANNOUNCE_AWESOME";
+			case 5:		imgName="comboC"; sndName="ANNOUNCE_MARVELOUS";
+			case 6:		imgName="comboD"; sndName="ANNOUNCE_EXCELLENT";
+			case 8:		imgName="comboE"; sndName="ANNOUNCE_GRINDHOUSE";
+			case 10: 	imgName="comboF"; sndName="ANNOUNCE_KILLINGSPREE";
+		}
+		
+		if ( imgName == null) return;
+		haxe.Timer.delay( d.sfxPreload.get(sndName).play, 1);
+		haxe.Timer.delay( function() {
+			var be = new mt.deepnight.slb.HSpriteBE( grid, d.char, imgName );
+			be.setCenterRatio();
+			be.x = C.W - 150;
+			be.y = C.H * 0.75;
+			haxe.Timer.delay(function(){
+				App.me.tweenie.create( be, "x", C.W - 80, TBurnIn, 250); 
+				var o = App.me.tweenie.create( be, "alpha", 0.3, TBurnIn, 250); 
+				o.onEnd = be.dispose;
+			},100);
+		}, 20);
 	}
 	
 	public function update() {

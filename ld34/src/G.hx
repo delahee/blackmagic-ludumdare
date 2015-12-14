@@ -923,6 +923,14 @@ class G {
 			car.tryShootRight();
 		}
 		*/
+		
+		if ( mt.flash.Key.isToggled(hxd.Key.NUMBER_0)) 	partition.onMultiplier( 3 );
+		if ( mt.flash.Key.isToggled(hxd.Key.NUMBER_1)) 	partition.onMultiplier( 4 );
+		if ( mt.flash.Key.isToggled(hxd.Key.NUMBER_2)) 	partition.onMultiplier( 5 );
+		if ( mt.flash.Key.isToggled(hxd.Key.NUMBER_3)) 	partition.onMultiplier( 6 );
+		if ( mt.flash.Key.isToggled(hxd.Key.NUMBER_4)) 	partition.onMultiplier( 8 );
+		if ( mt.flash.Key.isToggled(hxd.Key.NUMBER_5)) 	partition.onMultiplier( 10);
+		
 		#if debug
 		if ( mt.flash.Key.isToggled(hxd.Key.C)) 	car.gunType = GTCanon;
 		if ( mt.flash.Key.isToggled(hxd.Key.G)) 	car.gunType = GTGun;

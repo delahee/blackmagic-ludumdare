@@ -37,6 +37,8 @@ class D {
 	public static var sfx = mt.flash.Sfx.importDirectory("assets/snd/SFX");
 	public static var music = mt.flash.Sfx.importDirectory("assets/snd/music");
 	
+	public var sfxPreload=new Map();
+	
 	public var eightVerySmall : h2d.Font;
 	public var eightSmall : h2d.Font;
 	public var eightMedium : h2d.Font;
@@ -65,6 +67,11 @@ class D {
 		arial = hxd.res.FontBuilder.getFont("arial", 14);
 		
 		initMidi();
+		
+		for ( sname in Reflect.fields(sfx) ) {
+			//sfxPreload.set(s.);
+			sfxPreload.set( sname, Reflect.field( sfx, sname )() );
+		}
 	}
 	
 	public function stopAllMusic() {

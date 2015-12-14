@@ -492,18 +492,18 @@ class Zombies {
 						else if ( mt.gx.Dice.percentF(rand,1.5)) spawnZombiePackLow();
 					}
 					else if( g.progress < 0.6 ){
-						if ( mt.gx.Dice.percentF(rand,4)) spawnZombieBase();
-						else if ( mt.gx.Dice.percentF(rand,2.5)) spawnZombiePackHigh();
-						else if ( mt.gx.Dice.percentF(rand,2.5)) spawnZombiePackLow();
+						if ( mt.gx.Dice.percentF(rand,3)) spawnZombieBase();
+						else if ( mt.gx.Dice.percentF(rand,2.25)) spawnZombiePackHigh();
+						else if ( mt.gx.Dice.percentF(rand,2.25)) spawnZombiePackLow();
 					}
 					else {
 						if ( nbBoss == 0) {
 							spawnZombieBase("E");
 							nbBoss++;
 						}
-						if ( mt.gx.Dice.percentF(rand,4.5)) spawnZombieBase();
-						else if ( mt.gx.Dice.percentF(rand,3)) spawnZombiePackHigh();
-						else if ( mt.gx.Dice.percentF(rand,3)) spawnZombiePackLow();
+						if ( mt.gx.Dice.percentF(rand,3.5)) spawnZombieBase();
+						else if ( mt.gx.Dice.percentF(rand,2.5)) spawnZombiePackHigh();
+						else if ( mt.gx.Dice.percentF(rand,2.5)) spawnZombiePackLow();
 					}
 					
 				case 4:
