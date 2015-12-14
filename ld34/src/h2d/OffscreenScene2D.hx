@@ -15,6 +15,15 @@ class OffscreenScene2D extends h2d.Scene {
 	
 	static var uid = 0;
 	var id = 0;
+	
+	public var hue : Float = 0.0;
+	public var sat : Float = 1.0;
+	public var brightness : Float = 0.0;
+	public var contrast : Float = 0.0;
+	
+	var colorMatrix : h3d.Matrix = new h3d.Matrix();
+	public var colorCorrection = true;
+	
 	public function new(w,h) {
 		super();
 		wantedWith = w;
@@ -32,6 +41,12 @@ class OffscreenScene2D extends h2d.Scene {
 	}
 	
 	public override function render(engine:h3d.Engine) {
+		colorMatrix.identity();
+		colorMatrix.colorSaturation( sat );
+		colorMatrix.colorHue( hue );
+		colorMatrix.colorBrightness( brightness );
+		colorMatrix.colorContrast( contrast );
+		
 		if ( s2d == null ) {
 			s2d = new h2d.Scene();
 			s2d.name="Os2D.s2d #"+id;
@@ -47,6 +62,12 @@ class OffscreenScene2D extends h2d.Scene {
 			if ( targetDisplay == null ) 
 				targetDisplay = new h2d.Bitmap(targetTile, s2d);
 			
+			if( colorCorrection)
+				targetDisplay.colorMatrix = colorMatrix
+			else {
+				if ( targetDisplay.colorMatrix != null)
+					targetDisplay.colorMatrix = null;
+			}
 			s2d.render( engine );
 		}
 		else 

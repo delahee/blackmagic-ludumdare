@@ -131,10 +131,16 @@ class D {
 	public function sndPrepareMusic3() 	if ( music3 == null ) music3 = music.MUSIC3();
 	public function sndPrepareMusic4() 	if ( music4 == null ) music4 = music.MUSIC4();
 	
-	public function sndPlayMusic1()  	music1.play().tweenVolume(1.0, 100);
-	public function sndPlayMusic2()		music2.play().tweenVolume(1.0, 100);
-	public function sndPlayMusic3()		music3.play().tweenVolume(1.0, 100);
-	public function sndPlayMusic4()		music4.play().tweenVolume(1.0, 100);
+	public function sndPrepareJingleStart() 	if ( jingleStart == null ) jingleStart = sfx.JINGLE_START();
+	
+	public function sndPlayMusic1()  		music1.play().tweenVolume(1.0, 100);
+	public function sndPlayMusic2()			music2.play().tweenVolume(1.0, 100);
+	public function sndPlayMusic3()			music3.play().tweenVolume(1.0, 100);
+	public function sndPlayMusic4()			music4.play().tweenVolume(1.0, 100);
+	
+	public function sndPlayJingleStart()	jingleStart.play().tweenVolume(1.0, 100);
+	
+	public var jingleStart:mt.flash.Sfx;
 	
 	//in midi frames
 	//start and end are inclusive

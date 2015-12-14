@@ -9,6 +9,7 @@ class G {
 	public var preScene : h2d.Scene = new h2d.Scene();
 	public var postScene : h2d.Scene = new h2d.Scene();
 	public var gameRoot : h2d.OffscreenScene2D;
+	public var scaledRoot : h2d.Scene = new h2d.Scene();
 	public var stopped = false;
 	
 	var d(get, null) : D; function get_d() return App.me.d;
@@ -62,9 +63,11 @@ class G {
 	public var multiplier : Int = 1;
 	public var curLevel = 1;
 	
-	public var progressCounter:h2d.Number;
+	//public var progressCounter:h2d.Number;
 	public var scoreText : h2d.Text;
 	public var scoreCounter:h2d.Number;
+	
+	public var uiVisible = true;
 	
 	public function new()  {
 		me = this;
@@ -75,6 +78,8 @@ class G {
 		gameRoot = new h2d.OffscreenScene2D(590*3, 250*3);
 		gameRoot.scaleX = 3;
 		gameRoot.scaleY = 3;
+		
+		scaledRoot.scaleX = scaledRoot.scaleY = 3;
 	}
 	
 	public inline function bps() return curMidi.bpm / 60;
@@ -83,6 +88,7 @@ class G {
 	public function init() {
 		masterScene.addPass( preScene, true );
 		masterScene.addPass( gameRoot );
+		masterScene.addPass( scaledRoot );
 		masterScene.addPass( postScene );	
 		//mt.gx.h2d.Proto.rect( 0, 0, 50, 50, 0xffff00, 1.0, gameRoot);
 		//mt.gx.h2d.Proto.rect( 0, 100, 50, 50, 0xff0055, 1.0, postScene);
@@ -95,7 +101,9 @@ class G {
 		d.sndPrepareMusic1();
 		d.sndPrepareMusic2();
 		d.sndPrepareMusic3();
+		
 		d.sndPrepareMusic4();
+		d.sndPrepareJingleStart();
 		
 		curMidi = d.music1Desc;
 		
@@ -131,13 +139,13 @@ class G {
 		
 		for ( b in bs ) b.y += 150;
 		
-		haxe.Timer.delay( function() restart(curLevel) , 500 );
 		
+		/*
 		var pc = progressCounter = new h2d.Number(d.eightSmall,gameRoot);
 		pc.x = C.W - 50;
 		pc.y = 50;
 		pc.trailingPercent = true;
-		
+		*/
 		scoreText = new h2d.Text( d.eightSmall, gameRoot);
 		scoreText.text = "SCORE";
 		scoreText.x = 16;
@@ -150,7 +158,54 @@ class G {
 		scoreCounter.nb = 0;
 		ivory( scoreCounter );
 		
+		//haxe.Timer.delay( function() restart(curLevel) , 500 );
+		
+		partition.visible = false;
+		car.visible = false;
+		uiVisible = false;
+		
+		haxe.Timer.delay(
+			introMenu,100
+		);
+		
 		return this;
+	}
+	
+	function introMenu() {
+		var sp = new h2d.Bitmap( d.char.getTile("logo").centerRatio(), scaledRoot );
+		sp.x = C.W * 0.5;
+		sp.y = C.H * 0.35;
+		
+		sp.toFront();
+		
+		var localRoot = new h2d.Sprite( scaledRoot );
+		var t = new h2d.Text( d.eightSmall,localRoot );
+		t.text = "CLICK TO CONTINUE";
+		t.letterSpacing = -1;
+		t.x = C.W * 0.5 - t.textWidth * 0.5;
+		t.y = C.H * 0.6;
+		t.textColor = 0xff9358;
+		ivory(t);
+		var ty = t.y;
+		t.y = C.H * 1.5;
+		tw.create( t, "y", ty, TEaseOut, 1000);
+		
+		var m = D.music.MUSIC_INTRO();
+		m.playLoop();
+		var launch = new h2d.Interactive( mt.Metrics.w(), mt.Metrics.h(), postScene);
+		function doStart(e) {
+			m.stop();
+			sp.dispose();
+			launch.dispose();
+			localRoot.dispose();
+			
+			partition.visible = true;
+			car.visible = true;
+			uiVisible = true;
+			
+			level1();
+		}
+		launch.onClick = doStart;
 	}
 	
 	public inline function orange(txt:h2d.Text) {
@@ -179,8 +234,10 @@ class G {
 		engine.render(masterScene);
 		engine.restoreOpenfl();
 		
-		progressCounter.nb = Std.int(progress * 100);
+		//progressCounter.nb = Std.int(progress * 100);
 		scoreCounter.nb = score;
+		scoreText.visible = scoreCounter.visible = uiVisible;
+		//progressCounter.visible = uiVisible;
 	}
 	
 	public function makeCredits(sp){
@@ -242,66 +299,84 @@ class G {
 	}
 	
 	public function end() {
-		stopZombies();
+		d.stopAllMusic();
+		D.sfx.JINGLE_END().play();
 		
 		partition.enablePulse = false;
+		zombies.speed = 0;
 		
-		car.car.a.playAndLoop("carStop");
+		for ( i in 0...6)
+			haxe.Timer.delay( function() {
+				car.shootLeft();
+				car.shootRight();
+			},i * 100);
+			
+		tw.create(car, "bx", C.W * 1.5, 550);
 		
-		var endScreen = new h2d.Sprite( gameRoot );
-		var b = new h2d.Bitmap( h2d.Tile.fromColor( 0xcd000000 ).centerRatio(0.5, 0.5), endScreen );
-		b.x = C.W * 0.5;
-		b.y = 150;
-		b.setSize( C.W, 10 );
-		tw.create(b, "y", 		85, 400);
-		tw.create(b, "height", 	110, 300);
+		haxe.Timer.delay( function() {updateZombies = false; zombies.clear();}, 1500 );
 		
-		var localRoot = new h2d.Sprite( endScreen );
-		var t = new h2d.Text( d.eightMedium,localRoot );
-		t.text = "LEVEL " + curLevel + " COMPLETE";
-		t.x = C.W * 0.5 - t.textWidth * 0.5;
-		t.y = C.H * 0.2;
-		t.letterSpacing = -1;
-		t.textColor = 0xff9358;
-		t.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+		function afterExplode() {
+			
+			stopZombies();
+			car.car.a.playAndLoop("carStop");
+			
+			var endScreen = new h2d.Sprite( gameRoot );
+			var b = new h2d.Bitmap( h2d.Tile.fromColor( 0xcd000000 ).centerRatio(0.5, 0.5), endScreen );
+			b.x = C.W * 0.5;
+			b.y = 150;
+			b.setSize( C.W, 10 );
+			tw.create(b, "y", 		85, 400);
+			tw.create(b, "height", 	110, 300);
+			
+			var localRoot = new h2d.Sprite( endScreen );
+			var t = new h2d.Text( d.eightMedium,localRoot );
+			t.text = "LEVEL " + curLevel + " COMPLETE";
+			t.x = C.W * 0.5 - t.textWidth * 0.5;
+			t.y = C.H * 0.2;
+			t.letterSpacing = -1;
+			t.textColor = 0xff9358;
+			t.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			
+			localRoot.x -= C.W;
+			tw.create(localRoot, "x", 0, TBurnOut,300);
+			
+			var localRoot2 = new h2d.Sprite( endScreen );
+			var n = new h2d.Number(d.eightMediumPlus,localRoot2 );
+			n.x = C.W * 0.25;
+			n.y = C.H * 0.40 - n.textHeight * 0.5;
+			n.letterSpacing = -1;
+			n.textColor = 0xffe6b0;
+			n.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			
+			var t = new h2d.Text( d.eightMediumPlus,localRoot2 );
+			t.text = "POINTS";
+			t.x = n.x + C.W * 0.25;
+			t.y = C.H * 0.40 - t.textHeight * 0.5;
+			t.letterSpacing = -1;
+			t.textColor = 0xffe6b0;
+			t.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			
+			localRoot2.x -= C.W;
+			haxe.Timer.delay(function() tw.create(localRoot2, "x", 0, TBurnOut,300),100);
+			
+			n.nb = 0;
+			tw.create(n, "nb", score, 1200);
+			haxe.Timer.delay( function() {
+				var tt = tw.create( localRoot, "x", C.W * 1.5, TBurnOut, 300 );
+				haxe.Timer.delay(function(){
+					var ttt = tw.create( localRoot2, "x", C.W * 1.5, TBurnOut, 300 );
+					ttt.onEnd = function() {
+						var tttt = tw.create(b, "scaleY", 0, TBurnIn, 200);
+						tttt.onEnd = function(){
+							endScreen.dispose();
+							nextLevel();
+						};
+					}
+				},100);
+			},2400);
+		}
 		
-		localRoot.x -= C.W;
-		tw.create(localRoot, "x", 0, TBurnOut,300);
-		
-		var localRoot2 = new h2d.Sprite( endScreen );
-		var n = new h2d.Number(d.eightMediumPlus,localRoot2 );
-		n.x = C.W * 0.25;
-		n.y = C.H * 0.40 - n.textHeight * 0.5;
-		n.letterSpacing = -1;
-		n.textColor = 0xffe6b0;
-		n.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
-		
-		var t = new h2d.Text( d.eightMediumPlus,localRoot2 );
-		t.text = "POINTS";
-		t.x = n.x + C.W * 0.25;
-		t.y = C.H * 0.40 - t.textHeight * 0.5;
-		t.letterSpacing = -1;
-		t.textColor = 0xffe6b0;
-		t.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
-		
-		localRoot2.x -= C.W;
-		haxe.Timer.delay(function() tw.create(localRoot2, "x", 0, TBurnOut,300),100);
-		
-		n.nb = 0;
-		tw.create(n, "nb", score, 1200);
-		haxe.Timer.delay( function() {
-			var tt = tw.create( localRoot, "x", C.W * 1.5, TBurnOut, 300 );
-			haxe.Timer.delay(function(){
-				var ttt = tw.create( localRoot2, "x", C.W * 1.5, TBurnOut, 300 );
-				ttt.onEnd = function() {
-					var tttt = tw.create(b, "scaleY", 0, TBurnIn, 200);
-					tttt.onEnd = function(){
-						endScreen.dispose();
-						nextLevel();
-					};
-				}
-			},100);
-		},1200);
+		haxe.Timer.delay( afterExplode, 1500 );
 	}
 	
 	public function nextLevel() {
@@ -339,6 +414,9 @@ class G {
 	}
 	
 	public function onStart() {
+		
+		d.sndPlayJingleStart();
+		
 		car.by = Car.BASE_BY;
 		car.bx = - C.W;
 		car.car.a.playAndLoop("carStop");
@@ -712,6 +790,9 @@ class G {
 	public function loose() {
 		//zombies.setLevel(0);
 		//updateZombies();
+		partition.clear();
+		d.stopAllMusic();
+		
 		if ( isLoosing ) return;
 		isLoosing = true;
 		
@@ -777,15 +858,14 @@ class G {
 			
 			var goMask = new h2d.Interactive( mt.Metrics.w(), mt.Metrics.h(), postScene);
 			
-			
-			
 			function f() {
 				goScreen.dispose();
 				goMask.dispose();
 				isLoosing = false;
 			}
 			
-			function onPress(f){
+			function onPress(f) {
+				
 				var tt = tw.create( localRoot, "x", C.W * 1.5, TBurnOut, 300 );
 				haxe.Timer.delay(function(){
 					var ttt = tw.create( localRoot2, "x", C.W * 1.5, TBurnOut, 300 );
@@ -797,7 +877,6 @@ class G {
 					}
 				},100);
 			}
-			
 				
 			goMask.onClick = function(e) {
 				onPress( function() {
@@ -817,7 +896,7 @@ class G {
 	}
 	
 	public function onMiss() {
-		d.sfxKick00.play();
+		//d.sfxKick00.play();
 		partition.triggerMiss(C.W - 30, partition.baseline);
 		streak = 0;
 		multiplier = 1;

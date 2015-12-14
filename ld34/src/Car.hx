@@ -49,6 +49,7 @@ class Car {
 	public var showDirt : Bool = true;
 	public var dirts : Array<mt.deepnight.slb.HSpriteBE>=[];
 	
+	public var visible = true;
 	public function new( p ) {
 		me = this;
 		sb = new h2d.SpriteBatch(d.char.tile, p);
@@ -128,6 +129,8 @@ class Car {
 			dirt.visible = showDirt;
 			i++;
 		}
+		
+		lifeUi.visible = fx.visible = ui.visible = sb.visible = visible;
 	}
 	
 	function set_gunType(gt:GunType) {

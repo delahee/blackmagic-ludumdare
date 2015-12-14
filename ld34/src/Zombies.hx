@@ -401,6 +401,10 @@ class Zombies {
 	}
 	
 	public function clear() {
+		sb.removeAllElements();
+		sbAdd.removeAllElements();
+		parts = new hxd.Stack<mt.deepnight.HParticle>();
+		
 		for ( z in zombies)
 			z.remove();
 		zombies = new hxd.Stack<Zombie>();
@@ -555,6 +559,10 @@ class Zombies {
 		
 		zombies.push(z);
 		return z;
+	}
+	
+	public function explodeZombies() {
+		
 	}
 	
 	public function spawnZombieHigh() {

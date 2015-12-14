@@ -47,6 +47,7 @@ class Partition {
 	var curMultiplier : h2d.Number;
 	public var curWeapon : h2d.Text;
 	
+	public var visible : Bool = true;
 	public function new(parent) {
 		baseline = C.H - 42;
 		this.parent = parent;
@@ -343,10 +344,10 @@ class Partition {
 	}
 	
 	
-	var limit1 = 5;
-	var limit2 = 8;
+	var limit1 = 5;//for shotgun
+	var limit2 = 8;//for canon
 	public function maxMultiplier(){
-		var limit = 3;
+		var limit = 4;
 		switch(g.curLevel) {
 			default:
 			case 2: limit = limit1;
@@ -378,6 +379,12 @@ class Partition {
 	}
 	
 	public function update() {
+		
+		curMultiplier.visible =
+		curWeapon.visible = 
+		grid.visible =
+		fx.visible = visible;
+		
 		if (  g.isBeat && enablePulse)
 			pulseSprite.alpha = 0.7;
 		else 
@@ -387,5 +394,13 @@ class Partition {
 		curMultiplier.nb = g.multiplier;
 		
 		syncGun();
+	}
+	
+	public function clear() {
+		for ( n in noteList ) {
+			n.dispose();
+			tw.killWithoutCallbacks( n );
+		}
+		noteList = new List();
 	}
 }
