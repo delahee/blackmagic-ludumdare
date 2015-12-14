@@ -1,4 +1,5 @@
 
+//TODO unify with partbe
 @:publicFields
 class Part {
 	var name : String;
@@ -16,6 +17,11 @@ class Part {
 	var x(get, set):Float; 
 	var y(get, set):Float; 
 	var alpha(get, set):Float; 
+	
+	var ox:Float; 
+	var oy:Float;
+	
+	var killed = false;
 	
 	private var update : Array < Void->Void >;
 	
@@ -224,11 +230,17 @@ class Part {
 		vy += g * tmod;
 	}
 	
+	var sample:Null<Int>;
 	public function updateBhv(tm:Float) {
-		tmod = tm / SAMPLES;
-		for( i in 0...SAMPLES)
+		if (sample == null)
+			sample = SAMPLES;
+		tmod = tm / sample;
+		for ( i in 0...sample) {
+			ox = x; oy = y;
 			for ( u in update ) 
-				u();
+				if( !killed )
+					u();
+		}
 	}
 	
 	public static function updateAll(tm) {

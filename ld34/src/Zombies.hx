@@ -35,6 +35,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 	
 	public var baseDx = 0.0;
 	public var incomingZone:Float;
+	public var touched : Bool=false;
 	
 	var type : ZType;
 	
@@ -46,7 +47,10 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 	public var bulletPosX:Float;
 	public var bulletPosY:Float;
 	
-	public function new(man,a,lib,c,?f=0) {
+	static var uid = 0;
+	var id = 0;
+	public function new(man, a, lib, c, ?f = 0) {
+		id = uid++;
 		super(a, lib, c, f);
 		setCenterRatio(0.5, 1.0);
 		this.man = man;
@@ -146,6 +150,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 		}
 	}
 	public function onDeath() {
+		//trace("#" + id + " is dead");
 		if( a.hasAnim()){
 			a.playAndLoop( groupName.split("_")[0] + "_dead");
 			dx = -4;
@@ -157,7 +162,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 			dy = 0;
 		}
 		cs( Dead );
-		g.scoreZombi();
+		g.scoreZombi(type);
 		haxe.Timer.delay( dispose, 200 );
 	}
 	
@@ -201,16 +206,26 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 		if( !isDead()){
 			bounds.empty();
 			bounds.add4(x - width * 0.5, y - height, width, height);
-			if (man.deathZone.length > 0) {
+			if (man.deathZone.length > 0 && !touched) {
 				var i = 0;
 				for ( dz in man.deathZone ) {
+					if ( dz.srcPart.data <= 0)
+						break;
 					if ( dz.bnd.collides(bounds) ) {
 						bulletPosX = dz.bnd.getCenterX();
 						bulletPosY = dz.bnd.getCenterY();
-						hit();
-						dz.nb--;
-						if ( dz.nb <= 0) {
-							if (dz.srcPart != null) dz.srcPart.kill();	
+						var dmg = switch(g.car.gunType) {
+							case GTNone:throw "acer";
+							case GTGun:10;
+							case GTShotgun:8;
+							case GTCanon:15;
+						}
+						hit( dmg );
+						dz.srcPart.data--;
+						touched = true;
+						if ( dz.srcPart.data <= 0) {
+							if (dz.srcPart != null) 
+								dz.srcPart.kill();	
 							man.deathZone.remove(dz);
 							break;
 						}
@@ -286,6 +301,8 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 			c.hit();
 			dispose();
 		}
+		
+		touched = false;
 	}
 	
 	var ofsCarX = 0.;
@@ -299,7 +316,6 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 
 typedef DeathZone = {
 	bnd:h2d.col.Bounds,
-	nb:Int,
 	srcPart : PartBE,
 }
 
@@ -336,7 +352,11 @@ class Zombies {
 		parts = new hxd.Stack<mt.deepnight.HParticle>();
 	}
 	
-	public inline function addDeathZone(c:h2d.col.Bounds,?srcPart,?nb=1)  deathZone.push({bnd:c,nb:nb,srcPart:srcPart});
+	public inline function addDeathZone( c:h2d.col.Bounds, ?srcPart)  {
+		var dz = { bnd:c, srcPart:srcPart };
+		//trace("adz " + dz);
+		deathZone.push( dz );
+	}
 	
 	public function setLevel(level:Int) {
 		var seed = 
@@ -371,6 +391,7 @@ class Zombies {
 			return;
 		}
 		
+		//trace("enter dz:" + deathZone);
 		var z = zombies.length - 1;
 		while( z >= 0) {
 			var zz = zombies.unsafeGet(z);
@@ -554,7 +575,7 @@ class Zombies {
 	
 	public function spawnZombiePackHigh() {
 		var z = [];
-		for ( i in 0...Dice.roll( 4, 6)) 
+		for ( i in 0...Dice.roll( 2, 4)) 
 			z.push( spawnZombieHigh() );
 		splatter(z);
 		for ( zz in z ) zz.prio();

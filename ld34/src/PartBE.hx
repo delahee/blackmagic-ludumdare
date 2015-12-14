@@ -26,8 +26,12 @@ class PartBE {
 	
 	var sp : h2d.SpriteBatch.BatchElement;
 	
+	var data = 0;
+
 	static var ALL = [];
 	static var SAMPLES = 2;
+	
+	var sample : Null<Int>=null;
 	
 	public static var DEFAULT_BOUNDS = {
 		var b = new h2d.col.Bounds(); 
@@ -223,8 +227,9 @@ class PartBE {
 	}
 	
 	public function updateBhv(tm:Float) {
-		tmod = tm / SAMPLES;
-		for ( i in 0...SAMPLES) {
+		if (sample == null)sample = SAMPLES;
+		tmod = tm / sample;
+		for ( i in 0...sample) {
 			ox = x; oy = y;
 			for ( u in update ) 
 				if( !killed )
@@ -236,5 +241,9 @@ class PartBE {
 		var pos = ALL.length;
 		while( (--pos) >= 0 )
 			ALL[pos].updateBhv(tm);
+	}
+	
+	public function toString() {
+		return 'x:$x y:$y data:$data';
 	}
 }

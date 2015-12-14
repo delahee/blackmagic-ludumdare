@@ -1,5 +1,13 @@
 
 using mt.gx.Ex;
+import mt.gx.Dice;
+enum GunType {
+	GTNone;
+	GTGun;
+	GTCanon;
+	GTShotgun;
+}
+
 class Car {
 	var d(get, null) : D; inline function get_d() return App.me.d;
 	var g(get, null) : G; inline function get_g() return App.me.g;
@@ -30,6 +38,9 @@ class Car {
 	
 	public var progCar : mt.deepnight.slb.HSpriteBE;
 	public var progRoad : mt.deepnight.slb.HSpriteBE;
+	public var gun:mt.deepnight.slb.HSpriteBE;
+	
+	public var gunType(default, set):GunType = GTNone;
 	
 	public function new( p ) {
 		me = this;
@@ -59,6 +70,9 @@ class Car {
 		progCar = new mt.deepnight.slb.HSpriteBE( ui, d.char, "cursor");
 		progCar.x = baseXProg;
 		progCar.y = 10;
+		
+		gun = new mt.deepnight.slb.HSpriteBE( sb, d.char, "carGuns");
+		gun.a.playAndLoop("carGuns");
 	}
 	
 	var baseXProg = 150;
@@ -86,7 +100,22 @@ class Car {
 		fireLeft.alpha = hxd.Math.clamp( 	fireLeft.alpha, 0., fireLeft.alpha * 0.5 );
 		fireRight.alpha = hxd.Math.clamp( 	fireRight.alpha, 0., fireRight.alpha * 0.5 );
 		
-		progCar.x = baseXProg + hxd.Math.clamp(g.progress,0,1) * 280.0;
+		progCar.x = baseXProg + hxd.Math.clamp(g.progress, 0, 1) * 280.0;
+		
+		gun.setPos(car.x,car.y);
+	}
+	
+	function set_gunType(gt:GunType) {
+		if ( gt == gunType)
+			return gt;
+		switch( gt ) {
+			case GTNone:
+			case GTGun: gun.a.playAndLoop("carGun"); 			g.partition.curWeapon.text = "GUN";
+			case GTCanon: gun.a.playAndLoop("carCanon");		g.partition.curWeapon.text = "CANON";
+			case GTShotgun: gun.a.playAndLoop("carShotgun");	g.partition.curWeapon.text = "SHOTGUN";
+		}
+		gunType = gt;
+		return gt;
 	}
 	
 	public function getBounds() {
@@ -153,51 +182,85 @@ class Car {
 		}
 	}
 	
+	inline function setupBullet(e:h2d.SpriteBatch.BatchElement, p:PartBE) {
+		p.sample = 1;
+		switch ( gunType ) {
+			default:
+			case GTCanon:
+				e.scaleY+=2;
+				e.scaleX -= 0.025;
+			case GTShotgun:
+				e.scaleY *= 0.25;
+				e.scaleX *= 0.33;
+				e.x -= Dice.rollF( 0, 20);
+				e.y += Dice.rollF( -10, 10);
+		}
+		p.data =  1;
+		switch(gunType) {
+				default: 		
+				case GTCanon:	
+					p.vx *= 0.55;
+					p.vy *= 0.55;
+					p.data = Dice.roll(4, 6);
+			}
+			
+		p.y -= 5;
+			
+		p.add( function() {
+			//reeval bounds
+			var b : h2d.col.Bounds = h2d.col.Bounds.fromValues(e.x, e.y, e.width, e.height);
+			z.addDeathZone( b, p  );
+		});
+	}
+	
 	public function shootRight() {
 		
 		kickShoot1().play();
-		var y = cacheBounds.y + 7;
-		var e = fx.alloc( d.char.getTile("fxBullet").centerRatio(0,0.5) );
-		var p = new PartBE( e );
-		e.scaleY = 3;
-		e.scaleX = 0.25;
-		p.x = cacheBounds.x - 60;
-		p.y = y;
-		p.add( p.moveTo( -100, y, 20) );
-		p.add( function() {
-			var b = h2d.col.Bounds.fromValues(e.x, e.y, e.width, e.height);
-			z.addDeathZone( b, p, 1);
-		});
+		
+		var nb = 1;
+		if ( gunType == GTShotgun)
+			nb += Dice.roll(1, 3);
+		for ( i in 0...nb ) {
+			var y = cacheBounds.y + 7;
+			var e = fx.alloc( d.char.getTile("fxBullet").centerRatio(0,0.5) );
+			var p = new PartBE( e );
+			e.scaleY = 3;
+			e.scaleX = 0.25;
+			p.x = cacheBounds.x - 60;
+			p.y = y;
+			p.add( p.moveTo( -100, y, 20) );
+			setupBullet(e, p );
+		}
 		light.alpha = 1.2;
 		var f = fireLeft;
-		f.x = p.x - f.width * 0.5 ;
-		f.y = y - f.height * 0.5 + 3;
+		f.x = cacheBounds.x - 60 - f.width * 0.5 ;
+		f.y = cacheBounds.y + 7 - f.height * 0.5 + 3;
 		f.alpha = 1.2;
-		
 	}
 	
 	public function shootLeft() {
-		
 		kickShoot1().play();
-		var y = cacheBounds.y + 30;
-		var e = fx.alloc( d.char.getTile("fxBullet").centerRatio(0,0.5) );
-		var p = new PartBE( e );
-		e.scaleY = 3;
-		e.scaleX = 0.25;
-		p.x = cacheBounds.x - 50;
-		p.y = y;
-		p.add( p.moveTo( -100, y, 20) );
-		p.add( function() {
-			var b = h2d.col.Bounds.fromValues(e.x, e.y, e.width, e.height);
-			z.addDeathZone( b, p, 1);
-		});
+		var nb = 1;
+		if ( gunType == GTShotgun)
+			nb += Dice.roll(1, 2);
+			
+		for( i in 0...nb ) {
+			var y = cacheBounds.y + 30;
+			var e = fx.alloc( d.char.getTile("fxBullet").centerRatio(0,0.5) );
+			var p = new PartBE( e );
+			e.scaleY = 3;
+			e.scaleX = 0.25;
+			p.x = cacheBounds.x - 50;
+			p.y = y;
+			p.add( p.moveTo( -100, y, 20) );
+			setupBullet(e, p );
+		}
+		
 		light.alpha = 1.2;
 		var f = fireLeft;
-		f.x = p.x - f.width * 0.5 ;
-		f.y = y - f.height * 0.5 + 3;
+		f.x = cacheBounds.x - 50 - f.width * 0.5 ;
+		f.y = cacheBounds.y + 30 - f.height * 0.5 + 3;
 		f.alpha = 1.2;
-		
-		
 	}
 	
 	public function tryShootLeft() {

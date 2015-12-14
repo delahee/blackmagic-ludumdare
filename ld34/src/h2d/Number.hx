@@ -3,6 +3,7 @@ package h2d;
 class Number extends h2d.Text {
 	public var headingSign = false;
 	public var trailingPercent = false;
+	public var headingMul = false;
 	public function new(fnt,?p) {
 		super(fnt, p);
 	}
@@ -21,18 +22,16 @@ class Number extends h2d.Text {
 		
 		var nb = Std.int( nb );
 		
-		if ( headingSign) {
-			if ( nb >= 0 ) 
-				text = "+" + Std.string( nb );
-			else 
-				text  = Std.string( nb );
-		}
+		var txt;
+		if ( headingSign && nb >= 0) 
+			txt = "+" + Std.string( nb );
 		else 
-			text = Std.string( nb );
+			txt = Std.string( nb );
 			
-		if ( trailingPercent )
-			text += "%";
+		if ( trailingPercent ) txt += "%";
+		if ( headingMul ) txt = "x"+txt;
 		
+		text = txt;
 		return nb;
 	}
 	

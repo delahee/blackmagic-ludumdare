@@ -1,5 +1,6 @@
 import h2d.SpriteBatch;
 
+import Car;
 using mt.gx.Ex;
 @:enum abstract ENote(Int){
 	var Left = 0;
@@ -29,7 +30,7 @@ class Partition {
 	public var grid : h2d.SpriteBatch;
 	public var fx : h2d.SpriteBatch;
 	
-	var baseline = 200;
+	public var baseline = 0;
 	var fretW = 120;
 	var fretPositions : Array<Float> = [];
 	var curSig = 0;
@@ -39,14 +40,33 @@ class Partition {
 	var flameTile : h2d.Tile;
 	var pulseSprite : mt.deepnight.slb.HSpriteBE;
 	
+	var starPower : mt.deepnight.slb.HSpriteBE;
+	var bgStarPower : mt.deepnight.slb.HSpriteBE;
 	public var enablePulse = false;
 	
+	var curMultiplier : h2d.Number;
+	public var curWeapon : h2d.Text;
+	
 	public function new(parent) {
-		baseline = C.H - 37;
+		baseline = C.H - 42;
 		this.parent = parent;
+		
+		flameTile = d.char.getTile("fxFlame").centerRatio(0.5, 1.0);
+		
+		curMultiplier = new h2d.Number(d.eightVerySmall,parent);
+		curMultiplier.y = C.H - 20;
+		curMultiplier.x = C.W - 30;
+		curMultiplier.headingMul = true;
+		curMultiplier.nb = 1;
+		g.ivory(curMultiplier);
+		
+		var txt = curWeapon = new h2d.Number(d.eightVerySmall,curMultiplier);
+		txt.text = "GUN";
+		txt.y = 10;
+		g.orange(txt);
+		
 		resetForSignature(4);
 		initTexts();
-		flameTile = d.char.getTile("fxFlame").centerRatio(0.5, 1.0);
 	}
 	
 	public function resetForSignature( sig : Int ) {
@@ -102,6 +122,19 @@ class Partition {
 		pulseSprite.alpha = 0;
 		
 		noteList = new List();
+		
+		bgStarPower = new mt.deepnight.slb.HSpriteBE( grid, d.char, "bgStarPower");
+		bgStarPower.setCenterRatio(0, 0);
+		starPower = new mt.deepnight.slb.HSpriteBE( grid,d.char,"starPower");
+		starPower.setCenterRatio(0, 0);
+		
+		starPower.setPos(0, C.H - 8);
+		starPower.width = 0;
+		bgStarPower.setPos(0, C.H - 8);
+		bgStarPower.width = C.W;
+		
+		curMultiplier.toFront();
+		curWeapon.toFront();
 	}
 	
 	inline function quarter() return fretW / curSig;
@@ -160,13 +193,11 @@ class Partition {
 			if ( sp.destroyed ) return;
 			sp.x = Math.round( sp.x );
 			sp.t = t;
-			if ( sp.x > highVal() && !sp.missed && !sp.ok){
+			if ( sp.x > highVal() && !sp.missed && !sp.ok) {
+				g.onMiss();
 				noteList.remove(sp);
-				sp.a.play("hitMiss");
-				triggerMiss(sp.x + 30, sp.y);
+				sp.a.play("hitMiss");				
 				sp.missed = true;
-				g.streak = 0;
-				g.multiplier = 1;
 			}
 		};
 		
@@ -219,7 +250,7 @@ class Partition {
 		txt.y -= txt.textHeight * 0.5;
 	}
 	
-	function triggerMiss(x, y) {
+	public function triggerMiss(x, y) {
 		var txt = miss;
 		txt.alpha = 1.0;
 		center(miss, x, y);
@@ -272,6 +303,11 @@ class Partition {
 		
 		var ofsX = 0;
 		var ofsY = -10;
+		if ( sp.x < low) {
+			g.onMiss();
+			return false;
+		}
+		
 		if ( sp.x >= low && sp.x <= high) {
 			var f = fx.alloc( flameTile );
 			f.x = sp.x;
@@ -306,9 +342,39 @@ class Partition {
 		
 	}
 	
+	
+	var limit1 = 5;
+	var limit2 = 10;
+	public function maxMultiplier(){
+		var limit = 3;
+		switch(g.curLevel) {
+			default:
+			case 2: limit = limit1;
+			case 3: limit = limit2;
+			case 4: limit = 15;
+		}
+		return limit;
+	}
+	
+	public function syncGun() {
+		if ( g.multiplier >= limit2 ) {
+			Car.me.gunType = GunType.GTCanon;
+		}
+		else if ( g.multiplier >= limit1 ) {
+			Car.me.gunType = GunType.GTShotgun;
+		}
+		else 
+			Car.me.gunType = GunType.GTGun;
+	}
+	
 	public function onOk() {
 		g.streak++;
-		g.multiplier = 1 + Math.round(Math.log( g.streak ) / Math.log( 2 ));
+		//trace(g.streak);
+		var m = 1 + Math.log( g.streak ) / Math.log( 1.75 );
+		trace(m);
+		g.multiplier = Std.int(m);
+		if ( g.multiplier > maxMultiplier())
+			g.multiplier = maxMultiplier();
 	}
 	
 	public function update() {
@@ -316,5 +382,10 @@ class Partition {
 			pulseSprite.alpha = 0.7;
 		else 
 			pulseSprite.alpha = hxd.Math.lerp( pulseSprite.alpha , 0 , 0.1 );
+			
+		starPower.width = C.W * hxd.Math.clamp( (g.multiplier - 1) / (maxMultiplier() - 1), 0, 1 );
+		curMultiplier.nb = g.multiplier;
+		
+		syncGun();
 	}
 }

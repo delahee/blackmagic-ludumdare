@@ -37,6 +37,7 @@ class D {
 	public static var sfx = mt.flash.Sfx.importDirectory("assets/snd/SFX");
 	public static var music = mt.flash.Sfx.importDirectory("assets/snd/music");
 	
+	public var eightVerySmall : h2d.Font;
 	public var eightSmall : h2d.Font;
 	public var eightMedium : h2d.Font;
 	public var eightMediumPlus : h2d.Font;
@@ -54,6 +55,7 @@ class D {
 		
 		var fnt = openfl.Assets.getFont( "assets/8-BIT WONDER.TTF" );
 		var opt : hxd.res.FontBuilder.FontBuildOptions= { antiAliasing:false};
+		eightVerySmall = hxd.res.FontBuilder.getFont(fnt.fontName, 8,opt);
 		eightSmall = hxd.res.FontBuilder.getFont(fnt.fontName, 12,opt);
 		eightMedium = hxd.res.FontBuilder.getFont(fnt.fontName, 22,opt);
 		eightMediumPlus = hxd.res.FontBuilder.getFont(fnt.fontName, 28,opt);

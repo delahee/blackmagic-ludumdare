@@ -150,17 +150,15 @@ class G {
 		scoreCounter.nb = 0;
 		ivory( scoreCounter );
 		
-		
-		
 		return this;
 	}
 	
-	inline function orange(txt:h2d.Text) {
+	public inline function orange(txt:h2d.Text) {
 		txt.textColor = 0xff9358;
 		txt.dropShadow = { dx:2, dy:2, color:0xd804a2d, alpha:1.0 };
 	}
 	
-	inline function ivory(txt:h2d.Text) {
+	public inline function ivory(txt:h2d.Text) {
 		txt.textColor = 0xffe6b0;
 		txt.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
 	}
@@ -348,6 +346,7 @@ class G {
 		car.reset();
 		progress = 0;
 		score = 0;
+		multiplier = 1;
 	}
 	
 	public function afterStart() {
@@ -436,6 +435,8 @@ class G {
 		},1500);
 		curLevel++;
 		
+		//car.gunType = GTCanon;
+		//car.gun.a.playAndLoop("carCanon");
 		afterStart();
 	}
 	
@@ -453,6 +454,9 @@ class G {
 			car.car.a.playAndLoop( "carPlay" );
 		},1500);
 		curLevel++;
+		
+		//car.gunType = GTShotgun;
+		//car.gun.a.playAndLoop("carShotgun");
 		afterStart();
 	}
 	
@@ -648,6 +652,15 @@ class G {
 		}
 		*/
 		
+		if ( mt.flash.Key.isToggled(hxd.Key.C)) 	car.gunType = GTCanon;
+		if ( mt.flash.Key.isToggled(hxd.Key.G)) 	car.gunType = GTGun;
+		if ( mt.flash.Key.isToggled(hxd.Key.S)) 	car.gunType = GTShotgun;
+		
+		if ( mt.flash.Key.isToggled(hxd.Key.M)) {
+			streak = 50;
+			multiplier = 50;
+		}
+		
 		if ( mt.flash.Key.isToggled(hxd.Key.V)) {
 			end();
 		}
@@ -658,12 +671,14 @@ class G {
 		
 		if (  (	mt.flash.Key.isDown(hxd.Key.LEFT)
 		||		mt.flash.Key.isDown(hxd.Key.Q)
+		||		mt.flash.Key.isDown(hxd.Key.DOWN)
 		||		mt.flash.Key.isDown(hxd.Key.A))) {
 			leftIsDown++;
 		}
 		else leftIsDown = 0;
 		
 		if (  	mt.flash.Key.isDown(hxd.Key.RIGHT)
+		||		mt.flash.Key.isDown(hxd.Key.UP)
 		||		mt.flash.Key.isDown(hxd.Key.D)) {
 			rightIsDown++;
 		}
@@ -686,14 +701,24 @@ class G {
 	
 	public function onMiss() {
 		d.sfxKick00.play();
+		partition.triggerMiss(C.W - 30, partition.baseline);
+		streak = 0;
+		multiplier = 1;
 	}
 	
 	public function onSuccess() {
 		
 	}
 	
-	public function scoreZombi() {
-		score += 5 * multiplier;
+	public function scoreZombi(zt:Zombies.ZType) {
+		var base = 5;
+		switch(zt) {
+			default:
+			case Girl:base++;
+			case Armor:base+=3;
+			case Boss:base+=5;
+		}
+		score += base * multiplier;
 	}
 	
 	public function scorePerfect() 
