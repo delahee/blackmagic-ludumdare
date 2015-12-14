@@ -401,8 +401,8 @@ class G {
 	
 	public function start() {
 		
-		level2();
-		return;
+		//level2();
+		//return;
 		
 		onStart();
 		

@@ -43,6 +43,9 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 	var state : ZState = Nope;
 	var bounds : h2d.col.Bounds;
 	
+	public var bulletPosX:Float;
+	public var bulletPosY:Float;
+	
 	public function new(man,a,lib,c,?f=0) {
 		super(a, lib, c, f);
 		setCenterRatio(0.5, 1.0);
@@ -63,6 +66,11 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 	
 	public function addPart(e:mt.deepnight.HParticle) {
 		man.sb.add(e);
+		man.parts.push(e);
+	}
+	
+	public function addPartAdd(e:mt.deepnight.HParticle) {
+		man.sbAdd.add(e);
 		man.parts.push(e);
 	}
 	
@@ -119,6 +127,22 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 			}
 			e.gy = Dice.rollF(0.04,0.06);
 			addPart(e);
+		}
+		
+		//var p;
+		//addPartAdd( p = new mt.deepnight.slb.HSpriteBE(man.sbAdd, d.char,"tileFxHit" ) );
+		//p.life = 5;
+		for( i in 0...Dice.roll(1,2)){
+			var p = new mt.deepnight.slb.HSpriteBE(man.sbAdd, d.char, "fxHit" );
+			p.setCenterRatio(0, 0.5);
+			p.a.play( "fxHit");
+			var pe = new PartBE( p );
+			pe.x = x + Std.random(2)-1;
+			pe.y = bulletPosY+ Std.random(2)-1;
+			pe.life = Dice.roll(5,6);
+			p.scale(Dice.rollF(0.4,0.6));
+			p.rotation = Dice.angle();
+			p.alpha = Dice.rollF2(0.55, 0.70);
 		}
 	}
 	public function onDeath() {
@@ -181,6 +205,8 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 				var i = 0;
 				for ( dz in man.deathZone ) {
 					if ( dz.bnd.collides(bounds) ) {
+						bulletPosX = dz.bnd.getCenterX();
+						bulletPosY = dz.bnd.getCenterY();
 						hit();
 						dz.nb--;
 						if ( dz.nb <= 0) {
@@ -283,6 +309,7 @@ class Zombies {
 	var c(get, null) : Car; inline function get_c() return Car.me;
 	
 	public var sb : h2d.SpriteBatch;
+	public var sbAdd : h2d.SpriteBatch;
 	var rand : mt.Rand;
 	var elapsedTime = 0.0;
 	public var level : Int = 0;
@@ -292,25 +319,24 @@ class Zombies {
 	
 	public var tilePixel : h2d.Tile;
 	public var tilePart : Array<h2d.Tile>;
+	public var tileFxHit : h2d.Tile;
 	
 	public var parts : hxd.Stack<mt.deepnight.HParticle>;
 	
 	public function new(p)  {
 		sb =  new h2d.SpriteBatch(d.char.tile, p);
+		sbAdd =  new h2d.SpriteBatch(d.char.tile, p); sbAdd.blendMode = Add;
 		rand = new mt.Rand(0);
 		setLevel(0);
 		tilePixel = d.char.getTile("pixel").centerRatio();
 		tilePart = ["partA", "partB", "partC", "partN"].map( function(str) {
 			return d.char.getTile(str).centerRatio();
 		} );
-		
+		tileFxHit = d.char.getTile("fxHit").centerRatio();
 		parts = new hxd.Stack<mt.deepnight.HParticle>();
 	}
 	
-	
-	public function addDeathZone(c:h2d.col.Bounds,?srcPart,?nb=1) {
-		deathZone.push({bnd:c,nb:nb,srcPart:srcPart});
-	}
+	public inline function addDeathZone(c:h2d.col.Bounds,?srcPart,?nb=1)  deathZone.push({bnd:c,nb:nb,srcPart:srcPart});
 	
 	public function setLevel(level:Int) {
 		var seed = 

@@ -11,7 +11,7 @@ class PartBE {
 	var ax = 0.;
 	var ay = 0.;
 	
-	var iLife = 200.0;
+	var life = 200.0;
 	
 	var ox:Float; 
 	var oy:Float;
@@ -40,7 +40,7 @@ class PartBE {
 		this.sp = sp;
 		x = sp.x;
 		y = sp.y;
-		update = [life];
+		update = [alive];
 		vx = 0; vy = 0;
 		ALL.push( this );
 		this.name = name;
@@ -86,7 +86,7 @@ class PartBE {
 	public function limit(lm, proc) {
 		return function()
 		{
-			if ( lm >= iLife - lm)
+			if ( lm >= life - lm)
 				proc();
 		};
 	}
@@ -101,9 +101,9 @@ class PartBE {
 		};
 	}
 	
-	public function life() {
-		iLife-=tmod;
-		if (iLife <= 0)
+	public function alive() {
+		life-=tmod;
+		if (life <= 0)
 			kill();
 	}
 	
@@ -194,11 +194,10 @@ class PartBE {
 	
 	public function intersectCircle( x, y, ray , onKill ) {
 		var d = new h2d.col.Point(x, y).sub( new h2d.col.Point(this.x, this.y ));
-		iLife  = d.length() / getSpeed();
+		life  = d.length() / getSpeed();
 		
 		var c = new h2d.col.Circle( x, y, ray);
 		return function() {
-			life();
 			if ( c.distanceSq(new h2d.col.Point(this.x, this.y)) <= 0 ) {
 				onKill();
 				kill();
