@@ -150,6 +150,8 @@ class G {
 		scoreCounter.nb = 0;
 		ivory( scoreCounter );
 		
+		
+		
 		return this;
 	}
 	

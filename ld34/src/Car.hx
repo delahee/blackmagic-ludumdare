@@ -6,6 +6,7 @@ class Car {
 	var z(get, null) : Zombies; inline function get_z() return App.me.g.zombies;
 	
 	public var lifeUi : h2d.SpriteBatch;
+	public var ui : h2d.SpriteBatch;
 	public var sb : h2d.SpriteBatch;
 	
 	public var car : mt.deepnight.slb.HSpriteBE;
@@ -27,9 +28,13 @@ class Car {
 	public var fireLeft : mt.deepnight.slb.HSpriteBE;
 	public var fireRight : mt.deepnight.slb.HSpriteBE;
 	
+	public var progCar : mt.deepnight.slb.HSpriteBE;
+	public var progRoad : mt.deepnight.slb.HSpriteBE;
+	
 	public function new( p ) {
 		me = this;
 		sb = new h2d.SpriteBatch(d.char.tile, p);
+		ui = new h2d.SpriteBatch(d.char.tile, p);
 		fx = new h2d.SpriteBatch(d.char.tile, p);
 		fx.blendMode = Add;
 		lifeUi = new h2d.SpriteBatch(d.char.tile, p);
@@ -46,7 +51,17 @@ class Car {
 		
 		fireRight = new mt.deepnight.slb.HSpriteBE( fx, d.char, "fxFire");
 		fireRight.alpha = 0.0;
+		
+		progRoad = new mt.deepnight.slb.HSpriteBE( ui, d.char, "goal");
+		progRoad.x = baseXProg;
+		progRoad.y = 10;
+		
+		progCar = new mt.deepnight.slb.HSpriteBE( ui, d.char, "cursor");
+		progCar.x = baseXProg;
+		progCar.y = 10;
 	}
+	
+	var baseXProg = 150;
 	
 	public function update(dt) {
 		if( !isShaking ){
@@ -70,6 +85,8 @@ class Car {
 		light.alpha = hxd.Math.clamp( light.alpha, 0., light.alpha * 0.5 );
 		fireLeft.alpha = hxd.Math.clamp( 	fireLeft.alpha, 0., fireLeft.alpha * 0.5 );
 		fireRight.alpha = hxd.Math.clamp( 	fireRight.alpha, 0., fireRight.alpha * 0.5 );
+		
+		progCar.x = baseXProg + hxd.Math.clamp(g.progress,0,1) * 280.0;
 	}
 	
 	public function getBounds() {
