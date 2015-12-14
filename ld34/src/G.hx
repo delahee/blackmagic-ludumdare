@@ -401,6 +401,9 @@ class G {
 			
 			n.nb = 0;
 			tw.create(n, "nb", score, 1200);
+			
+			d.sfxPreload.get("SCORE").play();
+			
 			haxe.Timer.delay( function() {
 				var tt = tw.create( localRoot, "x", C.W * 1.5, TBurnOut, 300 );
 				haxe.Timer.delay(function(){
@@ -489,7 +492,7 @@ class G {
 			n.letterSpacing = -1;
 			n.textColor = 0xffe6b0;
 			n.dropShadow = ds;
-			n.x = C.W * 0.5 - n.textWidth*0.5;
+			n.x = C.W * 0.5 - n.textWidth * 0.5;
 			
 			var n = new h2d.Text(d.eightSmall,localRoot2 );
 			n.y = C.H * 0.5 - n.textHeight * 0.5;
@@ -1133,7 +1136,7 @@ class G {
 			n.letterSpacing = -1;
 			n.textColor = 0xffe6b0;
 			n.dropShadow = ds;
-			n.x = C.W * 0.5 - n.textWidth*0.5;
+			n.x = C.W * 0.5 - n.textWidth * 0.5;
 			
 			var n = new h2d.Text(d.eightSmall,localRoot2 );
 			n.y = C.H * 0.5 - n.textHeight * 0.5;
