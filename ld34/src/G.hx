@@ -113,6 +113,7 @@ class G {
 		var b = mt.gx.h2d.Proto.bt( 100, 50, "start",
 		function() restart(curLevel), postScene); bs.push(b);
 		
+		#if debug
 		var b = mt.gx.h2d.Proto.bt( 100, 50, "launch",
 		function() {
 			partition.launchNote();
@@ -136,9 +137,8 @@ class G {
 			level4();
 		}, postScene);
 		b.x += 400; bs.push(b);
-		
 		for ( b in bs ) b.y += 150;
-		
+		#end
 		
 		/*
 		var pc = progressCounter = new h2d.Number(d.eightSmall,gameRoot);
@@ -164,9 +164,19 @@ class G {
 		car.visible = false;
 		uiVisible = false;
 		
+		gameRoot.colorCorrection = true;
+		gameRoot.sat = 0.55;
+		
+		var b = new h2d.Bitmap(h2d.Tile.fromColor(0xffffffff), postScene);
+		b.setSize(mt.Metrics.w(), mt.Metrics.h());
+		
+		haxe.Timer.delay(function(){
+		tw.create( b , "alpha", 0, TEaseOut , 350 )
+		.onEnd = b.dispose;
 		haxe.Timer.delay(
 			introMenu,100
 		);
+		},1);
 		
 		return this;
 	}
@@ -177,6 +187,10 @@ class G {
 		sp.y = C.H * 0.35;
 		
 		sp.toFront();
+		
+		var spy = sp.y;
+		sp.y =  - C.H * 1.5;
+		tw.create( sp, "y", spy, TEaseOut, 1000);
 		
 		var localRoot = new h2d.Sprite( scaledRoot );
 		var t = new h2d.Text( d.eightSmall,localRoot );
@@ -194,6 +208,8 @@ class G {
 		m.playLoop();
 		var launch = new h2d.Interactive( mt.Metrics.w(), mt.Metrics.h(), postScene);
 		function doStart(e) {
+			tw.create(gameRoot, "sat", 1.0, TZigZag, 400);
+			gameRoot.colorCorrection = false;
 			m.stop();
 			sp.dispose();
 			launch.dispose();
@@ -206,6 +222,15 @@ class G {
 			level1();
 		}
 		launch.onClick = doStart;
+		
+		var spin = 0;
+		launch.onSync = function() {
+			if(spin > 12 ){
+				t.alpha = 1.0 - t.alpha;
+				spin = 0;
+			}
+			spin++;
+		}
 	}
 	
 	public inline function orange(txt:h2d.Text) {
@@ -299,6 +324,9 @@ class G {
 	}
 	
 	public function end() {
+		
+		car.invincible = true;
+		
 		d.stopAllMusic();
 		D.sfx.JINGLE_END().play();
 		
@@ -395,22 +423,127 @@ class G {
 	}
 	
 	public function endGame() {
-		var endGameScreen = new h2d.Sprite( gameRoot );
-		var b = new h2d.Bitmap( h2d.Tile.fromColor( 0xcd000000 ), endGameScreen );
-		b.setSize(C.W, 0);
-		b.y = 50;
-		b.setSize(C.W, 200);
-		var tt = tw.create( b, "y", 40, 200 );
+		car.invincible = true;
 		
-		var t = new h2d.Text( d.eightVeryBig );
-		t.text = "GAME OVER";
-		t.x = C.W * 0.5 - t.textWidth * 0.5;
-		t.y = 150;
+		d.stopAllMusic();
+		D.sfx.JINGLE_END().play();
 		
-		t.visible = false;
-		tt.onEnd = function() {
-			t.visible = true;
+		partition.enablePulse = false;
+		zombies.speed = 0;
+		
+		for ( i in 0...6)
+			haxe.Timer.delay( function() {
+				car.shootLeft();
+				car.shootRight();
+			},i * 100);
+			
+		tw.create(car, "bx", C.W * 1.5, 550);
+		
+		haxe.Timer.delay( function() {updateZombies = false; zombies.clear();}, 1500 );
+		
+		function afterExplode() {
+			partition.visible = false;
+			car.visible = false;
+			uiVisible = false;	
+			
+			var goScreen = new h2d.Sprite(gameRoot);
+			
+			var b = new h2d.Bitmap( h2d.Tile.fromColor( 0xcd000000 ).centerRatio(0.5, 0.5), goScreen );
+			b.x = C.W * 0.5;
+			b.y = 150;
+			b.setSize( C.W, 10 );
+			tw.create(b, "y", 		100, 400);
+			tw.create(b, "height", 	C.H * 1.5, 300);
+			
+			var localRoot = new h2d.Sprite( goScreen );
+			var t = new h2d.Text( d.eightMedium,localRoot );
+			t.text = "THE END";
+			t.x = C.W * 0.5 - t.textWidth * 0.5;
+			t.y = C.H * 0.2;
+			t.letterSpacing = -1;
+			t.textColor = 0xff9358;
+			t.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			
+			localRoot.x -= C.W;
+			tw.create(localRoot, "x", 0, TBurnOut, 300);
+			
+			var localRoot2 = new h2d.Sprite( goScreen );
+			
+			var n = new h2d.Text(d.eightSmall,localRoot2 );
+			n.y = C.H * 0.40 - n.textHeight * 0.5;
+			n.text = "SCORE "+score;
+			n.letterSpacing = -1;
+			n.textColor = 0xffe6b0;
+			n.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			n.x = C.W * 0.5 - n.textWidth*0.5;
+			
+			var n = new h2d.Text(d.eightSmall,localRoot2 );
+			n.y = C.H * 0.5 - n.textHeight * 0.5;
+			n.text = "CLICK TO RESTART";
+			n.letterSpacing = -1;
+			n.textColor = 0xffe6b0;
+			n.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			n.x = C.W * 0.5 - n.textWidth*0.5;
+			
+			var n = new h2d.Text(d.eightSmall,localRoot2 );
+			n.x = C.W * 0.25;
+			n.y = C.H * 0.55 - n.textHeight * 0.5;
+			n.text = "F1 / F2 / F3 / F4 to jump to level";
+			n.letterSpacing = -1;
+			n.textColor = 0xffe6b0;
+			n.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			n.x = C.W * 0.5 - n.textWidth * 0.5;
+			
+			var n = new h2d.Text(d.eightSmall,localRoot2 );
+			n.text = "THANKS FOR PLAYING !!!\nIF YOU LIKED DOUBLE TAP HEROES SEND US YOUR LOVE ON \nTWITTER: blackmagic & gyhyom & elmobo";
+			n.letterSpacing = -1;
+			n.textColor = 0x88BDFF;
+			n.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			
+			n.x = 30;
+			n.y = C.H * 0.7;
+			
+			var goMask = new h2d.Interactive( mt.Metrics.w(), mt.Metrics.h(), postScene);
+			
+			function f() {
+				partition.visible = true;
+				car.visible = true;
+				uiVisible = true;	
+			
+				goScreen.dispose();
+				goMask.dispose();
+				isLoosing = false;
+			}
+			
+			function onPress(f) {
+				
+				var tt = tw.create( localRoot, "x", C.W * 1.5, TBurnOut, 300 );
+				haxe.Timer.delay(function(){
+					var ttt = tw.create( localRoot2, "x", C.W * 1.5, TBurnOut, 300 );
+					ttt.onEnd = function() {
+						var tttt = tw.create(b, "scaleY", 0, TBurnIn, 200);
+						tttt.onEnd = f;
+					}
+				},100);
+			}
+				
+			goMask.onClick = function(e) {
+				onPress( function() {
+					f();
+					restart(1);
+				});
+			};
+			
+			goMask.onSync = function() {
+				
+				if ( mt.flash.Key.isToggled(hxd.Key.F1)) onPress( function() { f(); level1();  } );
+				if ( mt.flash.Key.isToggled(hxd.Key.F2)) onPress( function(){ f(); level2();  });
+				if ( mt.flash.Key.isToggled(hxd.Key.F3)) onPress( function(){ f(); level3();  });
+				if ( mt.flash.Key.isToggled(hxd.Key.F4)) onPress( function(){ f(); level4();  });
+			}
 		}
+		haxe.Timer.delay( afterExplode, 800 );
+		
 	}
 	
 	public function onStart() {
@@ -429,6 +562,7 @@ class G {
 			car.reset();
 			progress = 0;
 			score = 0;
+			streak = 0;
 			multiplier = 1;
 			zombies.speed = 1;
 			updateZombies=true;
@@ -497,8 +631,11 @@ class G {
 		haxe.Timer.delay( function() {
 			partition.enablePulse = true;
 			car.car.a.playAndLoop( "carPlay" );
+			car.invincible = false;
 		},2400);
 	}
+	
+	var showTuto = true;
 	
 	public function level1() {
 		curLevel = 1;
@@ -556,8 +693,37 @@ class G {
 		afterStart();
 	}
 	
+	var pausePos : Float = -1.0;
 	public function onPause(onOff) {
 		car.onPause(onOff);
+		
+		var mus:mt.flash.Sfx=
+		switch( curLevel) {
+			default: throw "assert";
+			case 1:d.music1;
+			case 2:d.music2;
+			case 3:d.music3;
+			case 4:d.music4;
+		};
+		
+		if ( onOff ) {
+			if ( mus != null && mus.curPlay!=null ){
+					pausePos = mus.curPlay.position;
+					mus.curPlay.stop();
+					//trace("pos:" + pausePos);
+				//}
+				//else trace("no curPlay");
+			}
+			else 
+				pausePos = -1.0;
+			//else trace("no music");
+		}
+		
+		if ( !onOff ) {
+			if ( pausePos >= 0 ) 
+				mus.curPlay = mus.sound.play(pausePos);
+			pausePos = -1.0;
+		}
 	}
 	
 	public var isBeat 	: Bool;
@@ -737,7 +903,7 @@ class G {
 			car.tryShootRight();
 		}
 		*/
-		
+		#if debug
 		if ( mt.flash.Key.isToggled(hxd.Key.C)) 	car.gunType = GTCanon;
 		if ( mt.flash.Key.isToggled(hxd.Key.G)) 	car.gunType = GTGun;
 		if ( mt.flash.Key.isToggled(hxd.Key.S)) 	car.gunType = GTShotgun;
@@ -758,6 +924,7 @@ class G {
 		if ( mt.flash.Key.isToggled(hxd.Key.E)) {
 			endGame();
 		}
+		#end
 		
 		if (  (	mt.flash.Key.isDown(hxd.Key.LEFT)
 		||		mt.flash.Key.isDown(hxd.Key.Q)
@@ -788,6 +955,8 @@ class G {
 	
 	var isLoosing = false;
 	public function loose() {
+		
+		car.invincible = true;
 		//zombies.setLevel(0);
 		//updateZombies();
 		partition.clear();

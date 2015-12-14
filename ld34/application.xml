@@ -8,7 +8,7 @@
 	<!-- output -->
 	<app main="App" file="DoubleKickHeroes" path="bin" swf-version="11.9" />
 	
-	<window background="#000000" fps="61" />
+	<window background="#ffffff" fps="61" />
 	
 	<window width="1770" height="750" unless="mobile" />
 	

@@ -47,7 +47,9 @@ class Car {
 	public var gunType(default, set):GunType = GTNone;
 	
 	public var showDirt : Bool = true;
-	public var dirts : Array<mt.deepnight.slb.HSpriteBE>=[];
+	public var dirts : Array<mt.deepnight.slb.HSpriteBE> = [];
+	
+	public var invincible = true;
 	
 	public var visible = true;
 	public function new( p ) {
@@ -156,7 +158,9 @@ class Car {
 		//trace(sb.x +" "+sb.y );
 	}
 	
-	public function hit(?v=1.0,z:Zombie) {
+	public function hit(?v = 1.0, z:Zombie) {
+		if ( invincible ) return;
+		
 		life -= v;
 		
 		new mt.heaps.fx.Flash( sb, 0.075,0xff0000,2.0 );

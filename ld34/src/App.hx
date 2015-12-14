@@ -40,8 +40,7 @@ class App extends flash.display.Sprite {
 		
 		if ( mt.flash.Key.isToggled( hxd.Key.P )) {
 			paused = ! paused;
-			trace( "pause:" + paused );
-			
+//			trace( "pause:" + paused );
 			g.onPause( paused );
 		}
 		var tm = hxd.Timer.tmod;

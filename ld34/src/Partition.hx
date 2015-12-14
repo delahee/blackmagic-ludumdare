@@ -238,7 +238,7 @@ class Partition {
 		//good.x = 100;
 		//good.y = 100;
 		
-		initGuides();
+		//initGuides();
 		good.toFront();
 		perfect.toFront();
 		miss.toFront();
@@ -372,7 +372,7 @@ class Partition {
 		g.streak++;
 		//trace(g.streak);
 		var m = 1 + Math.log( g.streak ) / Math.log( 1.75 );
-		trace(m);
+		//trace(m);
 		g.multiplier = Std.int(m);
 		if ( g.multiplier > maxMultiplier())
 			g.multiplier = maxMultiplier();

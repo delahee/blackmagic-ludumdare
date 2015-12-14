@@ -11,7 +11,7 @@
     <movie version="0" />
     <movie minorVersion="0" />
     <movie platform="Lime" />
-    <movie background="000000" />
+    <movie background="FFFFFF" />
     <movie preferredSDK="Haxe 3.2.0;3.2.0;" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
