@@ -1,5 +1,5 @@
 @font-face{font-family:'8bit';src:url('../font/8-bit_wonder-webfont.eot');src:url('../font/8-bit_wonder-webfont.eot?#iefix') format('embedded-opentype'),url('../font/8-bit_wonder-webfont.woff2') format('woff2'),url('../font/8-bit_wonder-webfont.woff') format('woff'),url('../font/8-bit_wonder-webfont.ttf') format('truetype'),url('../font/8-bit_wonder-webfont.svg#8bit_wondernominal') format('svg');font-weight:normal;font-style:normal;}
-body{font-family:"Segoe UI","Trebuchet MS",Arial;background:linear-gradient(#653330,#84433f) no-repeat;background-color:#84433f;color:#291d24;font-size:1em;margin:0px;padding:0px;}
+body{font-family:"Segoe UI","Trebuchet MS",Arial;//background:linear-gradient(#653330,#84433f) no-repeat;background-image:url('../img/grindhouse.png');background-position:top left;background-repeat:no-repeat;background-size:contain;background-color:#84433f;color:#291d24;font-size:1em;margin:0px;padding:0px;}
 a{font-family:'8bit',sans-serif;color:#ffe6b0;cursor:pointer;text-decoration:none;font-size:1em;transition:all 100ms ease-out;margin-bottom:10px;}
 a:hover{color:#ff9358;transition:all 100ms ease-out;}
 h1,h2,h3{color:#ffe6b0;font-size:2em;font-weight:bolder;margin-bottom:-5px;margin-top:5px;text-align:center;}

@@ -14,7 +14,11 @@
 
 body {
 	font-family	: "Segoe UI","Trebuchet MS",Arial;
-	background:linear-gradient(#653330,#84433f) no-repeat;
+	//background:linear-gradient(#653330,#84433f) no-repeat;
+	background-image:url('../img/grindhouse.png');
+	background-position:top left;
+	background-repeat:no-repeat;
+	background-size:contain;
 	background-color:#84433f;
 	color:#291d24;
 	font-size:1em;
