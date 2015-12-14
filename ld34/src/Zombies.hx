@@ -47,6 +47,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 	public var bulletPosX:Float;
 	public var bulletPosY:Float;
 	
+	
 	static var uid = 0;
 	var id = 0;
 	public function new(man, a, lib, c, ?f = 0) {
@@ -238,8 +239,8 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 		if ( isDead()) return;
 		
 		if( state != Nope ){
-			rx += dx / Scroller.GLB_SPEED;
-			ry += dy;
+			rx += dx / Scroller.GLB_SPEED * man.speed; 
+			ry += dy * man.speed;
 			
 			x = Math.round( rx );
 			y = Math.round( ry );
@@ -298,8 +299,10 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 		}
 		
 		if ( !onCar && isNearCar() ) {
-			c.hit();
+			c.hit(this);
 			dispose();
+			//TODO
+			
 		}
 		
 		touched = false;
@@ -336,6 +339,7 @@ class Zombies {
 	public var tilePixel : h2d.Tile;
 	public var tilePart : Array<h2d.Tile>;
 	public var tileFxHit : h2d.Tile;
+	public var speed = 1;
 	
 	public var parts : hxd.Stack<mt.deepnight.HParticle>;
 	

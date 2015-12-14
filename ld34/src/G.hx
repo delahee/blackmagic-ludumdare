@@ -591,8 +591,15 @@ class G {
 		bgBuildings.update(dTime);
 		car.update( dTime );
 		
-		if( updateZombies )
+		if ( updateZombies ) {
+			zombies.speed = 1;
+			#if	debug
+			if ( mt.flash.Key.isDown(hxd.Key.SPACE)) {
+				zombies.speed = 20;
+			}
+			#end
 			zombies.update( dTime );
+		}
 		
 		/*
 		if ( mt.flash.Key.isToggled(hxd.Key.C)) {

@@ -1,6 +1,7 @@
 
 using mt.gx.Ex;
 import mt.gx.Dice;
+import Zombies;
 enum GunType {
 	GTNone;
 	GTGun;
@@ -88,8 +89,6 @@ class Car {
 		
 		gun = new mt.deepnight.slb.HSpriteBE( sb, d.char, "carGuns");
 		gun.a.playAndLoop("carGuns");
-		
-	
 	}
 	
 	var baseXProg = 150;
@@ -153,7 +152,7 @@ class Car {
 		//trace(sb.x +" "+sb.y );
 	}
 	
-	public function hit(?v=1.0) {
+	public function hit(?v=1.0,z:Zombie) {
 		life -= v;
 		if ( life <= 0.0 ) {
 			g.loose();
@@ -161,9 +160,22 @@ class Car {
 		}
 		//new mt.heaps.fx.Flash( sb, 0.075,0xff0072 );
 		isShaking = true;
-		var fx = new mt.heaps.fx.Shake( sb, 3, 3 );
-		fx.onFinish = function() isShaking = false;
-			
+		var sfx = new mt.heaps.fx.Shake( sb, 3, 3 );
+		sfx.onFinish = function() isShaking = false;
+		
+		for( i in 0...3){
+			var fx = new mt.deepnight.slb.HSpriteBE( fx, d.char, "fxExplosion");
+			fx.a.play("fxExplosion");
+			fx.setCenterRatio(0.5,1.0);
+			fx.a.killAfterPlay();
+			fx.a.setCurrentAnimSpeed( 0.33 );
+			fx.x = z.x;
+			fx.y = z.y;
+			fx.alpha = 0.7;
+			//fx.scale(1);
+			//fx.rotation = Dice.angle();
+		}
+		
 		syncLife();
 	}
 	
