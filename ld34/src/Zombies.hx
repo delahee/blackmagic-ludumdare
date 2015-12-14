@@ -314,7 +314,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 				ry = y = c.cacheBounds.y + ofsCarY;
 				
 				if ( stateLife > 24 ) {
-					c.hit(this);
+					c.hit( type == Boss ? 3 : 1,this);
 					dispose();
 				}
 		}
@@ -432,8 +432,8 @@ class Zombies {
 		switch(level) {
 			case 1: shouldSpawn = g.progress <= 0.75;
 			case 2: shouldSpawn = g.progress <= 0.60;
-			case 3: shouldSpawn = g.progress <= 0.75;
-			case 4: shouldSpawn = g.progress <= 0.75;
+			case 3: shouldSpawn = g.progress <= 0.8;
+			case 4: shouldSpawn = g.progress <= 0.8;
 		}
 		
 		for ( n in start...end ) {
@@ -454,13 +454,33 @@ class Zombies {
 						else if ( mt.gx.Dice.percentF(rand,1)) spawnZombieLow();
 						else if ( mt.gx.Dice.percentF(rand,1)) spawnZombieBase();
 					}
-					else {
+					else if( g.progress < 0.55 ){
 						if ( mt.gx.Dice.percentF(rand,2)) spawnZombieBase();
 						else if ( mt.gx.Dice.percentF(rand,1.5)) spawnZombiePackHigh();
 						else if ( mt.gx.Dice.percentF(rand,1.5)) spawnZombiePackLow();
 					}
+					else if( g.progress < 0.6 ){
+						if ( mt.gx.Dice.percentF(rand,4)) spawnZombieBase();
+						else if ( mt.gx.Dice.percentF(rand,2.5)) spawnZombiePackHigh();
+						else if ( mt.gx.Dice.percentF(rand,2.5)) spawnZombiePackLow();
+					}
+					else {
+						if ( nbBoss == 0) {
+							spawnZombieBase("E");
+							nbBoss++;
+						}
+						if ( mt.gx.Dice.percentF(rand,4.5)) spawnZombieBase();
+						else if ( mt.gx.Dice.percentF(rand,3)) spawnZombiePackHigh();
+						else if ( mt.gx.Dice.percentF(rand,3)) spawnZombiePackLow();
+					}
 					
 				case 4:
+					if ( g.progress > 0.5) {
+						if ( nbBoss < 2 && mt.gx.Dice.percentF(rand,3)) {
+							spawnZombieBase("E");
+							nbBoss++;
+						}
+					}
 					if ( mt.gx.Dice.percentF(rand,2)) spawnZombieBase();
 					else if ( mt.gx.Dice.percentF(rand,1)) spawnZombiePackHigh();
 					else if ( mt.gx.Dice.percentF(rand,1)) spawnZombiePackLow();
@@ -482,6 +502,7 @@ class Zombies {
 		}
 	}
 	
+	var nbBoss = 0;
 	public function spawnZombieBase(?inletter) {
 		
 		inline function x(str:String) {
@@ -492,7 +513,7 @@ class Zombies {
 			default: 	x("A");
 			case 2: 	x("AAB");
 			case 3:		x("AABBC");
-			case 4:		x("AABBCCD");
+			case 4:		x("ABBCCDD");
 		};
 		
 		var name = "zombie" + letter;
@@ -520,9 +541,11 @@ class Zombies {
 		switch( z.type) {
 			//case Girl: 	z.hp += 10;
 			case Girl: 	z.baseDx *= 2; 		z.hp += 10;
-			case Bold: 	z.baseDx *= 1.5; 	z.hp += 12;
-			case Armor: z.baseDx *= 1.8; 	z.hp += 15;
-			case Boss : z.hp += 100;
+			case Bold: 	z.baseDx *= 1.75; 	z.hp += 12;
+			case Armor: z.baseDx *= 1.8; 	z.hp += 25;
+			case Boss : 
+						z.hp += 500; 		
+						z.rushingZombie = true; z.baseDx *= 1.8;
 			default:
 		}
 		

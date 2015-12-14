@@ -733,7 +733,7 @@ class G {
 			b.x = C.W * 0.5;
 			b.y = 150;
 			b.setSize( C.W, 10 );
-			tw.create(b, "y", 		92, 400);
+			tw.create(b, "y", 		100, 400);
 			tw.create(b, "height", 	130, 300);
 			
 			var localRoot = new h2d.Sprite( goScreen );
@@ -749,8 +749,17 @@ class G {
 			tw.create(localRoot, "x", 0, TBurnOut, 300);
 			
 			var localRoot2 = new h2d.Sprite( goScreen );
+			
 			var n = new h2d.Text(d.eightSmall,localRoot2 );
 			n.y = C.H * 0.40 - n.textHeight * 0.5;
+			n.text = "SCORE "+score;
+			n.letterSpacing = -1;
+			n.textColor = 0xffe6b0;
+			n.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			n.x = C.W * 0.5 - n.textWidth*0.5;
+			
+			var n = new h2d.Text(d.eightSmall,localRoot2 );
+			n.y = C.H * 0.5 - n.textHeight * 0.5;
 			n.text = "CLICK TO RESTART";
 			n.letterSpacing = -1;
 			n.textColor = 0xffe6b0;
@@ -759,7 +768,7 @@ class G {
 			
 			var n = new h2d.Text(d.eightSmall,localRoot2 );
 			n.x = C.W * 0.25;
-			n.y = C.H * 0.5 - n.textHeight * 0.5;
+			n.y = C.H * 0.55 - n.textHeight * 0.5;
 			n.text = "F1 / F2 / F3 / F4 to jump to level";
 			n.letterSpacing = -1;
 			n.textColor = 0xffe6b0;
@@ -767,28 +776,42 @@ class G {
 			n.x = C.W * 0.5 - n.textWidth*0.5;
 			
 			var goMask = new h2d.Interactive( mt.Metrics.w(), mt.Metrics.h(), postScene);
+			
+			
+			
+			function f() {
+				goScreen.dispose();
+				goMask.dispose();
+				isLoosing = false;
+			}
+			
+			function onPress(f){
+				var tt = tw.create( localRoot, "x", C.W * 1.5, TBurnOut, 300 );
+				haxe.Timer.delay(function(){
+					var ttt = tw.create( localRoot2, "x", C.W * 1.5, TBurnOut, 300 );
+					ttt.onEnd = function() {
+						var tttt = tw.create(b, "scaleY", 0, TBurnIn, 200);
+						tttt.onEnd = function(){
+							f();
+						};
+					}
+				},100);
+			}
+			
+				
 			goMask.onClick = function(e) {
-				function f() {
-					goScreen.dispose();
-					goMask.dispose();
-					isLoosing = false;
-				}
-				haxe.Timer.delay( function() {
+				onPress( function() {
 					f();
 					restart(curLevel);
-				},1 );
+				});
 			};
 			
 			goMask.onSync = function() {
-				function f() {
-					goScreen.dispose();
-					goMask.dispose();
-					isLoosing = false;
-				}
-				if ( mt.flash.Key.isToggled(hxd.Key.F1)) { f(); level1();  }
-				if ( mt.flash.Key.isToggled(hxd.Key.F2)) { f(); level2();  }
-				if ( mt.flash.Key.isToggled(hxd.Key.F3)) { f(); level3();  }
-				if ( mt.flash.Key.isToggled(hxd.Key.F4)) { f(); level4();  }
+				
+				if ( mt.flash.Key.isToggled(hxd.Key.F1)) onPress( function() { f(); level1();  } );
+				if ( mt.flash.Key.isToggled(hxd.Key.F2)) onPress( function(){ f(); level2();  });
+				if ( mt.flash.Key.isToggled(hxd.Key.F3)) onPress( function(){ f(); level3();  });
+				if ( mt.flash.Key.isToggled(hxd.Key.F4)) onPress( function(){ f(); level4();  });
 			}
 		},1300);
 	}
