@@ -64,7 +64,7 @@ h1, h2, h3 {
 .center {
 	margin:auto;
 	text-align:center;
-	margin-top:20px;
+	margin-top:10px;
 	margin-bottom:10px;
 }
 
@@ -92,7 +92,6 @@ a.rate:hover {
 
 .float {
 	float:right;
-	margin-right:40px;
 }
 
 .HowtoPlay {
@@ -102,7 +101,6 @@ a.rate:hover {
 
 .inline-block {display:inline-block;}
 .block {display:block;}
-
 .cr {
 	text-align:center;
 	width:600px;

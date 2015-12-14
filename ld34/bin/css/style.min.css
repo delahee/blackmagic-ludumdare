@@ -5,11 +5,11 @@ a:hover{color:#ff9358;transition:all 100ms ease-out;}
 h1,h2,h3{color:#ffe6b0;font-size:2em;font-weight:bolder;margin-bottom:-5px;margin-top:5px;text-align:center;}
 #content{margin:auto;width:1180px;}
 #game{width:1180px;margin:auto;text-align:center;}
-.center{margin:auto;text-align:center;margin-top:20px;margin-bottom:10px;}
+.center{margin:auto;text-align:center;margin-top:10px;margin-bottom:10px;}
 .marginTop{margin-top:5px;}
 a.rate{color:#291d24;height:50px;height:50px;text-transform:capitalize;font-size:2em;text-align:center;padding:8px;padding-top:5px;text-transform:uppercase;}
 a.rate:hover{//text-shadow:0px 2px 4px #156275,2px 0px 4px #156275,2px 2px 4px #156275,-2px -2px 4px #156275;text-align:center;color:#ff9358;}
-.float{float:right;margin-right:40px;}
+.float{float:right;}
 .HowtoPlay{font-size:1em;text-align:center;}
 .inline-block{display:inline-block;}
 .block{display:block;}
