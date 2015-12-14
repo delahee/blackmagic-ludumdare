@@ -37,16 +37,16 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 	public var incomingZone:Float;
 	public var touched : Bool=false;
 	
-	var type : ZType;
-	
 	public var onCar : Bool;
 	public var rushingZombie = false;
-	var state : ZState = Nope;
-	var bounds : h2d.col.Bounds;
-	
 	public var bulletPosX:Float;
 	public var bulletPosY:Float;
 	
+	var state 	: ZState = Nope;
+	var bounds 	: h2d.col.Bounds;
+	var stateLife = 0.0;
+	var type 	: ZType;
+	var name 	: String;
 	
 	static var uid = 0;
 	var id = 0;
@@ -65,6 +65,11 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 	
 	public inline function prio() {
 		changePriority( - Math.round((( ry * 1000) + rx)) );
+	}
+	
+	override function onDispose() {
+		super.onDispose();
+		man.zombies.remove(this);
 	}
 	
 	var r = ["partA", "partB", "partC", "partN"];
@@ -174,6 +179,9 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 			onDeath();
 	}
 	
+	var ofsCarX = 0.;
+	var ofsCarY = 0.;
+	
 	public function cs(st:ZState) {
 		switch( st ) {
 			case Dead:
@@ -187,13 +195,21 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 				dx = baseDx * 0.1;
 				if( a.hasAnim())
 					a.setCurrentAnimSpeed( 0.2 );
-			case Nope,StuckToCar:
+			case Nope:
+			case StuckToCar:
+				ofsCarX = x - c.cacheBounds.x;
+				ofsCarY = y - c.cacheBounds.y;
+				
+				if ( a.hasAnim()) {
+					a.playAndLoop(name+"_grab");
+					a.setCurrentAnimSpeed(0.33);
+				}
 		}
 		state = st;
+		stateLife = 0;
 	}
 	
-	//var gfx : h2d.Graphics;
-	public function update(dt) {
+	public function update(dt:Float) {
 		if ( batch == null ) return;
 		
 		if ( isDead()) {
@@ -293,27 +309,28 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 			case StuckToCar:
 				dx = 0;
 				dy = 0;
-			
+				
 				rx = x = c.cacheBounds.x + ofsCarX;
 				ry = y = c.cacheBounds.y + ofsCarY;
+				
+				if ( stateLife > 24 ) {
+					c.hit(this);
+					dispose();
+				}
 		}
 		
-		if ( !onCar && isNearCar() ) {
-			c.hit(this);
-			dispose();
-			//TODO
-			
+		if ( state!=StuckToCar && isNearCar() ) {
+			cs(StuckToCar);
 		}
 		
 		touched = false;
+		stateLife += Lib.dt2Frame(dt);
 	}
 	
-	var ofsCarX = 0.;
-	var ofsCarY = 0.;
 	var ofsHookX = 0.;
 	
 	public inline function isNearCar() {
-		return x >= c.cacheBounds.x - 12 + ofsHookX;
+		return x >= c.cacheBounds.x - 44 + ofsHookX;
 	}
 }
 
@@ -333,7 +350,7 @@ class Zombies {
 	var elapsedTime = 0.0;
 	public var level : Int = 0;
 	
-	var zombies : hxd.Stack<Zombie> = new hxd.Stack<Zombie>();
+	public var zombies : hxd.Stack<Zombie> = new hxd.Stack<Zombie>();
 	public var deathZone : List<DeathZone> = new List();
 	
 	public var tilePixel : h2d.Tile;
@@ -401,7 +418,7 @@ class Zombies {
 			var zz = zombies.unsafeGet(z);
 			if ( zz == null)
 				break;
-			zz.update(true);
+			zz.update(dTime);
 			if ( zz.destroyed )
 				zombies.remove( zz );
 			z--;
@@ -473,12 +490,14 @@ class Zombies {
 			case 4:		x("AABBCCD");
 		};
 		
-		var name = "zombie" + letter + "_run";
-		var z = new Zombie(this, sb, d.char, name );
-
+		var name = "zombie" + letter;
+		var fname = name + "_run";
+		var z = new Zombie(this, sb, d.char, fname );
+		
+		z.name = name;
 		z.type = cast letter.charCodeAt(0) - "A".code;
 		
-		z.a.playAndLoop(name);
+		z.a.playAndLoop(fname);
 		if ( z.a.hasAnim())
 			z.a.setCurrentAnimSpeed( 0.4 );
 		

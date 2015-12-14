@@ -9,4 +9,12 @@ class Lib{
 		return f;
 	}
 	
+	public static inline function dt2Frame( dt:  Float ) : Float{
+		if ( dt == 0)
+			dt = 1.0 / C.FPS;
+		var t = 1.0 / dt;
+		var frame = t / C.FPS;
+		return frame;
+	}
+	
 }

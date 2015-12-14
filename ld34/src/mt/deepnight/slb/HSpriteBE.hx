@@ -171,7 +171,10 @@ class HSpriteBE extends BatchElement implements SpriteInterface {
 		}
 	}
 
-	public inline function dispose() remove();
+	function onDispose(){}
+	public inline function dispose() {
+		remove();
+	}
 	override function remove() {
 		super.remove();
 

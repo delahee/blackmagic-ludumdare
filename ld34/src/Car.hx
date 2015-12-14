@@ -65,9 +65,9 @@ class Car {
 			dirts.push(dirt);
 		}
 		
-		car = new mt.deepnight.slb.HSpriteBE( sb, d.char,"carPlay");
-		car.a.playAndLoop( "carStop" );
+		car = new mt.deepnight.slb.HSpriteBE( sb, d.char,"carStop");
 		car.a.setGeneralSpeed( 0.33 );
+		bx = - C.W;
 		cacheBounds = new h2d.col.Bounds();
 		syncLife();
 		light = new mt.deepnight.slb.HSpriteBE( fx, d.char, "fxCarLight");
@@ -134,7 +134,7 @@ class Car {
 			return gt;
 		switch( gt ) {
 			case GTNone:
-			case GTGun: gun.a.playAndLoop("carGun"); 			g.partition.curWeapon.text = "GUN";
+			case GTGun: gun.a.playAndLoop("carGuns"); 			g.partition.curWeapon.text = "GUN";
 			case GTCanon: gun.a.playAndLoop("carCanon");		g.partition.curWeapon.text = "CANON";
 			case GTShotgun: gun.a.playAndLoop("carShotgun");	g.partition.curWeapon.text = "SHOTGUN";
 		}
@@ -154,11 +154,8 @@ class Car {
 	
 	public function hit(?v=1.0,z:Zombie) {
 		life -= v;
-		if ( life <= 0.0 ) {
-			g.loose();
-			life = 0.0;
-		}
-		//new mt.heaps.fx.Flash( sb, 0.075,0xff0072 );
+		
+		new mt.heaps.fx.Flash( sb, 0.075,0xff0000,2.0 );
 		isShaking = true;
 		var sfx = new mt.heaps.fx.Shake( sb, 3, 3 );
 		sfx.onFinish = function() isShaking = false;
@@ -172,11 +169,14 @@ class Car {
 			fx.x = z.x;
 			fx.y = z.y;
 			fx.alpha = 0.7;
-			//fx.scale(1);
-			//fx.rotation = Dice.angle();
 		}
 		
 		syncLife();
+		
+		if ( life <= 0.0 ) {
+			g.loose();
+			life = 0.0;
+		}
 	}
 	
 	public function reset() {

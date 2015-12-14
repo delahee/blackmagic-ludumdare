@@ -84,8 +84,8 @@ class G {
 		masterScene.addPass( preScene, true );
 		masterScene.addPass( gameRoot );
 		masterScene.addPass( postScene );	
-		mt.gx.h2d.Proto.rect( 0, 0, 50, 50, 0xffff00, 1.0, gameRoot);
-		mt.gx.h2d.Proto.rect( 0, 100, 50, 50, 0xff0055, 1.0, postScene);
+		//mt.gx.h2d.Proto.rect( 0, 0, 50, 50, 0xffff00, 1.0, gameRoot);
+		//mt.gx.h2d.Proto.rect( 0, 100, 50, 50, 0xff0055, 1.0, postScene);
 		
 		initBg();
 		initCar();
@@ -103,7 +103,7 @@ class G {
 		
 		var bs = [];
 		var b = mt.gx.h2d.Proto.bt( 100, 50, "start",
-		start, postScene); bs.push(b);
+		function() restart(curLevel), postScene); bs.push(b);
 		
 		var b = mt.gx.h2d.Proto.bt( 100, 50, "launch",
 		function() {
@@ -131,7 +131,7 @@ class G {
 		
 		for ( b in bs ) b.y += 150;
 		
-		haxe.Timer.delay( start , 800 );
+		haxe.Timer.delay( function() restart(curLevel) , 500 );
 		
 		var pc = progressCounter = new h2d.Number(d.eightSmall,gameRoot);
 		pc.x = C.W - 50;
@@ -339,14 +339,21 @@ class G {
 	}
 	
 	public function onStart() {
-		d.stopAllMusic();
-		started = true;
-		nowTime = 0;
-		startTime = hxd.Timer.oldTime;
-		car.reset();
-		progress = 0;
-		score = 0;
-		multiplier = 1;
+		car.bx = - C.W;
+		car.car.a.playAndLoop("carStop");
+		var tt = tw.create(car, "bx", Car.BASE_BX, 600);
+		///tt.onEnd = function(){
+			d.stopAllMusic();
+			started = true;
+			nowTime = 0;
+			startTime = hxd.Timer.oldTime;
+			car.reset();
+			progress = 0;
+			score = 0;
+			multiplier = 1;
+			zombies.speed = 1;
+			updateZombies=true;
+		//};
 	}
 	
 	public function afterStart() {
@@ -398,11 +405,24 @@ class G {
 		},1500);
 	}
 	
-	public function start() {
-		
-		//level2();
-		//return;
-		
+	public function restart(lvl) {
+		switch(lvl) {
+			case 1:level1();
+			case 2:level2();
+			case 3:level3();
+			case 4:level4();
+		}
+	}
+	
+	inline function startBeat() {
+		haxe.Timer.delay( function() {
+			partition.enablePulse = true;
+			car.car.a.playAndLoop( "carPlay" );
+		},2400);
+	}
+	
+	public function level1() {
+		curLevel = 1;
 		onStart();
 		
 		d.sndPlayMusic1();
@@ -411,16 +431,12 @@ class G {
 		curMidi = d.music1Desc;
 		partition.resetForSignature(curMidi.sig );
 		
-		haxe.Timer.delay( function() {
-			partition.enablePulse = true;
-			car.car.a.playAndLoop( "carPlay" );
-		},1500);
-		score = 0;
-		
+		startBeat();
 		afterStart();
 	}
 	
 	public function level2() {
+		curLevel=2;
 		onStart();
 		
 		d.sndPlayMusic2();
@@ -429,18 +445,12 @@ class G {
 		curMidi = d.music2Desc;
 		partition.resetForSignature(curMidi.sig );
 		
-		haxe.Timer.delay( function() {
-			partition.enablePulse = true;
-			car.car.a.playAndLoop( "carPlay" );
-		},1500);
-		curLevel++;
-		
-		//car.gunType = GTCanon;
-		//car.gun.a.playAndLoop("carCanon");
+		startBeat();
 		afterStart();
 	}
 	
 	public function level3() {
+		curLevel=3;
 		onStart();
 		
 		d.sndPlayMusic3();
@@ -449,14 +459,7 @@ class G {
 		curMidi = d.music3Desc;
 		partition.resetForSignature( curMidi.sig );
 		
-		haxe.Timer.delay( function() {
-			partition.enablePulse = true;
-			car.car.a.playAndLoop( "carPlay" );
-		},1500);
-		curLevel++;
-		
-		//car.gunType = GTShotgun;
-		//car.gun.a.playAndLoop("carShotgun");
+		startBeat();
 		afterStart();
 	}
 	
@@ -469,11 +472,7 @@ class G {
 		curMidi = d.music4Desc;
 		partition.resetForSignature( curMidi.sig );
 		
-		haxe.Timer.delay( function() {
-			partition.enablePulse = true;
-			car.car.a.playAndLoop( "carPlay" );
-		},1500);
-		curLevel++;
+		startBeat();
 		afterStart();
 	}
 	
@@ -577,7 +576,7 @@ class G {
 	var updateZombies = true;
 	
 	public function preUpdateGame() {
-		if ( started ) 
+		if ( started && updateZombies) 
 			updateTempo();
 		else 
 			dTime = 1.0 / C.FPS;
@@ -672,6 +671,10 @@ class G {
 			end();
 		}
 		
+		if ( mt.flash.Key.isToggled(hxd.Key.L)) {
+			loose();
+		}
+		
 		if ( mt.flash.Key.isToggled(hxd.Key.E)) {
 			endGame();
 		}
@@ -699,11 +702,80 @@ class G {
 	}
 	
 	public function postUpdateGame() {
-		partition.update();
+		if( updateZombies )
+			partition.update();
 	}
 	
 	public function loose() {
-		zombies.setLevel(0);
+		//zombies.setLevel(0);
+		//updateZombies();
+		
+		zombies.speed = -2;
+		
+		var o = tw.create( car,"bx", - C.W, 1200 );
+		o.onEnd = function() {
+			updateZombies = false;
+		}
+		d.stopAllMusic();
+		haxe.Timer.delay( function() {
+			D.sfx.JINGLE_GAMEOVER().play();
+		},400);
+		
+		haxe.Timer.delay( function() {
+			var goScreen = new h2d.Sprite(gameRoot);
+			
+			var b = new h2d.Bitmap( h2d.Tile.fromColor( 0xcd000000 ).centerRatio(0.5, 0.5), goScreen );
+			b.x = C.W * 0.5;
+			b.y = 150;
+			b.setSize( C.W, 10 );
+			tw.create(b, "y", 		92, 400);
+			tw.create(b, "height", 	130, 300);
+			
+			var localRoot = new h2d.Sprite( goScreen );
+			var t = new h2d.Text( d.eightMedium,localRoot );
+			t.text = "GAMEOVER";
+			t.x = C.W * 0.5 - t.textWidth * 0.5;
+			t.y = C.H * 0.2;
+			t.letterSpacing = -1;
+			t.textColor = 0xff9358;
+			t.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			
+			localRoot.x -= C.W;
+			tw.create(localRoot, "x", 0, TBurnOut, 300);
+			
+			var localRoot2 = new h2d.Sprite( goScreen );
+			var n = new h2d.Text(d.eightSmall,localRoot2 );
+			n.y = C.H * 0.40 - n.textHeight * 0.5;
+			n.text = "CLICK TO RESTART";
+			n.letterSpacing = -1;
+			n.textColor = 0xffe6b0;
+			n.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			n.x = C.W * 0.5 - n.textWidth*0.5;
+			
+			var n = new h2d.Text(d.eightSmall,localRoot2 );
+			n.x = C.W * 0.25;
+			n.y = C.H * 0.5 - n.textHeight * 0.5;
+			n.text = "F1 / F2 / F3 / F4 to jump to level";
+			n.letterSpacing = -1;
+			n.textColor = 0xffe6b0;
+			n.dropShadow = { dx:2, dy:2, color:0xD804a2d, alpha:1.0 };
+			n.x = C.W * 0.5 - n.textWidth*0.5;
+			
+			var goMask = new h2d.Interactive( C.W, C.H, postScene);
+			goMask.onClick = function(e) {
+				goScreen.dispose();
+				haxe.Timer.delay( restart.bind(curLevel),1 );
+			};
+			goMask.onSync = function() {
+				var a = 0;
+				if ( mt.flash.Key.isToggled(hxd.Key.F1)) level1();
+				if ( mt.flash.Key.isToggled(hxd.Key.F2)) level2();
+				if ( mt.flash.Key.isToggled(hxd.Key.F3)) level3();
+				if ( mt.flash.Key.isToggled(hxd.Key.F4)) level4();
+					
+				
+			}
+		},1300);
 	}
 	
 	public function onMiss() {
