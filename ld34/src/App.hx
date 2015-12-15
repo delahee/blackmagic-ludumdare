@@ -42,7 +42,7 @@ class App extends flash.display.Sprite {
 	
 	function init() {
 		var gs = 3;
-		if ( mt.Metrics.h() < 1500)
+		if ( mt.Metrics.w() < 1500)
 			gs = 2;
 		d = new D();
 		g = new G(gs);

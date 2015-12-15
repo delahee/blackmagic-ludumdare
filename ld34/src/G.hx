@@ -613,17 +613,16 @@ class G {
 		tw.create(localRoot, "x", 0, TBurnOut,300);
 		
 		var localRoot2 = new h2d.Sprite( startScreen );
-		var t = new h2d.Text( d.eightMediumPlus,localRoot2 );
+		var t = new h2d.Text( curLevel==2?d.eightSmall:d.eightMedium,localRoot2 );
 		t.text = switch(curLevel) {
 			default:"ERROR";
-			case 1: "LUSTY CARESS";
-			case 2: "PLANET ERROR";
-			case 3: "C3POPOCALYSPE";
-			case 4: "BOB ZOMBI";
+			case 1: "PLANET ERROR";
+			case 2: "WERE GONNA ROCK YOUR SOCKS OFF";
+			case 3: "DESTROY AND RACE AND GROOVE";
+			case 4: "WE ARE THE DEV S";
 		};
 		t.x = C.W * 0.5 - t.textWidth * 0.5;
 		t.y = C.H * 0.40 - t.textHeight * 0.5;
-		t.letterSpacing = -1;
 		t.textColor = 0xffe6b0;
 		t.dropShadow = ds;
 		
@@ -1031,9 +1030,10 @@ class G {
 				
 				var v = new mt.heaps.fx.Vanish( tutoScreen, true);
 				v.onFinish = tutoScreen.dispose;
-				car.shootLeft();
-				car.shootRight();
+				//car.shootLeft();
+				//car.shootRight();
 				//leave tuto screen
+				d.sfxPreload.get("GUN3").play();
 				
 				haxe.Timer.delay( function() {
 					onPause(false);
@@ -1041,7 +1041,7 @@ class G {
 				},50);
 				
 				haxe.Timer.delay( function() {
-					D.sfx.ANNOUNCE_AWESOME().play();
+					d.sfxPreload.get("ANNOUNCE_AWESOME").play();
 				},100);
 				
 				haxe.Timer.delay( function() {
