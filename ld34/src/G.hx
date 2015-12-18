@@ -8,6 +8,7 @@ class G {
 	public static var me : G;
 	public var masterScene : h2d.Scene;
 	public var postScene : h2d.Scene = new h2d.Scene();
+	public var bbScene : h2d.Scene = new h2d.Scene();
 	public var postRoot : h2d.Sprite = new h2d.Sprite();
 	public var blackBands : h2d.Sprite = new h2d.Sprite();
 	
@@ -103,12 +104,12 @@ class G {
 		trace("g.resize");
 		postRoot.detach();
 		blackBands.detach();
+		blackBands.disposeAllChildren();
 		postScene.addChild( postRoot );
-		postScene.addChild( blackBands );
+		bbScene.addChild( blackBands );
 		
 		var nw = mt.Metrics.w();
 		var nh = mt.Metrics.h();
-		
 		
 		var ws = 4;
 		var hs = 4;
@@ -144,7 +145,6 @@ class G {
 		var realNewWidth = gs * C.W;
 		*/
 		
-		//var diffHeight = nh - realNewHeight;
 		//postRoot.y = diffHeight * 0.5;
 		//gameRoot.y = diffHeight / rs * 0.5;
 		//scaledRoot.y = diffHeight * 0.5;
@@ -154,17 +154,38 @@ class G {
 		
 		var rs = Math.min( nh / C.H, nw / C.W );
 		//var rs = Math.round(Math.min( nh / C.H, nw / C.W ));
-		
-		gameScene.setWantedSize(Math.round(rs * C.W),Math.round(rs * C.H));
+		var rh, rw;
+		gameScene.setWantedSize(rw = Math.round(rs * C.W),rh = Math.round(rs * C.H));
 		gameScene.reset();
 		gameRoot.setScale(rs);
 		scaledRoot.setScale(rs);
 		
-		//var grWidth = gs * C.W;
-		//var grHeight = gs * C.H;
+		var diffHeight = nh - rh;
+		var diffWidth = nw - rw;
 		
-		//gameRoot.x = nw/gs * 0.5 - grWidth/gs * 0.5;
-		//gameRoot.y = nh/gs * 0.5 * grHeight/gs * 0.5;
+		scaledRoot.y = gameRoot.y = (diffHeight * 0.5);
+		scaledRoot.x = gameRoot.x = (diffWidth * 0.5);
+		
+		var borderH = diffHeight*0.5;
+		var borderW = diffWidth*0.5;
+		postRoot.x = borderW;
+		postRoot.y = borderH;
+		
+		var t = h2d.Tile.fromColor(0xff000000);
+		var b = new h2d.Bitmap( t, blackBands );
+		b.setSize( nw, Math.ceil(borderH));
+		
+		var b = new h2d.Bitmap( t, blackBands );
+		b.setSize( nw, Math.ceil(borderH));
+		b.y = nh - borderH;
+		
+		var b = new h2d.Bitmap( t, blackBands );
+		b.setSize( Math.ceil(borderW),nh);
+		
+		var b = new h2d.Bitmap( t, blackBands );
+		b.setSize( Math.ceil(borderW), nh);
+		b.x = nw - borderW;
+		
 	}
 	
 	public inline function bps() return curMidi.bpm / 60;
@@ -174,6 +195,7 @@ class G {
 		masterScene.addPass( gameScene );
 		masterScene.addPass( scaledRoot );
 		masterScene.addPass( postScene );	
+		masterScene.addPass( bbScene );	
 		
 		initBg();
 		initCar();
