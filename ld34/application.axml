@@ -11,7 +11,7 @@
 	
 	<initialWindow> 
 		<title>Double Kick Heroes</title> 
-		<content>DoubleKickHeroes.swf</content> 
+		<content>DoubleKickHeroes_postJam.swf</content> 
 		<transparent>false</transparent> 
 		<visible>true</visible> 
 		<minimizable>true</minimizable> 

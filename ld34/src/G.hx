@@ -7,15 +7,17 @@ using T;
 class G {
 	public static var me : G;
 	public var masterScene : h2d.Scene;
-	public var preScene : h2d.Scene = new h2d.Scene();
 	public var postScene : h2d.Scene = new h2d.Scene();
-	public var gameRoot : h2d.OffscreenScene2D;
+	public var postRoot : h2d.Sprite = new h2d.Sprite();
+	public var blackBands : h2d.Sprite = new h2d.Sprite();
+	
+	public var gameScene : h2d.OffscreenScene2D;
+	public var gameRoot : h2d.Sprite;
 	public var scaledRoot : h2d.Scene = new h2d.Scene();
 	public var stopped = false;
 	
 	var d(get, null) : D; function get_d() return App.me.d;
 	var tw(get, null) : mt.deepnight.Tweenie; inline function get_tw() return App.me.tweenie;
-	var tip : Tip;
 	
 	public var sbCity : h2d.SpriteBatch;
 	public var sbRocks : h2d.SpriteBatch;
@@ -79,29 +81,99 @@ class G {
 		
 		if ( gs != null)
 			globalScale = gs;
-		tip = new Tip(postScene);
 		h2d.Drawable.DEFAULT_FILTER = false;
-		gameRoot = new h2d.OffscreenScene2D(590*globalScale, 250*globalScale);
+		gameScene = new h2d.OffscreenScene2D(590 * globalScale, 250 * globalScale);
+		gameScene.deferScene = false;
+		gameRoot = new h2d.Sprite( gameScene );
 		gameRoot.scaleX = gameRoot.scaleY = globalScale;
 		
+		
 		if( globalScale == 3)
-			gameRoot.overlay = h2d.Tile.fromAssets("assets/scanLines.png");
+			gameScene.overlay = h2d.Tile.fromAssets("assets/scanLines.png");
 		scaledRoot.scaleX = scaledRoot.scaleY = globalScale;
 		
 		tempoTw = new mt.deepnight.Tweenie();
 		tempoTw.fps = C.FPS;
+		
+		haxe.Timer.delay( 
+		resize, 1);
+	}
+	
+	public function resize() {
+		trace("g.resize");
+		postRoot.detach();
+		blackBands.detach();
+		postScene.addChild( postRoot );
+		postScene.addChild( blackBands );
+		
+		var nw = mt.Metrics.w();
+		var nh = mt.Metrics.h();
+		
+		
+		var ws = 4;
+		var hs = 4;
+		
+		function lowerWidthScale() {
+			while (ws * C.W>nw) {
+				ws--;
+			}
+		}
+		
+		function lowerHeightScale() {
+			while (hs * C.H>nh) {
+				hs--;
+			}
+		}
+		
+		lowerWidthScale();
+		lowerHeightScale();
+		
+		if ( hs > ws ) hs = ws;
+		if ( ws > hs ) ws = hs;
+		var rs = ws;
+		
+		/*
+		var rs = nh / C.H;
+		var gs = Math.round( nh / C.H );
+		if ( gs < 0 )gs=1;
+		var realNewHeight = gs * C.H;
+		
+		var rs = nw / C.W;
+		var gs = Math.round( nw / C.W );
+		if ( gs < 0 )gs=1;
+		var realNewWidth = gs * C.W;
+		*/
+		
+		//var diffHeight = nh - realNewHeight;
+		//postRoot.y = diffHeight * 0.5;
+		//gameRoot.y = diffHeight / rs * 0.5;
+		//scaledRoot.y = diffHeight * 0.5;
+		//gameRoot.y += diffHeight / gs * 0.5;
+		//gameRoot.setScale(gs);
+		//gameRoot.reset();
+		
+		var rs = Math.min( nh / C.H, nw / C.W );
+		//var rs = Math.round(Math.min( nh / C.H, nw / C.W ));
+		
+		gameScene.setWantedSize(Math.round(rs * C.W),Math.round(rs * C.H));
+		gameScene.reset();
+		gameRoot.setScale(rs);
+		scaledRoot.setScale(rs);
+		
+		//var grWidth = gs * C.W;
+		//var grHeight = gs * C.H;
+		
+		//gameRoot.x = nw/gs * 0.5 - grWidth/gs * 0.5;
+		//gameRoot.y = nh/gs * 0.5 * grHeight/gs * 0.5;
 	}
 	
 	public inline function bps() return curMidi.bpm / 60;
 	public inline function speed() return Scroller.GLB_SPEED;
 	
 	public function init() {
-		masterScene.addPass( preScene, true );
-		masterScene.addPass( gameRoot );
+		masterScene.addPass( gameScene );
 		masterScene.addPass( scaledRoot );
 		masterScene.addPass( postScene );	
-		//mt.gx.h2d.Proto.rect( 0, 0, 50, 50, 0xffff00, 1.0, gameRoot);
-		//mt.gx.h2d.Proto.rect( 0, 100, 50, 50, 0xff0055, 1.0, postScene);
 		
 		initBg();
 		initCar();
@@ -123,30 +195,30 @@ class G {
 		
 		#if debug
 		var b = mt.gx.h2d.Proto.bt( 100, 50, "start",
-		function() restart(curLevel), postScene); bs.push(b);
+		function() restart(curLevel), postRoot); bs.push(b);
 		
 		var b = mt.gx.h2d.Proto.bt( 100, 50, "launch",
 		function() {
 			partition.launchNote();
-		}, postScene); bs.push(b);
+		}, postRoot); bs.push(b);
 		b.x += 110;
 		
 		var b = mt.gx.h2d.Proto.bt( 80, 50, "level 2",
 		function() {
 			level2();
-		}, postScene);
+		}, postRoot);
 		b.x += 200; bs.push(b);
 		
 		var b = mt.gx.h2d.Proto.bt( 80, 50, "level 3",
 		function() {
 			level3();
-		}, postScene);
+		}, postRoot);
 		b.x += 300; bs.push(b);
 		
 		var b = mt.gx.h2d.Proto.bt( 80, 50, "level 4",
 		function() {
 			level4();
-		}, postScene);
+		}, postRoot);
 		b.x += 400; bs.push(b);
 		for ( b in bs ) b.y += 150;
 		#end
@@ -175,10 +247,10 @@ class G {
 		car.visible = false;
 		uiVisible = false;
 		
-		gameRoot.colorCorrection = true;
-		gameRoot.sat = 0.55;
+		gameScene.colorCorrection = true;
+		gameScene.sat = 0.55;
 		
-		var b = new h2d.Bitmap(h2d.Tile.fromColor(0xffffffff), postScene);
+		var b = new h2d.Bitmap(h2d.Tile.fromColor(0xffffffff), postRoot);
 		b.setSize(mt.Metrics.w(), mt.Metrics.h());
 		
 		haxe.Timer.delay(function(){
@@ -217,12 +289,12 @@ class G {
 		
 		var m = D.music.MUSIC_INTRO();
 		m.playLoop();
-		var launch = new h2d.Interactive( mt.Metrics.w(), mt.Metrics.h(), postScene);
+		var launch = new h2d.Interactive( mt.Metrics.w(), mt.Metrics.h(), postRoot);
 		function doStart(e) {
 			
 			D.sfx.UI_CLIC().play();
-			tw.create(gameRoot, "sat", 1.0, TZigZag, 400);
-			gameRoot.colorCorrection = false;
+			tw.create(gameScene, "sat", 1.0, TZigZag, 400);
+			gameScene.colorCorrection = false;
 			m.stop();
 			sp.dispose();
 			launch.dispose();
@@ -263,7 +335,6 @@ class G {
 		var engine : h3d.Engine = h3d.Engine.getCurrent();
 		
 		postScene.checkEvents();
-		preScene.checkEvents();
 	
 		if( ! App.me.paused ) {
 			preUpdateGame();
@@ -523,7 +594,7 @@ class G {
 			n.x = 30;
 			n.y = C.H * 0.7;
 			
-			var goMask = new h2d.Interactive( mt.Metrics.w(), mt.Metrics.h(), postScene);
+			var goMask = new h2d.Interactive( mt.Metrics.w(), mt.Metrics.h(), postRoot);
 			
 			function f() {
 				partition.visible = true;
@@ -952,9 +1023,9 @@ class G {
 		if ( mt.flash.Key.isToggled(hxd.Key.NUMBER_4)) 	partition.onMultiplier( 8 );
 		if ( mt.flash.Key.isToggled(hxd.Key.NUMBER_5)) 	partition.onMultiplier( 10);
 		
-		if ( mt.flash.Key.isToggled(hxd.Key.C)) 	{ car.gunType = GTCanon; car.forceGun = true;}
-		if ( mt.flash.Key.isToggled(hxd.Key.G)) 	{ car.gunType = GTGun; car.forceGun = true;}
-		if ( mt.flash.Key.isToggled(hxd.Key.S)) 	{ car.gunType = GTShotgun; car.forceGun = true; }
+		//if ( mt.flash.Key.isToggled(hxd.Key.C)) 	{ car.gunType = GTCanon; car.forceGun = true;}
+		//if ( mt.flash.Key.isToggled(hxd.Key.G)) 	{ car.gunType = GTGun; car.forceGun = true;}
+		//if ( mt.flash.Key.isToggled(hxd.Key.S)) 	{ car.gunType = GTShotgun; car.forceGun = true; }
 		
 		
 		if ( mt.flash.Key.isToggled(hxd.Key.V)) {
@@ -968,6 +1039,31 @@ class G {
 		if ( mt.flash.Key.isToggled(hxd.Key.E)) {
 			endGame();
 		}
+		
+		if ( mt.flash.Key.isToggled(hxd.Key.K)) {
+			trace("before");
+			trace("ww:"+gameScene.wantedWidth);
+			trace("wh:"+gameScene.wantedHeight);
+			trace(gameScene.targetRatioW);
+			trace(gameScene.targetRatioH);
+			if( gameScene.s2d != null){
+				trace("s2dw:"+gameScene.s2d.width);
+				trace("s2dh:"+gameScene.s2d.height);
+			}
+			gameScene.deferScene = ! gameScene.deferScene;
+			gameScene.reset();
+			trace("after");
+			trace("ww:"+gameScene.wantedWidth);
+			trace("wh:"+gameScene.wantedHeight);
+			trace(gameScene.targetRatioW);
+			trace(gameScene.targetRatioH);
+			if( gameScene.s2d != null){
+				trace("s2dw:"+gameScene.s2d.width);
+				trace("s2dh:"+gameScene.s2d.height);
+			}
+		}
+		
+		
 		#end
 		
 		if ( mt.flash.Key.isToggled(hxd.Key.ESCAPE) && !car.invincible) {
@@ -1158,7 +1254,7 @@ class G {
 			n.dropShadow = ds;
 			n.x = C.W * 0.5 - n.textWidth*0.5;
 			
-			var goMask = new h2d.Interactive( mt.Metrics.w(), mt.Metrics.h(), postScene);
+			var goMask = new h2d.Interactive( mt.Metrics.w(), mt.Metrics.h(), postRoot);
 			
 			function f() {
 				goScreen.dispose();

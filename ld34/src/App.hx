@@ -16,7 +16,7 @@ class App extends flash.display.Sprite {
 	function new() {
 		super();
 		
-		mt.deepnight.Lib.redirectTracesToConsole();
+		//mt.deepnight.Lib.redirectTracesToConsole();
 		
 		fxMan = new mt.fx.Manager();
 		me = this;
@@ -32,7 +32,10 @@ class App extends flash.display.Sprite {
 	}
 	
 	function _onResize(_) {
-		trace("resized "+mt.Metrics.w()+" x "+mt.Metrics.h());
+		trace("resized " + mt.Metrics.w() + " x " + mt.Metrics.h());
+		if( g != null){
+			g.resize();
+		}
 	}
 	/*
 	function resize() {

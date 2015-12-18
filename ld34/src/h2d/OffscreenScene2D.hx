@@ -1,15 +1,15 @@
 package h2d;
 
 class OffscreenScene2D extends h2d.Scene {
-	var wantedWith : Int;
-	var wantedHeight : Int;
+	public var wantedWidth(default,null) : Int;
+	public var wantedHeight(default,null) : Int;
 	var targetTile:h2d.Tile;
 	
 	public var targetDisplay : h2d.Bitmap;
 	public var s2d : h2d.Scene;
 	
-	public var targetRatioW = 1.0;
-	public var targetRatioH = 1.0;
+	public var targetRatioW(default,null) = 1.0;
+	public var targetRatioH(default,null) = 1.0;
 	
 	public var deferScene = true;
 	
@@ -24,20 +24,45 @@ class OffscreenScene2D extends h2d.Scene {
 	var colorMatrix : h3d.Matrix = new h3d.Matrix();
 	public var colorCorrection = true;
 	public var overlay : h2d.Tile;
+	
 	public function new(w,h) {
 		super();
-		wantedWith = w;
+		wantedWidth = w;
 		wantedHeight = h;
 		id=++uid;
 		name="Os2D #"+id;
+	}
+	
+	public function setWantedSize(w, h) {
+		wantedWidth = w; 
+		wantedHeight = h;
+		trace('ww:$wantedWidth wh:$wantedHeight');
 	}
 	
 	function rescale2d() {
 		for ( p in extraPasses) {
 			var sc : h2d.Scene = Std.instance( p , h2d.Scene);
 			if ( sc != null )
-				sc.setFixedSize( wantedWith, wantedHeight);
+				sc.setFixedSize( wantedWidth, wantedHeight);
 		}
+	}
+	
+	
+	public function reset() {
+		if( targetDisplay != null){
+			targetDisplay.dispose();
+			targetDisplay = null;
+		}
+			
+		if ( targetTile != null) {
+			targetTile.dispose();
+			targetTile = null;
+		}
+		
+		colorMatrix = new h3d.Matrix();
+		colorCorrection = false;
+		
+		s2d = null;
 	}
 	
 	public override function render(engine:h3d.Engine) {
@@ -50,8 +75,9 @@ class OffscreenScene2D extends h2d.Scene {
 		if ( s2d == null ) {
 			s2d = new h2d.Scene();
 			s2d.name="Os2D.s2d #"+id;
-			if ( !deferScene )
+			if ( !deferScene ){
 				addPass(s2d);
+			}
 		}
 		
 		s2d.checkEvents();
@@ -73,6 +99,12 @@ class OffscreenScene2D extends h2d.Scene {
 				targetDisplay.alphaMap = overlay;
 				targetDisplay.alphaMapAsOverlay = true;
 			}
+			
+			if ( targetDisplay != null ) {
+				targetDisplay.setSize( wantedWidth, wantedHeight);
+				s2d.setFixedSize(wantedWidth, wantedHeight);
+			}
+			
 			s2d.render( engine );
 		}
 		else 
@@ -81,21 +113,21 @@ class OffscreenScene2D extends h2d.Scene {
 	
 	public function renderOffscreen( target : h2d.Tile ) {
 		var engine = h3d.Engine.getCurrent();
-		var tw = hxd.Math.nextPow2(wantedWith);
+		var tw = hxd.Math.nextPow2(wantedWidth);
 		var th = hxd.Math.nextPow2(wantedHeight);
 			
 		if ( target == null ) {
 			var tex = new h3d.mat.Texture(tw, th, h3d.mat.Texture.TargetFlag());
 			target = new h2d.Tile(tex, 0, 0, tw, th);
 			
-			target.scaleToSize(wantedWith, wantedHeight);
+			//target.scaleToSize(wantedWidth, wantedHeight);
 			
 			#if cpp 
 			target.targetFlipY();
 			#end
 			
-			targetRatioW = wantedWith / tw;
-			targetRatioH = wantedWith / th;
+			targetRatioW = wantedWidth / tw;
+			targetRatioH = wantedHeight / th;
 		}
 		
 		var ow = engine.width;
@@ -105,7 +137,7 @@ class OffscreenScene2D extends h2d.Scene {
 		
 		var tx = target.getTexture();
 		engine.setTarget(tx, true);
-		engine.setRenderZone(target.x, target.y, tw, th);
+		engine.setRenderZone();
 		
 		super.render(engine);
 		
