@@ -36,7 +36,6 @@ class OffscreenScene2D extends h2d.Scene {
 	public function setWantedSize(w, h) {
 		wantedWidth = w; 
 		wantedHeight = h;
-		trace('ww:$wantedWidth wh:$wantedHeight');
 	}
 	
 	function rescale2d() {
@@ -75,9 +74,9 @@ class OffscreenScene2D extends h2d.Scene {
 		if ( s2d == null ) {
 			s2d = new h2d.Scene();
 			s2d.name="Os2D.s2d #"+id;
-			if ( !deferScene ){
+			if ( !deferScene )
 				addPass(s2d);
-			}
+			
 		}
 		
 		s2d.checkEvents();

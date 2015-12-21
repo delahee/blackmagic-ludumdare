@@ -426,10 +426,9 @@ class Zombies {
 		sb.removeAllElements();
 		sbAdd.removeAllElements();
 		parts = new hxd.Stack<mt.deepnight.HParticle>();
-		
-		for ( z in zombies)
-			z.remove();
+		for ( z in zombies) z.remove();
 		zombies = new hxd.Stack<Zombie>();
+		nbBoss = 0;
 	}
 	
 	public function update(dTime:Float) {
@@ -583,9 +582,6 @@ class Zombies {
 		return z;
 	}
 	
-	public function explodeZombies() {
-		
-	}
 	
 	public function spawnZombieHigh() {
 		var z = spawnZombieBase();

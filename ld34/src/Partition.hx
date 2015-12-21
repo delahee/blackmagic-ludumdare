@@ -394,11 +394,11 @@ class Partition {
 		switch( n ) {
 			default:
 			case 3:		imgName="comboA"; sndName="ANNOUNCE_NICE";
-			case 4:		imgName="comboB"; sndName="ANNOUNCE_AWESOME";
-			case 5:		imgName="comboC"; sndName="ANNOUNCE_MARVELOUS";
-			case 6:		imgName="comboD"; sndName="ANNOUNCE_EXCELLENT";
-			case 8:		imgName="comboE"; sndName="ANNOUNCE_GRINDHOUSE";
-			case 10: 	imgName="comboF"; sndName="ANNOUNCE_KILLINGSPREE";
+			case 5:		imgName="comboB"; sndName="ANNOUNCE_AWESOME";
+			case 7:		imgName="comboC"; sndName="ANNOUNCE_MARVELOUS";
+			case 8:		imgName="comboD"; sndName="ANNOUNCE_EXCELLENT";
+			case 10:	imgName="comboE"; sndName="ANNOUNCE_GRINDHOUSE";
+			case 12: 	imgName="comboF"; sndName="ANNOUNCE_KILLINGSPREE";
 		}
 		
 		if ( imgName == null) return;

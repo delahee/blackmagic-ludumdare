@@ -2,7 +2,7 @@
 <application xmlns="http://ns.adobe.com/air/application/14.0">
 	
 	<id>com.blackmagic-home.DoubleKickHeroes</id> 
-	<versionNumber>0.0.1</versionNumber> 
+	<versionNumber>0.0.2</versionNumber> 
 	<filename>DoubleKickHeroes</filename> 
 	
 	<name>Double Kick Heroes</name> 

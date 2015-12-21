@@ -10,7 +10,12 @@
 	
 	<window background="#ffffff" fps="61" />
 	
+	<!--
 	<window width="1770" height="750" unless="mobile" />
+		
+	<window width="885" height="375" unless="mobile" />
+		-->
+	<window width="1180" height="500" unless="mobile" />
 	
 	<!--
 	<window width="940" height="400" unless="mobile" />

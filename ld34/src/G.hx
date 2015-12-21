@@ -84,13 +84,10 @@ class G {
 			globalScale = gs;
 		h2d.Drawable.DEFAULT_FILTER = false;
 		gameScene = new h2d.OffscreenScene2D(590 * globalScale, 250 * globalScale);
-		gameScene.deferScene = false;
 		gameRoot = new h2d.Sprite( gameScene );
 		gameRoot.scaleX = gameRoot.scaleY = globalScale;
 		
-		
-		if( globalScale == 3)
-			gameScene.overlay = h2d.Tile.fromAssets("assets/scanLines.png");
+		gameScene.overlay = h2d.Tile.fromAssets("assets/scanLines.png");
 		scaledRoot.scaleX = scaledRoot.scaleY = globalScale;
 		
 		tempoTw = new mt.deepnight.Tweenie();
@@ -101,7 +98,6 @@ class G {
 	}
 	
 	public function resize() {
-		trace("g.resize");
 		postRoot.detach();
 		blackBands.detach();
 		blackBands.disposeAllChildren();
@@ -111,49 +107,7 @@ class G {
 		var nw = mt.Metrics.w();
 		var nh = mt.Metrics.h();
 		
-		var ws = 4;
-		var hs = 4;
-		
-		function lowerWidthScale() {
-			while (ws * C.W>nw) {
-				ws--;
-			}
-		}
-		
-		function lowerHeightScale() {
-			while (hs * C.H>nh) {
-				hs--;
-			}
-		}
-		
-		lowerWidthScale();
-		lowerHeightScale();
-		
-		if ( hs > ws ) hs = ws;
-		if ( ws > hs ) ws = hs;
-		var rs = ws;
-		
-		/*
-		var rs = nh / C.H;
-		var gs = Math.round( nh / C.H );
-		if ( gs < 0 )gs=1;
-		var realNewHeight = gs * C.H;
-		
-		var rs = nw / C.W;
-		var gs = Math.round( nw / C.W );
-		if ( gs < 0 )gs=1;
-		var realNewWidth = gs * C.W;
-		*/
-		
-		//postRoot.y = diffHeight * 0.5;
-		//gameRoot.y = diffHeight / rs * 0.5;
-		//scaledRoot.y = diffHeight * 0.5;
-		//gameRoot.y += diffHeight / gs * 0.5;
-		//gameRoot.setScale(gs);
-		//gameRoot.reset();
-		
 		var rs = Math.min( nh / C.H, nw / C.W );
-		//var rs = Math.round(Math.min( nh / C.H, nw / C.W ));
 		var rh, rw;
 		gameScene.setWantedSize(rw = Math.round(rs * C.W),rh = Math.round(rs * C.H));
 		gameScene.reset();
@@ -186,6 +140,9 @@ class G {
 		b.setSize( Math.ceil(borderW), nh);
 		b.x = nw - borderW;
 		
+		var a = 0;
+		//var scaleToOne = 
+		//gameScene.overlay.scale();
 	}
 	
 	public inline function bps() return curMidi.bpm / 60;
