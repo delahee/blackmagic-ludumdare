@@ -140,9 +140,7 @@ class G {
 		b.setSize( Math.ceil(borderW), nh);
 		b.x = nw - borderW;
 		
-		var a = 0;
-		//var scaleToOne = 
-		//gameScene.overlay.scale();
+		gameScene.overlay.setHeight( nh);
 	}
 	
 	public inline function bps() return curMidi.bpm / 60;
