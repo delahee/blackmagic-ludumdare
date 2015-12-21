@@ -24,7 +24,7 @@ class App extends flash.display.Sprite {
 		engine.onReady = init;
 		engine.backgroundColor = 0xFFffffff;
 		
-		trace("init " + mt.Metrics.w() + " x " + mt.Metrics.h());
+		//trace("init " + mt.Metrics.w() + " x " + mt.Metrics.h());
 		
 		engine.init();
 		
@@ -32,7 +32,7 @@ class App extends flash.display.Sprite {
 	}
 	
 	function _onResize(_) {
-		trace("resized " + mt.Metrics.w() + " x " + mt.Metrics.h());
+		//trace("resized " + mt.Metrics.w() + " x " + mt.Metrics.h());
 		if( g != null){
 			g.resize();
 		}

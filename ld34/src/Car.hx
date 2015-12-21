@@ -99,15 +99,40 @@ class Car {
 	}
 	
 	var baseXProg = 150;
+	var isCarAutomaticMove = false;
 	
+	var upDownBalance = 0.0;
+	var upDownPerShoot = 2.0;
+	
+	var curBalance = 0.0;
 	public function update(dt) {
-		if( !isShaking ){
-			car.x = bx + Math.sin( hxd.Math.angle( hxd.Timer.oldTime) ) * 6;
-			car.y = by + Math.sin( hxd.Math.angle( hxd.Timer.oldTime) ) * 4;
+		if ( !isShaking ) {
+			
+			car.x = bx + Math.sin( hxd.Math.angle( hxd.Timer.oldTime) ) * 4;
+			
+			if( isCarAutomaticMove ) {
+				car.y = by + Math.sin( hxd.Math.angle( hxd.Timer.oldTime) ) * 4;
+			}
+			else {
+				car.y = by;
+				var fr = Lib.dt2Frame( dt );
+				for( i in 0...Math.round(fr) ){
+					if(	Math.abs(upDownBalance) > 0.001 ) {
+						var sign = upDownBalance < 0 ? -1 : 1; 
+						upDownBalance = sign * (hxd.Math.abs(upDownBalance)-0.033);
+					}
+				}
+				upDownBalance = hxd.Math.clamp( upDownBalance, -24, 24);
+				curBalance = hxd.Math.lerp( curBalance, hxd.Math.clamp( upDownBalance, -16, 16), 0.1 );
+				car.y += curBalance;
+			}
+			
 			if ( mt.gx.Dice.percent( 4 ))
 				car.y++;
 			if ( mt.gx.Dice.percent( 4 ))
 				car.y++;
+				
+			
 		}
 		else {
 			
@@ -221,22 +246,8 @@ class Car {
 			var e = lifeUi.alloc( lifeTile,-i );
 			e.x = (C.W - 48) + i * 10;
 			e.y = 14;
-			//e.setColor( i < n ? 0xffffff : 0x0);
 		}
 	}
-	
-	//var kickMiss;
-	
-	/*
-	inline function kickShoot1() :mt.flash.Sfx{
-		return 
-		switch(Std.random(3)) {
-			default:null;
-			case 0:d.sfxPreload.get("GUN1").play();
-			case 1:d.sfxPreload.get("GUN2").play();
-			case 2:d.sfxPreload.get("GUN3").play();
-		}
-	}*/
 	
 	inline function setupBullet(e:h2d.SpriteBatch.BatchElement, p:PartBE) {
 		p.sample = 1;
@@ -307,6 +318,8 @@ class Car {
 		f.x = cacheBounds.x - 60 - f.width * 0.5 ;
 		f.y = cacheBounds.y + 7 - f.height * 0.5 + 3;
 		f.alpha = 1.2;
+		
+		upDownBalance -= upDownPerShoot;
 	}
 	
 	public function shootLeft() {
@@ -338,6 +351,8 @@ class Car {
 		f.x = cacheBounds.x - 50 - f.width * 0.5 ;
 		f.y = cacheBounds.y + 30 - f.height * 0.5 + 3;
 		f.alpha = 1.2;
+		
+		upDownBalance += upDownPerShoot;
 	}
 	
 	public function tryShootLeft() {

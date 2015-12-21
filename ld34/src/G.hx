@@ -386,7 +386,6 @@ class G {
 	}
 	
 	public function end() {
-		
 		car.invincible = true;
 		
 		d.stopAllMusic();
@@ -475,6 +474,7 @@ class G {
 	}
 	
 	public function nextLevel() {
+		trace("nextlevel");
 		switch( curLevel) {
 			case 1: level2();
 			case 2: level3();
@@ -604,7 +604,6 @@ class G {
 			};
 			
 			goMask.onSync = function() {
-				
 				if ( mt.flash.Key.isToggled(hxd.Key.F1)) onPress( function() { f(); level1();  } );
 				if ( mt.flash.Key.isToggled(hxd.Key.F2)) onPress( function(){ f(); level2();  });
 				if ( mt.flash.Key.isToggled(hxd.Key.F3)) onPress( function(){ f(); level3();  });
@@ -993,6 +992,17 @@ class G {
 		*/
 		
 		#if debug
+		
+		if ( mt.flash.Key.isToggled(hxd.Key.R)) {
+			for( i in 0...3)
+				zombies.spawnZombieHigh();
+		}
+		
+		if ( mt.flash.Key.isToggled(hxd.Key.T)) {
+			for( i in 0...3)
+				zombies.spawnZombieLow();
+		}
+		
 		if ( mt.flash.Key.isToggled(hxd.Key.NUMBER_0)) 	partition.onMultiplier( 3 );
 		if ( mt.flash.Key.isToggled(hxd.Key.NUMBER_1)) 	partition.onMultiplier( 4 );
 		if ( mt.flash.Key.isToggled(hxd.Key.NUMBER_2)) 	partition.onMultiplier( 5 );
@@ -1005,17 +1015,9 @@ class G {
 		//if ( mt.flash.Key.isToggled(hxd.Key.S)) 	{ car.gunType = GTShotgun; car.forceGun = true; }
 		
 		
-		if ( mt.flash.Key.isToggled(hxd.Key.V)) {
-			end();
-		}
-		
-		if ( mt.flash.Key.isToggled(hxd.Key.L)) {
-			loose();
-		}
-		
-		if ( mt.flash.Key.isToggled(hxd.Key.E)) {
-			endGame();
-		}
+		//if ( mt.flash.Key.isToggled(hxd.Key.V)) 	end();
+		//if ( mt.flash.Key.isToggled(hxd.Key.L)) 	loose();
+		//if ( mt.flash.Key.isToggled(hxd.Key.E)) 	endGame();
 		
 		if ( mt.flash.Key.isToggled(hxd.Key.K)) {
 			trace("before");
@@ -1046,6 +1048,16 @@ class G {
 		if ( mt.flash.Key.isToggled(hxd.Key.ESCAPE) && !car.invincible) {
 			restart(curLevel);
 		}
+		
+		#if debug
+		if (	mt.flash.Key.isDown(hxd.Key.M) ) {
+			car.shootLeft();
+		}
+		
+		if (	mt.flash.Key.isDown(hxd.Key.L) ) {
+			car.shootRight();
+		}
+		#end
 		
 		if (  (	mt.flash.Key.isDown(hxd.Key.LEFT)
 		||		mt.flash.Key.isDown(hxd.Key.Q)

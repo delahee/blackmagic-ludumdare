@@ -586,8 +586,8 @@ class Zombies {
 	public function spawnZombieHigh() {
 		var z = spawnZombieBase();
 		var cb = c.cacheBounds;
-		z.x = z.ry = Dice.rollF( c.by + 20, c.by + cb.height - 30) + z.height * 0.4;
-		z.y = z.rx = -30 + Dice.rollF( -20, 25);
+		z.x = z.rx = -35 + Dice.rollF( -20, 25);
+		z.y = z.ry = Dice.rollF( c.by + 20, c.by + cb.height - 30) + z.height * 0.4 - 5;
 		z.prio();
 		return z;
 	}
@@ -595,8 +595,8 @@ class Zombies {
 	public function spawnZombieLow() {
 		var z = spawnZombieBase();
 		var cb = c.cacheBounds;
-		z.x = z.ry = Dice.rollF( cb.y + cb.height * 0.25, cb.y + cb.height * 0.75);
-		z.y = z.rx = -30 + Dice.rollF( -20, 25);
+		z.x = z.rx = -30 + Dice.rollF( -20, 25);
+		z.y = z.ry = Dice.rollF( cb.y + cb.height * 0.25, cb.y + cb.height * 0.75) + 5;
 		z.prio();
 		return z;
 	}
