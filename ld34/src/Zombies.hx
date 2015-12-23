@@ -228,6 +228,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 		if ( batch == null ) return;
 		if ( destroyed ) return;
 		
+		var dfr = Lib.dt2Frame(dt);
 		if ( isDead()) {
 			rx += dx;
 			ry += dy;
@@ -274,8 +275,8 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 		if ( isDead()) return;
 		
 		if( state != Nope ){
-			rx += dx / Scroller.GLB_SPEED * man.speed; 
-			ry += dy * man.speed;
+			rx += dx / Scroller.GLB_SPEED * man.speed * dfr; 
+			ry += dy * man.speed * dfr;
 			
 			x = Math.round( rx );
 			y = Math.round( ry );
@@ -334,7 +335,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 				}
 		}
 		
-		var n = 0.06;
+		var n = Math.pow( 0.06, dfr);
 		if ( isHalfwayCar() ) {
 			if(  isAboveCar()  )
 				dy = hxd.Math.lerp( dy, 0.2, n);
@@ -599,8 +600,8 @@ class Zombies {
 			case Bold: 	z.baseDx *= 1.75; 	z.hp += 12;
 			case Armor: z.baseDx *= 1.8; 	z.hp += 25;
 			case Boss : 
-						z.hp += 550; 		
-						z.rushingZombie = true; z.baseDx *= 1.6;
+						z.hp += 525; 		
+						z.rushingZombie = true; z.baseDx *= 1.5;
 			default:
 		}
 		
