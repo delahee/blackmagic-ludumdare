@@ -354,8 +354,8 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 	
 	var ofsHookX = 0.;
 	
-	public inline function isAboveCar() 		return (y - height * 0.8) < c.cacheBounds.y;
-	public inline function isUnderCar() 		return (y - height) > c.cacheBounds.y + c.cacheBounds.height * 0.2;
+	public inline function isAboveCar() 		return (y - height * 0.35) < c.cacheBounds.y;
+	public inline function isUnderCar() 		return y > c.cacheBounds.y + c.cacheBounds.height * 0.9;
 	public inline function isNearCar() 			return x >= c.cacheBounds.x - 64 + ofsHookX;
 	
 	public inline function isHalfwayCar() 		return x >= Car.BASE_BX * 0.6;
@@ -485,9 +485,9 @@ class Zombies {
 					else if ( mt.gx.Dice.percentF(rand,1)) spawnZombieBase();
 					
 				case 2:
-					if ( mt.gx.Dice.percentF(rand,2)) spawnZombieBase();
-					else if ( mt.gx.Dice.percentF(rand,1)) spawnZombiePackHigh();
-					else if ( mt.gx.Dice.percentF(rand,1)) spawnZombiePackLow();
+					if ( mt.gx.Dice.percentF(rand,2.2)) spawnZombieBase();
+					else if ( mt.gx.Dice.percentF(rand,0.8)) spawnZombiePackHigh();
+					else if ( mt.gx.Dice.percentF(rand,0.8)) spawnZombiePackLow();
 					
 				case 3:
 					if( g.progress < 0.35){
@@ -516,15 +516,29 @@ class Zombies {
 					}
 					
 				case 4:
-					if ( g.progress > 0.5) {
-						if ( nbBoss < 2 && mt.gx.Dice.percentF(rand,3)) {
+					if ( g.progress > 0.45) {
+						if ( nbBoss < 2 && mt.gx.Dice.percentF(rand,0.5)) {
 							spawnZombieBase("E");
 							nbBoss++;
 						}
 					}
-					if ( mt.gx.Dice.percentF(rand,2)) spawnZombieBase();
-					else if ( mt.gx.Dice.percentF(rand,1)) spawnZombiePackHigh();
-					else if ( mt.gx.Dice.percentF(rand,1)) spawnZombiePackLow();
+					if ( g.progress > 0.55) {
+						if ( nbBoss < 3 && mt.gx.Dice.percentF(rand,1)) {
+							spawnZombieBase("E");
+							nbBoss++;
+						}
+					}
+					
+					if ( g.progress > 0.75) {
+						if ( nbBoss < 6 && mt.gx.Dice.percentF(rand,1)) {
+							spawnZombieBase("E");
+							nbBoss++;
+						}
+					}
+					
+					if ( mt.gx.Dice.percentF(rand,1.9)) spawnZombieBase();
+					else if ( mt.gx.Dice.percentF(rand,0.8)) spawnZombiePackHigh();
+					else if ( mt.gx.Dice.percentF(rand,0.8)) spawnZombiePackLow();
 			}
 		}
 		
@@ -585,8 +599,8 @@ class Zombies {
 			case Bold: 	z.baseDx *= 1.75; 	z.hp += 12;
 			case Armor: z.baseDx *= 1.8; 	z.hp += 25;
 			case Boss : 
-						z.hp += 500; 		
-						z.rushingZombie = true; z.baseDx *= 1.8;
+						z.hp += 550; 		
+						z.rushingZombie = true; z.baseDx *= 1.6;
 			default:
 		}
 		
@@ -605,7 +619,7 @@ class Zombies {
 	
 	public function initSpawns() {
 		var sz = spawnZone = new h2d.col.Bounds().add4( -100, Car.BASE_BY + 10, 100, 90);
-		spawnZoneKind = spawnZone.clone().scaleCenter( 0.85 );
+		spawnZoneKind = spawnZone.clone().scaleY( 0.85 );
 		spawnZoneHi = h2d.col.Bounds.fromValues(sz.x, sz.y, sz.width, sz.height * 0.5);
 		spawnZoneLow = spawnZoneHi.clone().translate(0,sz.height * 0.5);
 	}

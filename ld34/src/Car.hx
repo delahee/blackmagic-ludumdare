@@ -300,8 +300,10 @@ class Car {
 			nb += Dice.roll(1, 3);
 			sp = 10;
 		}
+		
+		var baseY = cacheBounds.y + 9;
 		for ( i in 0...nb ) {
-			var y = cacheBounds.y + 7;
+			var y = baseY;
 			var e = fx.alloc( d.char.getTile("fxBullet").centerRatio(0,0.5) );
 			var p = new PartBE( e );
 			e.scaleY = 3;
@@ -310,15 +312,12 @@ class Car {
 			p.y = y;
 			p.add( p.moveTo( -100, y, sp) );
 			setupBullet(e, p );
-			
-			//if ( gunType == GTShotgun) e.color.setColor(0xAACDFF,1.5);
 		}
 		light.alpha = 1.4;
 		var f = fireLeft;
 		f.x = cacheBounds.x - 60 - f.width * 0.5 ;
-		f.y = cacheBounds.y + 7 - f.height * 0.5 + 3;
+		f.y = baseY - f.height * 0.5 + 3;
 		f.alpha = 1.2;
-		
 		//upDownBalance -= upDownPerShoot;
 	}
 	
@@ -332,8 +331,9 @@ class Car {
 			sp = 10;
 		}
 			
+		var baseY = cacheBounds.y + 33;
 		for( i in 0...nb ) {
-			var y = cacheBounds.y + 30;
+			var y = baseY;
 			var e = fx.alloc( d.char.getTile("fxBullet").centerRatio(0,0.5) );
 			var p = new PartBE( e );
 			e.scaleY = 3;
@@ -342,16 +342,13 @@ class Car {
 			p.y = y;
 			p.add( p.moveTo( -100, y, sp) );
 			setupBullet(e, p );
-			
-			//if ( gunType == GTShotgun) e.color.setColor(0xAACDFF,1.5);
 		}
 		
 		light.alpha = 1.4;
 		var f = fireLeft;
 		f.x = cacheBounds.x - 50 - f.width * 0.5 ;
-		f.y = cacheBounds.y + 30 - f.height * 0.5 + 3;
+		f.y = baseY - f.height * 0.5 + 3;
 		f.alpha = 1.2;
-		
 		//upDownBalance += upDownPerShoot;
 	}
 	
