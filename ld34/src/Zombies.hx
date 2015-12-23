@@ -50,6 +50,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 	
 	static var uid = 0;
 	var id = 0;
+	
 	public function new(man, a, lib, c, ?f = 0) {
 		id = uid++;
 		super(a, lib, c, f);
@@ -84,14 +85,13 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 		man.parts.push(e);
 	}
 	
-	var bol = [	0xbd1a24 , 0xbd1a24 ,
-				0xbd1a24 , 0xbd1a24 ,
-				0xbd1a24 , 0xbd1a24 ,
-				0xd6c2b2,
-				0xd4434c,
-				0x83a69a,
-				0xbb64a6 ];
-				
+	static var bol = [	0xbd1a24 , 0xbd1a24 ,
+						0xbd1a24 , 0xbd1a24 ,
+						0xbd1a24 , 0xbd1a24 ,
+						0xd6c2b2,
+						0xd4434c,
+						0x83a69a,
+						0xbb64a6 ];
 				
 	public function onHit() {
 		var s : mt.flash.Sfx = d.sfxPreload.get("IMPACT" + Dice.roll(1, 10)).play();
@@ -169,6 +169,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 			p.alpha = Dice.rollF2(0.55, 0.70);
 		}
 	}
+	
 	public function onDeath() {
 		//trace("#" + id + " is dead");
 		if( a.hasAnim()){
@@ -225,6 +226,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 	
 	public function update(dt:Float) {
 		if ( batch == null ) return;
+		if ( destroyed ) return;
 		
 		if ( isDead()) {
 			rx += dx;
@@ -278,15 +280,6 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 			x = Math.round( rx );
 			y = Math.round( ry );
 		}
-		
-		//if ( type == Girl ) {
-		if ( state == Crowding) {
-			//trace( "st:"+state+" "+dx+" t:"+type);
-		}
-		
-		if ( state == Rushing) {
-			//trace( "st:"+state+" "+dx+" t:"+type);
-		}
 
 		switch(man.level) {
 			default:
@@ -337,10 +330,21 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 				if ( stateLife > 24 ) {
 					c.hit( type == Boss ? 3 : 1,this);
 					dispose();
+					return;
 				}
 		}
 		
-		if ( state!=StuckToCar && isNearCar() ) {
+		var n = 0.06;
+		if ( isHalfwayCar() ) {
+			if(  isAboveCar()  )
+				dy = hxd.Math.lerp( dy, 0.2, n);
+			else if(  isUnderCar() )
+				dy = hxd.Math.lerp( dy, -0.2, n);
+			else 
+				dy = hxd.Math.lerp( dy, 0, n);
+		}
+		
+		if ( state!=StuckToCar && isCloseToCar() ) {
 			cs(StuckToCar);
 		}
 		
@@ -350,8 +354,15 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 	
 	var ofsHookX = 0.;
 	
-	public inline function isNearCar() {
-		return x >= c.cacheBounds.x - 44 + ofsHookX;
+	public inline function isAboveCar() 		return (y - height * 0.8) < c.cacheBounds.y;
+	public inline function isUnderCar() 		return (y - height) > c.cacheBounds.y + c.cacheBounds.height * 0.2;
+	public inline function isNearCar() 			return x >= c.cacheBounds.x - 64 + ofsHookX;
+	
+	public inline function isHalfwayCar() 		return x >= Car.BASE_BX * 0.6;
+	
+	public inline function isCloseToCar() {
+		return x >= c.cacheBounds.x - 44 + ofsHookX
+		&& ( !isAboveCar() || !isUnderCar() );
 	}
 }
 
@@ -381,9 +392,12 @@ class Zombies {
 	
 	public var parts : hxd.Stack<mt.deepnight.HParticle>;
 	
+	public var root:h2d.Sprite;
+	
 	public function new(p)  {
-		sb =  new h2d.SpriteBatch(d.char.tile, p);
-		sbAdd =  new h2d.SpriteBatch(d.char.tile, p); sbAdd.blendMode = Add;
+		root = new h2d.Sprite(p);
+		sb =  new h2d.SpriteBatch(d.char.tile, root);
+		sbAdd =  new h2d.SpriteBatch(d.char.tile, root); sbAdd.blendMode = Add;
 		rand = new mt.Rand(0);
 		setLevel(0);
 		tilePixel = d.char.getTile("pixel").centerRatio();
@@ -393,6 +407,8 @@ class Zombies {
 		tilePart.push( tilePixel);
 		tileFxHit = d.char.getTile("fxHit").centerRatio();
 		parts = new hxd.Stack<mt.deepnight.HParticle>();
+		
+		initSpawns();
 	}
 	
 	public inline function addDeathZone( c:h2d.col.Bounds, ?srcPart)  {
@@ -552,10 +568,10 @@ class Zombies {
 		if ( z.a.hasAnim())
 			z.a.setCurrentAnimSpeed( 0.4 );
 		
-		var cb = c.cacheBounds;
-		
-		z.x = z.rx = -60 + Dice.rollF( -20, 30);
-		z.y = z.ry = Dice.rollF( cb.y + cb.height * 0.25, cb.y + cb.height * 0.6 + 10);
+		//var cb = c.cacheBounds;
+		//z.x = z.rx = -60 + Dice.rollF( -20, 30);
+		//z.y = z.ry = Dice.rollF( cb.y + cb.height * 0.25, cb.y + cb.height * 0.6 + 10);
+		random(z, spawnZoneKind, rand);
 		
 		z.baseDx = z.dx = 1.75 + Dice.rollF( 0, 0.5);
 		var s = Dice.rollF(1.0, 1.2);
@@ -582,21 +598,33 @@ class Zombies {
 		return z;
 	}
 	
+	public var spawnZone : h2d.col.Bounds;
+	public var spawnZoneKind : h2d.col.Bounds;
+	public var spawnZoneHi : h2d.col.Bounds;
+	public var spawnZoneLow : h2d.col.Bounds;
+	
+	public function initSpawns() {
+		var sz = spawnZone = new h2d.col.Bounds().add4( -100, Car.BASE_BY + 10, 100, 90);
+		spawnZoneKind = spawnZone.clone().scaleCenter( 0.85 );
+		spawnZoneHi = h2d.col.Bounds.fromValues(sz.x, sz.y, sz.width, sz.height * 0.5);
+		spawnZoneLow = spawnZoneHi.clone().translate(0,sz.height * 0.5);
+	}
+	
+	public inline function random( z : Zombie, bnd:h2d.col.Bounds, rand : mt.Rand ) {
+		z.x = z.rx = bnd.xMin + rand.rand() * (bnd.xMax - bnd.xMin);
+		z.y = z.ry = bnd.yMin + rand.rand() * (bnd.yMax - bnd.yMin);
+	}
 	
 	public function spawnZombieHigh() {
 		var z = spawnZombieBase();
-		var cb = c.cacheBounds;
-		z.x = z.rx = -35 + Dice.rollF( -20, 25);
-		z.y = z.ry = Dice.rollF( c.by + 20, c.by + cb.height - 30) + z.height * 0.4 - 5;
+		random(z, spawnZoneHi, rand);
 		z.prio();
 		return z;
 	}
 	
 	public function spawnZombieLow() {
 		var z = spawnZombieBase();
-		var cb = c.cacheBounds;
-		z.x = z.rx = -30 + Dice.rollF( -20, 25);
-		z.y = z.ry = Dice.rollF( cb.y + cb.height * 0.25, cb.y + cb.height * 0.75) + 5;
+		random(z, spawnZoneLow, rand);
 		z.prio();
 		return z;
 	}

@@ -1018,7 +1018,7 @@ class G {
 		//if ( mt.flash.Key.isToggled(hxd.Key.V)) 	end();
 		//if ( mt.flash.Key.isToggled(hxd.Key.L)) 	loose();
 		//if ( mt.flash.Key.isToggled(hxd.Key.E)) 	endGame();
-		
+		/*
 		if ( mt.flash.Key.isToggled(hxd.Key.K)) {
 			trace("before");
 			trace("ww:"+gameScene.wantedWidth);
@@ -1040,7 +1040,7 @@ class G {
 				trace("s2dw:"+gameScene.s2d.width);
 				trace("s2dh:"+gameScene.s2d.height);
 			}
-		}
+		}*/
 		
 		
 		#end
@@ -1193,6 +1193,7 @@ class G {
 		
 		haxe.Timer.delay( function() {
 			
+			zombies.clear();
 			onSwooshIn();
 			var goScreen = new h2d.Sprite(gameRoot);
 			
@@ -1252,7 +1253,7 @@ class G {
 			}
 			
 			function onPress(f) {
-				
+				goMask.visible = false;
 				var tt = tw.create( localRoot, "x", C.W * 1.5, TBurnOut, 300 );
 				haxe.Timer.delay(function(){
 					var ttt = tw.create( localRoot2, "x", C.W * 1.5, TBurnOut, 300 );
@@ -1267,6 +1268,7 @@ class G {
 			}
 				
 			goMask.onClick = function(e) {
+				goMask.visible = false;
 				onPress( function() {
 					f();
 					restart(curLevel);
@@ -1275,7 +1277,7 @@ class G {
 			
 			goMask.onSync = function() {
 				
-				if ( mt.flash.Key.isToggled(hxd.Key.F1)) onPress( function() { f(); level1();  } );
+				if ( mt.flash.Key.isToggled(hxd.Key.F1)) onPress( function(){ f(); level1();  } );
 				if ( mt.flash.Key.isToggled(hxd.Key.F2)) onPress( function(){ f(); level2();  });
 				if ( mt.flash.Key.isToggled(hxd.Key.F3)) onPress( function(){ f(); level3();  });
 				if ( mt.flash.Key.isToggled(hxd.Key.F4)) onPress( function(){ f(); level4();  });

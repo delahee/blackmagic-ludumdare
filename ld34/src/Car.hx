@@ -99,7 +99,7 @@ class Car {
 	}
 	
 	var baseXProg = 150;
-	var isCarAutomaticMove = false;
+	var isCarAutomaticMove = true;
 	
 	var upDownBalance = 0.0;
 	var upDownPerShoot = 2.0;
@@ -183,7 +183,7 @@ class Car {
 	
 	public function onPause(onOff) {
 		//trace(car.width);
-		//h2d.Graphics.fromBounds( getBounds(), sb.parent);
+		h2d.Graphics.fromBounds( getBounds(), sb.parent);
 		//trace(sb.x +" "+sb.y );
 	}
 	
@@ -319,7 +319,7 @@ class Car {
 		f.y = cacheBounds.y + 7 - f.height * 0.5 + 3;
 		f.alpha = 1.2;
 		
-		upDownBalance -= upDownPerShoot;
+		//upDownBalance -= upDownPerShoot;
 	}
 	
 	public function shootLeft() {
@@ -352,7 +352,7 @@ class Car {
 		f.y = cacheBounds.y + 30 - f.height * 0.5 + 3;
 		f.alpha = 1.2;
 		
-		upDownBalance += upDownPerShoot;
+		//upDownBalance += upDownPerShoot;
 	}
 	
 	public function tryShootLeft() {

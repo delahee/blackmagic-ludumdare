@@ -1,0 +1,2 @@
+- The game now scale properly
+- Bosses will effectively respawn if you replay
