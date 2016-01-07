@@ -1,2 +1,6 @@
 - The game now scale properly
 - Bosses will effectively respawn if you replay
+- better tutorial
+- some zombies will be out of range but will bet back into the fold after a bit to increase tension
+- Both guns now have excluded dead zone meaning you are forced to use both if you want to win level 1 2 3 4
+- fix for some corner case where loosing near end of song would cause game reset

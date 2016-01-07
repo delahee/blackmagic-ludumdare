@@ -21,9 +21,9 @@ using mt.gx.Ex;
 
 @:publicFields
 class Zombie extends mt.deepnight.slb.HSpriteBE {
-	var d(get, null) : D; function get_d() return App.me.d;
-	var g(get, null) : G; function get_g() return App.me.g;
-	var c(get, null) : Car; function get_c() return Car.me;
+	var d(get, null) : D; 	inline function get_d() return App.me.d;
+	var g(get, null) : G; 	inline function get_g() return App.me.g;
+	var c(get, null) : Car; inline function get_c() return Car.me;
 	var man : Zombies;
 	
 	public var hp = 10;
@@ -73,7 +73,7 @@ class Zombie extends mt.deepnight.slb.HSpriteBE {
 		man.zombies.remove(this);
 	}
 	
-	var r = ["partA", "partB", "partC", "partN"];
+	static var r = ["partA", "partB", "partC", "partN"];
 	
 	public function addPart(e:mt.deepnight.HParticle) {
 		man.sb.add(e);
@@ -491,55 +491,59 @@ class Zombies {
 					else if ( mt.gx.Dice.percentF(rand,0.8)) spawnZombiePackLow();
 					
 				case 3:
+					var diff = 1.0;
+					
 					if( g.progress < 0.35){
-						if ( mt.gx.Dice.percentF(rand,3)) spawnZombieBase();
-						else if ( mt.gx.Dice.percentF(rand,1)) spawnZombieLow();
-						else if ( mt.gx.Dice.percentF(rand,1)) spawnZombieBase();
+						if ( mt.gx.Dice.percentF(rand,3*diff)) spawnZombieBase();
+						else if ( mt.gx.Dice.percentF(rand,1*diff)) spawnZombieLow();
+						else if ( mt.gx.Dice.percentF(rand,1*diff)) spawnZombieBase();
 					}
 					else if( g.progress < 0.55 ){
-						if ( mt.gx.Dice.percentF(rand,2)) spawnZombieBase();
-						else if ( mt.gx.Dice.percentF(rand,1.5)) spawnZombiePackHigh();
-						else if ( mt.gx.Dice.percentF(rand,1.5)) spawnZombiePackLow();
+						if ( mt.gx.Dice.percentF(rand,2*diff)) spawnZombieBase();
+						else if ( mt.gx.Dice.percentF(rand,1.5*diff)) spawnZombiePackHigh();
+						else if ( mt.gx.Dice.percentF(rand,1.5*diff)) spawnZombiePackLow();
 					}
 					else if( g.progress < 0.6 ){
-						if ( mt.gx.Dice.percentF(rand,3)) spawnZombieBase();
-						else if ( mt.gx.Dice.percentF(rand,2.25)) spawnZombiePackHigh();
-						else if ( mt.gx.Dice.percentF(rand,2.25)) spawnZombiePackLow();
+						if ( mt.gx.Dice.percentF(rand,3*diff)) spawnZombieBase();
+						else if ( mt.gx.Dice.percentF(rand,2.25*diff)) spawnZombiePackHigh();
+						else if ( mt.gx.Dice.percentF(rand,2.25*diff)) spawnZombiePackLow();
 					}
 					else {
 						if ( nbBoss == 0) {
 							spawnZombieBase("E");
 							nbBoss++;
 						}
-						if ( mt.gx.Dice.percentF(rand,3)) spawnZombieBase();
-						else if ( mt.gx.Dice.percentF(rand,2)) spawnZombiePackHigh();
-						else if ( mt.gx.Dice.percentF(rand,2)) spawnZombiePackLow();
+						if ( mt.gx.Dice.percentF(rand,2.5*diff)) spawnZombieBase();
+						else if ( mt.gx.Dice.percentF(rand,1.75*diff)) spawnZombiePackHigh();
+						else if ( mt.gx.Dice.percentF(rand,1.75*diff)) spawnZombiePackLow();
 					}
 					
 				case 4:
+					var diff = 0.93;
+					
 					if ( g.progress > 0.45) {
 						if ( nbBoss < 2 && mt.gx.Dice.percentF(rand,0.5)) {
 							spawnZombieBase("E");
 							nbBoss++;
 						}
 					}
-					if ( g.progress > 0.55) {
+					if ( g.progress > 0.57) {
 						if ( nbBoss < 3 && mt.gx.Dice.percentF(rand,1)) {
 							spawnZombieBase("E");
 							nbBoss++;
 						}
 					}
 					
-					if ( g.progress > 0.75) {
+					if ( g.progress > 0.82) {
 						if ( nbBoss < 6 && mt.gx.Dice.percentF(rand,1)) {
 							spawnZombieBase("E");
 							nbBoss++;
 						}
 					}
 					
-					if ( mt.gx.Dice.percentF(rand,1.9)) spawnZombieBase();
-					else if ( mt.gx.Dice.percentF(rand,0.8)) spawnZombiePackHigh();
-					else if ( mt.gx.Dice.percentF(rand,0.8)) spawnZombiePackLow();
+					if ( mt.gx.Dice.percentF(rand,1.9*diff)) spawnZombieBase();
+					else if ( mt.gx.Dice.percentF(rand,0.8*diff)) spawnZombiePackHigh();
+					else if ( mt.gx.Dice.percentF(rand,0.8*diff)) spawnZombiePackLow();
 			}
 		}
 		
@@ -600,8 +604,8 @@ class Zombies {
 			case Bold: 	z.baseDx *= 1.75; 	z.hp += 12;
 			case Armor: z.baseDx *= 1.8; 	z.hp += 25;
 			case Boss : 
-						z.hp += 525; 		
-						z.rushingZombie = true; z.baseDx *= 1.5;
+						z.hp += 535; 		
+						z.rushingZombie = true; z.baseDx *= 1.475;
 			default:
 		}
 		

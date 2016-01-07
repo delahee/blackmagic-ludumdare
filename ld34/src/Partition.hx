@@ -277,7 +277,7 @@ class Partition {
 	
 	var guides = [];
 	function initGuides() {
-		//if ( false ) 
+		if ( false ) 
 		{
 			guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0] - 1, baseline, 2, 10), 		parent));
 			guides.push( h2d.Graphics.fromBounds( h2d.col.Bounds.fromValues(fretPositions[0]+fretW - 1, baseline, 2, 10), 	parent));

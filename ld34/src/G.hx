@@ -75,6 +75,7 @@ class G {
 	public var tempoTw : mt.deepnight.Tweenie;
 	
 	public var globalScale = 3;
+	public var gameInstance = 0;
 
 	public function new(?gs)  {
 		me = this;
@@ -109,7 +110,9 @@ class G {
 		
 		var rs = Math.min( nh / C.H, nw / C.W );
 		var rh, rw;
-		gameScene.setWantedSize(rw = Math.round(rs * C.W),rh = Math.round(rs * C.H));
+		rw = Math.round(rs * C.W);
+		rh = Math.round(rs * C.H);
+		gameScene.setWantedSize(Math.round(Math.max(rw,nw)),Math.round(Math.max(rh,nh)));
 		gameScene.reset();
 		gameRoot.setScale(rs);
 		scaledRoot.setScale(rs);
@@ -474,7 +477,7 @@ class G {
 	}
 	
 	public function nextLevel() {
-		trace("nextlevel");
+		//trace("nextlevel");
 		switch( curLevel) {
 			case 1: level2();
 			case 2: level3();
@@ -615,7 +618,7 @@ class G {
 	}
 	
 	public function onStart() {
-		
+		gameInstance++;
 		d.sndPlayJingleStart();
 		
 		car.by = Car.BASE_BY;
@@ -848,9 +851,11 @@ class G {
 			if ( m.time != 0 && Std.is( m.message, com.newgonzo.midi.file.messages.EndTrackMessage) ) {
 				var mm : com.newgonzo.midi.file.messages.EndTrackMessage = cast m.message;
 				if ( mm.type == cast com.newgonzo.midi.file.messages.MetaEventMessageType.END_OF_TRACK) {
+					var gi = gameInstance;
 					haxe.Timer.delay( function() {
-						if ( car.life > 0)
+						if ( car.life > 0 && !car.invincible && gi == gameInstance){
 							end();
+						}
 					}, 6000 );
 				}
 			}
@@ -1079,6 +1084,13 @@ class G {
 			
 		if ( rightIsDown == 1 )
 			car.tryShootRight();
+			
+		/*
+		if ( mt.flash.Key.isToggled(hxd.Key.F1)) level1();  
+		if ( mt.flash.Key.isToggled(hxd.Key.F2)) level2();  
+		if ( mt.flash.Key.isToggled(hxd.Key.F3)) level3();  
+		if ( mt.flash.Key.isToggled(hxd.Key.F4)) level4();  
+		*/
 	}
 	
 	public function postUpdateGame() {
@@ -1207,7 +1219,7 @@ class G {
 			
 			var localRoot = new h2d.Sprite( goScreen );
 			var t = new h2d.Text( d.eightMedium,localRoot );
-			t.text = "GAMEOVER";
+			t.text = "GAME OVER";
 			t.x = C.W * 0.5 - t.textWidth * 0.5;
 			t.y = C.H * 0.2;
 			t.letterSpacing = -1;

@@ -183,7 +183,7 @@ class Car {
 	
 	public function onPause(onOff) {
 		//trace(car.width);
-		h2d.Graphics.fromBounds( getBounds(), sb.parent);
+		//h2d.Graphics.fromBounds( getBounds(), sb.parent);
 		//trace(sb.x +" "+sb.y );
 	}
 	
