@@ -320,8 +320,6 @@ class LambdaEx{
 	public static function random<A>( it : Iterable<A>
 	#if neko
 	,?rd:neko.Random
-	#else
-	,?mr:mt.Rand
 	#end
 	
 	) : A
@@ -330,8 +328,6 @@ class LambdaEx{
 		
 		#if neko
 		if (rd != null) i = rd.int( Lambda.count(it) );
-		#else
-		if ( mr != null ) i = mr.random( Lambda.count( it ));
 		#end
 		
 		if (i == null) i = Std.random( Lambda.count(it) );
