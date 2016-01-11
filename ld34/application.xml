@@ -3,7 +3,7 @@
 	<!-- NMML reference: https://gist.github.com/1763850 -->
 	
 	<!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
-	<meta title="app" package="mt.ld.md31" version="1.0.0" company="blackmagicTeam"  />
+	<meta title="app" package="mt.ld.ld34" version="1.0.0" company="blackmagicTeam"  />
 	
 	<!-- output -->
 	<app main="App" file="DoubleKickHeroes_postJam" path="bin" swf-version="17" />
