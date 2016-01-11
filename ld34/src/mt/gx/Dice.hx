@@ -4,7 +4,7 @@ class Dice
 {
 	public static inline function roll(
 	#if (flash||openfl||neko)
-	?mr:mt.Rand,
+	?mr:volute.Rand,
 	#end
 	min :Int,max:Int  ) : Int
 	{
@@ -22,7 +22,7 @@ class Dice
 	 */
 	public static inline function percent(
 	#if (flash||openfl||neko)
-	?rd:mt.Rand,
+	?rd:volute.Rand,
 	#end
 	thresh : Float) : Bool
 	{
@@ -43,7 +43,7 @@ class Dice
 	 */
 	public static inline function percentF(
 	#if (flash||openfl||neko)
-	?rd:mt.Rand,
+	?rd:volute.Rand,
 	#end
 	thresh : Float) : Bool
 	{
@@ -52,7 +52,7 @@ class Dice
 	}
 	
 	public static inline function toss(
-	#if (flash||openfl||neko) ?mr:mt.Rand #end
+	#if (flash||openfl||neko) ?mr:volute.Rand #end
 	)
 	{
 		return Dice.roll( #if (flash||openfl||neko) mr,#end 0, 1) == 0;
@@ -66,7 +66,7 @@ class Dice
 	inline 
 	function rollF( 
 	#if (flash||openfl||neko)
-	?rd:mt.Rand,
+	?rd:volute.Rand,
 	#end
 	min : Float = 0.0,max:Float = 1.0) : Float
 	{
@@ -85,7 +85,7 @@ class Dice
 	public static inline function sign() 				return toss()?1.0: -1.0;
 	public static inline function interval(
 	#if (flash||openfl||neko)
-	?mtr:mt.Rand,
+	?mtr:volute.Rand,
 	#end
 	v:Float)		return rollF( mtr, -v, v);
 	
@@ -95,7 +95,7 @@ class Dice
 	 */
 	public static inline function vector(  
 	#if (flash||openfl||neko)
-	?mtr:mt.Rand,
+	?mtr:volute.Rand,
 	#end
 	?out:h3d.Vector) {
 	

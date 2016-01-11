@@ -23,11 +23,11 @@ class Rand {
 		return n;
 	}
 
-	public inline function random( n ) {
+	public inline function random( n ) : Int {
 		return int() % n;
 	}
 
-	public inline function rand() {
+	public inline function rand() : Float {
 		// we can't use a divider > 16807 or else two consecutive seeds
 		// might generate a similar float
 		return (int() % 10007) / 10007.0;

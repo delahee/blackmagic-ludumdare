@@ -379,7 +379,7 @@ class Zombies {
 	
 	public var sb : h2d.SpriteBatch;
 	public var sbAdd : h2d.SpriteBatch;
-	var rand : mt.Rand;
+	var rand : volute.Rand;
 	var elapsedTime = 0.0;
 	public var level : Int = 0;
 	
@@ -399,7 +399,7 @@ class Zombies {
 		root = new h2d.Sprite(p);
 		sb =  new h2d.SpriteBatch(d.char.tile, root);
 		sbAdd =  new h2d.SpriteBatch(d.char.tile, root); sbAdd.blendMode = Add;
-		rand = new mt.Rand(0);
+		rand = new volute.Rand(0);
 		setLevel(0);
 		tilePixel = d.char.getTile("pixel").centerRatio();
 		tilePart = ["partA", "partB", "partC", "partN"].map( function(str) {
@@ -428,7 +428,7 @@ class Zombies {
 			case 3: 0x3ded0015;
 			case 4: 0x3ded0015;
 		};
-		rand.initSeed( seed );
+		rand = new volute.Rand( seed );
 		this.level = level;
 		
 		sb.removeAllElements();
@@ -629,7 +629,7 @@ class Zombies {
 		spawnZoneLow = spawnZoneHi.clone().translate(0,sz.height * 0.5);
 	}
 	
-	public inline function random( z : Zombie, bnd:h2d.col.Bounds, rand : mt.Rand ) {
+	public inline function random( z : Zombie, bnd:h2d.col.Bounds, rand : volute.Rand ) {
 		z.x = z.rx = bnd.xMin + rand.rand() * (bnd.xMax - bnd.xMin);
 		z.y = z.ry = bnd.yMin + rand.rand() * (bnd.yMax - bnd.yMin);
 	}
