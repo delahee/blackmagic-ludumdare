@@ -32,6 +32,7 @@
 	
 	<assets path="assets" rename="assets" />
 	<haxeflag name="-dce" value="no" />
+	<haxedef  name="advanced-telemetry"  />
 
 	
 	<section unless="debug">

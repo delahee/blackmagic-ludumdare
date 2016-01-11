@@ -672,7 +672,7 @@ class BLib {
 					var bounds = dots.getBitmapDataReadOnly().getColorBoundsRect(0xFFffffff, Color.addAlphaF(col), true);
 					var dx = -dotsFData.realFrame.realWid*0.5 + (bounds.x - dotsFData.realFrame.x);
 					var dy = -dotsFData.realFrame.realHei + (bounds.y - dotsFData.realFrame.y);
-					if( (bounds.width==0 || bounds.height==0) && dots.getBitmapDataReadOnly().getPixel(0,0)!=col )  // getColorBounds bug fix
+					if( (bounds.width==0 || bounds.height==0) && dots.getBitmapDataReadOnly().getPixel(0,0)!=cast col )  // getColorBounds bug fix
 						dx = dy = 999;
 
 					attachPoints.get(animId).get(sprFrame).set(col, { dx:dx, dy:dy });

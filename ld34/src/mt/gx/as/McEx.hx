@@ -4,42 +4,8 @@ import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
 
-class McEx
-{
-	/**disposes/frees all children
-	 * detachment should be done separately
-	 */
+class McEx {
 	
-	public static inline function freeOne(o : DisplayObject) {
-		if ( Reflect.hasField( o, "dispose" ) && Reflect.isFunction( Reflect.getProperty( o , "dispose" )))
-			Reflect.callMethod( o, "dispose", [] );
-			
-		if( Std.is( o,flash.display.Bitmap ))
-		{
-			var bmp = (cast o);
-			bmp.bitmapData.dispose();
-			bmp.bitmapData = null;
-		}
-			
-		mt.gx.as.Lib.detach(o);
-	}
-	
-	/**
-	 * Calls dispose recursively and remove everything
-	 */
-	public static function free( mc : DisplayObject )
-	{
-		if (Std.is( mc, DisplayObjectContainer )) {
-			var doc = cast mc;
-			for ( i in 0...doc.numChildren ) {
-				var o = doc.getChildAt( 0 );
-				if(Std.is( o,DisplayObjectContainer ))	free( cast o );
-				else 									freeOne( o );
-			}
-		}
-		
-		freeOne(mc);
-	}
 	
 	public static function cacheAllAsBitmap(mc : flash.display.DisplayObjectContainer) : DisplayObjectContainer {
 		if ( mc == null ) return null;
