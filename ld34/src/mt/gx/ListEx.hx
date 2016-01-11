@@ -66,32 +66,6 @@ class ListEx{
 		return true;
 	}
 	
-	public static function random<A>( it : List<A>
-	#if neko
-		,?nr:neko.Random
-	#end
-		,?mtr:mt.Rand
-		,?mgxr : mt.gx.Rand
-	) : A
-	{
-		inline function rd(x) : Int {
-			return
-			if ( mgxr != null)
-				mgxr.random(x);
-			else 
-			if ( mtr != null)
-				mtr.random(x);
-			else 
-			#if neko
-			if ( nr != null)
-				nr.int(x);
-			else
-			#end
-			
-			return Std.random( x );
-		}
-		return  LambdaEx.nth( it, rd(it.length) );
-	}
 	
 	public static inline function empty<A>() : List<A>
 	{

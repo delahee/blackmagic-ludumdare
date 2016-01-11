@@ -7,28 +7,9 @@ package mt.gx;
 
 class ArrayEx{
 	
-	public static inline function scramble<A>( arr : Array<A>
-	#if neko
-		,?nr:neko.Random
-	#end
-		,?mtr:mt.Rand
-		,?mgxr : mt.gx.Rand
-	)
+	public static inline function scramble<A>( arr : Array<A>)
 	{
 		inline function rd(x) : Int {
-			return
-			if ( mgxr != null)
-				mgxr.random(x);
-			else 
-			if ( mtr != null)
-				mtr.random(x);
-			else 
-			#if neko
-			if ( nr != null)
-				nr.int(x);
-			else
-			#end
-			
 			return Std.random( x );
 		}
 		
@@ -54,27 +35,9 @@ class ArrayEx{
 		return arr[arr.length-1];
 	}
 	
-	public static inline function random<A>( arr : Array<A>
-	#if neko
-		,?nr:neko.Random
-	#end
-		,?mtr:mt.Rand
-		,?mgxr : mt.gx.Rand
-	) : A
+	public static inline function random<A>( arr : Array<A>	) : A
 	{
 		inline function rd(x) : Int {
-			return
-			if ( mgxr != null)
-				mgxr.random(x);
-			else 
-			if ( mtr != null)
-				mtr.random(x);
-			else 
-			#if neko
-			if ( nr != null)
-				nr.int(x);
-			else
-			#end
 			
 			return Std.random( x );
 		}
@@ -221,28 +184,9 @@ class ArrayEx{
 	}
 	
 	
-	public static function normRand < E: { weight:Int } > ( arr : Array<E>
-	#if neko
-		,?nr:neko.Random
-	#end
-		, ?mtr:mt.Rand
-		, ?mgxr:mt.gx.Rand
-	) : Null<Int> {
+	public static function normRand < E: { weight:Int } > ( arr : Array<E>) : Null<Int> {
 		
 		inline function rd(x) : Int {
-			return
-			if ( mgxr != null)
-				mgxr.random(x);
-			else 
-			if ( mtr != null)
-				mtr.random(x);
-			else 
-			#if neko
-			if ( nr != null)
-				nr.int(x);
-			else 
-			#end
-			
 			return Std.random( x );
 		}
 		
