@@ -3,6 +3,8 @@ import h2d.Sprite;
 
 class Shake extends mt.fx.Fx
 {
+	static var ALL : Array<Shake> = [];
+	
 	var mc:Sprite;
 	var friction:Float;
 	var bx:Float;
@@ -26,6 +28,16 @@ class Shake extends mt.fx.Fx
 		timeLimit = -1;
 		timer = 0;
 		fitPix = false;
+		
+		for (s in ALL)
+			if (s.mc == mc) {
+				bx = s.bx;
+				by = s.by;
+				s.kill();
+				break;
+			}
+		
+		ALL.push(this);
 		update();
 	}
 	
@@ -56,6 +68,7 @@ class Shake extends mt.fx.Fx
 	override function kill() {
 		mc.x = bx;
 		mc.y = by;
+		ALL.remove(this);
 		super.kill();
 	}
 }

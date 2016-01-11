@@ -1,4 +1,5 @@
 ﻿package mt.heaps.fx;
+import h2d.Sprite;
 
 class Sleep extends mt.fx.Fx 
 {
@@ -10,7 +11,7 @@ class Sleep extends mt.fx.Fx
 		this.f = f;
 		this.onWakeUp = onWakeUp;
 		this.count = count;
-		Fx.DEFAULT_MANAGER.remove(f);
+		mt.fx.Fx.DEFAULT_MANAGER.remove(f);
 		super();
 	}
 	
@@ -18,7 +19,7 @@ class Sleep extends mt.fx.Fx
 		super.update();
 		if( count-- <= 0 ) {
 			if( f!= null ){
-				Fx.DEFAULT_MANAGER.add(f);
+				mt.fx.Fx.DEFAULT_MANAGER.add(f);
 				f.update();
 			}
 			if( onWakeUp != null ) onWakeUp();
@@ -26,12 +27,10 @@ class Sleep extends mt.fx.Fx
 		}
 	}
 	
-	public function hide(mc:h2d.sprite,play=false) {
+	public function hide(mc:h2d.Sprite,play=false) {
 		mc.visible = false;
-		if ( play ) mc.stop();
 		onWakeUp = function() {
 			mc.visible = true;
-			if ( play ) mc.play();
 		}
 	}
 }

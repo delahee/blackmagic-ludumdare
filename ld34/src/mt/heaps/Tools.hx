@@ -140,5 +140,25 @@ class Tools {
 		b.remove();
 		root.addChildAt( b , aIndex+1);
 	}
+	
+	public static function putOnTop2D( a:h2d.Sprite, b:h2d.Sprite ) {
+		if ( a == null ) return;
+		
+		var root = a.parent;
+		var aIndex = root.getChildIndex( a );
+		b.remove();
+		root.addChildAt( b , aIndex+1);
+	}
+	
+	//replace A occurence by B
+	public static function replace( a:h2d.Sprite, b:h2d.Sprite ) {
+		if ( a == null ) return;
+		
+		var root = a.parent;
+		var aIndex = root.getChildIndex( a );
+		b.remove();
+		a.remove();
+		root.addChildAt( b , aIndex);
+	}
 }
 

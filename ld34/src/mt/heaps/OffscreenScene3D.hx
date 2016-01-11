@@ -4,27 +4,33 @@ class OffscreenScene3D extends h3d.scene.Scene {
 	var wantedWith : Int;
 	var wantedHeight : Int;
 	var targetTile:h2d.Tile;
-	public var deferScene = true;
 	
 	public var targetDisplay : h2d.Bitmap;
 	public var s2d : h2d.Scene;
+	
 	public var targetRatioW = 1.0;
 	public var targetRatioH = 1.0;
 	
+	public var deferScene = true;
+	public var hasFXAA(default,set) = false;
+	
+	static var uid = 0;
+	var id = 0;
 	public function new(w,h) {
 		super();
 		wantedWith = w;
 		wantedHeight = h;
-		
-		var engine = h3d.Engine.getCurrent();
-		var tw = hxd.Math.nextPow2(wantedWith);
-		var th = hxd.Math.nextPow2(wantedHeight);
-
-		targetRatioW = wantedWith / tw;
-		targetRatioH = wantedWith / th;
+		id=++uid;
+		name="Os3D #"+id;
 	}
 	
-	function rescale2d(s:h3d.scene.Object) {
+	inline function set_hasFXAA(v) {
+		if ( targetDisplay != null)
+			targetDisplay.hasFXAA = v;
+		return hasFXAA = v;
+	}
+	
+	function rescale2d() {
 		for ( p in extraPasses) {
 			var sc : h2d.Scene = Std.instance( p , h2d.Scene);
 			if ( sc != null )
@@ -32,47 +38,30 @@ class OffscreenScene3D extends h3d.scene.Scene {
 		}
 	}
 	
-	public function checkEvents(){
+	public inline function checkEvents(){
 		s2d.checkEvents();
-		for ( p in extraPasses) {
-			var sc : h2d.Scene = Std.instance( p , h2d.Scene);
-			sc.checkEvents();
-		}
 	}
 	
 	public override function render(engine:h3d.Engine) {
 		if ( s2d == null ) {
 			s2d = new h2d.Scene();
+			s2d.name="Os3D.s2d #"+id;
 			if ( !deferScene )
 				addPass(s2d);
 		}
 		
 		if ( deferScene ) {
 			targetTile = renderOffscreen(targetTile);
-			if ( targetDisplay == null ) {
-				var tex = targetTile.getTexture();
-				targetTile.getTexture().realloc = function() {
-					if ( targetDisplay != null ){
-						targetDisplay.remove();
-						targetDisplay = null;
-						targetTile.getTexture().dispose();
-						targetTile = null;
-					}
-				}
-				targetDisplay = new h2d.Bitmap(targetTile, s2d);
-			}
 			
+			if ( targetDisplay == null ) {
+				targetDisplay = new h2d.Bitmap(targetTile, s2d);
+				targetDisplay.hasFXAA = hasFXAA;
+			}
 			
 			s2d.render( engine );
 		}
-		else {
-			for ( p in extraPasses) {
-				var sc : h2d.Scene = Std.instance( p , h2d.Scene);
-				@:privateAccess sc.fixedSize = false;
-				@:privateAccess sc.posChanged = true;
-			}
+		else 
 			super.render(engine);
-		}
 	}
 	
 	public function renderOffscreen( target : h2d.Tile ) {
@@ -101,7 +90,7 @@ class OffscreenScene3D extends h3d.scene.Scene {
 		camera.screenRatio = wantedWith/wantedHeight;
 		camera.update();
 		
-		traverse( rescale2d );
+		rescale2d();
 		
 		var tx = target.getTexture();
 		engine.setTarget(tx, true);

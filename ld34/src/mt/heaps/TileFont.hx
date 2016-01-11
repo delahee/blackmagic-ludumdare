@@ -23,9 +23,13 @@ class TileFont extends h2d.Font {
 	) {
 		tile = symbols[0].tile;
 		super(name, size);
+		
+		sharedTex = true;
+		isBuildable = false;
+		
 		this.lineHeight = lineHeight;
 		for ( e in symbols )
-			glyphs.set(e.code, new FontChar( e.tile, e.tile.width ));
+			glyphs.set(e.code, new FontChar( e.tile.clone(), e.tile.width ));
 	}
 	
 	/**
@@ -64,9 +68,12 @@ class TileFont extends h2d.Font {
 		name:String, slb : mt.deepnight.slb.BLib,
 		size:Int,lineHeight:Int,?desiredSize:Int //ask your gfx'man or try compute it manually...good luck
 		) {
-		var arr :Array<Char>= [];
+		var arr : Array<Char>= [];
 		var gs = slb.getGroups();
 		for ( k in gs.keys() ) {
+			if (k == "")
+				continue;
+			
 			var v = gs.get(k);
 			switch(k) {
 				case "Space": 
@@ -77,25 +84,35 @@ class TileFont extends h2d.Font {
 					else 
 						t.setSize( fr.wid, fr.hei);
 					arr.push( new Char( 0xA0, 	t ) );
-					arr.push( new Char( 13,		t ) );
+					//arr.push( new Char( 13,		t ) );
 					arr.push( new Char( 0x20, 	t ) );
-					arr.push( new Char( 0xA, 	t ) );
-					
-				
-				case "": 
-					for ( i in 0...10) 
-						arr.push( new Char( 0x30 + i, slb.getTileWithPivot( k, i ) ) );	
+					arr.push( new Char( 0x0A, 	t ) );
+				case "char":
+					//skip
 				default:	
 					var c = null;
 					if (k.startsWith("char_")) {
 						var hexCode = k.split("_")[1];
+						if (hexCode.length < 2)
+							continue;
 						var code = Std.parseInt( "0x" + hexCode);
 						arr.push( new Char( code,  slb.getTileWithPivot( k ) ));
 					}
 					else 
 						arr.push( c = new Char( haxe.Utf8.charCodeAt( k, 0 ), slb.getTileWithPivot( k )) );
 			}
+			
+			var l = arr[arr.length - 1];
 		}
+		
+		
+		arr.sort( function(c0, c1) return c1.code - c0.code ); 
+		
+		#if debug
+		for ( i in 0...arr.length - 1)
+			if ( arr[i].code == arr[i + 1].code ) 
+				throw name+" font has duplicate character assertion, bash your gfx man... char:"+String.fromCharCode( arr[i].code)+" code:"+arr[i].code;
+		#end
 		
 		var fnt = new TileFont( name, size, lineHeight, arr );
 		if ( desiredSize != null)fnt.resizeTo( size=desiredSize );

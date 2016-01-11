@@ -2,13 +2,15 @@
 
 
 /**
- * Fade to black with optionnal blur and scale fx
+ * Fade to black with optionnal scale fx
  */
 class Vanish extends Visibility
 {
 	public var timer:Float;
 	public var fadeLimit:Float;
-
+	
+	public static var DEFAULT_DISPOSE = false;
+	
 	public function new(mc:h2d.Sprite, ?timer = 10, ?fadeLimit = 10, ?fadeAlpha = false ) {
 		super(mc);
 		this.timer = timer;
@@ -52,7 +54,11 @@ class Vanish extends Visibility
 		super.kill();
 		
 		if( root!=null){
-			if (root.parent != null) root.parent.removeChild(root);
+			if (root.parent != null) {
+				root.parent.removeChild(root);
+				if ( DEFAULT_DISPOSE )
+					root.dispose();
+			}
 			root = null;
 		}
 	}

@@ -1,5 +1,6 @@
 ﻿package mt.heaps.fx;
 
+/*
 class Arrow<T:h2d.Sprite> extends Part<T>{
 
 	public var an:Float;
@@ -35,3 +36,4 @@ class Arrow<T:h2d.Sprite> extends Part<T>{
 		
 	}
 }
+*/

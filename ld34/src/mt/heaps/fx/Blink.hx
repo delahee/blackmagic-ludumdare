@@ -16,8 +16,8 @@ class Blink extends mt.fx.Fx {
 	 * @param	on = 2		Duration of 'on' phase in frames
 	 * @param	off = 2		Duration of 'off' phase in frames
 	 */
-	public function new(mc, timer = 10, on = 2, off = 2) {
-		super();
+	public function new(?pManager: mt.fx.Manager, mc, timer = 10, on = 2, off = 2) {
+		super(pManager);
 		this.mc = mc;
 		this.timer = timer;
 		this.on = on;

@@ -1,18 +1,16 @@
 ﻿package mt.heaps.fx;
 
-class Spawn extends Visibility 
-{
+class Spawn extends Visibility {
 	public var spc:Float;
 
 	//spc is the step of alpha per frame
 	//WARNING alpha is faded/spawned from its current level
-	public function new(mc:h2d.Sprite, spc=0.1, alpha=true, grow=false ) {
+	public function new(mc:h2d.Sprite, ?spc=0.1, ?alpha=true, ?grow=false ) {
 		super(mc);
 		this.spc = spc;
 		if( alpha ) setFadeAlpha();
 		if ( grow ) setFadeScale(1, 1);
 		setAlpha = Lib.setAlpha;
-		setVisibility( curve(0) );
 	}
 	
 	public function setFadeScale(x,y) {

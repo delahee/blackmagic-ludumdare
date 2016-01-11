@@ -20,7 +20,8 @@ class Visibility extends mt.fx.Fx {
 		if (!fadeAlpha  && fadeScale == null)
 			fadeAlpha=true;
 	
-		if ( fadeAlpha ) setAlpha(root, c * alpha);
+		if ( fadeAlpha ) 
+			setAlpha(root, c * alpha);
 		
 		if( fadeScale != null ) {
 			switch(fadeScale.sx) {
