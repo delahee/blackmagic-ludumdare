@@ -123,23 +123,6 @@ class TexturePacker {
 		return { pos:p, expr:EBlock(blockContent) }
 	}
 
-	public static macro function importXmlMtDeferred( name:String, worker:ExprOf<mt.Worker>, onComplete:ExprOf<BLib->Void>,?treatFoldersAsPrefixes:Bool=false, ?texPath:String, ?forceRetainTex:Bool=false ){
-		var p = Context.currentPos();
-		var nameExpr = Context.makeExpr(name,p);
-		var treatFoldersAsPrefixesExpr = Context.makeExpr(treatFoldersAsPrefixes,p);
-		var texPathExpr = Context.makeExpr(texPath,p);
-		var forceRetainTexExpr = Context.makeExpr(forceRetainTex,p);
-
-		return macro {
-			var f : Void->BLib;
-			var task = $worker.enqueue( new mt.Worker.WorkerTask(function(){
-				f = TexturePacker.importXmlMt($nameExpr,$treatFoldersAsPrefixesExpr,$texPathExpr,true,$forceRetainTexExpr) ;
-			}));
-			task.onComplete = function(){
-				$onComplete( f() );
-			}
-		}
-	}
 
 
 	#end
